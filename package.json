@@ -1,0 +1,19 @@
+{
+  "name": "fractal-component",
+  "version": "1.0.0",
+  "description": "`fractal-component` helps to encapsulate state store access, actions (messages, events) processing and side-effect management into a decoupled container component.",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/t83714/fractal-component.git"
+  },
+  "author": "Jacky Jiang <t83714@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "bugs": {
+    "url": "https://github.com/t83714/fractal-component/issues"
+  },
+  "devDependencies": {
+    "redux-saga": "^0.16.0"
+  }
+}
