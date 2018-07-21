@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware, compose } from "redux";
-import createSagaMiddleware from "redux-saga";
+import { createSagaMiddleware, channel } from "redux-saga";
+import { fork, cancel } from 'redux-saga/effects'
 
 const defaultOptions = {
   reducer: (state, action) => state,
@@ -21,8 +22,20 @@ const getComposeEnhancers = function(devOnly, options) {
   return window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(options);
 };
 
-const globalSaga = function* (){
-    
+const globalSaga = function* (externalSaga){
+    try{
+        if(externalSaga && typeof externalSaga === "function") {
+            try{
+                yield fork([this, externalSaga]);
+            }catch(e){
+                console.error(e);
+            }
+        }
+    }catch(e){
+
+    }finally{
+
+    }
 };
 
 class AppContainer {
@@ -37,8 +50,14 @@ class AppContainer {
         {...options.initState},
         composeEnhancers(applyMiddleware(middlewares))
       );
-      this.gloablSagaTask = sagaMiddleware.run(globalSaga.bind(this));
+      this.gloablSagaTask = sagaMiddleware.run(globalSaga.bind(this), saga);
+  }
 
+  getContextValue(){
+      return {
+        appContainer: this,
+        store: this.store
+      };
   }
 
 }
