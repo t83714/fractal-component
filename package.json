@@ -1,7 +1,7 @@
 {
   "name": "fractal-component",
   "version": "1.0.0",
-  "description": "`fractal-component` helps to encapsulate state store access, actions (messages, events) processing and side-effect management into a decoupled container component.",
+  "description": "`fractal-component` helps to encapsulate state store access, actions (messages, events) processing and side-effect management into decoupled container components.",
   "main": "src/index.js",
   "repository": {
     "type": "git",
