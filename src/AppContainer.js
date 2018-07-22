@@ -1,6 +1,7 @@
 import { createStore, applyMiddleware, compose } from "redux";
-import { createSagaMiddleware, channel } from "redux-saga";
-import { fork, cancel } from 'redux-saga/effects'
+import { createSagaMiddleware, eventChannel, END } from "redux-saga";
+import { fork, cancel, cancelled } from "redux-saga/effects";
+import * as _ from "lodash";
 
 const defaultOptions = {
   reducer: (state, action) => state,
@@ -22,44 +23,100 @@ const getComposeEnhancers = function(devOnly, options) {
   return window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(options);
 };
 
-const globalSaga = function* (externalSaga){
+const runSubSaga = function*(saga){
     try{
-        if(externalSaga && typeof externalSaga === "function") {
-            try{
-                yield fork([this, externalSaga]);
-            }catch(e){
-                console.error(e);
-            }
-        }
+        yield fork(saga);
     }catch(e){
-
-    }finally{
-
+        console.error(e);
     }
+}
+
+const processChanEvents = function*(chan){
+    try {    
+        while (true) {
+            let event = yield take(chan);
+
+        }
+    } finally {
+        if (yield cancelled()) {
+            chan.close();
+            console.log('Global event channel cancelled');
+        }    
+    }
+}
+
+const globalSaga = function*(externalSaga) {
+  const globalEventChan = yield call([this, createGlobalEventChan]);
+  let chanEventTask = null;
+  try {
+    yield call(runSubSaga, [this, externalSaga]);
+    yield fork([this, processChanEvents]);
+  } catch (e) {
+    console.error(e);
+  } finally {
+    if(chanEventTask) {
+        try{
+            yield cancel(chanEventTask);
+            chanEventTask = null;
+        }catch(e){
+            console.log(`Failed to cancel gloabl channel event processor: ${e.getMessage()}`);
+        }
+        
+    }
+  }
+};
+
+const createGlobalEventChan = function() {
+  return eventChannel(emitter => {
+    this.addChanEventLisenter(emitter);
+    return ()=>{
+        this.removeChanEventLisenter(emitter);
+    };
+  });
 };
 
 class AppContainer {
-
   constructor(options = defaultOptions) {
-
-      const composeEnhancers = getComposeEnhancers(options.reduxDevToolsDevOnly, options.devToolOptions);
-      const sagaMiddleware = createSagaMiddleware(options.sagaMiddlewareOptions);
-      const middlewares = [...options.middlewares, sagaMiddleware];
-      this.store = createStore(
-        options.reducer,
-        {...options.initState},
-        composeEnhancers(applyMiddleware(middlewares))
-      );
-      this.gloablSagaTask = sagaMiddleware.run(globalSaga.bind(this), saga);
+    const composeEnhancers = getComposeEnhancers(
+      options.reduxDevToolsDevOnly,
+      options.devToolOptions
+    );
+    const sagaMiddleware = createSagaMiddleware(options.sagaMiddlewareOptions);
+    const middlewares = [...options.middlewares, sagaMiddleware];
+    this.store = createStore(
+      options.reducer,
+      { ...options.initState },
+      composeEnhancers(applyMiddleware(middlewares))
+    );
+    this.eventEmitters = {};
+    this.gloablSagaTask = sagaMiddleware.run(globalSaga.bind(this), saga);
   }
 
-  getContextValue(){
-      return {
-        appContainer: this,
-        store: this.store
-      };
+  getContextValue() {
+    return {
+      appContainer: this,
+      store: this.store
+    };
   }
 
+  addChanEventLisenter(emitter) {
+    this.removeChanEventLisenter(emitter);
+    this.eventEmitters.push(emitter);
+  }
+
+  removeChanEventLisenter(emitter) {
+    this.eventEmitters = this.eventEmitters.filter(item => item !== emitter);
+  }
+
+  sendChanEvent(event) {
+    this.eventEmitters.forEach(emitter => {
+      try {
+        emitter(event);
+      } catch (e) {
+        console.error(e);
+      }
+    });
+  }
 }
 
 export default AppContainer;

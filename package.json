@@ -16,6 +16,7 @@
   "devDependencies": {
     "eslint": "^5.2.0",
     "hoist-non-react-statics": "^3.0.0-rc.1",
+    "lodash": "^4.17.10",
     "react": "^16.4.1",
     "react-redux": "^5.0.7",
     "redux-saga": "^0.16.0"
