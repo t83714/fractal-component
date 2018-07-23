@@ -36,7 +36,7 @@ const getComposeEnhancers = function(devOnly, options) {
 const processChanEvents = function*(chan) {
     try {
         while (true) {
-            let { action, payload } = yield take(chan);
+            let { type, payload } = yield take(chan);
             switch (action) {
                 case RUN_SAGA:
                     const { saga, args } = payload;

@@ -1,0 +1,1 @@
+export const ADD_REDUCER = "@@FCSYSTEM/ADD_REDUCER";
