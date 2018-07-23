@@ -1,7 +1,7 @@
 import React from "react";
 
 const AppContainerContext = React.createContext({
-    appContainer : null,
+    appContainer: null,
     store: null
 });
 
