@@ -138,6 +138,10 @@ class AppContainer {
             }
         });
     }
+
+    destroy(){
+        
+    }
 }
 
 export default AppContainer;
