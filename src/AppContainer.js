@@ -1,9 +1,9 @@
 import { createStore, applyMiddleware, compose } from "redux";
-import { createSagaMiddleware, eventChannel, END } from "redux-saga";
+import createSagaMiddleware from "redux-saga";
+import { eventChannel, END } from "redux-saga";
 import { fork, cancel, cancelled, call } from "redux-saga/effects";
 import { RUN_SAGA } from "./AppContainer/actionTypes";
 import runSagaSlient from "./utils/runSagaSlient";
-import Immutable from "immutable";
 
 const defaultDevToolOptions = {
     serialize: {
@@ -140,7 +140,7 @@ class AppContainer {
     }
 
     destroy(){
-        
+
     }
 }
 

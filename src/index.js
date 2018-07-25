@@ -1,3 +1,4 @@
 import AppContainer from "./AppContainer";
+import AppContainerUtils from "./AppContainerUtils";
 
-export { AppContainer };
+export { AppContainer, AppContainerUtils };

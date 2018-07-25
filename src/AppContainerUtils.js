@@ -5,8 +5,8 @@ const appContainerStore = {};
 let currentAppContainerToken = null;
 
 const AppContainerUtils = {
-    APP_CONATINER_KEY = Symbol("APP_CONATINER_KEY"),
-    CONTAINER_LOCAL_KEY = Symbol("CONTAINER_LOCAL_KEY"),
+    APP_CONATINER_KEY : Symbol("APP_CONATINER_KEY"),
+    CONTAINER_LOCAL_KEY : Symbol("CONTAINER_LOCAL_KEY"),
     createAppContainer,
     getCurrentAppContainerToken,
     getAppContainer,
