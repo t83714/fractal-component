@@ -78,5 +78,8 @@
         "*.js"
       ]
     }
+  ],
+  "workspaces": [
+    "examples"
   ]
 }
