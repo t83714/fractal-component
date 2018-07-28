@@ -1,15 +1,11 @@
 import { createStore, applyMiddleware, compose } from "redux";
 import createSagaMiddleware from "redux-saga";
 import { eventChannel, END } from "redux-saga";
-import { fork, cancel, cancelled, call } from "redux-saga/effects";
+import { fork, cancel, cancelled, call, take } from "redux-saga/effects";
 import { RUN_SAGA } from "./AppContainer/actionTypes";
 import runSagaSlient from "./utils/runSagaSlient";
 
-const defaultDevToolOptions = {
-    serialize: {
-        immutable: Immutable
-    }
-};
+const defaultDevToolOptions = {};
 const defaultOptions = {
     reducer: (state, action) => state,
     initState: {},
@@ -60,8 +56,10 @@ const globalSaga = function*(externalSaga) {
     const globalEventChan = yield call([this, createGlobalEventChan]);
     let chanEventTask = null;
     try {
-        yield call(runSagaSlient, [this, externalSaga]);
-        yield fork([this, processChanEvents]);
+        if (externalSaga && typeof externalSaga === "function") {
+            yield call(runSagaSlient, [this, externalSaga]);
+        }
+        chanEventTask = yield fork([this, processChanEvents], globalEventChan);
     } finally {
         if (chanEventTask) {
             try {
@@ -105,10 +103,10 @@ class AppContainer {
         this.store = createStore(
             containerCreationOptions.reducer,
             { ...containerCreationOptions.initState },
-            composeEnhancers(applyMiddleware(middlewares))
+            composeEnhancers(applyMiddleware(...middlewares))
         );
-        this.eventEmitters = {};
-        this.gloablSagaTask = sagaMiddleware.run(globalSaga.bind(this), saga);
+        this.eventEmitters = [];
+        this.gloablSagaTask = sagaMiddleware.run(globalSaga.bind(this), options.saga);
     }
 
     getContextValue() {
@@ -139,9 +137,7 @@ class AppContainer {
         });
     }
 
-    destroy(){
-
-    }
+    destroy() {}
 }
 
 export default AppContainer;

@@ -4,51 +4,56 @@ import AppContainer from "./AppContainer";
 const appContainerStore = {};
 let currentAppContainerToken = null;
 
-const AppContainerUtils = {
-    APP_CONATINER_KEY : Symbol("APP_CONATINER_KEY"),
-    CONTAINER_LOCAL_KEY : Symbol("CONTAINER_LOCAL_KEY"),
-    createAppContainer,
-    getCurrentAppContainerToken,
-    getAppContainer,
-    destroyAppContainer
-};
+export const APP_CONATINER_KEY = Symbol("APP_CONATINER_KEY");
+export const CONTAINER_LOCAL_KEY = Symbol("CONTAINER_LOCAL_KEY");
 
-function createAppContainer(options){
+export function createAppContainer(options){
     const ac = new AppContainer(options);
     currentAppContainerToken = Symbol("APP_CONTAINER_TOKEN");
     appContainerStore[currentAppContainerToken] = ac;
     return ac;
 }
 
-function getCurrentAppContainerToken(){
+export function getCurrentAppContainerToken(){
     return currentAppContainerToken;
 }
 
-function getAppContainer(){
+export function getAppContainer(){
     if(currentAppContainerToken===null) {
         throw new Error("App Container is not available. You need to create one via `createAppContainer` first.");
     }
     return appContainerStore[currentAppContainerToken];
 }
 
-function destroyAppContainer(ref){
-    if(typeof ref === "symbol"){
-        if(currentAppContainerToken === ref){
+export function destroyAppContainer(refOrToken=null){
+    if(typeof refOrToken === "symbol"){
+        if(currentAppContainerToken === refOrToken){
             currentAppContainerToken = null;
-            if(appContainerStore[currentAppContainerToken]){
-                appContainerStore[currentAppContainerToken].destroy();
-            }
-            delete appContainerStore[currentAppContainerToken];
         }
-    }else{
-        Object.keys(appContainerStore).map(token=>{
-            if(appContainerStore[token]===ref){
-                appContainerStore[currentAppContainerToken].destroy();
-                delete appContainerStore[currentAppContainerToken];
+        if(appContainerStore[refOrToken]){
+            appContainerStore[refOrToken].destroy();
+        }
+        delete appContainerStore[refOrToken];
+    }else if(refOrToken){
+        Object.keys(appContainerStore).forEach(token=>{
+            if(appContainerStore[token]===refOrToken){
+                if(appContainerStore[token]){
+                    appContainerStore[token].destroy();
+                    delete appContainerStore[token];
+                }
+                if(currentAppContainerToken === token) {
+                    currentAppContainerToken = null;
+                }
             }
         });
+    }else{
+        const token = getCurrentAppContainerToken();
+        if(!token) return;
+        if(appContainerStore[token]){
+            appContainerStore[token].destroy();
+            delete appContainerStore[token];
+        }
+        currentAppContainerToken = null;
     }
 }
 
-
-export default AppContainerUtils;
