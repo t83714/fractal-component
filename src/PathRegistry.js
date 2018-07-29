@@ -1,4 +1,4 @@
-import * as _ from "lodash";
+import { trim } from "lodash";
 
 class PathContext {
     constructor(cwd) {
@@ -18,7 +18,7 @@ class PathContext {
                     "Failed to resolve path: path segments cannot contain `*`"
                 );
             p.split("/").forEach(item => {
-                item = _.trim(item).toLowerCase();
+                item = trim(item).toLowerCase();
                 switch (item) {
                     case "":
                         break;
@@ -53,16 +53,27 @@ class PathRegistry {
     }
 
     add(path) {
-        if (path.indexOf("*") !== -1) {
-            throw new Error("path cannot contain `*`");
-        }
+        validate(path);
         path = normalize(path);
-        if (_.indexOf(this.paths, path) !== -1) return;
+        if (this.paths.indexOf(path) !== -1) return;
         this.paths.push(path);
     }
 
+    remove(path){
+        validate(path);
+        path = normalize(path);
+        this.paths = this.paths.filter(item => item !== path);
+    }
+
+    exist(path){
+        validate(path);
+        path = normalize(path);
+        if (this.paths.indexOf(path) !== -1) return true;
+        else return false;
+    }
+
     searchSubPath(path) {
-        path = _.trim(path).toLowerCase();
+        path = trim(path).toLowerCase();
         if (path[path.length - 1] !== "*") {
             return [];
         }
@@ -70,12 +81,18 @@ class PathRegistry {
         if (cleanPath[cleanPath.length - 1] === "/") {
             cleanPath = cleanPath.substring(0, cleanPath.length - 1);
         }
-        return _.filter(this.paths, item => item.indexOf(cleanPath) === 0);
+        return this.paths.filter(item => item.indexOf(cleanPath) === 0);
+    }
+}
+
+function validate(path){
+    if (path.indexOf("*") !== -1) {
+        throw new Error("path cannot contain `*`");
     }
 }
 
 function normalize(path) {
-    path = _.trim(path).toLowerCase();
+    path = trim(path).toLowerCase();
     if (path[path.length - 1] === "/") {
         if (path.length === 1) {
             path = "";
