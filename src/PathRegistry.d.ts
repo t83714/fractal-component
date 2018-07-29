@@ -7,7 +7,20 @@ export declare class PathContext {
     resolve(...paths: string): string;
 }
 
-export declare class PathRegistry{
+declare class PathRegistry {
     constructor();
+    add(path: string): void;
+    remove(path: string): void;
+    exist(path: string): boolean;
+    searchSubPath(path: string): string[];
+    remove(path: string): void;
+    remove(path: string): void;
+    remove(path: string): void;
+    remove(path: string): void;
 }
+
+export default PathRegistry;
+
+export declare function validate(path:string):void;
+export declare function normalize(path:string):string;
 

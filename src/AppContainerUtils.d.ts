@@ -1,12 +1,14 @@
-import AppContainer from "./AppContainer";
+import AppContainer, { AppContainerOption } from "./AppContainer";
+import { RegistrableComponent } from "./ComponentRegistry";
 
-export = AppContainerUtils;
-
-declare namespace AppContainerUtils {
-    declare const APP_CONATINER_KEY: Symbol;
-    declare const CONTAINER_LOCAL_KEY: Symbol;
-    declare function createAppContainer(options:AppContainer.AppContainerOption):AppContainer;
-    declare function getCurrentAppContainerToken():Symbol;
-    declare function getAppContainer():AppContainer;
-    declare function destroyAppContainer(ref:Symbol|AppContainer):void;
-}
+export declare const APP_CONATINER_KEY: Symbol;
+export declare const CONTAINER_LOCAL_KEY: Symbol;
+export declare function createAppContainer(
+    options: AppContainerOption
+): AppContainer;
+export declare function getCurrentAppContainerToken(): Symbol;
+export declare function getAppContainer(): AppContainer;
+export declare function registryComponent(
+    componentInstance: RegistrableComponent
+): void;
+export declare function destroyAppContainer(ref: Symbol | AppContainer): void;

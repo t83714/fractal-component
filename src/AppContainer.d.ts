@@ -1,13 +1,13 @@
 import { EnhancerOptions } from "redux-devtools-extension";
 import { SagaMiddlewareOptions } from "redux-saga";
 import { Store } from "redux";
-
-export = AppContainer;
+import ComponentRegistry from "./ComponentRegistry";
 
 declare class AppContainer {
-    constructor(options?: AppContainer.AppContainerOption);
+    constructor(options?: AppContainerOption);
 
     store: Store;
+    componentRegistry: ComponentRegistry;
 
     getContextValue(): {
         appContainer: AppContainer;
@@ -19,14 +19,14 @@ declare class AppContainer {
     sendChanEvent(event: { type: string; payload?: any }): void;
 }
 
-declare namespace AppContainer {
-    export interface AppContainerOption {
-        reducer?: (state: object, action: any) => object;
-        initState?: object;
-        middlewares?: [];
-        reduxDevToolsDevOnly?: boolean;
-        devToolOptions?: EnhancerOptions;
-        sagaMiddlewareOptions?: SagaMiddlewareOptions;
-        saga?: Generator;
-    }
+export default AppContainer;
+
+export interface AppContainerOption {
+    reducer?: (state: object, action: any) => object;
+    initState?: object;
+    middlewares?: [];
+    reduxDevToolsDevOnly?: boolean;
+    devToolOptions?: EnhancerOptions;
+    sagaMiddlewareOptions?: SagaMiddlewareOptions;
+    saga?: Generator;
 }

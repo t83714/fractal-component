@@ -25,6 +25,11 @@ export function getAppContainer(){
     return appContainerStore[currentAppContainerToken];
 }
 
+export function registryComponent(componentInstance){
+    const appContainer = getAppContainer();
+    appContainer.componentRegistry.register(componentInstance);
+}
+
 export function destroyAppContainer(refOrToken=null){
     if(typeof refOrToken === "symbol"){
         if(currentAppContainerToken === refOrToken){

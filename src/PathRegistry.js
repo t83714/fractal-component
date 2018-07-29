@@ -1,6 +1,6 @@
 import { trim } from "lodash";
 
-class PathContext {
+export class PathContext {
     constructor(cwd) {
         this.cwd = normalize(cwd);
         if (this.cwd.indexOf("*") !== -1)
@@ -47,7 +47,7 @@ class PathContext {
     }
 }
 
-class PathRegistry {
+export default class PathRegistry {
     constructor() {
         this.paths = [];
     }
@@ -59,13 +59,13 @@ class PathRegistry {
         this.paths.push(path);
     }
 
-    remove(path){
+    remove(path) {
         validate(path);
         path = normalize(path);
         this.paths = this.paths.filter(item => item !== path);
     }
 
-    exist(path){
+    exist(path) {
         validate(path);
         path = normalize(path);
         if (this.paths.indexOf(path) !== -1) return true;
@@ -85,13 +85,13 @@ class PathRegistry {
     }
 }
 
-function validate(path){
+export function validate(path) {
     if (path.indexOf("*") !== -1) {
         throw new Error("path cannot contain `*`");
     }
 }
 
-function normalize(path) {
+export function normalize(path) {
     path = trim(path).toLowerCase();
     if (path[path.length - 1] === "/") {
         if (path.length === 1) {

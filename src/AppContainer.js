@@ -4,6 +4,7 @@ import { eventChannel, END } from "redux-saga";
 import { fork, cancel, cancelled, call, take } from "redux-saga/effects";
 import { RUN_SAGA } from "./AppContainer/actionTypes";
 import runSagaSlient from "./utils/runSagaSlient";
+import ComponentRegistry from "./ComponentRegistry";
 
 const defaultDevToolOptions = {};
 const defaultOptions = {
@@ -106,6 +107,7 @@ class AppContainer {
             composeEnhancers(applyMiddleware(...middlewares))
         );
         this.eventEmitters = [];
+        this.componentRegistry = new ComponentRegistry();
         this.gloablSagaTask = sagaMiddleware.run(globalSaga.bind(this), options.saga);
     }
 
