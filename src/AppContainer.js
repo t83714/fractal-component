@@ -16,7 +16,8 @@ const defaultOptions = {
     devToolOptions: { ...defaultDevToolOptions },
     //-- https://redux-saga.js.org/docs/api/index.html#createsagamiddlewareoptions
     sagaMiddlewareOptions: {},
-    saga: null //-- global Saga
+    saga: null, //-- global Saga,
+    isServerSideRendering: false
 };
 
 const getComposeEnhancers = function(devOnly, options) {
@@ -85,10 +86,10 @@ const createGlobalEventChan = function() {
 };
 
 class AppContainer {
-    constructor(options) {
+    constructor(options = {}) {
         const containerCreationOptions = {
             ...defaultOptions,
-            ...(options ? options : {})
+            ...options
         };
         const composeEnhancers = getComposeEnhancers(
             containerCreationOptions.reduxDevToolsDevOnly,
@@ -108,7 +109,10 @@ class AppContainer {
         );
         this.eventEmitters = [];
         this.componentRegistry = new ComponentRegistry();
-        this.gloablSagaTask = sagaMiddleware.run(globalSaga.bind(this), options.saga);
+        this.gloablSagaTask = sagaMiddleware.run(
+            globalSaga.bind(this),
+            options.saga
+        );
     }
 
     getContextValue() {

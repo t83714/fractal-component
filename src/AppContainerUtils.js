@@ -25,9 +25,9 @@ export function getAppContainer(){
     return appContainerStore[currentAppContainerToken];
 }
 
-export function registryComponent(componentInstance){
+export function registerComponent(componentInstance, options){
     const appContainer = getAppContainer();
-    appContainer.componentRegistry.register(componentInstance);
+    appContainer.componentRegistry.register(componentInstance, options);
 }
 
 export function destroyAppContainer(refOrToken=null){

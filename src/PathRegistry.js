@@ -57,6 +57,7 @@ export default class PathRegistry {
         path = normalize(path);
         if (this.paths.indexOf(path) !== -1) return;
         this.paths.push(path);
+        return path;
     }
 
     remove(path) {

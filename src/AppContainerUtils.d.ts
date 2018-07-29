@@ -1,5 +1,5 @@
 import AppContainer, { AppContainerOption } from "./AppContainer";
-import { RegistrableComponent } from "./ComponentRegistry";
+import { ManageableComponent, ManageableComponentOptions } from "./ComponentManager";
 
 export declare const APP_CONATINER_KEY: Symbol;
 export declare const CONTAINER_LOCAL_KEY: Symbol;
@@ -8,7 +8,8 @@ export declare function createAppContainer(
 ): AppContainer;
 export declare function getCurrentAppContainerToken(): Symbol;
 export declare function getAppContainer(): AppContainer;
-export declare function registryComponent(
-    componentInstance: RegistrableComponent
+export declare function registerComponent(
+    componentInstance: ManageableComponent,
+    options: ManageableComponentOptions
 ): void;
 export declare function destroyAppContainer(ref: Symbol | AppContainer): void;

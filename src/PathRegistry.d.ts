@@ -9,7 +9,7 @@ export declare class PathContext {
 
 declare class PathRegistry {
     constructor();
-    add(path: string): void;
+    add(path: string): string;
     remove(path: string): void;
     exist(path: string): boolean;
     searchSubPath(path: string): string[];

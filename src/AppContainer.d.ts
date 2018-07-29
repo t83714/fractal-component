@@ -29,4 +29,5 @@ export interface AppContainerOption {
     devToolOptions?: EnhancerOptions;
     sagaMiddlewareOptions?: SagaMiddlewareOptions;
     saga?: Generator;
+    isServerSideRendering?: boolean;
 }

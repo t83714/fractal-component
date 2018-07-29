@@ -1,12 +1,14 @@
-import * as React from "react";
+import {
+    ManageableComponent,
+    ManageableComponentOptions
+} from "./ComponentManager";
 
 declare class ComponentRegistry {
     constructor();
     registerComponent(
-        componentInstance: RegistrableComponent
+        componentInstance: ManageableComponent,
+        options: ManageableComponentOptions
     ): void;
 }
 
 export default ComponentRegistry;
-
-export type RegistrableComponent = React.Component | React.PureComponent;
