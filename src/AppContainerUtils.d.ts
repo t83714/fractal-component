@@ -1,8 +1,12 @@
 import AppContainer, { AppContainerOption } from "./AppContainer";
-import { ManageableComponent, ManageableComponentOptions } from "./ComponentManager";
+import {
+    ManageableComponent,
+    ManageableComponentOptions,
+    CONTAINER_LOCAL_KEY
+} from "./ComponentManager";
 
-export declare const APP_CONATINER_KEY: Symbol;
-export declare const CONTAINER_LOCAL_KEY: Symbol;
+export { CONTAINER_LOCAL_KEY };
+
 export declare function createAppContainer(
     options: AppContainerOption
 ): AppContainer;

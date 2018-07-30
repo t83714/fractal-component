@@ -2,7 +2,7 @@ import { trim } from "lodash";
 
 export class PathContext {
     constructor(cwd) {
-        this.cwd = normalize(cwd);
+        this.cwd = normalize(cwd, true);
         if (this.cwd.indexOf("*") !== -1)
             throw new Error("`cwd` cannot contains `*`");
         if (this.cwd.indexOf(".") !== -1) {
@@ -18,7 +18,7 @@ export class PathContext {
                     "Failed to resolve path: path segments cannot contain `*`"
                 );
             p.split("/").forEach(item => {
-                item = trim(item).toLowerCase();
+                item = trim(item);
                 switch (item) {
                     case "":
                         break;
@@ -54,7 +54,7 @@ export default class PathRegistry {
 
     add(path) {
         validate(path);
-        path = normalize(path);
+        path = normalize(path, true);
         if (this.paths.indexOf(path) !== -1) return;
         this.paths.push(path);
         return path;
@@ -62,19 +62,19 @@ export default class PathRegistry {
 
     remove(path) {
         validate(path);
-        path = normalize(path);
+        path = normalize(path, true);
         this.paths = this.paths.filter(item => item !== path);
     }
 
     exist(path) {
         validate(path);
-        path = normalize(path);
+        path = normalize(path, true);
         if (this.paths.indexOf(path) !== -1) return true;
         else return false;
     }
 
     searchSubPath(path) {
-        path = trim(path).toLowerCase();
+        path = trim(path);
         if (path[path.length - 1] !== "*") {
             return [];
         }
@@ -92,8 +92,9 @@ export function validate(path) {
     }
 }
 
-export function normalize(path) {
-    path = trim(path).toLowerCase();
+export function normalize(path, toLowerCase = false) {
+    path = trim(path);
+    if(toLowerCase) path = path.toLowerCase();
     if (path[path.length - 1] === "/") {
         if (path.length === 1) {
             path = "";

@@ -7,7 +7,7 @@ import { AppContainerUtils, AppContainer } from "../../../../src/index";
 class Counter extends React.Component{
     constructor(props){
         super(props);
-        AppContainerUtils.registerComponent(this);
+        this.componentManager = AppContainerUtils.registerComponent(this);
     }
 
     componentDidMount(){

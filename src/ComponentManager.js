@@ -4,6 +4,7 @@ import PathRegistry, { normalize } from "./PathRegistry";
 const defaultOptions = {
     saga: null,
     initState: {},
+    reducer: null,
     namespace: null,
     namespacePrefix: null,
     componentId: null,
@@ -13,23 +14,35 @@ const defaultOptions = {
 
 const noop = function() {};
 
+export const CONTAINER_LOCAL_KEY = Symbol("CONTAINER_LOCAL_KEY");
+
 class ComponentManager {
-    constructor(componentInstance, options = {}) {
+    constructor(componentInstance, options) {
         this.options = { ...defaultOptions, ...options };
+
+        this.isInitialized = false;
+        this.isDestroyed = false;
+
+        this.initCallback = noop;
+        this.destroyCallback = noop;
+
         this.managingInstance = componentInstance;
         this.displayName = getComponentName(this.managingInstance);
-        this.isInitialized = false;
+
+        if (!this.options.reducer) {
+            throw new Error(
+                `Failed to initialise \`${
+                    this.displayName
+                }\`: a reducer function is required.`
+            );
+        }
 
         const settleStringSettingFunc = settleStringSetting.bind(this);
-        this.namespace = settleStringSettingFunc(
-            this.options.namespace
-        );
+        this.namespace = settleStringSettingFunc(this.options.namespace);
         if (this.namespace.indexOf("*") !== -1)
             throw new Error("`Namespace` cannot contain `*`.");
         this.isAutoComponentId = false;
-        this.componentId = settleStringSettingFunc(
-            this.options.componentId
-        );
+        this.componentId = settleStringSettingFunc(this.options.componentId);
         if (
             this.componentId.indexOf("/") !== -1 ||
             this.componentId.indexOf("*") !== -1
@@ -45,8 +58,20 @@ class ComponentManager {
         if (this.namespacePrefix.indexOf("*") !== -1)
             throw new Error("`namespacePrefix` cannot contain `*`.");
         this.fullNamespace = fullNamespace.bind(this)();
-        this.fullNamespacePath = fullNamespacePath.bind(this)();
+        this.fullPath = fullPath.bind(this)();
 
+        determineInitState.apply(this);
+    }
+
+    enhanceComponentInstance(initCallback = null, destroyCallback = null) {
+        if (initCallback) {
+            this.initCallback = initCallback;
+        }
+        if (destroyCallback) {
+            this.destroyCallback = destroyCallback;
+        }
+        this.componentInstance.state = { ...this.initState };
+        
         if (this.options.isServerSideRendering) {
             this.init();
         } else {
@@ -55,25 +80,36 @@ class ComponentManager {
     }
 
     init() {
-        if (this.isInitialized) return;
-
-        console.log("init... component manager...");
+        if (this.isInitialized || this.this.isDestroyed) return;
+        this.initCallback(this);
         this.isInitialized = true;
     }
 
     destroy() {
+        this.componentInstance[CONTAINER_LOCAL_KEY] = null;
+        this.isDestroyed = true;
         if (!this.isInitialized) return;
+        this.destroyCallback(this);
         this.isInitialized = false;
-        console.log("destroy... component manager...");
     }
+}
+
+function determineInitState() {
+    let initState = this.managingInstance.state;
+    if (!initState) {
+        initState = this.options.initState;
+    }
+    if (!initState) {
+        initState = {};
+    }
+    this.initState = { ...initState };
 }
 
 function injectLifeHookers() {
     const origComponentDidMount = this.managingInstance.componentDidMount
         ? this.managingInstance.componentDidMount
         : noop;
-    const origComponentWillUnmount = this.managingInstance
-        .componentWillUnmount
+    const origComponentWillUnmount = this.managingInstance.componentWillUnmount
         ? this.managingInstance.componentWillUnmount
         : noop;
     this.managingInstance.componentDidMount = handlerComponentDidMount.bind(
@@ -107,9 +143,9 @@ function fullNamespace() {
     return parts.join("/");
 }
 
-function fullNamespacePath() {
+function fullPath() {
     const parts = [];
-    if (this.fullNamespacePath) parts.push(this.fullNamespacePath);
+    if (this.fullNamespace) parts.push(this.fullNamespace);
     parts.push(this.componentId);
     return parts.join("/");
 }

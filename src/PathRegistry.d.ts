@@ -14,9 +14,6 @@ declare class PathRegistry {
     exist(path: string): boolean;
     searchSubPath(path: string): string[];
     remove(path: string): void;
-    remove(path: string): void;
-    remove(path: string): void;
-    remove(path: string): void;
 }
 
 export default PathRegistry;

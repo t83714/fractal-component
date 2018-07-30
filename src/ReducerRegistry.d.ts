@@ -1,8 +1,9 @@
 import { AppContainer } from "./AppContainer";
+import { Store } from "redux";
 
 declare class ReducerRegistry {
-    constructor(appContainer: AppContainer);
-    appContainer: AppContainer;
+    constructor(store: Store);
+    store: Store;
     addReducer(reducerItem: ReducerItem): void;
 }
 
@@ -12,5 +13,5 @@ export interface ReducerItem {
     reducer: (state: object, action: any) => object;
     initState?: object;
     path: string;
+    overwriteInitState?: boolean;
 }
-
