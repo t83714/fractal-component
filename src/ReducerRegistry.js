@@ -3,6 +3,7 @@ import * as actionTypes from "./ReducerRegistry/actionTypes";
 import { normalize } from "./PathRegistry";
 import objectPath from "object-path";
 import objectPathImmutable from "object-path-immutable";
+import partialRight from "lodash/partialRight";
 
 /**
  * This function should NOT return a new state copy
@@ -37,7 +38,7 @@ function processNamespacedAction(state, action) {
     matchedPaths.forEach(p => {
         const { reducer } = this.reducerStore[p];
         if (!reducer || typeof reducer !== "function") return;
-        newState = reducer(newState, newAction);
+        newState = objectPathImmutable.update(newState, p.split("/"), partialRight(reducer,newAction))
     });
     return newState;
 }
