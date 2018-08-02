@@ -6,10 +6,15 @@ import { RUN_SAGA } from "./AppContainer/actionTypes";
 import runSagaSlient from "./utils/runSagaSlient";
 import ComponentRegistry from "./ComponentRegistry";
 import ReducerRegistry from "./ReducerRegistry";
+import * as ReducerRegistryActionTypes from "./ReducerRegistry/actionTypes";
 
-const defaultDevToolOptions = {};
+const defaultDevToolOptions = {
+    actionsBlacklist: Object.keys(ReducerRegistryActionTypes).map(
+        idx => ReducerRegistryActionTypes[idx]
+    )
+};
 const defaultOptions = {
-    reducer: (state, action) => state,
+    reducer: null,
     initState: {},
     middlewares: [],
     reduxDevToolsDevOnly: true,
@@ -88,6 +93,7 @@ const createGlobalEventChan = function() {
 
 class AppContainer {
     constructor(options = {}) {
+        this.store = null;
         const containerCreationOptions = {
             ...defaultOptions,
             ...options
@@ -103,14 +109,17 @@ class AppContainer {
             ...containerCreationOptions.middlewares,
             sagaMiddleware
         ];
+        this.eventEmitters = [];
+        this.componentRegistry = new ComponentRegistry(this);
+        this.reducerRegistry = new ReducerRegistry(this, containerCreationOptions.reducer);
+        this.pathRegistry = new PathRegistryRegistry();
+
         this.store = createStore(
-            containerCreationOptions.reducer,
+            this.reducerRegistry.createGlobalReducer(containerCreationOptions.reducer),
             { ...containerCreationOptions.initState },
             composeEnhancers(applyMiddleware(...middlewares))
         );
-        this.eventEmitters = [];
-        this.componentRegistry = new ComponentRegistry();
-        this.reducerRegistry = new ReducerRegistry(this.store);
+
         this.gloablSagaTask = sagaMiddleware.run(
             globalSaga.bind(this),
             options.saga

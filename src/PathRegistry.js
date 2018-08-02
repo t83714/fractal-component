@@ -67,16 +67,14 @@ export default class PathRegistry {
     }
 
     exist(path) {
-        validate(path);
-        path = normalize(path, true);
         if (this.paths.indexOf(path) !== -1) return true;
         else return false;
     }
 
     searchSubPath(path) {
-        path = trim(path);
         if (path[path.length - 1] !== "*") {
-            return [];
+            if(this.exist(path)) return [path];
+            else return [];
         }
         let cleanPath = path.replace("*", "");
         if (cleanPath[cleanPath.length - 1] === "/") {
@@ -95,6 +93,13 @@ export function validate(path) {
 export function normalize(path, toLowerCase = false) {
     path = trim(path);
     if(toLowerCase) path = path.toLowerCase();
+    if(path[0] === "/"){
+        if (path.length === 1) {
+            path = "";
+        } else {
+            path = path.substring(1);
+        }
+    }
     if (path[path.length - 1] === "/") {
         if (path.length === 1) {
             path = "";

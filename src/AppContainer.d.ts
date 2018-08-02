@@ -2,12 +2,16 @@ import { EnhancerOptions } from "redux-devtools-extension";
 import { SagaMiddlewareOptions } from "redux-saga";
 import { Store } from "redux";
 import ComponentRegistry from "./ComponentRegistry";
+import ReducerRegistry from "./ReducerRegistry";
+import PathRegistry from "./PathRegistry";
 
 declare class AppContainer {
     constructor(options?: AppContainerOption);
 
     store: Store;
     componentRegistry: ComponentRegistry;
+    reducerRegistry: ReducerRegistry;
+    pathRegistry: PathRegistry;
 
     getContextValue(): {
         appContainer: AppContainer;
