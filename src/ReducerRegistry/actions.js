@@ -1,8 +1,23 @@
-import { ADD_REDUCER } from "./actionTypes";
+import * as actionTypes from "./actionTypes";
 
-export const addReducer = function(reducerItem) {
-  return {
-    action: ADD_REDUCER,
-    payload: reducerItem
-  };
+export const initState = function(path, data, isOverwrite) {
+    return {
+        type: actionTypes.INIT_STATE,
+        payload: {
+            path,
+            data,
+            isOverwrite
+        }
+    };
 };
+
+export const emptyState = function(path, isOverwrite) {
+    return {
+        type: actionTypes.EMPTY_STATE,
+        payload: {
+            path,
+            isOverwrite
+        }
+    };
+};
+

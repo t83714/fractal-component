@@ -1,5 +1,5 @@
-import { addReducer } from "./ReducerRegistry/actions";
 import * as actionTypes from "./ReducerRegistry/actionTypes";
+import * as actions from "./ReducerRegistry/actions";
 import PathRegistry, { normalize } from "./PathRegistry";
 import objectPath from "object-path";
 import objectPathImmutable from "object-path-immutable";
@@ -8,7 +8,7 @@ import partialRight from "lodash/partialRight";
 /**
  * This function should NOT return a new state copy
  */
-function processInitValue(state, action) {
+function processInitState(state, action) {
     const { data, isOverwrite, path } = action.payload;
     const pathItems = path.split("/");
     isOverwrite = isOverwrite === false ? false : true;
@@ -19,7 +19,7 @@ function processInitValue(state, action) {
 /**
  * This function should NOT return a new state copy
  */
-function processEmptyValue(state, action) {
+function processEmptyState(state, action) {
     const { isOverwrite, path } = action.payload;
     const pathItems = path.split("/");
     objectPath.empty(state, pathItems);
@@ -47,11 +47,11 @@ function globalReducer(externalGlobalReducer, state, action) {
     if (!action || !action.type) return state;
     let newState = state;
     switch (action.type) {
-        case actionTypes.INIT_VALUE:
-            newState = processInitValue(newState, action);
+        case actionTypes.INIT_STATE:
+            newState = processInitState(newState, action);
             break;
-        case actionTypes.EMPTY_VALUE:
-            newState = processEmptyValue(newState, action);
+        case actionTypes.EMPTY_STATE:
+            newState = processEmptyState(newState, action);
             break;
     }
     newState = processNamespacedAction.call(this, newState, action);
@@ -114,14 +114,7 @@ function setInitState(path, initState, overwriteInitState) {
         throw new Error(
             "Failed to set init state for component reducer: redux store not available yet!"
         );
-    this.store.dispatch({
-        type: actionTypes.INIT_VALUE,
-        payload: {
-            data: initState,
-            isOverwrite: overwriteInitState,
-            path: path
-        }
-    });
+    this.store.dispatch(actions.initState(path, initState, overwriteInitState));
 }
 
 function emptyInitState(path, overwriteInitState) {
@@ -129,11 +122,5 @@ function emptyInitState(path, overwriteInitState) {
         throw new Error(
             "Failed to set init state for component reducer: redux store not available yet!"
         );
-    this.store.dispatch({
-        type: actionTypes.EMPTY_VALUE,
-        payload: {
-            isOverwrite: overwriteInitState,
-            path: path
-        }
-    });
+    this.store.dispatch(actions.emptyState(path, overwriteInitState));
 }

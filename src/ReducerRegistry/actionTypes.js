@@ -1,2 +1,2 @@
-export const INIT_VALUE = "@@fractal-component/INIT_VALUE";
-export const EMPTY_VALUE = "@@fractal-component/EMPTY_VALUE";
+export const INIT_STATE = "@@fractal-component/INIT_STATE";
+export const EMPTY_STATE = "@@fractal-component/EMPTY_STATE";
