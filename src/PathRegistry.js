@@ -55,7 +55,7 @@ export default class PathRegistry {
     add(path) {
         validate(path);
         path = normalize(path, true);
-        if (this.paths.indexOf(path) !== -1) return;
+        if (this.paths.indexOf(path) !== -1) return null;
         this.paths.push(path);
         return path;
     }

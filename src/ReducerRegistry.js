@@ -1,6 +1,6 @@
 import { addReducer } from "./ReducerRegistry/actions";
 import * as actionTypes from "./ReducerRegistry/actionTypes";
-import { normalize } from "./PathRegistry";
+import PathRegistry, { normalize } from "./PathRegistry";
 import objectPath from "object-path";
 import objectPathImmutable from "object-path-immutable";
 import partialRight from "lodash/partialRight";
@@ -31,7 +31,7 @@ function processNamespacedAction(state, action) {
     if (lastSepIdx === -1) return state;
     const pureAction = action.type.subString(lastSepIdx + 2);
     const path = normalize(action.type.subString(0, lastSepIdx));
-    const matchedPaths = this.appContainer.pathRegistry.searchSubPath(path);
+    const matchedPaths = this.pathRegistry.searchSubPath(path);
     if (!matchedPaths || !matchedPaths.length) return state;
     const newAction = { ...action, type: pureAction, originType: action.type };
     let newState = state;
@@ -62,8 +62,10 @@ function globalReducer(externalGlobalReducer, state, action) {
 }
 
 class ReducerRegistry {
+
     constructor(appContainer) {
         this.reducerStore = {};
+        this.pathRegistry = new PathRegistry();
     }
 
     createGlobalReducer(externalGlobalReducer = null) {
@@ -78,26 +80,30 @@ class ReducerRegistry {
             throw new Error(
                 "Failed to register namespaced reducer: namespace path cannot be empty!"
             );
-        path = normalize(path);
-        if (this.reducerStore[path])
+        
+        const registeredPath = normalize(path);
+        if(this.pathRegistry.add(registeredPath) === null) {
             throw new Error(
                 `Failed to register namespaced reducer: given path \`${path}\` has been registered.`
             );
+        }
 
-        this.reducerStore[path] = {
+        this.reducerStore[registeredPath] = {
             ...reducerItem,
             overwriteInitState,
             initState,
-            path
+            registeredPath
         };
 
-        setInitState.call(this, path, initState, overwriteInitState);
+        setInitState.call(this, registeredPath, initState, overwriteInitState);
     }
 
     deregister(path) {
         path = normalize(path);
+        this.pathRegistry.remove(remove);
         const reduceItem = this.reducerStore[path];
         if (!reduceItem) return;
+        delete this.reducerStore[path];
         const { overwriteInitState } = reduceItem;
         emptyInitState.call(this, path, overwriteInitState);
     }
