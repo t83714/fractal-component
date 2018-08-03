@@ -124,3 +124,5 @@ function emptyInitState(path, overwriteInitState) {
         );
     this.store.dispatch(actions.emptyState(path, overwriteInitState));
 }
+
+export default ReducerRegistry;
