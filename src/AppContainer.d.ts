@@ -32,6 +32,6 @@ export interface AppContainerOption {
     reduxDevToolsDevOnly?: boolean;
     devToolOptions?: EnhancerOptions;
     sagaMiddlewareOptions?: SagaMiddlewareOptions;
-    saga?: Generator;
+    saga?: GeneratorFunction;
     isServerSideRendering?: boolean;
 }

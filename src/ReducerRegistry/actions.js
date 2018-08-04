@@ -11,13 +11,10 @@ export const initState = function(path, data, isOverwrite) {
     };
 };
 
-export const emptyState = function(path, isOverwrite) {
+export const emptyState = function(path) {
     return {
         type: actionTypes.EMPTY_STATE,
-        payload: {
-            path,
-            isOverwrite
-        }
+        payload: path
     };
 };
 

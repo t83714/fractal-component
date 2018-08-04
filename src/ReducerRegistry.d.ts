@@ -8,8 +8,7 @@ declare class ReducerRegistry {
     reducerStore: ReducerItem[];
     appContainer: AppContainer;
 
-    addReducer(reducerItem: ReducerItem): void;
-    register(reducerItem: ReducerItem): void;
+    register(reducer: Reducer, reducerOptions: ReducerOptions): void;
     deregister(path: string): void;
     createGlobalReducer(
         externalGlobalReducer: (object, object) => object = null
@@ -18,9 +17,15 @@ declare class ReducerRegistry {
 
 export default ReducerRegistry;
 
-export interface ReducerItem {
-    reducer: (state: object, action: any) => object;
+export type Reducer = (state: object, action: any) => object;
+
+export interface ReducerOptions {
+    reducer: Reducer;
     initState?: object;
     path: string;
-    overwriteInitState?: boolean;
+    initStateAlwaysOverwrite?: boolean;
+}
+
+export interface ReducerItem extends ReducerOptions {
+    reducer: (state: object, action: any) => object;
 }

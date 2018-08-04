@@ -21,7 +21,7 @@ export default ComponentManager;
 
 export type ManageableComponent = React.Component | React.PureComponent;
 export interface ManageableComponentOptions {
-    saga?: Generator;
+    saga?: GeneratorFunction;
     initState?: object;
     reducer: (any) => any;
     namespace?: string | function;
