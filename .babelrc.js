@@ -10,7 +10,7 @@ module.exports = {
             {
                 loose: true,
                 modules: false,
-                include: ["transform-typeof-symbol"],
+                exclude: ["transform-typeof-symbol"],
                 useBuiltIns: "usage",
                 forceAllTransforms: true
             }

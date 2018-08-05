@@ -5,73 +5,52 @@ import { log } from "./utils";
 import EventChannel from "./EventChannel";
 import {
     buffers as bufferFactory,
-    channel as channelFactory
+    multicastChannel as multicastChannelFactory
 } from "redux-saga";
-import { cancel } from "redux-saga/effects";
+import * as rsEffects from "redux-saga/effects";
 import * as namespacedEffects from "./SagaRegistry/effects";
-import objectPath from "object-path";
-import objectPathImmutable from "object-path-immutable";
-import partialRight from "lodash/partialRight";
 import partial from "lodash/partial";
 
-/**
- * This function should NOT return a new state copy
- */
-function processInitState(state, action) {
-    const { data, isOverwrite, path } = action.payload;
-    const pathItems = path.split("/");
-    isOverwrite = isOverwrite === false ? false : true;
-    objectPath.set(state, pathItems, !isOverwrite);
-    return state;
-}
-
-/**
- * This function should NOT return a new state copy
- */
-function processEmptyState(state, action) {
-    const { isOverwrite, path } = action.payload;
-    const pathItems = path.split("/");
-    objectPath.empty(state, pathItems);
-    return state;
-}
-
-function processNamespacedAction(state, action) {
-    const lastSepIdx = action.type.lastIndexOf("/@");
-    if (lastSepIdx === -1) return state;
-    const pureAction = action.type.subString(lastSepIdx + 2);
-    const path = normalize(action.type.subString(0, lastSepIdx));
-    const matchedPaths = this.pathRegistry.searchSubPath(path);
-    if (!matchedPaths || !matchedPaths.length) return state;
-    const newAction = { ...action, type: pureAction, originType: action.type };
-    let newState = state;
-    matchedPaths.forEach(p => {
-        const { reducer } = this.reducerStore[p];
-        if (!reducer || typeof reducer !== "function") return;
-        newState = objectPathImmutable.update(
-            newState,
-            p.split("/"),
-            partialRight(reducer, newAction)
-        );
-    });
-    return newState;
-}
-
 function* hostSaga() {
-    yield fork([this, startCommandChan]);
+    yield rsEffects.fork([this, startCommandChan]);
+    yield rsEffects.fork([this, forwardNamespacedAction]);
 }
+
+const forwardNamespacedAction = function*() {
+    yield rsEffects.takeEvery(
+        action => action.type.indexOf("/@") !== -1,
+        function*(action) {
+            const lastSepIdx = action.type.lastIndexOf("/@");
+            const pureAction = action.type.subString(lastSepIdx + 2);
+            const path = normalize(action.type.subString(0, lastSepIdx));
+            const matchedPaths = this.pathRegistry.searchSubPath(path);
+            if (!matchedPaths || !matchedPaths.length) return;
+            const newAction = {
+                ...action,
+                type: pureAction,
+                originType: action.type
+            };
+            for (let i = 0; i < matchedPaths.length; i++) {
+                const sagaItem = this.namespacedSagaItemStore[matchedPaths[i]];
+                if(!sageItem || !sagaItem.chan) continue;
+                yield rsEffects.put(sageItem.chan, newAction);
+            }
+        }.bind(this)
+    );
+};
 
 function* startCommandChan() {
     try {
-        const commandChan = yield call([
+        const commandChan = yield rsEffects.call([
             this.hostSagaCommandChan,
             this.hostSagaCommandChan.create
         ]);
         while (true) {
-            const action = yield take(commandChan);
-            yield call([this, processCommandAction], action);
+            const action = yield rsEffects.take(commandChan);
+            yield rsEffects.call([this, processCommandAction], action);
         }
     } finally {
-        if (yield cancelled()) {
+        if (yield rsEffects.cancelled()) {
             log("Terminating GLobal Host Saga Commandline Channel.");
             commandChan.close();
         }
@@ -81,10 +60,10 @@ function* startCommandChan() {
 function* processCommandAction({ type, payload }) {
     switch (type) {
         case actionTypes.INIT_SAGA:
-            yield call([this, initSaga], payload);
+            yield rsEffects.call([this, initSaga], payload);
             break;
         case actionTypes.CANCEL_SAGA:
-            yield call([this, cancelSaga], payload);
+            yield rsEffects.call([this, cancelSaga], payload);
             break;
         default:
             throw new Error(`Unknown host command action: ${type}`);
@@ -95,7 +74,7 @@ function* initSaga(sageItem) {
     const { saga, path, buffer } = sageItem;
     const registeredPath = normalize(path);
     if (!registeredPath) {
-        yield call([this, initGlobalSaga], saga);
+        yield rsEffects.call([this, initGlobalSaga], saga);
         return;
     }
     if (this.pathRegistry.add(registeredPath) === null) {
@@ -103,20 +82,19 @@ function* initSaga(sageItem) {
             `Failed to register namespaced saga: given path \`${registeredPath}\` has been registered.`
         );
     }
-    if (!buffer) buffer = bufferFactory.sliding(10);
-    const chan = channelFactory(buffer);
+    const chan = yield rsEffects.call(multicastChannelFactory);
     const newSagaItem = { ...sageItem, chan, path: registeredPath };
-    const env = {};
+    const effects = {};
     Object.keys(namespacedEffects).forEach(idx => {
-        env[idx] = partial(namespacedEffects[idx], newSagaItem);
+        effects[idx] = partial(namespacedEffects[idx], newSagaItem);
     });
-    const task = yield fork(saga, env);
+    const task = yield rsEffects.fork(saga, effects);
     const registerSagaItem = { ...newSagaItem, task };
     this.namespacedSagaItemStore[registeredPath] = registerSagaItem;
 }
 
 function* initGlobalSaga(saga) {
-    const task = yield fork(saga);
+    const task = yield rsEffects.fork(saga);
     this.globalSagaTaskList.push(task);
 }
 
@@ -128,15 +106,17 @@ function* cancelSaga(pathOrTask) {
         if (!sagaItem) return;
         delete this.namespacedSagaItemStore[path];
         sagaItem.chan.close();
-        yield cancel(sagaItem.task);
+        yield rsEffects.cancel(sagaItem.task);
     } else {
         Object.keys(this.namespacedSagaItemStore).forEach(idx => {
             if (this.namespacedSagaItemStore[idx].task === pathOrTask) {
                 delete this.namespacedSagaItemStore[idx];
             }
         });
-        this.globalSagaTaskList = this.globalSagaTaskList.filter(s => s !== pathOrTask);
-        yield cancel(pathOrTask);
+        this.globalSagaTaskList = this.globalSagaTaskList.filter(
+            s => s !== pathOrTask
+        );
+        yield rsEffects.cancel(pathOrTask);
     }
 }
 

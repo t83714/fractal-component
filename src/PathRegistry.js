@@ -1,16 +1,17 @@
-import { trim } from "lodash";
+import { is, trim } from "./utils";
 
 export class PathContext {
     constructor(cwd) {
-        this.cwd = normalize(cwd, true);
+        this.cwd = normalize(cwd);
         if (this.cwd.indexOf("*") !== -1)
             throw new Error("`cwd` cannot contains `*`");
         if (this.cwd.indexOf(".") !== -1) {
-            this.cwd = this.compressPath(this.cwd, true);
+            this.cwd = this.compressPath(this.cwd);
         }
     }
 
-    compressPath(paths, ignoreExcessDoubleDot = false) {
+    compressPath(paths, ignoreExcessDoubleDot = true) {
+        if (is.string(paths)) paths = [paths];
         const calculatedParts = [];
         paths.map(p => p.trim()).forEach(p => {
             if (p.indexOf("*") !== -1)
@@ -45,6 +46,24 @@ export class PathContext {
         const pathItems = [this.cwd, ...paths];
         return this.compressPath(pathItems);
     }
+
+    convertNamespacedAction(action, relativeDispatchPath) {
+        const { actionType } = action;
+        if(actionType.indexOf("/")!==-1) throw new Error("Namespaced action type cannot contains `/`.");
+        let path = normalize(relativeDispatchPath);
+        const isMulticast = false;
+        if (path.length && path[path.length - 1] === "*") {
+            isMulticast = true;
+            path = normalize(path.substring(0, path.length - 1));
+        }
+        const absolutePath = this.resolve(path);
+        const pathParts = [];
+        if (absolutePath !== "") pathParts.push(absolutePath);
+        if (isMulticast && absolutePath !== "") pathParts.push("*");
+        pathParts.push(pathParts.length ? `@${action.type}` : action.type);
+        const type = pathParts.join("/");
+        return { ...action, type };
+    }
 }
 
 export default class PathRegistry {
@@ -54,7 +73,7 @@ export default class PathRegistry {
 
     add(path) {
         validate(path);
-        path = normalize(path, true);
+        path = normalize(path);
         if (this.paths.indexOf(path) !== -1) return null;
         this.paths.push(path);
         return path;
@@ -62,7 +81,7 @@ export default class PathRegistry {
 
     remove(path) {
         validate(path);
-        path = normalize(path, true);
+        path = normalize(path);
         this.paths = this.paths.filter(item => item !== path);
     }
 
@@ -73,7 +92,7 @@ export default class PathRegistry {
 
     searchSubPath(path) {
         if (path[path.length - 1] !== "*") {
-            if(this.exist(path)) return [path];
+            if (this.exist(path)) return [path];
             else return [];
         }
         let cleanPath = path.replace("*", "");
@@ -92,8 +111,8 @@ export function validate(path) {
 
 export function normalize(path, toLowerCase = false) {
     path = trim(path);
-    if(toLowerCase) path = path.toLowerCase();
-    if(path[0] === "/"){
+    if (toLowerCase) path = path.toLowerCase();
+    if (path[0] === "/") {
         if (path.length === 1) {
             path = "";
         } else {

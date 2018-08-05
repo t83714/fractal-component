@@ -1,9 +1,12 @@
+import { Action } from "redux";
+
 export declare class PathContext {
     constructor(cwd: string);
     compressPath(
-        paths: string[],
-        ignoreExcessDoubleDot: boolean = false
+        paths: string[] | string,
+        ignoreExcessDoubleDot: boolean = true
     ): string;
+    convertNamespacedAction(action: Action, relativeDispatchPath: string): Action;
     resolve(...paths: string): string;
 }
 
@@ -18,6 +21,5 @@ declare class PathRegistry {
 
 export default PathRegistry;
 
-export declare function validate(path:string):void;
-export declare function normalize(path:string):string;
-
+export declare function validate(path: string): void;
+export declare function normalize(path: string): string;
