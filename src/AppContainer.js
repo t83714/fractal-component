@@ -1,11 +1,8 @@
 import { createStore, applyMiddleware, compose } from "redux";
 import createSagaMiddleware from "redux-saga";
-import { eventChannel, END } from "redux-saga";
-import { fork, cancel, cancelled, call, take } from "redux-saga/effects";
-import { RUN_SAGA } from "./AppContainer/actionTypes";
-import runSagaSlient from "./utils/runSagaSlient";
 import ComponentRegistry from "./ComponentRegistry";
 import ReducerRegistry from "./ReducerRegistry";
+import SagaRegistry from "./SagaRegistry";
 import * as ReducerRegistryActionTypes from "./ReducerRegistry/actionTypes";
 
 const defaultDevToolOptions = {
@@ -22,7 +19,6 @@ const defaultOptions = {
     devToolOptions: { ...defaultDevToolOptions },
     //-- https://redux-saga.js.org/docs/api/index.html#createsagamiddlewareoptions
     sagaMiddlewareOptions: {},
-    saga: null, //-- global Saga,
     isServerSideRendering: false
 };
 
@@ -35,60 +31,6 @@ const getComposeEnhancers = function(devOnly, options) {
     };
     /* eslint-disable-next-line no-underscore-dangle */
     return window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(devToolOptions);
-};
-
-const processChanEvents = function*(chan) {
-    try {
-        while (true) {
-            let { type, payload } = yield take(chan);
-            switch (action) {
-                case RUN_SAGA:
-                    const { saga, args } = payload;
-                    yield call(runSagaSlient, saga, args);
-                    break;
-                default:
-                    throw new Error(
-                        `Invalid global channel event received: ${action}`
-                    );
-            }
-        }
-    } finally {
-        if (yield cancelled()) {
-            chan.close();
-            console.log("Global event channel cancelled");
-        }
-    }
-};
-
-const globalSaga = function*(externalSaga) {
-    const globalEventChan = yield call([this, createGlobalEventChan]);
-    let chanEventTask = null;
-    try {
-        if (externalSaga && typeof externalSaga === "function") {
-            yield call(runSagaSlient, [this, externalSaga]);
-        }
-        chanEventTask = yield fork([this, processChanEvents], globalEventChan);
-    } finally {
-        if (chanEventTask) {
-            try {
-                yield cancel(chanEventTask);
-                chanEventTask = null;
-            } catch (e) {
-                console.log(
-                    `Failed to cancel gloabl channel event processor: ${e.getMessage()}`
-                );
-            }
-        }
-    }
-};
-
-const createGlobalEventChan = function() {
-    return eventChannel(emitter => {
-        this.addChanEventLisenter(emitter);
-        return () => {
-            this.removeChanEventLisenter(emitter);
-        };
-    });
 };
 
 class AppContainer {
@@ -111,8 +53,8 @@ class AppContainer {
         ];
         this.eventEmitters = [];
         this.componentRegistry = new ComponentRegistry(this);
-        this.reducerRegistry = new ReducerRegistry(this, containerCreationOptions.reducer);
-        this.pathRegistry = new PathRegistryRegistry();
+        this.reducerRegistry = new ReducerRegistry(this);
+        this.SagaRegistry = new SagaRegistry();
 
         this.store = createStore(
             this.reducerRegistry.createGlobalReducer(containerCreationOptions.reducer),
@@ -120,38 +62,9 @@ class AppContainer {
             composeEnhancers(applyMiddleware(...middlewares))
         );
 
-        this.gloablSagaTask = sagaMiddleware.run(
-            globalSaga.bind(this),
-            options.saga
+        this.hostSagaTask = sagaMiddleware.run(
+            this.SagaRegistry.createHostSaga()
         );
-    }
-
-    getContextValue() {
-        return {
-            appContainer: this,
-            store: this.store
-        };
-    }
-
-    addChanEventLisenter(emitter) {
-        this.removeChanEventLisenter(emitter);
-        this.eventEmitters.push(emitter);
-    }
-
-    removeChanEventLisenter(emitter) {
-        this.eventEmitters = this.eventEmitters.filter(
-            item => item !== emitter
-        );
-    }
-
-    sendChanEvent(event) {
-        this.eventEmitters.forEach(emitter => {
-            try {
-                emitter(event);
-            } catch (e) {
-                console.error(e);
-            }
-        });
     }
 
     destroy() {}

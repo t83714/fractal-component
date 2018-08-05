@@ -4,6 +4,7 @@ import { Store } from "redux";
 import ComponentRegistry from "./ComponentRegistry";
 import ReducerRegistry from "./ReducerRegistry";
 import PathRegistry from "./PathRegistry";
+import SagaRegistry from "./SagaRegistry";
 
 declare class AppContainer {
     constructor(options?: AppContainerOption);
@@ -11,16 +12,7 @@ declare class AppContainer {
     store: Store;
     componentRegistry: ComponentRegistry;
     reducerRegistry: ReducerRegistry;
-    pathRegistry: PathRegistry;
-
-    getContextValue(): {
-        appContainer: AppContainer;
-        store: Store;
-    };
-
-    addChanEventLisenter(emitter: Emit<Action>): void;
-    removeChanEventLisenter(emitter: Emit<Action>): void;
-    sendChanEvent(event: { type: string; payload?: any }): void;
+    sagaRegistry: SagaRegistry;
 }
 
 export default AppContainer;
@@ -32,6 +24,5 @@ export interface AppContainerOption {
     reduxDevToolsDevOnly?: boolean;
     devToolOptions?: EnhancerOptions;
     sagaMiddlewareOptions?: SagaMiddlewareOptions;
-    saga?: GeneratorFunction;
     isServerSideRendering?: boolean;
 }
