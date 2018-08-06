@@ -5,6 +5,11 @@ import ComponentRegistry from "./ComponentRegistry";
 import ReducerRegistry from "./ReducerRegistry";
 import PathRegistry from "./PathRegistry";
 import SagaRegistry from "./SagaRegistry";
+import {
+    ManageableComponent,
+    ManageableComponentOptions
+} from "./ComponentManager";
+import ComponentManager from "./ComponentManager";
 
 declare class AppContainer {
     constructor(options?: AppContainerOption);
@@ -13,6 +18,11 @@ declare class AppContainer {
     componentRegistry: ComponentRegistry;
     reducerRegistry: ReducerRegistry;
     sagaRegistry: SagaRegistry;
+    registerComponent(
+        componentInstance: ManageableComponent,
+        options?: ManageableComponentOptions
+    ): ComponentManager;
+    deregisterComponent(omponentInstance: ManageableComponent): void;
 }
 
 export default AppContainer;

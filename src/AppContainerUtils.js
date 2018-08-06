@@ -20,7 +20,7 @@ export function getAppContainer() {
 
 export function registerComponent(componentInstance, options) {
     const appContainer = getAppContainer();
-    appContainer.componentRegistry.register(componentInstance, options);
+    appContainer.registerComponent(componentInstance, options);
 }
 
 export function destroyAppContainer() {

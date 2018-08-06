@@ -1,11 +1,8 @@
 import AppContainer, { AppContainerOption } from "./AppContainer";
 import {
     ManageableComponent,
-    ManageableComponentOptions,
-    CONTAINER_LOCAL_KEY
+    ManageableComponentOptions
 } from "./ComponentManager";
-
-export { CONTAINER_LOCAL_KEY };
 
 export declare function createAppContainer(
     options: AppContainerOption
@@ -16,4 +13,4 @@ export declare function registerComponent(
     componentInstance: ManageableComponent,
     options: ManageableComponentOptions
 ): void;
-export declare function destroyAppContainer(ref: Symbol | AppContainer): void;
+export declare function destroyAppContainer(): void;

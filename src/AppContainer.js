@@ -67,6 +67,14 @@ class AppContainer {
         );
     }
 
+    registerComponent(componentInstance, options){
+        return this.componentRegistry.register(componentInstance, options);
+    }
+
+    deregisterComponent(componentInstance){
+        this.componentRegistry.deregister(componentInstance);
+    }
+
     destroy() {}
 }
 

@@ -6,10 +6,11 @@ import ComponentManager from "./ComponentManager";
 
 declare class ComponentRegistry {
     constructor();
-    registerComponent(
+    register(
         componentInstance: ManageableComponent,
         options?: ManageableComponentOptions
-    ): void;
+    ): ComponentManager;
+    deregister(componentInstance: ManageableComponent):void;
 }
 
 export default ComponentRegistry;
