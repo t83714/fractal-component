@@ -60,9 +60,16 @@ class ComponentManager {
             this.isAutoComponentId = true;
             this.componentId = uniqid(`${this.componentDisplayName}-`);
         }
-        this.namespacePrefix = normalize(
-            settleStringSettingFunc(this.options.namespacePrefix)
-        );
+        if(this.componentInstance.props.namespacePrefix) {
+            this.namespacePrefix = normalize(
+                settleStringSettingFunc(this.componentInstance.props.namespacePrefix)
+            );
+        }
+        if(!this.namespacePrefix){
+            this.namespacePrefix = normalize(
+                settleStringSettingFunc(this.options.namespacePrefix)
+            );
+        }
         if (this.namespacePrefix.indexOf("*") !== -1)
             throw new Error("`namespacePrefix` cannot contain `*`.");
         this.fullNamespace = fullNamespace.bind(this)();
