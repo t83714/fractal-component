@@ -1,11 +1,11 @@
-import AppContainer, { AppContainerOption } from "./AppContainer";
+import AppContainer, { AppContainerOptions } from "./AppContainer";
 import {
     ManageableComponent,
     ManageableComponentOptions
 } from "./ComponentManager";
 
 export declare function createAppContainer(
-    options: AppContainerOption
+    options: AppContainerOptions
 ): AppContainer;
 export declare function getCurrentAppContainerToken(): Symbol;
 export declare function getAppContainer(): AppContainer;

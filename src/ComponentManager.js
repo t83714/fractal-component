@@ -1,5 +1,7 @@
 import uniqid from "uniqid";
-import PathRegistry, { normalize } from "./PathRegistry";
+import objectPath from "object-path";
+import { PathContext, normalize } from "./PathRegistry";
+import { noop, getPackageName } from "./utils";
 
 const defaultOptions = {
     saga: null,
@@ -12,19 +14,21 @@ const defaultOptions = {
     isServerSideRendering: false
 };
 
-const noop = function() {};
-
-export const CONTAINER_LOCAL_KEY = Symbol("CONTAINER_LOCAL_KEY");
+const pkgName = getPackageName();
 
 class ComponentManager {
-    constructor(componentInstance, options) {
+    constructor(componentInstance, options, store) {
         this.options = { ...defaultOptions, ...options };
+        this.store = store;
 
         this.isInitialized = false;
         this.isDestroyed = false;
 
         this.initCallback = noop;
         this.destroyCallback = noop;
+
+        this.storeListener = bindStoreListener.bind(this);
+        this.storeListenerUnsubscribe = null;
 
         this.managingInstance = componentInstance;
         this.displayName = getComponentName(this.managingInstance);
@@ -38,11 +42,15 @@ class ComponentManager {
         }
 
         const settleStringSettingFunc = settleStringSetting.bind(this);
-        this.namespace = settleStringSettingFunc(this.options.namespace);
+        this.namespace = normalize(
+            settleStringSettingFunc(this.options.namespace)
+        );
         if (this.namespace.indexOf("*") !== -1)
             throw new Error("`Namespace` cannot contain `*`.");
         this.isAutoComponentId = false;
-        this.componentId = settleStringSettingFunc(this.options.componentId);
+        this.componentId = normalize(
+            settleStringSettingFunc(this.options.componentId)
+        );
         if (
             this.componentId.indexOf("/") !== -1 ||
             this.componentId.indexOf("*") !== -1
@@ -52,8 +60,8 @@ class ComponentManager {
             this.isAutoComponentId = true;
             this.componentId = uniqid(`${this.componentDisplayName}-`);
         }
-        this.namespacePrefix = settleStringSettingFunc(
-            this.options.namespacePrefix
+        this.namespacePrefix = normalize(
+            settleStringSettingFunc(this.options.namespacePrefix)
         );
         if (this.namespacePrefix.indexOf("*") !== -1)
             throw new Error("`namespacePrefix` cannot contain `*`.");
@@ -71,12 +79,31 @@ class ComponentManager {
             this.destroyCallback = destroyCallback;
         }
         this.componentInstance.state = { ...this.initState };
-        
+        this.setState = this.componentInstance.setState.bind(
+            this.componentInstance
+        );
+        this.componentInstance.setState = function() {
+            throw new Error(
+                `This component is managed by \`${pkgName}\`. You should dispatch action to mutate component state.`
+            );
+        };
+        this.storeListenerUnsubscribe = this.store.subscribe(
+            this.storeListener
+        );
         if (this.options.isServerSideRendering) {
             this.init();
         } else {
             injectLifeHookers.apply(this);
         }
+    }
+
+    dispatch(action, relativeDispatchPath = "") {
+        const pc = new PathContext(path);
+        const unnamespacedAction = pc.convertNamespacedAction(
+            action,
+            relativeDispatchPath
+        );
+        return this.store.dispatch(action);
     }
 
     init() {
@@ -86,12 +113,21 @@ class ComponentManager {
     }
 
     destroy() {
-        this.componentInstance[CONTAINER_LOCAL_KEY] = null;
         this.isDestroyed = true;
         if (!this.isInitialized) return;
         this.destroyCallback(this);
+        if (this.storeListenerUnsubscribe) {
+            this.storeListenerUnsubscribe();
+            this.storeListenerUnsubscribe = null;
+        }
         this.isInitialized = false;
     }
+}
+
+function bindStoreListener() {
+    const state = objectPath.get(this.store.getState(), this.fullPath);
+    if (state !== this.componentInstance.state) return;
+    this.setState(state);
 }
 
 function determineInitState() {

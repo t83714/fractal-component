@@ -12,7 +12,7 @@ import {
 import ComponentManager from "./ComponentManager";
 
 declare class AppContainer {
-    constructor(options?: AppContainerOption);
+    constructor(options?: AppContainerOptions);
 
     store: Store;
     componentRegistry: ComponentRegistry;
@@ -27,7 +27,7 @@ declare class AppContainer {
 
 export default AppContainer;
 
-export interface AppContainerOption {
+export interface AppContainerOptions {
     reducer?: (state: object, action: any) => object;
     initState?: object;
     middlewares?: [];

@@ -71,7 +71,7 @@ function* processCommandAction({ type, payload }) {
 }
 
 function* initSaga(sageItem) {
-    const { saga, path, buffer } = sageItem;
+    const { saga, path } = sageItem;
     const registeredPath = normalize(path);
     if (!registeredPath) {
         yield rsEffects.call([this, initGlobalSaga], saga);
@@ -141,10 +141,6 @@ class SagaRegistry {
             saga,
             ...(typeof sagaOptions !== "object" ? sagaOptions : {})
         };
-        const { path, buffer } = sagaOptions;
-        if (path && !buffer) {
-            sagaItem.buffer = bufferFactory.sliding(10);
-        }
         this.hostSagaCommandChan.dispatch(actions.initSaga(sagaItem));
     }
 

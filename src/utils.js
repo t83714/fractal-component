@@ -1,4 +1,5 @@
 import { is } from "redux-saga/utils";
+import pkg from "../package.json";
 
 let isDevMode = false;
 if (
@@ -9,6 +10,14 @@ if (
 ) {
     isDevMode = true;
 }
+
+export const getPackageName = function(){
+    return pkg.name;
+};
+
+export const getPackageVersion = function(){
+    return pkg.version;
+};
 
 export const isDevMode = function() {
     return isDevMode;

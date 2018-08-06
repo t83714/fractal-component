@@ -52,7 +52,9 @@ class AppContainer {
             sagaMiddleware
         ];
         this.eventEmitters = [];
-        this.componentRegistry = new ComponentRegistry(this);
+        this.componentRegistry = new ComponentRegistry(this, {
+            isServerSideRendering: containerCreationOptions.isServerSideRendering
+        });
         this.reducerRegistry = new ReducerRegistry(this);
         this.SagaRegistry = new SagaRegistry();
 

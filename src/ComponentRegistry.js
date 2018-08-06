@@ -1,12 +1,14 @@
 import PathRegistry from "./PathRegistry";
 import ComponentManager, { CONTAINER_LOCAL_KEY } from "./ComponentManager";
+import { is } from "./utils";
 
 const defaultOptions = {
     isServerSideRendering: false
 };
 
 class ComponentRegistry {
-    constructor(options = {}) {
+    constructor(appContainer, options = {}) {
+        this.appContainer = appContainer;
         this.options = { ...defaultOptions, ...options };
         this.pathRegistry = new PathRegistry();
         this.componentManagerStore = {};
@@ -14,7 +16,7 @@ class ComponentRegistry {
 
     register(componentInstance, options) {
         const runTimeOptions = { ...this.options, ...options };
-        const manager = new ComponentManager(componentInstance, runTimeOptions);
+        const manager = new ComponentManager(componentInstance, runTimeOptions, this.appContainer.store);
         if (this.componentManagerStore[manager.fullPath]) {
             throw new Error(
                 `Try to register component to an existing path: ${
@@ -38,9 +40,21 @@ class ComponentRegistry {
 }
 
 function registerComponentManager(cm) {
-    this.pathRegistry;
+    this.appContainer.reducerRegistry.register(cm.options.reducer, {
+        initState: cm.initState,
+        path: cm.fullPath,
+        initStateAlwaysOverwrite: cm.persistState === false ? true : false
+    });
+    if (cm.options.saga && is.func(cm.options.saga)) {
+        this.appContainer.sagaRegistry.register(cm.options.saga, {
+            path: cm.fullPath
+        });
+    }
 }
 
-function deRegisterComponentManager(cm) {}
+function deRegisterComponentManager(cm) {
+    this.appContainer.sagaRegistry.deregister(cm.fullPath);
+    this.appContainer.reducerRegistry.deregister(cm.fullPath);
+}
 
 export default ComponentRegistry;

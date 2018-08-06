@@ -4,7 +4,6 @@ const defaultAppContainer = null;
 
 export function createAppContainer(options) {
     const ac = new AppContainer(options);
-    currentAppContainerToken = Symbol("APP_CONTAINER_TOKEN");
     defaultAppContainer = ac;
     return ac;
 }

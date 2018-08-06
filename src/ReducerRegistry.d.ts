@@ -20,12 +20,11 @@ export default ReducerRegistry;
 export type Reducer = (state: object, action: any) => object;
 
 export interface ReducerOptions {
-    reducer: Reducer;
     initState?: object;
     path: string;
     initStateAlwaysOverwrite?: boolean;
 }
 
 export interface ReducerItem extends ReducerOptions {
-    reducer: (state: object, action: any) => object;
+    reducer: Reducer;
 }

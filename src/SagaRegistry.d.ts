@@ -17,11 +17,10 @@ export default SagaRegistry;
 
 export interface SagaOptions {
     path?: string;
-    buffer?: Buffer;
-    chan?: Channel;
 }
 
 export interface SagaItem extends SagaOptions {
     saga: GeneratorFunction;
+    chan?: Channel;
     task?: Task;
 }
