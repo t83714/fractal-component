@@ -1,29 +1,21 @@
 import AppContainer from "./AppContainer";
-import { CONTAINER_LOCAL_KEY } from "./ComponentManager";
 
-const appContainerStore = {};
-let currentAppContainerToken = null;
-
-export { CONTAINER_LOCAL_KEY };
+const defaultAppContainer = null;
 
 export function createAppContainer(options) {
     const ac = new AppContainer(options);
     currentAppContainerToken = Symbol("APP_CONTAINER_TOKEN");
-    appContainerStore[currentAppContainerToken] = ac;
+    defaultAppContainer = ac;
     return ac;
 }
 
-export function getCurrentAppContainerToken() {
-    return currentAppContainerToken;
-}
-
 export function getAppContainer() {
-    if (currentAppContainerToken === null) {
+    if (!defaultAppContainer) {
         throw new Error(
             "App Container is not available. You need to create one via `createAppContainer` first."
         );
     }
-    return appContainerStore[currentAppContainerToken];
+    return defaultAppContainer;
 }
 
 export function registerComponent(componentInstance, options) {
@@ -31,34 +23,7 @@ export function registerComponent(componentInstance, options) {
     appContainer.componentRegistry.register(componentInstance, options);
 }
 
-export function destroyAppContainer(refOrToken = null) {
-    if (typeof refOrToken === "symbol") {
-        if (currentAppContainerToken === refOrToken) {
-            currentAppContainerToken = null;
-        }
-        if (appContainerStore[refOrToken]) {
-            appContainerStore[refOrToken].destroy();
-        }
-        delete appContainerStore[refOrToken];
-    } else if (refOrToken) {
-        Object.keys(appContainerStore).forEach(token => {
-            if (appContainerStore[token] === refOrToken) {
-                if (appContainerStore[token]) {
-                    appContainerStore[token].destroy();
-                    delete appContainerStore[token];
-                }
-                if (currentAppContainerToken === token) {
-                    currentAppContainerToken = null;
-                }
-            }
-        });
-    } else {
-        const token = getCurrentAppContainerToken();
-        if (!token) return;
-        if (appContainerStore[token]) {
-            appContainerStore[token].destroy();
-            delete appContainerStore[token];
-        }
-        currentAppContainerToken = null;
-    }
+export function destroyAppContainer() {
+    defaultAppContainer.destroy();
+    defaultAppContainer = null;
 }
