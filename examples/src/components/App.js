@@ -1,6 +1,6 @@
 import * as React from "react";
-import Counter from "./Counter";
+import NewGif from "./NewGif";
 
 export default ()=>(
-    <Counter initValue={5} />
+    <NewGif />
 );

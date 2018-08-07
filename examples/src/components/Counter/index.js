@@ -1,12 +1,18 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
-import {} from "../../sagas/index"
 //-- import fractal-component lib from src entry point
 import { AppContainerUtils, AppContainer } from "../../../../src/index";
 
 class Counter extends React.Component{
     constructor(props){
         super(props);
+        /**
+         * You can set initState via AppContainerUtils.registerComponent options as well.
+         * this.state gets higher priority
+         */
+        this.state = {
+
+        };
         this.componentManager = AppContainerUtils.registerComponent(this);
     }
 
