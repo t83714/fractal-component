@@ -1,5 +1,5 @@
 import PathRegistry from "./PathRegistry";
-import ComponentManager, { CONTAINER_LOCAL_KEY } from "./ComponentManager";
+import ComponentManager, { COMPONENT_MANAGER_LOCAL_KEY } from "./ComponentManager";
 import { is } from "./utils";
 
 const defaultOptions = {
@@ -33,7 +33,7 @@ class ComponentRegistry {
     }
 
     deregister(componentInstance) {
-        const cm = componentInstance[CONTAINER_LOCAL_KEY];
+        const cm = componentInstance[COMPONENT_MANAGER_LOCAL_KEY];
         if (!cm) return;
         deRegisterComponentManager.call(this, cm);
     }

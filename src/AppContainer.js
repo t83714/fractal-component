@@ -56,7 +56,7 @@ class AppContainer {
             isServerSideRendering: containerCreationOptions.isServerSideRendering
         });
         this.reducerRegistry = new ReducerRegistry(this);
-        this.SagaRegistry = new SagaRegistry();
+        this.sagaRegistry = new SagaRegistry();
 
         this.store = createStore(
             this.reducerRegistry.createGlobalReducer(containerCreationOptions.reducer),
@@ -65,7 +65,7 @@ class AppContainer {
         );
 
         this.hostSagaTask = sagaMiddleware.run(
-            this.SagaRegistry.createHostSaga()
+            this.sagaRegistry.createHostSaga()
         );
     }
 

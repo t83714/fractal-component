@@ -17,8 +17,8 @@ const defaultReducerOptions = {
 function processInitState(state, action) {
     const { data, isOverwrite, path } = action.payload;
     const pathItems = path.split("/");
-    isOverwrite = isOverwrite === false ? false : true;
-    objectPath.set(state, pathItems, !isOverwrite);
+    const doNotReplace = isOverwrite === false ? true : false;
+    objectPath.set(state, pathItems, data, doNotReplace);
     return state;
 }
 
@@ -35,8 +35,8 @@ function processEmptyState(state, action) {
 function processNamespacedAction(state, action) {
     const lastSepIdx = action.type.lastIndexOf("/@");
     if (lastSepIdx === -1) return state;
-    const pureAction = action.type.subString(lastSepIdx + 2);
-    const path = normalize(action.type.subString(0, lastSepIdx));
+    const pureAction = action.type.substring(lastSepIdx + 2);
+    const path = normalize(action.type.substring(0, lastSepIdx));
     const matchedPaths = this.pathRegistry.searchSubPath(path);
     if (!matchedPaths || !matchedPaths.length) return state;
     const newAction = { ...action, type: pureAction, originType: action.type };
@@ -73,6 +73,7 @@ function globalReducer(externalGlobalReducer, state, action) {
 
 class ReducerRegistry {
     constructor(appContainer) {
+        this.appContainer = appContainer;
         this.reducerStore = {};
         this.pathRegistry = new PathRegistry();
     }
@@ -130,7 +131,7 @@ function setInitState(path, initState, initStateAlwaysOverwrite) {
         throw new Error(
             "Failed to set init state for component reducer: redux store not available yet!"
         );
-    this.store.dispatch(actions.initState(path, initState, initStateAlwaysOverwrite));
+    this.appContainer.store.dispatch(actions.initState(path, initState, initStateAlwaysOverwrite));
 }
 
 function emptyInitState(path) {

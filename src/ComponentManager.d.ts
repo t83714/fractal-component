@@ -35,6 +35,8 @@ export default ComponentManager;
 export type InitCallback = (ComponentManager) => void;
 export type DestroyCallback = (ComponentManager) => void;
 
+export declare const COMPONENT_MANAGER_LOCAL_KEY:Symbol;
+
 export type ManageableComponent = React.Component | React.PureComponent;
 export interface ManageableComponentOptions {
     saga?: GeneratorFunction;

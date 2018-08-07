@@ -21,8 +21,8 @@ const forwardNamespacedAction = function*() {
         action => action.type.indexOf("/@") !== -1,
         function*(action) {
             const lastSepIdx = action.type.lastIndexOf("/@");
-            const pureAction = action.type.subString(lastSepIdx + 2);
-            const path = normalize(action.type.subString(0, lastSepIdx));
+            const pureAction = action.type.substring(lastSepIdx + 2);
+            const path = normalize(action.type.substring(0, lastSepIdx));
             const matchedPaths = this.pathRegistry.searchSubPath(path);
             if (!matchedPaths || !matchedPaths.length) return;
             const newAction = {
@@ -32,16 +32,17 @@ const forwardNamespacedAction = function*() {
             };
             for (let i = 0; i < matchedPaths.length; i++) {
                 const sagaItem = this.namespacedSagaItemStore[matchedPaths[i]];
-                if(!sageItem || !sagaItem.chan) continue;
-                yield rsEffects.put(sageItem.chan, newAction);
+                if (!sagaItem || !sagaItem.chan) continue;
+                yield rsEffects.put(sagaItem.chan, newAction);
             }
         }.bind(this)
     );
 };
 
 function* startCommandChan() {
+    let commandChan;
     try {
-        const commandChan = yield rsEffects.call([
+        commandChan = yield rsEffects.call([
             this.hostSagaCommandChan,
             this.hostSagaCommandChan.create
         ]);
@@ -70,8 +71,8 @@ function* processCommandAction({ type, payload }) {
     }
 }
 
-function* initSaga(sageItem) {
-    const { saga, path } = sageItem;
+function* initSaga(sagaItem) {
+    const { saga, path } = sagaItem;
     const registeredPath = normalize(path);
     if (!registeredPath) {
         yield rsEffects.call([this, initGlobalSaga], saga);
@@ -83,7 +84,7 @@ function* initSaga(sageItem) {
         );
     }
     const chan = yield rsEffects.call(multicastChannelFactory);
-    const newSagaItem = { ...sageItem, chan, path: registeredPath };
+    const newSagaItem = { ...sagaItem, chan, path: registeredPath };
     const effects = {};
     Object.keys(namespacedEffects).forEach(idx => {
         effects[idx] = partial(namespacedEffects[idx], newSagaItem);
@@ -139,7 +140,7 @@ class SagaRegistry {
             );
         const sagaItem = {
             saga,
-            ...(typeof sagaOptions !== "object" ? sagaOptions : {})
+            ...(typeof sagaOptions === "object" ? sagaOptions : {})
         };
         this.hostSagaCommandChan.dispatch(actions.initSaga(sagaItem));
     }

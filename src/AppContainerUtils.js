@@ -1,6 +1,6 @@
 import AppContainer from "./AppContainer";
 
-const defaultAppContainer = null;
+let defaultAppContainer = null;
 
 export function createAppContainer(options) {
     const ac = new AppContainer(options);
@@ -19,7 +19,7 @@ export function getAppContainer() {
 
 export function registerComponent(componentInstance, options) {
     const appContainer = getAppContainer();
-    appContainer.registerComponent(componentInstance, options);
+    return appContainer.registerComponent(componentInstance, options);
 }
 
 export function destroyAppContainer() {

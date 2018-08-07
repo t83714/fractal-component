@@ -1,14 +1,14 @@
 import { is } from "redux-saga/utils";
 import pkg from "../package.json";
 
-let isDevMode = false;
+let devMode = false;
 if (
     process &&
     process.env &&
     process.env.NODE_ENV &&
     process.env.NODE_ENV === "development"
 ) {
-    isDevMode = true;
+    devMode = true;
 }
 
 export const getPackageName = function(){
@@ -20,7 +20,7 @@ export const getPackageVersion = function(){
 };
 
 export const isDevMode = function() {
-    return isDevMode;
+    return devMode;
 };
 
 export const log = function(message, level = "log", error = "") {

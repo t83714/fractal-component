@@ -2,15 +2,13 @@ import {
     take as oTake,
     put as oPut,
     select as oSelect,
-    takeEvery as oTakeEvery,
     call,
-    delay,
-    fork
+    fork,
+    delay
 } from "redux-saga/effects";
 import {
     buffers as bufferFactory,
-    channel as channelFactory,
-    isEnd
+    channel as channelFactory
 } from "redux-saga";
 import objectPath from "object-path";
 import { PathContext } from "../PathRegistry";
@@ -33,7 +31,7 @@ export function put(sagaItem, action, relativeDispatchPath = "") {
 export function select(sagaItem, selector, ...args) {
     const { path } = sagaItem;
     const pathItems = path.split("/");
-    return select(state => {
+    return oSelect(state => {
         const namespacedState = objectPath.get(state, pathItems);
         return selector(namespacedState, ...args);
     });

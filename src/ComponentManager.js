@@ -16,8 +16,11 @@ const defaultOptions = {
 
 const pkgName = getPackageName();
 
+export const COMPONENT_MANAGER_LOCAL_KEY = Symbol("COMPONENT_MANAGER_LOCAL_KEY");
+
 class ComponentManager {
     constructor(componentInstance, options, store) {
+        this.componentInstance = componentInstance;
         this.options = { ...defaultOptions, ...options };
         this.store = store;
 
@@ -58,7 +61,7 @@ class ComponentManager {
             throw new Error("`Component ID` cannot contain `/` or `*`.");
         if (!this.componentId) {
             this.isAutoComponentId = true;
-            this.componentId = uniqid(`${this.componentDisplayName}-`);
+            this.componentId = uniqid(`${this.displayName}-`);
         }
         if(this.componentInstance.props.namespacePrefix) {
             this.namespacePrefix = normalize(
@@ -97,6 +100,7 @@ class ComponentManager {
         this.storeListenerUnsubscribe = this.store.subscribe(
             this.storeListener
         );
+        this.componentInstance[COMPONENT_MANAGER_LOCAL_KEY] = this;
         if (this.options.isServerSideRendering) {
             this.init();
         } else {
@@ -105,16 +109,16 @@ class ComponentManager {
     }
 
     dispatch(action, relativeDispatchPath = "") {
-        const pc = new PathContext(path);
+        const pc = new PathContext(this.fullPath);
         const unnamespacedAction = pc.convertNamespacedAction(
             action,
             relativeDispatchPath
         );
-        return this.store.dispatch(action);
+        return this.store.dispatch(unnamespacedAction);
     }
 
     init() {
-        if (this.isInitialized || this.this.isDestroyed) return;
+        if (this.isInitialized || this.isDestroyed) return;
         this.initCallback(this);
         this.isInitialized = true;
     }
@@ -132,8 +136,8 @@ class ComponentManager {
 }
 
 function bindStoreListener() {
-    const state = objectPath.get(this.store.getState(), this.fullPath);
-    if (state !== this.componentInstance.state) return;
+    const state = objectPath.get(this.store.getState(), this.fullPath.split("/"));
+    if (state === this.componentInstance.state) return;
     this.setState(state);
 }
 

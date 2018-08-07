@@ -1,6 +1,7 @@
 import { SagaItem } from "../SagaRegistry";
-import { Pattern, ForkEffect, PutEffect } from "redux-saga/effects";
+import { Pattern, ForkEffect, PutEffect, CallEffect } from "redux-saga/effects";
 import { Action } from "redux";
+import { Buffer, Channel } from "redux-saga";
 
 export declare function take(sagaItem: SagaItem, pattern: Pattern): TakeEffect;
 export declare function put(sagaItem: SagaItem, action: Action): PutEffect<any>;
@@ -30,3 +31,8 @@ export declare function throttle(
     saga: GeneratorFunction,
     ...args: any[]
 ): ForkEffect;
+export declare function actionChannel(
+    sagaItem: SagaItem,
+    pattern: string,
+    buffer: Buffer
+): CallEffect;
