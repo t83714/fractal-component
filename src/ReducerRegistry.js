@@ -6,17 +6,16 @@ import objectPathImmutable from "object-path-immutable";
 
 const defaultReducerOptions = {
     initState: {},
-    //--- if it's true, state will always be reset to initState
-    initStateAlwaysOverwrite: false
+    persistState: false
 };
 
 /**
  * This function should NOT return a new state copy
  */
 function processInitState(state, action) {
-    const { data, isOverwrite, path } = action.payload;
+    const { data, persistState, path } = action.payload;
     const pathItems = path.split("/");
-    const doNotReplace = isOverwrite === false ? true : false;
+    const doNotReplace = persistState;
     const hasData = objectPath.has(state, pathItems);
     if (hasData) {
         if (doNotReplace) return state;
@@ -32,8 +31,7 @@ function processInitState(state, action) {
 function processEmptyState(state, action) {
     const path = action.payload;
     const pathItems = path.split("/");
-    objectPath.empty(state, pathItems);
-    return state;
+    return objectPathImmutable.del(state, pathItems);
 }
 
 function processNamespacedAction(state, action) {
@@ -101,7 +99,7 @@ class ReducerRegistry {
             );
         if (!reducerOptions) reducerOptions = { ...defaultReducerOptions };
 
-        const { path, initState, initStateAlwaysOverwrite } = reducerOptions;
+        const { path, initState, persistState } = reducerOptions;
 
         if (!path)
             throw new Error(
@@ -118,7 +116,7 @@ class ReducerRegistry {
         this.reducerStore[registeredPath] = {
             ...reducerOptions,
             reducer,
-            initStateAlwaysOverwrite,
+            persistState,
             initState,
             registeredPath
         };
@@ -127,7 +125,7 @@ class ReducerRegistry {
             this,
             registeredPath,
             initState,
-            initStateAlwaysOverwrite
+            persistState
         );
     }
 
@@ -137,19 +135,19 @@ class ReducerRegistry {
         const reduceItem = this.reducerStore[normalizedPath];
         if (!reduceItem) return;
         delete this.reducerStore[normalizedPath];
-        const { initStateAlwaysOverwrite } = reduceItem;
-        if (!initStateAlwaysOverwrite) return;
-        emptyInitState.call(this, normalizedPath, initStateAlwaysOverwrite);
+        const { persistState } = reduceItem;
+        if (persistState) return;
+        emptyInitState.call(this, normalizedPath);
     }
 }
 
-function setInitState(path, initState, initStateAlwaysOverwrite) {
+function setInitState(path, initState, persistState) {
     if (!this.appContainer.store)
         throw new Error(
             "Failed to set init state for component reducer: redux store not available yet!"
         );
     this.appContainer.store.dispatch(
-        actions.initState(path, initState, initStateAlwaysOverwrite)
+        actions.initState(path, initState, persistState)
     );
 }
 

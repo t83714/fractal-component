@@ -43,7 +43,7 @@ function registerComponentManager(cm) {
     this.appContainer.reducerRegistry.register(cm.options.reducer, {
         initState: cm.initState,
         path: cm.fullPath,
-        initStateAlwaysOverwrite: cm.persistState === false ? true : false
+        persistState: cm.persistState
     });
     if (cm.options.saga && is.func(cm.options.saga)) {
         this.appContainer.sagaRegistry.register(cm.options.saga, {
