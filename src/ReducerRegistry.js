@@ -3,7 +3,6 @@ import * as actions from "./ReducerRegistry/actions";
 import PathRegistry, { normalize } from "./PathRegistry";
 import objectPath from "object-path";
 import objectPathImmutable from "object-path-immutable";
-import partialRight from "lodash/partialRight";
 
 const defaultReducerOptions = {
     initState: {},
@@ -18,8 +17,13 @@ function processInitState(state, action) {
     const { data, isOverwrite, path } = action.payload;
     const pathItems = path.split("/");
     const doNotReplace = isOverwrite === false ? true : false;
-    objectPath.set(state, pathItems, data, doNotReplace);
-    return state;
+    const hasData = objectPath.has(state, pathItems);
+    if (hasData) {
+        if (doNotReplace) return state;
+        else return objectPathImmutable.set(state, pathItems, data);
+    } else {
+        return objectPathImmutable.set(state, pathItems, data);
+    }
 }
 
 /**
@@ -44,11 +48,19 @@ function processNamespacedAction(state, action) {
     matchedPaths.forEach(p => {
         const { reducer } = this.reducerStore[p];
         if (!reducer || typeof reducer !== "function") return;
-        newState = objectPathImmutable.update(
-            newState,
-            p.split("/"),
-            partialRight(reducer, newAction)
-        );
+        const pathItems = p.split("/");
+        const componentState = objectPath.set(state, pathItems);
+        const newComponentState = reducer(componentState, newAction);
+        if (componentState === newComponentState) {
+            //--- skip update when no changes; likely not interested action
+            return;
+        } else {
+            newState = objectPathImmutable.set(
+                newState,
+                pathItems,
+                newComponentState
+            );
+        }
     });
     return newState;
 }
@@ -111,7 +123,12 @@ class ReducerRegistry {
             registeredPath
         };
 
-        setInitState.call(this, registeredPath, initState, initStateAlwaysOverwrite);
+        setInitState.call(
+            this,
+            registeredPath,
+            initState,
+            initStateAlwaysOverwrite
+        );
     }
 
     deregister(path) {
@@ -121,7 +138,7 @@ class ReducerRegistry {
         if (!reduceItem) return;
         delete this.reducerStore[normalizedPath];
         const { initStateAlwaysOverwrite } = reduceItem;
-        if(!initStateAlwaysOverwrite) return;
+        if (!initStateAlwaysOverwrite) return;
         emptyInitState.call(this, normalizedPath, initStateAlwaysOverwrite);
     }
 }
@@ -131,7 +148,9 @@ function setInitState(path, initState, initStateAlwaysOverwrite) {
         throw new Error(
             "Failed to set init state for component reducer: redux store not available yet!"
         );
-    this.appContainer.store.dispatch(actions.initState(path, initState, initStateAlwaysOverwrite));
+    this.appContainer.store.dispatch(
+        actions.initState(path, initState, initStateAlwaysOverwrite)
+    );
 }
 
 function emptyInitState(path) {

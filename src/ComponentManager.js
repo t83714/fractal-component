@@ -88,7 +88,8 @@ class ComponentManager {
         if (destroyCallback) {
             this.destroyCallback = destroyCallback;
         }
-        this.componentInstance.state = { ...this.initState };
+        //--- should NOT shallow copy to avoid unnecessary render 
+        this.componentInstance.state = this.initState;
         this.setState = this.componentInstance.setState.bind(
             this.componentInstance
         );
