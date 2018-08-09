@@ -13,6 +13,10 @@ class ActionForwarder extends React.Component {
             saga: forwarderSaga
         });
     }
+
+    render() {
+        return null;
+    }
 }
 
 ActionForwarder.propTypes = {
