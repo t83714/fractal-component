@@ -1,7 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { is } from "../utils";
+import * as AppContainerUtils from "./AppContainerUtils";
+import { is } from "./utils";
 import { put } from "redux-saga/effects";
+
 /**
  * A helper container component used to forward actions to another namespace
  */
@@ -9,7 +11,7 @@ class ActionForwarder extends React.Component {
     constructor(props) {
         super(props);
         this.componentManager = AppContainerUtils.registerComponent(this, {
-            namespace: "io.github.t83714/ActionForwarder",
+            namespace: `${props.namespace}/io.github.t83714`,
             saga: forwarderSaga
         });
     }

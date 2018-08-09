@@ -36,14 +36,6 @@ class ComponentManager {
         this.managingInstance = componentInstance;
         this.displayName = getComponentName(this.managingInstance);
 
-        if (!this.options.reducer) {
-            throw new Error(
-                `Failed to initialise \`${
-                    this.displayName
-                }\`: a reducer function is required.`
-            );
-        }
-
         const settleStringSettingFunc = settleStringSetting.bind(this);
         this.namespace = normalize(
             settleStringSettingFunc(this.options.namespace)

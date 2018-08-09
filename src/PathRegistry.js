@@ -48,8 +48,9 @@ export class PathContext {
     }
 
     convertNamespacedAction(action, relativeDispatchPath) {
-        const { type : actionType } = action;
-        if(actionType.indexOf("/")!==-1) throw new Error("Namespaced action type cannot contains `/`.");
+        const { type: actionType } = action;
+        if (actionType.indexOf("/") !== -1)
+            throw new Error("Namespaced action type cannot contains `/`.");
         let path = normalize(relativeDispatchPath);
         let isMulticast = false;
         if (path.length && path[path.length - 1] === "*") {
@@ -62,7 +63,7 @@ export class PathContext {
         if (isMulticast && absolutePath !== "") pathParts.push("*");
         pathParts.push(pathParts.length ? `@${action.type}` : action.type);
         const type = pathParts.join("/");
-        return { ...action, type };
+        return { ...action, type, originPath: absolutePath };
     }
 }
 
