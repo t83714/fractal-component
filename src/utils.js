@@ -1,4 +1,4 @@
-import { is } from "redux-saga/utils";
+import { is as reduxSagaIs } from "redux-saga/utils";
 import pkg from "../package.json";
 
 let devMode = false;
@@ -11,11 +11,11 @@ if (
     devMode = true;
 }
 
-export const getPackageName = function(){
+export const getPackageName = function() {
     return pkg.name;
 };
 
-export const getPackageVersion = function(){
+export const getPackageVersion = function() {
     return pkg.version;
 };
 
@@ -48,4 +48,7 @@ export const kFalse = konst(false);
 export const noop = () => {};
 export const identity = v => v;
 
-export { is };
+export const is = {
+    ...reduxSagaIs,
+    bool: v => typeof v === "boolean"
+};
