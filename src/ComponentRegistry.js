@@ -40,11 +40,13 @@ class ComponentRegistry {
 }
 
 function registerComponentManager(cm) {
-    this.appContainer.reducerRegistry.register(cm.options.reducer, {
-        initState: cm.initState,
-        path: cm.fullPath,
-        persistState: cm.persistState
-    });
+    if(cm.options.reducer && is.func(cm.options.reducer)){
+        this.appContainer.reducerRegistry.register(cm.options.reducer, {
+            initState: cm.initState,
+            path: cm.fullPath,
+            persistState: cm.persistState
+        });
+    }
     if (cm.options.saga && is.func(cm.options.saga)) {
         this.appContainer.sagaRegistry.register(cm.options.saga, {
             path: cm.fullPath
