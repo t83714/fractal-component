@@ -1,9 +1,10 @@
 import { eventChannel, buffers as bufferFactory } from "redux-saga";
+import { kTrue } from "./utils";
 
 class EventChannel {
     constructor(buffer = null) {
         if (!buffer) {
-            this.buffer = bufferFactory.sliding(10);
+            this.buffer = bufferFactory.expanding();
         } else {
             this.buffer = buffer;
         }
@@ -26,17 +27,21 @@ class EventChannel {
         this.eventEmitters.forEach(emitter => emitter(event));
     }
 
-    destroy(){
+    destroy() {
         this.eventEmitters = [];
     }
 
-    create() {
-        return eventChannel(emitter => {
-            this.subscribe(emitter);
-            return () => {
-                this.unsubscribe(emitter);
-            };
-        }, this.buffer);
+    create(matcher) {
+        return eventChannel(
+            emitter => {
+                this.subscribe(emitter);
+                return () => {
+                    this.unsubscribe(emitter);
+                };
+            },
+            this.buffer,
+            matcher ? matcher : kTrue
+        );
     }
 }
 

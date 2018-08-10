@@ -41,25 +41,40 @@ ActionForwarder.propTypes = {
 };
 
 function* forwarderSaga(effects) {
-    yield takeEvery(this.props.pattern ? this.props.pattern : "*", function*(
-        action
-    ) {
-        const newAction = actionTransformer(action, this.props.transformer);
-        //--- unnamespace forward
-        if (this.props.toGlobal === true) {
-            if (this.props.absoluteDispatchPath) {
-                yield put({
-                    ...newAction,
-                    type: `${this.props.absoluteDispatchPath}/${newAction.type}`
-                });
+    yield effects.takeEvery(
+        this.props.pattern ? this.props.pattern : "*",
+        function*(action) {
+            const newAction = actionTransformer(action, this.props.transformer);
+            //--- unnamespace forward
+            if (this.props.toGlobal === true) {
+                if (this.props.absoluteDispatchPath) {
+                    yield put({
+                        ...newAction,
+                        type: `${this.props.absoluteDispatchPath}/${
+                            newAction.type
+                        }`
+                    });
+                } else {
+                    yield put(newAction);
+                }
             } else {
-                yield put(newAction);
+                //--- namespaced forward
+                /**
+                 * namespaced forward
+                 * `ActionForwarder`'s current namespace path is:
+                 * `${props.namespace}/io.github.t83714/${this.componentManager.componentId}`
+                 * Add `../../` to `props.relativeDispatchPath` so that relative namespace path
+                 * will start from `${props.namespace}`.
+                 * This might be easier for people to use `ActionForwarder` as we don't need to 
+                 * always add `two levels up` in order to throw action out of `ActionForwarder`
+                 */
+                const relativeDispatchPath = this.props.relativeDispatchPath
+                    ? `../../${this.props.relativeDispatchPath}`
+                    : "";
+                yield effects.put(newAction, relativeDispatchPath);
             }
-        } else {
-            //--- namespaced forward
-            yield effects.put(newAction, this.props.relativeDispatchPath);
-        }
-    });
+        }.bind(this)
+    );
 }
 
 function actionTransformer(action, transformer) {

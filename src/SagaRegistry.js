@@ -48,11 +48,11 @@ function* startCommandChan() {
         ]);
         while (true) {
             const action = yield rsEffects.take(commandChan);
-            yield rsEffects.call([this, processCommandAction], action);
+            yield rsEffects.fork([this, processCommandAction], action);
         }
     } finally {
         if (yield rsEffects.cancelled()) {
-            log("Terminating GLobal Host Saga Commandline Channel.");
+            log("Terminating Global Host Saga Commandline Channel.");
             commandChan.close();
         }
     }
