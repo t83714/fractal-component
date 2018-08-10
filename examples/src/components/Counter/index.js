@@ -1,44 +1,27 @@
 import * as React from 'react'
-import PropTypes from 'prop-types'
 //-- import fractal-component lib from src entry point
-import { AppContainerUtils, AppContainer } from "../../../../src/index";
+import { AppContainerUtils } from "../../../../src/index";
 
 class Counter extends React.Component{
     constructor(props){
         super(props);
-        /**
-         * You can set initState via AppContainerUtils.registerComponent options as well.
-         * this.state gets higher priority
-         */
         this.state = {
-
+            count: 0
         };
-        this.componentManager = AppContainerUtils.registerComponent(this);
-    }
-
-    componentDidMount(){
-        console.log("counter componentDidMount");
-        console.log(this);
-    }
-
-    componentWillUnmount(){
-        console.log("counter componentWillUnmount");
-        console.log(this);
+        this.componentManager = AppContainerUtils.registerComponent(this, {
+            namespace: "io.github.t83714",
+            reducer: function(state, action){
+                switch(action.type){
+                    case "INCREASE_COUNT" : return {...state, count: state.count+1};
+                    default: return state;
+                }
+            }
+        });
     }
 
     render(){
-        return (<p>
-            Clicked: {this.props.initValue} times <button onClick={console.log("Increment")}>+</button> <button onClick={console.log("onDecrement")}>-</button>{' '}
-            <button onClick={console.log("Increment if odd")}>Increment if odd</button>{' '}
-            <button onClick={console.log("Increment async")}>Increment async</button>
-        </p>);
+        return (<p>Counter: {this.state.count}</p>);
     }
-}
-
-Counter.displayName = "CunterNewName";
-
-Counter.propTypes = {
-  initValue: PropTypes.number
 }
 
 export default Counter
