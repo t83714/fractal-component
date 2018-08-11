@@ -48,6 +48,9 @@ export class PathContext {
     }
 
     convertNamespacedAction(action, relativeDispatchPath) {
+        if (is.string(action)) {
+            action = { type: action };
+        }
         const { type: actionType } = action;
         if (actionType.indexOf("/") !== -1)
             throw new Error("Namespaced action type cannot contains `/`.");
@@ -108,8 +111,8 @@ export default class PathRegistry {
             cleanPath = cleanPath.substring(0, cleanPath.length - 1);
         }
         return this.paths.filter(item => {
-            if(item === cleanPath) return true;
-            if(item.indexOf(cleanPath+"/") === 0) return true;
+            if (item === cleanPath) return true;
+            if (item.indexOf(cleanPath + "/") === 0) return true;
             return false;
         });
     }
