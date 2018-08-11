@@ -17,6 +17,9 @@ declare class ComponentManager {
     componentId: boolean;
     fullNamespace: string;
     fullPath: string;
+    isServerSideRendering: boolean;
+    persistState: boolean;
+    acceptUpperNamespaceActions: boolean;
 
     initCallback: InitCallback;
     destroyCallback: DestroyCallback;
@@ -46,5 +49,6 @@ export interface ManageableComponentOptions {
     namespacePrefix?: string | function;
     componentId?: string | function;
     persistState?: boolean;
+    acceptUpperNamespaceActions?: boolean;
     isServerSideRendering?: boolean;
 }

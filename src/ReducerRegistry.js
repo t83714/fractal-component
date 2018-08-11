@@ -39,7 +39,12 @@ function processNamespacedAction(state, action) {
     if (lastSepIdx === -1) return state;
     const pureAction = action.type.substring(lastSepIdx + 2);
     const path = normalize(action.type.substring(0, lastSepIdx));
-    const matchedPaths = this.pathRegistry.searchSubPath(path);
+    const matchedPaths = this.pathRegistry.searchSubPath(path).filter(matchedPath=>{
+        const { acceptUpperNamespaceActions, localPathPos } = this.reducerStore[matchedPath];
+        if(acceptUpperNamespaceActions) return true;
+        if((path.length-1)>=(localPathPos-1)) return true;
+        return false;
+    });
     if (!matchedPaths || !matchedPaths.length) return state;
     const newAction = { ...action, type: pureAction, originType: action.type };
     let newState = state;
@@ -99,7 +104,7 @@ class ReducerRegistry {
             );
         if (!reducerOptions) reducerOptions = { ...defaultReducerOptions };
 
-        const { path, initState, persistState } = reducerOptions;
+        const { path, localPath, acceptUpperNamespaceActions, initState, persistState } = reducerOptions;
 
         if (!path)
             throw new Error(
@@ -112,13 +117,17 @@ class ReducerRegistry {
                 `Failed to register namespaced reducer: given path \`${registeredPath}\` has been registered.`
             );
         }
+        const localPathPos = localPath ? registeredPath.lastIndexOf(localPath): registeredPath.length;
 
         this.reducerStore[registeredPath] = {
             ...reducerOptions,
             reducer,
-            persistState,
             initState,
-            registeredPath
+            localPath,
+            localPathPos,
+            persistState,
+            registeredPath,
+            acceptUpperNamespaceActions
         };
 
         setInitState.call(

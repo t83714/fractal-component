@@ -1,5 +1,7 @@
 import PathRegistry from "./PathRegistry";
-import ComponentManager, { COMPONENT_MANAGER_LOCAL_KEY } from "./ComponentManager";
+import ComponentManager, {
+    COMPONENT_MANAGER_LOCAL_KEY
+} from "./ComponentManager";
 import { is } from "./utils";
 
 const defaultOptions = {
@@ -16,7 +18,11 @@ class ComponentRegistry {
 
     register(componentInstance, options) {
         const runTimeOptions = { ...this.options, ...options };
-        const manager = new ComponentManager(componentInstance, runTimeOptions, this.appContainer.store);
+        const manager = new ComponentManager(
+            componentInstance,
+            runTimeOptions,
+            this.appContainer.store
+        );
         if (this.componentManagerStore[manager.fullPath]) {
             throw new Error(
                 `Try to register component to an existing path: ${
@@ -40,17 +46,27 @@ class ComponentRegistry {
 }
 
 function registerComponentManager(cm) {
-    if(cm.options.reducer && is.func(cm.options.reducer)){
-        this.appContainer.reducerRegistry.register(cm.options.reducer.bind(cm.componentInstance), {
-            initState: cm.initState,
-            path: cm.fullPath,
-            persistState: cm.persistState
-        });
+    if (cm.options.reducer && is.func(cm.options.reducer)) {
+        this.appContainer.reducerRegistry.register(
+            cm.options.reducer.bind(cm.componentInstance),
+            {
+                initState: cm.initState,
+                path: cm.fullPath,
+                localPath: cm.fullLocalPath,
+                acceptUpperNamespaceActions: cm.acceptUpperNamespaceActions,
+                persistState: cm.persistState
+            }
+        );
     }
     if (cm.options.saga && is.func(cm.options.saga)) {
-        this.appContainer.sagaRegistry.register(cm.options.saga.bind(cm.componentInstance), {
-            path: cm.fullPath
-        });
+        this.appContainer.sagaRegistry.register(
+            cm.options.saga.bind(cm.componentInstance),
+            {
+                path: cm.fullPath,
+                localPath: cm.fullLocalPath,
+                acceptUpperNamespaceActions: cm.acceptUpperNamespaceActions
+            }
+        );
     }
 }
 

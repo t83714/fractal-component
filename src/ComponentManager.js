@@ -1,7 +1,7 @@
 import uniqid from "uniqid";
 import objectPath from "object-path";
 import { PathContext, normalize } from "./PathRegistry";
-import { noop, getPackageName } from "./utils";
+import { noop, getPackageName, is } from "./utils";
 
 const defaultOptions = {
     saga: null,
@@ -11,12 +11,15 @@ const defaultOptions = {
     namespacePrefix: null,
     componentId: null,
     persistState: false,
+    acceptUpperNamespaceActions: false,
     isServerSideRendering: false
 };
 
 const pkgName = getPackageName();
 
-export const COMPONENT_MANAGER_LOCAL_KEY = Symbol("COMPONENT_MANAGER_LOCAL_KEY");
+export const COMPONENT_MANAGER_LOCAL_KEY = Symbol(
+    "COMPONENT_MANAGER_LOCAL_KEY"
+);
 
 class ComponentManager {
     constructor(componentInstance, options, store) {
@@ -55,20 +58,39 @@ class ComponentManager {
             this.isAutoComponentId = true;
             this.componentId = uniqid(`${this.displayName}-`);
         }
-        if(this.componentInstance.props.namespacePrefix) {
+        if (
+            this.componentInstance.props &&
+            this.componentInstance.props.namespacePrefix
+        ) {
             this.namespacePrefix = normalize(
-                settleStringSettingFunc(this.componentInstance.props.namespacePrefix)
+                settleStringSettingFunc(
+                    this.componentInstance.props.namespacePrefix
+                )
             );
         }
-        if(!this.namespacePrefix){
+        if (!this.namespacePrefix) {
             this.namespacePrefix = normalize(
                 settleStringSettingFunc(this.options.namespacePrefix)
             );
         }
         if (this.namespacePrefix.indexOf("*") !== -1)
             throw new Error("`namespacePrefix` cannot contain `*`.");
+        if (
+            this.componentInstance.props &&
+            typeof is.bool(
+                this.componentInstance.props.acceptUpperNamespaceActions
+            )
+        ) {
+            this.acceptUpperNamespaceActions = this.componentInstance.props.acceptUpperNamespaceActions;
+        } else {
+            this.acceptUpperNamespaceActions = this.options.acceptUpperNamespaceActions;
+        }
+
+        this.isServerSideRendering = this.options.isServerSideRendering;
+        this.persistState = this.options.persistState;
         this.fullNamespace = fullNamespace.bind(this)();
         this.fullPath = fullPath.bind(this)();
+        this.fullLocalPath = fullLocalPath.bind(this)();
 
         determineInitState.apply(this);
     }
@@ -80,7 +102,7 @@ class ComponentManager {
         if (destroyCallback) {
             this.destroyCallback = destroyCallback;
         }
-        //--- should NOT shallow copy to avoid unnecessary render 
+        //--- should NOT shallow copy to avoid unnecessary render
         this.componentInstance.state = this.initState;
         this.setState = this.componentInstance.setState.bind(
             this.componentInstance
@@ -94,7 +116,7 @@ class ComponentManager {
             this.storeListener
         );
         this.componentInstance[COMPONENT_MANAGER_LOCAL_KEY] = this;
-        if (this.options.isServerSideRendering) {
+        if (this.isServerSideRendering) {
             this.init();
         } else {
             injectLifeHookers.apply(this);
@@ -129,7 +151,10 @@ class ComponentManager {
 }
 
 function bindStoreListener() {
-    const state = objectPath.get(this.store.getState(), this.fullPath.split("/"));
+    const state = objectPath.get(
+        this.store.getState(),
+        this.fullPath.split("/")
+    );
     if (state === this.componentInstance.state) return;
     this.setState(state);
 }
@@ -186,6 +211,13 @@ function fullNamespace() {
 function fullPath() {
     const parts = [];
     if (this.fullNamespace) parts.push(this.fullNamespace);
+    parts.push(this.componentId);
+    return parts.join("/");
+}
+
+function fullLocalPath() {
+    const parts = [];
+    if (this.namespace) parts.push(this.namespace);
     parts.push(this.componentId);
     return parts.join("/");
 }

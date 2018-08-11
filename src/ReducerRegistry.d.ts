@@ -22,7 +22,7 @@ export type Reducer = (state: object, action: any) => object;
 export interface ReducerOptions {
     initState?: object;
     path: string;
-    persitMode?: boolean;
+    persistState?: boolean;
 }
 
 export interface ReducerItem extends ReducerOptions {

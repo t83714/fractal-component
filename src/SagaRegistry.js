@@ -1,7 +1,7 @@
 import * as actionTypes from "./SagaRegistry/actionTypes";
 import * as actions from "./SagaRegistry/actions";
 import PathRegistry, { normalize } from "./PathRegistry";
-import { log } from "./utils";
+import { log, is } from "./utils";
 import EventChannel from "./EventChannel";
 import {
     buffers as bufferFactory,
@@ -23,7 +23,12 @@ const forwardNamespacedAction = function*() {
             const lastSepIdx = action.type.lastIndexOf("/@");
             const pureAction = action.type.substring(lastSepIdx + 2);
             const path = normalize(action.type.substring(0, lastSepIdx));
-            const matchedPaths = this.pathRegistry.searchSubPath(path);
+            const matchedPaths = this.pathRegistry.searchSubPath(path).filter(matchedPath=>{
+                const { acceptUpperNamespaceActions, localPathPos } = this.namespacedSagaItemStore[matchedPath];
+                if(acceptUpperNamespaceActions) return true;
+                if((path.length-1)>=(localPathPos-1)) return true;
+                return false;
+            });
             if (!matchedPaths || !matchedPaths.length) return;
             const newAction = {
                 ...action,
@@ -72,7 +77,7 @@ function* processCommandAction({ type, payload }) {
 }
 
 function* initSaga(sagaItem) {
-    const { saga, path } = sagaItem;
+    const { saga, path, localPath } = sagaItem;
     const registeredPath = normalize(path);
     if (!registeredPath) {
         yield rsEffects.call([this, initGlobalSaga], saga);
@@ -83,8 +88,9 @@ function* initSaga(sagaItem) {
             `Failed to register namespaced saga: given path \`${registeredPath}\` has been registered.`
         );
     }
+    const localPathPos = localPath ? registeredPath.lastIndexOf(localPath): registeredPath.length;
     const chan = yield rsEffects.call(multicastChannelFactory);
-    const newSagaItem = { ...sagaItem, chan, path: registeredPath };
+    const newSagaItem = { ...sagaItem, chan, path: registeredPath, localPathPos };
     const effects = {};
     Object.keys(namespacedEffects).forEach(idx => {
         effects[idx] = partial(namespacedEffects[idx], newSagaItem);
@@ -140,7 +146,7 @@ class SagaRegistry {
             );
         const sagaItem = {
             saga,
-            ...(typeof sagaOptions === "object" ? sagaOptions : {})
+            ...(is.object(sagaOptions) ? sagaOptions : {})
         };
         this.hostSagaCommandChan.dispatch(actions.initSaga(sagaItem));
     }
