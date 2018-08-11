@@ -61,7 +61,7 @@ function* startCommandChan() {
         }
     } finally {
         if (yield rsEffects.cancelled()) {
-            log("Terminating Global Host Saga Commandline Channel.");
+            log("Terminating Global Host Saga Command Channel.");
             commandChan.close();
         }
     }
@@ -106,13 +106,29 @@ function* initSaga(sagaItem) {
     Object.keys(namespacedEffects).forEach(idx => {
         effects[idx] = partial(namespacedEffects[idx], newSagaItem);
     });
-    const task = yield rsEffects.fork(saga, effects);
+    const task = yield rsEffects.fork(function*() {
+        try {
+            yield rsEffects.call(saga, effects);
+        } catch (e) {
+            log(
+                `Error thrown from saga registered at \`${registeredPath}\`: `,
+                "error",
+                e
+            );
+        }
+    });
     const registerSagaItem = { ...newSagaItem, task };
     this.namespacedSagaItemStore[registeredPath] = registerSagaItem;
 }
 
 function* initGlobalSaga(saga) {
-    const task = yield rsEffects.fork(saga);
+    const task = yield rsEffects.fork(function*() {
+        try {
+            yield rsEffects.call(saga);
+        } catch (e) {
+            log("Error thrown from registered global saga: ", "error", e);
+        }
+    });
     this.globalSagaTaskList.push(task);
 }
 
