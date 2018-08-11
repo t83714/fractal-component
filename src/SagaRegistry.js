@@ -23,17 +23,21 @@ const forwardNamespacedAction = function*() {
             const lastSepIdx = action.type.lastIndexOf("/@");
             const pureAction = action.type.substring(lastSepIdx + 2);
             const path = normalize(action.type.substring(0, lastSepIdx));
-            const matchedPaths = this.pathRegistry.searchSubPath(path).filter(matchedPath=>{
-                const { acceptUpperNamespaceActions, localPathPos } = this.namespacedSagaItemStore[matchedPath];
-                if(acceptUpperNamespaceActions) return true;
-                if((path.length-1)>=(localPathPos-1)) return true;
-                return false;
-            });
+            const matchedPaths = this.pathRegistry
+                .searchSubPath(path)
+                .filter(matchedPath => {
+                    const {
+                        acceptUpperNamespaceActions,
+                        localPathPos
+                    } = this.namespacedSagaItemStore[matchedPath];
+                    if (acceptUpperNamespaceActions) return true;
+                    if (path.length - 1 >= localPathPos - 1) return true;
+                    return false;
+                });
             if (!matchedPaths || !matchedPaths.length) return;
             const newAction = {
                 ...action,
-                type: pureAction,
-                originType: action.type
+                type: pureAction
             };
             for (let i = 0; i < matchedPaths.length; i++) {
                 const sagaItem = this.namespacedSagaItemStore[matchedPaths[i]];
@@ -88,9 +92,16 @@ function* initSaga(sagaItem) {
             `Failed to register namespaced saga: given path \`${registeredPath}\` has been registered.`
         );
     }
-    const localPathPos = localPath ? registeredPath.lastIndexOf(localPath): registeredPath.length;
+    const localPathPos = localPath
+        ? registeredPath.lastIndexOf(localPath)
+        : registeredPath.length;
     const chan = yield rsEffects.call(multicastChannelFactory);
-    const newSagaItem = { ...sagaItem, chan, path: registeredPath, localPathPos };
+    const newSagaItem = {
+        ...sagaItem,
+        chan,
+        path: registeredPath,
+        localPathPos
+    };
     const effects = {};
     Object.keys(namespacedEffects).forEach(idx => {
         effects[idx] = partial(namespacedEffects[idx], newSagaItem);

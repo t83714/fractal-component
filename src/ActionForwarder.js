@@ -44,6 +44,7 @@ function* forwarderSaga(effects) {
     yield effects.takeEvery(
         this.props.pattern ? this.props.pattern : "*",
         function*(action) {
+            if (action.senderPath === this.componentManager.fullPath) return;
             const newAction = actionTransformer(action, this.props.transformer);
             //--- unnamespace forward
             if (this.props.toGlobal === true) {
@@ -65,7 +66,7 @@ function* forwarderSaga(effects) {
                  * `${props.namespace}/io.github.t83714/${this.componentManager.componentId}`
                  * Add `../../` to `props.relativeDispatchPath` so that relative namespace path
                  * will start from `${props.namespace}`.
-                 * This might be easier for people to use `ActionForwarder` as we don't need to 
+                 * This might be easier for people to use `ActionForwarder` as we don't need to
                  * always add `two levels up` in order to throw action out of `ActionForwarder`
                  */
                 const relativeDispatchPath = this.props.relativeDispatchPath

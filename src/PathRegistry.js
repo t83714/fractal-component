@@ -63,7 +63,14 @@ export class PathContext {
         if (isMulticast && absolutePath !== "") pathParts.push("*");
         pathParts.push(pathParts.length ? `@${action.type}` : action.type);
         const type = pathParts.join("/");
-        return { ...action, type, originPath: absolutePath };
+        return {
+            ...action,
+            type,
+            resolvedPath: absolutePath,
+            senderPath: this.cwd,
+            isMulticast,
+            pureType: actionType
+        };
     }
 }
 
