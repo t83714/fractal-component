@@ -11,7 +11,7 @@ class ActionForwarder extends React.Component {
     constructor(props) {
         super(props);
         this.componentManager = AppContainerUtils.registerComponent(this, {
-            namespace: `${props.namespace}/io.github.t83714`,
+            namespace: "io.github.t83714",
             saga: forwarderSaga
         });
     }
@@ -22,7 +22,7 @@ class ActionForwarder extends React.Component {
 }
 
 ActionForwarder.propTypes = {
-    namespace: PropTypes.string.isRequired,
+    namespacePrefix: PropTypes.string.isRequired,
     pattern: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.func,
@@ -43,7 +43,8 @@ ActionForwarder.propTypes = {
 function* forwarderSaga(effects) {
     yield effects.takeEvery(
         this.props.pattern ? this.props.pattern : "*",
-        function*(action) {
+        (function*(action) {
+            //--- avoid forwarder loop
             if (action.senderPath === this.componentManager.fullPath) return;
             const newAction = actionTransformer(action, this.props.transformer);
             //--- unnamespace forward
@@ -74,7 +75,7 @@ function* forwarderSaga(effects) {
                     : "";
                 yield effects.put(newAction, relativeDispatchPath);
             }
-        }.bind(this)
+        }).bind(this)
     );
 }
 

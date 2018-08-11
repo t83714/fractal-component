@@ -107,7 +107,11 @@ export default class PathRegistry {
         if (cleanPath[cleanPath.length - 1] === "/") {
             cleanPath = cleanPath.substring(0, cleanPath.length - 1);
         }
-        return this.paths.filter(item => item.indexOf(cleanPath) === 0);
+        return this.paths.filter(item => {
+            if(item === cleanPath) return true;
+            if(item.indexOf(cleanPath+"/") === 0) return true;
+            return false;
+        });
     }
 }
 
