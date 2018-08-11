@@ -18,3 +18,10 @@ export function newGif() {
         type: actionTypes.NEW_GIF
     };
 }
+
+export function requestNewGifError(error) {
+    return {
+        type: actionTypes.REQUEST_NEW_GIF_ERROR,
+        payload: error
+    };
+}

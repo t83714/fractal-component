@@ -49,8 +49,7 @@ const mainSaga = function*(effects) {
             //--- specify the action dispatch path
             yield effects.put(actions.newGif(), "../../*");
         } catch (e) {
-            console.log(e);
-            throw e;
+            yield effects.put(actions.requestNewGifError(e));
         }
     });
 };

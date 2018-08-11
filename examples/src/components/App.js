@@ -1,21 +1,38 @@
 import * as React from "react";
 //-- import fractal-component lib from src entry point
-import { AppContainerUtils, ActionForwarder } from "../../../src/index";
+import { ActionForwarder } from "../../../src/index";
 import RandomGif from "./RandomGif";
+import RandomGifPair from "./RandomGifPair";
 import Counter from "./Counter";
 
 export default () => (
     <div>
-        <RandomGif namespacePrefix="exampleApp/RandomGif" />
+        <div>
+            <RandomGif namespacePrefix="exampleApp/RandomGif" hideButton={true} />
+            <ActionForwarder
+                namespacePrefix="exampleApp/RandomGif"
+                pattern="NEW_GIF"
+                relativeDispatchPath="../Counter/*"
+                transformer="INCREASE_COUNT"
+            />
+        </div>
+        <div>
+            <RandomGifPair namespacePrefix="exampleApp/RandomGifPair" />
+            <ActionForwarder
+                namespacePrefix="exampleApp/RandomGifPair"
+                pattern="NEW_GIF"
+                relativeDispatchPath="../Counter/*"
+                transformer="INCREASE_COUNT"
+            />
+        </div>
 
-
-
-        <ActionForwarder
-            namespace="exampleApp/RandomGif"
-            pattern="NEW_GIF"
-            relativeDispatchPath="../Counter/*"
-            transformer="INCREASE_COUNT"
-        />
         <Counter namespacePrefix="exampleApp/Counter" />
+
+        <div>
+            <div style={{ textAlign: "center", color: "red" }}>Random Gif</div>
+            <div>
+                <img width="100px" />
+            </div>
+        </div>
     </div>
 );

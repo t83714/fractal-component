@@ -6,6 +6,9 @@
     "start": "webpack-dev-server"
   },
   "dependencies": {
+    "color": "^3.0.0",
+    "jss": "^9.8.7",
+    "jss-preset-default": "^4.5.0",
     "redux-saga": "^1.0.0-beta.1"
   },
   "devDependencies": {
