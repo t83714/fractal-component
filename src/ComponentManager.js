@@ -77,7 +77,7 @@ class ComponentManager {
             throw new Error("`namespacePrefix` cannot contain `*`.");
         if (
             this.componentInstance.props &&
-            typeof is.bool(
+            is.bool(
                 this.componentInstance.props.acceptUpperNamespaceActions
             )
         ) {

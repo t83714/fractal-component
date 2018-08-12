@@ -1,7 +1,7 @@
-import { is as reduxSagaIs } from "redux-saga/utils";
+import { is as reduxSagaIs, GuardPredicate } from "redux-saga/utils";
 
-interface extraIs extends reduxSagaIs{
+const extraIs: {
     bool: GuardPredicate<boolean>;
-}
+};
 
-export const is: extraIs;
+export const is: (typeof extraIs & typeof reduxSagaIs);

@@ -23,17 +23,7 @@ const forwardNamespacedAction = function*() {
             const lastSepIdx = action.type.lastIndexOf("/@");
             const pureAction = action.type.substring(lastSepIdx + 2);
             const path = normalize(action.type.substring(0, lastSepIdx));
-            const matchedPaths = this.pathRegistry
-                .searchSubPath(path)
-                .filter(matchedPath => {
-                    const {
-                        acceptUpperNamespaceActions,
-                        localPathPos
-                    } = this.namespacedSagaItemStore[matchedPath];
-                    if (acceptUpperNamespaceActions) return true;
-                    if (path.length - 1 >= localPathPos - 1) return true;
-                    return false;
-                });
+            const matchedPaths = this.pathRegistry.searchSubPath(path);
             if (!matchedPaths || !matchedPaths.length) return;
             const newAction = {
                 ...action,
@@ -87,14 +77,15 @@ function* initSaga(sagaItem) {
         yield rsEffects.call([this, initGlobalSaga], saga);
         return;
     }
-    if (this.pathRegistry.add(registeredPath) === null) {
+    const localPathPos = localPath
+        ? registeredPath.lastIndexOf(localPath)
+        : registeredPath.length;
+        
+    if (this.pathRegistry.add(registeredPath, localPathPos) === null) {
         throw new Error(
             `Failed to register namespaced saga: given path \`${registeredPath}\` has been registered.`
         );
     }
-    const localPathPos = localPath
-        ? registeredPath.lastIndexOf(localPath)
-        : registeredPath.length;
     const chan = yield rsEffects.call(multicastChannelFactory);
     const newSagaItem = {
         ...sagaItem,

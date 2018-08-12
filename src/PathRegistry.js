@@ -80,13 +80,17 @@ export class PathContext {
 export default class PathRegistry {
     constructor() {
         this.paths = [];
+        this.localPathPosStore = {};
     }
 
-    add(path) {
+    add(path, localPathPos = null) {
         validate(path);
         path = normalize(path);
         if (this.paths.indexOf(path) !== -1) return null;
         this.paths.push(path);
+        if (is.number(localPathPos)) {
+            this.localPathPosStore[path] = localPathPos;
+        }
         return path;
     }
 
@@ -94,6 +98,7 @@ export default class PathRegistry {
         validate(path);
         path = normalize(path);
         this.paths = this.paths.filter(item => item !== path);
+        delete this.localPathPosStore[path];
     }
 
     exist(path) {
@@ -101,7 +106,7 @@ export default class PathRegistry {
         else return false;
     }
 
-    searchSubPath(path) {
+    searchSubPath(path, includeUpperNamespace = false) {
         if (path[path.length - 1] !== "*") {
             if (this.exist(path)) return [path];
             else return [];
@@ -112,8 +117,17 @@ export default class PathRegistry {
         }
         return this.paths.filter(item => {
             if (item === cleanPath) return true;
-            if (item.indexOf(cleanPath + "/") === 0) return true;
-            return false;
+            if (item.indexOf(cleanPath + "/") !== 0) return false;
+            if (includeUpperNamespace === true) return true;
+            const localPathPos = this.localPathPosStore[item];
+            if (is.number(localPathPos)) {
+                if (item.length - 1 >= localPathPos - 1) return true;
+                return false;
+            }
+            throw new Error(
+                "`localPathPos` was not supplied to `PathRegistry` " +
+                    "while requested `searchSubPath` to exclude UpperNamespaces from matches."
+            );
         });
     }
 }
