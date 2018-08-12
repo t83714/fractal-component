@@ -10,10 +10,10 @@ export class PathContext {
         }
     }
 
-    getLastSegment(){
+    getLastSegment() {
         const idx = this.cwd.lastIndexOf("/");
-        if(idx >= this.cwd.length-1) return "";
-        return this.cwd.substring(idx+1);
+        if (idx >= this.cwd.length - 1) return "";
+        return this.cwd.substring(idx + 1);
     }
 
     compressPath(paths, ignoreExcessDoubleDot = true) {
@@ -57,10 +57,12 @@ export class PathContext {
         if (is.string(action)) {
             action = { type: action };
         }
-        if(!is.object(action)){
-            throw new Error(`Tried to dispatch action in invalid type: ${typeof action}`);
+        if (!is.object(action)) {
+            throw new Error(
+                `Tried to dispatch action in invalid type: ${typeof action}`
+            );
         }
-        const { type: actionType } = action;
+        const { type: actionType, persistMetaData } = action;
         if (actionType.indexOf("/") !== -1)
             throw new Error("Namespaced action type cannot contains `/`.");
         let path = normalize(relativeDispatchPath);
@@ -75,13 +77,19 @@ export class PathContext {
         if (isMulticast && absolutePath !== "") pathParts.push("*");
         pathParts.push(pathParts.length ? `@${action.type}` : action.type);
         const type = pathParts.join("/");
-        return {
+        const newAction = {
             ...action,
             type,
-            resolvedPath: absolutePath,
-            senderPath: this.cwd,
-            isMulticast,
             pureType: actionType,
+            senderPath: this.cwd
+        };
+        delete newAction.persistMetaData;
+        if (!newAction.originalSenderPath) newAction.originalSenderPath = this.cwd;
+        if (persistMetaData === true) return newAction;
+        return {
+            ...newAction,
+            fromPath: absolutePath,
+            isMulticast,
             componentId: this.getLastSegment()
         };
     }
