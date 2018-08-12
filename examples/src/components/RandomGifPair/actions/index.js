@@ -7,9 +7,11 @@ export function requestNewPair() {
 }
 
 export function newGif() {
-    return {
-        type: actionTypes.NEW_GIF
-    };
+    throw new Error(
+        `As \`RandomGifPair\` component user, you are not supposed to create new action of \`${
+            actionTypes.NEW_GIF
+        }\`. This action is receive only.`
+    );
 }
 
 export function loadingStart() {

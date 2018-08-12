@@ -220,6 +220,21 @@ class RandomGifPair extends React.Component {
                     pattern={RandomGifActionTypes.NEW_GIF}
                     relativeDispatchPath="../../../*"
                 />
+
+                {/**
+                 * Use ActionForwarder to forward LOADING_START & LOADING_COMPLETE actions from `RandomGif`
+                 * to current component (`RandomGifPair`)'s namespace.
+                 * i.e. from `${this.componentManager.fullPath}/Gifs` to `${this.componentManager.fullPath}`
+                 * Thus, `relativeDispatchPath` should be "../*"
+                 */}
+                <ActionForwarder
+                    namespacePrefix={`${this.componentManager.fullPath}/Gifs`}
+                    pattern={action =>
+                        action.type === RandomGifActionTypes.LOADING_START ||
+                        action.type === RandomGifActionTypes.LOADING_COMPLETE
+                    }
+                    relativeDispatchPath="../*"
+                />
             </div>
         );
     }
