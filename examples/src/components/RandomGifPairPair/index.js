@@ -5,10 +5,10 @@ import color from "color";
 //-- import fractal-component lib from src entry point
 import { AppContainerUtils, ActionForwarder } from "../../../../src/index";
 
-import RandomGif, {
-    actions as RandomGifActions,
-    actionTypes as RandomGifActionTypes
-} from "../RandomGif";
+import RandomGifPair, {
+    actions as RandomGifPairActions,
+    actionTypes as RandomGifPairActionTypes
+} from "../RandomGifPair";
 
 import * as actions from "./actions";
 import * as actionTypes from "./actions/types";
@@ -54,7 +54,7 @@ const styles = {
 const jss = jssCreate(jssDefaultPreset());
 const { classes } = jss.createStyleSheet(styles).attach();
 
-class RandomGifPair extends React.Component {
+class RandomGifPairPair extends React.Component {
     constructor(props) {
         super(props);
         /**
@@ -71,7 +71,7 @@ class RandomGifPair extends React.Component {
             namespace: "io.github.t83714",
             reducer: function(state, action) {
                 switch (action.type) {
-                    case RandomGifActionTypes.LOADING_START:
+                    case RandomGifPairActionTypes.LOADING_START:
                         return {
                             ...state,
                             isLoading: {
@@ -79,7 +79,7 @@ class RandomGifPair extends React.Component {
                                 [action.componentId]: true
                             }
                         };
-                    case RandomGifActionTypes.LOADING_COMPLETE:
+                    case RandomGifPairActionTypes.LOADING_COMPLETE:
                         const { isSuccess, error } = action.payload;
                         return {
                             ...state,
@@ -98,7 +98,7 @@ class RandomGifPair extends React.Component {
             },
             saga: function*(effects) {
                 yield effects.takeEvery(
-                    RandomGifActionTypes.LOADING_START,
+                    RandomGifPairActionTypes.LOADING_START,
                     function*() {
                         /**
                          * throw expose action out of box
@@ -119,7 +119,7 @@ class RandomGifPair extends React.Component {
                     }
                 );
                 yield effects.takeEvery(
-                    RandomGifActionTypes.LOADING_COMPLETE,
+                    RandomGifPairActionTypes.LOADING_COMPLETE,
                     function*() {
                         /**
                          * throw expose action out of box
@@ -147,12 +147,12 @@ class RandomGifPair extends React.Component {
                         }
                     }
                 );
-                // --- monitor `REQUEST_NEW_PAIR` and send multicast actions to RandomGifs
+                // --- monitor `REQUEST_NEW_PAIR_PAIR` and send multicast actions to RandomGifPairs
                 yield effects.takeEvery(
-                    actionTypes.REQUEST_NEW_PAIR,
+                    actionTypes.REQUEST_NEW_PAIR_PAIR,
                     function*() {
                         yield effects.put(
-                            RandomGifActions.requestNewGif(),
+                            RandomGifPairActions.requestNewPair(),
                             "./Gifs/*"
                         );
                     }
@@ -181,7 +181,7 @@ class RandomGifPair extends React.Component {
                             showButton={false}
                             namespacePrefix={`${
                                 this.componentManager.fullPath
-                            }/Gifs`}
+                            }/GifPairs`}
                         />
                     </div>
                     <div>
@@ -189,7 +189,7 @@ class RandomGifPair extends React.Component {
                             showButton={false}
                             namespacePrefix={`${
                                 this.componentManager.fullPath
-                            }/Gifs`}
+                            }/GifPairs`}
                         />
                     </div>
                 </div>
@@ -203,21 +203,15 @@ class RandomGifPair extends React.Component {
                             }}
                             disabled={isLoading}
                         >
-                            {isLoading ? "Loading..." : "Get Gif Pair"}
+                            {isLoading ? "Loading..." : "Get Gif Pair Pair"}
                         </button>
                     </div>
                 )}
-                {/**
-                 * Use ActionForwarder to throw NEW_GIF out of RandomGifPair container
-                 * Set namespace to `${this.componentManager.fullPath}/Gifs` in order to listen to
-                 * all `out of box` actions from two `RandomGif` components
-                 * Here, we don't need (shouldn't) to use a `transformer` to make any changes to actions because:
-                 * - As a component author, we are not supposed to know any component is more interested in `INCREASE_COUNT` actions
-                 * - There is an `ActionForwarder` outside this box already and will do all transformation job
-                 */}
                 <ActionForwarder
-                    namespacePrefix={`${this.componentManager.fullPath}/Gifs`}
-                    pattern={RandomGifActionTypes.NEW_GIF}
+                    namespacePrefix={`${
+                        this.componentManager.fullPath
+                    }/GifPairs`}
+                    pattern={RandomGifPairActionTypes.NEW_GIF}
                     relativeDispatchPath="../../../*"
                 />
             </div>
@@ -234,8 +228,7 @@ export default RandomGifPair;
 const exposedActionList = [
     actionTypes.LOADING_START,
     actionTypes.LOADING_COMPLETE,
-    actionTypes.REQUEST_NEW_PAIR,
-    actionTypes.NEW_GIF
+    actionTypes.REQUEST_NEW_PAIR
 ];
 
 const exposedActionTypes = {};
