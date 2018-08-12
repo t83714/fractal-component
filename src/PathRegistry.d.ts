@@ -2,11 +2,16 @@ import { Action } from "redux";
 
 export declare class PathContext {
     constructor(cwd: string);
+    cwd: string;
+    getLastSegment(): string;
     compressPath(
         paths: string[] | string,
         ignoreExcessDoubleDot: boolean = true
     ): string;
-    convertNamespacedAction(action: Action, relativeDispatchPath: string): Action;
+    convertNamespacedAction(
+        action: Action,
+        relativeDispatchPath: string
+    ): Action;
     resolve(...paths: string): string;
 }
 

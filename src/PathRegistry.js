@@ -10,6 +10,12 @@ export class PathContext {
         }
     }
 
+    getLastSegment(){
+        const idx = this.cwd.lastIndexOf("/");
+        if(idx >= this.cwd.length-1) return "";
+        return this.cwd.substring(idx+1);
+    }
+
     compressPath(paths, ignoreExcessDoubleDot = true) {
         if (is.string(paths)) paths = [paths];
         const calculatedParts = [];
@@ -72,7 +78,8 @@ export class PathContext {
             resolvedPath: absolutePath,
             senderPath: this.cwd,
             isMulticast,
-            pureType: actionType
+            pureType: actionType,
+            componentId: this.getLastSegment()
         };
     }
 }
