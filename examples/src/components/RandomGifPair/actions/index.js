@@ -1,20 +1,23 @@
 import * as actionTypes from "./types";
 
-export function requestNewGif() {
+export function requestNewPair() {
     return {
-        type: actionTypes.REQUEST_NEW_GIF
+        type: actionTypes.REQUEST_NEW_PAIR
     };
 }
 
-export function receiveNewGif(imgUrl) {
+export function loadingStart() {
     return {
-        type: actionTypes.RECEIVE_NEW_GIF,
-        payload: imgUrl
+        type: actionTypes.LOADING_START
     };
 }
 
-export function increaseCounter() {
+export function loadingComplete(error = null) {
     return {
-        type: actionTypes.INCREASE_COUNTER
+        type: actionTypes.LOADING_COMPLETE,
+        payload: {
+            isSuccess: error ? false : true,
+            error
+        }
     };
 }

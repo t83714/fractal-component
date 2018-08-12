@@ -8,6 +8,8 @@ import { AppContainerUtils } from "../../../../src/index";
 import reducer from "./reducers";
 import saga from "./sagas";
 import * as actions from "./actions";
+import * as actionTypes from "./actions/types";
+import camelCase from "lodash/camelCase";
 
 const styles = {
     table: {
@@ -121,3 +123,24 @@ RandomGif.defaultProps = {
 };
 
 export default RandomGif;
+
+const exposedActionList = [
+    actionTypes.NEW_GIF,
+    actionTypes.LOADING_START,
+    actionTypes.LOADING_COMPLETE,
+    actionTypes.REQUEST_NEW_GIF
+];
+
+const exposedActionTypes = {};
+const exposedActions = {};
+
+exposedActionList.forEach(act => {
+    const camelcaseAct = camelCase(act);
+    exposedActionTypes[act] = act;
+    exposedActions[camelcaseAct] = actions[camelcaseAct];
+});
+
+/**
+ * expose actions for component users
+ */
+export { exposedActionTypes as actionTypes, exposedActions as actions };

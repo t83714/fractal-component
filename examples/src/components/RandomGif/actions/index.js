@@ -25,3 +25,19 @@ export function requestNewGifError(error) {
         payload: error
     };
 }
+
+export function loadingStart() {
+    return {
+        type: actionTypes.LOADING_START
+    };
+}
+
+export function loadingComplete(error = null) {
+    return {
+        type: actionTypes.LOADING_COMPLETE,
+        payload: {
+            isSuccess: error ? false : true,
+            error
+        }
+    };
+}

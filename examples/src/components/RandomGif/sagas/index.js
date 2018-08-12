@@ -30,6 +30,12 @@ function fetchGif() {
 const mainSaga = function*(effects) {
     yield effects.takeLeading(actionTypes.REQUEST_NEW_GIF, function*() {
         try {
+            /**
+             * Dedicated LOADING_START action to notify interested components outside
+             * This component will not use it in any way
+             */
+            yield effects.put(actions.loadingStart(), "../../*");
+
             const response = yield call(fetchGif);
             const imgUrl = response.data.fixed_width_small_url;
             yield effects.put(actions.receiveNewGif(imgUrl));
@@ -48,8 +54,17 @@ const mainSaga = function*(effects) {
             //--- optional second `relativeDispatchPath` parameter
             //--- specify the action dispatch path
             yield effects.put(actions.newGif(), "../../*");
+            /**
+             * Dedicated LOADING_COMPLETE action to notify interested components outside
+             */
+            yield effects.put(actions.loadingComplete(), "../../*");
         } catch (e) {
             yield effects.put(actions.requestNewGifError(e));
+            /**
+             * Dedicated LOADING_COMPLETE action to notify interested components outside
+             * This component will not use it in any way
+             */
+            yield effects.put(actions.loadingComplete(e), "../../*");
         }
     });
 };

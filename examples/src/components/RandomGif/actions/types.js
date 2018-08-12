@@ -1,4 +1,6 @@
 export const REQUEST_NEW_GIF = "REQUEST_NEW_GIF";
 export const RECEIVE_NEW_GIF = "RECEIVE_NEW_GIF";
-export const NEW_GIF = "NEW_GIF";
 export const REQUEST_NEW_GIF_ERROR = "REQUEST_NEW_GIF_ERROR";
+export const NEW_GIF = "NEW_GIF";
+export const LOADING_START = "LOADING_START";
+export const LOADING_COMPLETE = "LOADING_COMPLETE";
