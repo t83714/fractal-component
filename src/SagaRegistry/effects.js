@@ -12,6 +12,7 @@ import {
 } from "redux-saga";
 import objectPath from "object-path";
 import { PathContext } from "../PathRegistry";
+import { is } from "../utils";
 
 export function take(sagaItem, pattern) {
     const { chan } = sagaItem;
@@ -33,7 +34,10 @@ export function select(sagaItem, selector, ...args) {
     const pathItems = path.split("/");
     return oSelect(state => {
         const namespacedState = objectPath.get(state, pathItems);
-        return selector(namespacedState, ...args);
+        if (selector && is.func(selector)) {
+            return selector(namespacedState, ...args);
+        }
+        return namespacedState;
     });
 }
 
