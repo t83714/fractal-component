@@ -3,6 +3,7 @@ import * as actions from "./ReducerRegistry/actions";
 import PathRegistry, { normalize } from "./PathRegistry";
 import objectPath from "object-path";
 import objectPathImmutable from "object-path-immutable";
+import intersection from "lodash/intersection";
 
 const defaultReducerOptions = {
     initState: {},
@@ -18,20 +19,32 @@ function processInitState(state, action) {
     const doNotReplace = persistState;
     const hasData = objectPath.has(state, pathItems);
     if (hasData) {
-        if (doNotReplace) return state;
-        else return objectPathImmutable.set(state, pathItems, data);
-    } else {
-        return objectPathImmutable.set(state, pathItems, data);
+        if (doNotReplace) {
+            const existingData = objectPath.get(state, pathItems);
+            if (
+                intersection(Object.keys(existingData), Object.keys(data))
+                    .length
+            ) {
+                //--- has initilised
+                return state;
+            }
+        }
     }
+    return objectPathImmutable.assign(state, pathItems, data);
 }
 
 /**
  * This function should NOT return a new state copy
  */
 function processEmptyState(state, action) {
-    const path = action.payload;
+    const { path, data } = action.payload;
     const pathItems = path.split("/");
-    return objectPathImmutable.del(state, pathItems);
+    return objectPathImmutable.update(state, pathItems, targetState => {
+        Object.keys(data).forEach(key=>{
+            delete targetState[key];
+        });
+        return targetState;
+    });
 }
 
 function processNamespacedAction(state, action) {
@@ -47,13 +60,13 @@ function processNamespacedAction(state, action) {
         const { reducer } = this.reducerStore[p];
         if (!reducer || typeof reducer !== "function") return;
         const pathItems = p.split("/");
-        const componentState = objectPath.set(state, pathItems);
+        const componentState = objectPath.get(state, pathItems);
         const newComponentState = reducer(componentState, newAction);
         if (componentState === newComponentState) {
             //--- skip update when no changes; likely not interested action
             return;
         } else {
-            newState = objectPathImmutable.set(
+            newState = objectPathImmutable.assign(
                 newState,
                 pathItems,
                 newComponentState
@@ -117,7 +130,7 @@ class ReducerRegistry {
             ? registeredPath.lastIndexOf(localPath)
             : registeredPath.length;
 
-        if (this.pathRegistry.add(registeredPath,localPathPos) === null) {
+        if (this.pathRegistry.add(registeredPath, localPathPos) === null) {
             throw new Error(
                 `Failed to register namespaced reducer: given path \`${registeredPath}\` has been registered.`
             );
@@ -143,9 +156,9 @@ class ReducerRegistry {
         const reduceItem = this.reducerStore[normalizedPath];
         if (!reduceItem) return;
         delete this.reducerStore[normalizedPath];
-        const { persistState } = reduceItem;
+        const { persistState, initState } = reduceItem;
         if (persistState) return;
-        emptyInitState.call(this, normalizedPath);
+        emptyInitState.call(this, normalizedPath, initState);
     }
 }
 
@@ -159,12 +172,12 @@ function setInitState(path, initState, persistState) {
     );
 }
 
-function emptyInitState(path) {
+function emptyInitState(path, initState) {
     if (!this.appContainer.store)
         throw new Error(
             "Failed to set init state for component reducer: redux store not available yet!"
         );
-    this.store.dispatch(actions.emptyState(path));
+    this.store.dispatch(actions.emptyState(path, initState));
 }
 
 export default ReducerRegistry;

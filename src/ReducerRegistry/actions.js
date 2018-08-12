@@ -11,10 +11,13 @@ export const initState = function(path, data, persistState) {
     };
 };
 
-export const emptyState = function(path) {
+export const emptyState = function(path, data) {
     return {
         type: actionTypes.EMPTY_STATE,
-        payload: path
+        payload: {
+            path,
+            data
+        }
     };
 };
 
