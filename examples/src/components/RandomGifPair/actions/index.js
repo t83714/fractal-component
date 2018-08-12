@@ -6,6 +6,12 @@ export function requestNewPair() {
     };
 }
 
+export function newGif() {
+    return {
+        type: actionTypes.NEW_GIF
+    };
+}
+
 export function loadingStart() {
     return {
         type: actionTypes.LOADING_START

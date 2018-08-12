@@ -237,7 +237,8 @@ export default RandomGifPair;
 const exposedActionList = [
     actionTypes.LOADING_START,
     actionTypes.LOADING_COMPLETE,
-    actionTypes.REQUEST_NEW_PAIR
+    actionTypes.REQUEST_NEW_PAIR,
+    actionTypes.NEW_GIF
 ];
 
 const exposedActionTypes = {};
