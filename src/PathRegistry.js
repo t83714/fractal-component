@@ -57,6 +57,9 @@ export class PathContext {
         if (is.string(action)) {
             action = { type: action };
         }
+        if(!is.object(action)){
+            throw new Error(`Tried to dispatch action in invalid type: ${typeof action}`);
+        }
         const { type: actionType } = action;
         if (actionType.indexOf("/") !== -1)
             throw new Error("Namespaced action type cannot contains `/`.");

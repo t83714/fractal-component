@@ -49,6 +49,10 @@ class AppContainer {
         );
         const middlewares = [
             ...containerCreationOptions.middlewares,
+            /**
+             * Make sure `sagaMiddleware` is the last in the list
+             * Therefore, reducers are run before saga.
+             */
             sagaMiddleware
         ];
         this.eventEmitters = [];
