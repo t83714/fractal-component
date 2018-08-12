@@ -1,4 +1,3 @@
 export const REQUEST_NEW_PAIR = "REQUEST_NEW_PAIR";
-export const NEW_PAIR = "NEW_PAIR";
 export const LOADING_START = "LOADING_START";
 export const LOADING_COMPLETE = "LOADING_COMPLETE";
