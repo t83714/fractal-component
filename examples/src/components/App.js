@@ -3,6 +3,7 @@ import * as React from "react";
 import { ActionForwarder } from "../../../src/index";
 import RandomGif from "./RandomGif";
 import RandomGifPair from "./RandomGifPair";
+import RandomGifPairPair from "./RandomGifPairPair";
 import Counter from "./Counter";
 
 export default () => (
@@ -20,6 +21,15 @@ export default () => (
             <RandomGifPair namespacePrefix="exampleApp/RandomGifPair" />
             <ActionForwarder
                 namespacePrefix="exampleApp/RandomGifPair"
+                pattern="NEW_GIF"
+                relativeDispatchPath="../Counter/*"
+                transformer="INCREASE_COUNT"
+            />
+        </div>
+        <div>
+            <RandomGifPairPair namespacePrefix="exampleApp/RandomGifPairPair" />
+            <ActionForwarder
+                namespacePrefix="exampleApp/RandomGifPairPair"
                 pattern="NEW_GIF"
                 relativeDispatchPath="../Counter/*"
                 transformer="INCREASE_COUNT"

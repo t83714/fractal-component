@@ -153,14 +153,6 @@ export default class PathRegistry {
             else return [];
         }
 
-        let isOutbound;
-        if (!action.currentSenderPath) isOutbound = false;
-        else {
-            isOutbound =
-                action.currentSenderPath.indexOf(action.currentDispatchPath) ===
-                0;
-        }
-
         const r = this.paths.filter(item => {
             // --- exact match will always be included
             if (item === dispatchPath) return true;
