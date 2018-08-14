@@ -40,7 +40,7 @@ function processEmptyState(state, action) {
     const { path, data } = action.payload;
     const pathItems = path.split("/");
     return objectPathImmutable.update(state, pathItems, targetState => {
-        Object.keys(data).forEach(key=>{
+        Object.keys(data).forEach(key => {
             delete targetState[key];
         });
         return targetState;
@@ -48,12 +48,10 @@ function processEmptyState(state, action) {
 }
 
 function processNamespacedAction(state, action) {
-    const lastSepIdx = action.type.lastIndexOf("/@");
-    if (lastSepIdx === -1) return state;
-    const pureAction = action.type.substring(lastSepIdx + 2);
-    const path = normalize(action.type.substring(0, lastSepIdx));
-    const matchedPaths = this.pathRegistry.searchSubPath(path);
+    const matchedPaths = this.pathRegistry.searchDispatchPaths(action);
     if (!matchedPaths || !matchedPaths.length) return state;
+    const lastSepIdx = action.type.lastIndexOf("/@");
+    const pureAction = action.type.substring(lastSepIdx + 2);
     const newAction = { ...action, type: pureAction };
     let newState = state;
     matchedPaths.forEach(p => {

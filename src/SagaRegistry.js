@@ -20,15 +20,11 @@ const forwardNamespacedAction = function*() {
     yield rsEffects.takeEvery(
         action => action.type.indexOf("/@") !== -1,
         function*(action) {
+            const matchedPaths = this.pathRegistry.searchDispatchPaths(action);
+            if (!matchedPaths || !matchedPaths.length) return;
             const lastSepIdx = action.type.lastIndexOf("/@");
             const pureAction = action.type.substring(lastSepIdx + 2);
-            const path = normalize(action.type.substring(0, lastSepIdx));
-            const matchedPaths = this.pathRegistry.searchSubPath(path);
-            if (!matchedPaths || !matchedPaths.length) return;
-            const newAction = {
-                ...action,
-                type: pureAction
-            };
+            const newAction = {...action, type: pureAction};
             for (let i = 0; i < matchedPaths.length; i++) {
                 const sagaItem = this.namespacedSagaItemStore[matchedPaths[i]];
                 if (!sagaItem || !sagaItem.chan) continue;

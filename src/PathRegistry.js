@@ -62,7 +62,7 @@ export class PathContext {
                 `Tried to dispatch action in invalid type: ${typeof action}`
             );
         }
-        const { type: actionType, persistMetaData } = action;
+        const { type: actionType } = action;
         if (actionType.indexOf("/") !== -1)
             throw new Error("Namespaced action type cannot contains `/`.");
         let path = normalize(relativeDispatchPath);
@@ -80,18 +80,19 @@ export class PathContext {
         const newAction = {
             ...action,
             type,
-            pureType: actionType,
-            senderPath: this.cwd
-        };
-        delete newAction.persistMetaData;
-        if (!newAction.originalSenderPath) newAction.originalSenderPath = this.cwd;
-        if (persistMetaData === true) return newAction;
-        return {
-            ...newAction,
-            fromPath: absolutePath,
             isMulticast,
-            componentId: this.getLastSegment()
+            pureType: actionType,
+            currentSenderPath: this.cwd,
+            currentDispatchPath: absolutePath,
+            currentComponentId: this.getLastSegment()
         };
+        if (!newAction.senderPath)
+            newAction.senderPath = newAction.currentSenderPath;
+        if (!newAction.dispatchPath)
+            newAction.dispatchPath = newAction.currentDispatchPath;
+        if (!newAction.componentId)
+            newAction.componentId = newAction.currentComponentId;
+        return newAction;
     }
 }
 
@@ -124,29 +125,76 @@ export default class PathRegistry {
         else return false;
     }
 
-    searchSubPath(path, includeUpperNamespace = false) {
-        if (path[path.length - 1] !== "*") {
-            if (this.exist(path)) return [path];
+    /**
+     *
+     * @param {Action} action dispatch Action
+     * If an action dispatch reached or beyond a container local namespace boundary,
+     * we consider it as an outbound dispatch. Otherwise, it's an inbound dispatch.
+     * For a given action, if action.currentSenderPath is sub path of action.dispatch path,
+     * we will consider the action is in a `Outbound` dispatch.
+     * Outbound dispatch should not dispatch to any paths unless the dispatch path is
+     * beyond the local namespace boundary defined by localPathPos.
+     * A local namespace is made up of a container component's `namespace` + `componenent ID`.
+     * It doesn't include `namespace prefix`.
+     */
+    searchDispatchPaths(action) {
+        let dispatchPath, isMulticast;
+
+        if (!action.currentDispatchPath) {
+            const lastSepIdx = action.type.lastIndexOf("/@");
+            if (lastSepIdx === -1) return [];
+            let path = normalize(action.type.substring(0, lastSepIdx));
+            isMulticast = path[path.length - 1] === "*";
+            path = path.substring(0, path.length - 1);
+            if (path[path.length - 1] === "/") {
+                path = path.substring(0, path.length - 1);
+            }
+            dispatchPath = path;
+        } else {
+            dispatchPath = action.currentDispatchPath;
+            isMulticast = action.isMulticast;
+        }
+
+        if (!isMulticast) {
+            if (this.exist(dispatchPath)) return [dispatchPath];
             else return [];
         }
-        let cleanPath = path.replace("*", "");
-        if (cleanPath[cleanPath.length - 1] === "/") {
-            cleanPath = cleanPath.substring(0, cleanPath.length - 1);
+
+        let isOutbound;
+        if (!action.currentSenderPath) isOutbound = false;
+        else {
+            isOutbound =
+                action.currentSenderPath.indexOf(action.currentDispatchPath) ===
+                0;
         }
-        return this.paths.filter(item => {
-            if (item === cleanPath) return true;
-            if (item.indexOf(cleanPath + "/") !== 0) return false;
-            if (includeUpperNamespace === true) return true;
+
+        const r = this.paths.filter(item => {
+            // --- exact match will always be included
+            if (item === dispatchPath) return true;
+            // --- only include sub branch paths. e.g. `dispatchPath` is part of and shorter than `item`
+            if (item.indexOf(dispatchPath + "/") !== 0) return false;
+            /**
+             * make sure no `reverse direction` dispatch.
+             * i.e. If an action dispatch reached or beyond a container local namespace boundary,
+             * the action should not be sent back to this container.
+             * i.e. if action.senderPath is sub branch of action.fromPath (i.e. an out going dispatch),
+             * any
+             */
             const localPathPos = this.localPathPosStore[item];
-            if (is.number(localPathPos)) {
-                if (item.length - 1 >= localPathPos - 1) return true;
-                return false;
-            }
-            throw new Error(
-                "`localPathPos` was not supplied to `PathRegistry` " +
-                    "while requested `searchSubPath` to exclude UpperNamespaces from matches."
-            );
+            if (!is.number(localPathPos)) return true;
+            if (dispatchPath.length - 1 >= localPathPos - 2) return true;
+            return false;
+            /*
+            if (isOutbound) {
+                // --- dispatchPath is beyond local namespace boundary
+                if (dispatchPath.length - 1 <= localPathPos -1 ) return true;
+                else return false;
+            } else {
+                if (dispatchPath.length - 1 >= localPathPos - 1) return true;
+                else return false;
+            }*/
         });
+        return r;
     }
 }
 

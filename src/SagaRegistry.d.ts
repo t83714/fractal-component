@@ -17,6 +17,7 @@ export default SagaRegistry;
 
 export interface SagaOptions {
     path?: string;
+    localPath?: string;
 }
 
 export interface SagaItem extends SagaOptions {

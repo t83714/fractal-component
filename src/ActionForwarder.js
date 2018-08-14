@@ -45,16 +45,8 @@ function* forwarderSaga(effects) {
         this.props.pattern ? this.props.pattern : "*",
         (function*(action) {
             //--- avoid forwarder loop
-            if (action.senderPath === this.componentManager.fullPath) return;
+            if (action.currentSenderPath === this.componentManager.fullPath) return;
             const newAction = actionTransformer(action, this.props.transformer);
-            /**
-             * Action metadata:
-             * - fromPath
-             * - isMulticast
-             * - componentId
-             * Will not be updated during action routing
-             */
-            newAction.persistMetaData = true;
             //--- unnamespace forward
             if (this.props.toGlobal === true) {
                 if (this.props.absoluteDispatchPath) {
