@@ -128,14 +128,7 @@ export default class PathRegistry {
     /**
      *
      * @param {Action} action dispatch Action
-     * If an action dispatch reached or beyond a container local namespace boundary,
-     * we consider it as an outbound dispatch. Otherwise, it's an inbound dispatch.
-     * For a given action, if action.currentSenderPath is sub path of action.dispatch path,
-     * we will consider the action is in a `Outbound` dispatch.
-     * Outbound dispatch should not dispatch to any paths unless the dispatch path is
-     * beyond the local namespace boundary defined by localPathPos.
-     * A local namespace is made up of a container component's `namespace` + `componenent ID`.
-     * It doesn't include `namespace prefix`.
+     * 
      */
     searchDispatchPaths(action) {
         let dispatchPath, isMulticast;
@@ -173,26 +166,21 @@ export default class PathRegistry {
             if (item === dispatchPath) return true;
             // --- only include sub branch paths. e.g. `dispatchPath` is part of and shorter than `item`
             if (item.indexOf(dispatchPath + "/") !== 0) return false;
+            
             /**
-             * make sure no `reverse direction` dispatch.
-             * i.e. If an action dispatch reached or beyond a container local namespace boundary,
-             * the action should not be sent back to this container.
-             * i.e. if action.senderPath is sub branch of action.fromPath (i.e. an out going dispatch),
-             * any
+             * the dispatch path must on or beyond local namespace boundary before an action is dispatched to this component.
+             * e.g. For a component:
+             * Namespace Prefix     Namespace               ComponentID
+             * exampleApp/Gifs   /  io.github.t83714    /    RandomGif-sdjiere
+             * The local namespace boundary is between `exampleApp/Gifs` and `io.github.t83714/RandomGif-sdjiere`
+             * Actions dispatched on `exampleApp/Gifs` (on boundary) or 
+             * `exampleApp/Gifs/io.github.t83714` (beyond the boundary) will be accepted by this component.
+             * Actions dispatched on `exampleApp` will not be accepted by this component.
              */
             const localPathPos = this.localPathPosStore[item];
             if (!is.number(localPathPos)) return true;
             if (dispatchPath.length - 1 >= localPathPos - 2) return true;
             return false;
-            /*
-            if (isOutbound) {
-                // --- dispatchPath is beyond local namespace boundary
-                if (dispatchPath.length - 1 <= localPathPos -1 ) return true;
-                else return false;
-            } else {
-                if (dispatchPath.length - 1 >= localPathPos - 1) return true;
-                else return false;
-            }*/
         });
         return r;
     }
