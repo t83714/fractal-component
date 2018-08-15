@@ -5,9 +5,16 @@ import ReducerRegistry from "./ReducerRegistry";
 import SagaRegistry from "./SagaRegistry";
 import * as ReducerRegistryActionTypes from "./ReducerRegistry/actionTypes";
 
+const actionBlackList = Object.keys(ReducerRegistryActionTypes).map(
+    idx => ReducerRegistryActionTypes[idx]
+);
 const defaultDevToolOptions = {
-    actionsBlacklist: Object.keys(ReducerRegistryActionTypes).map(
-        idx => ReducerRegistryActionTypes[idx]
+    actionSanitizer: action => ({ ...action, type: String(action.type) }),
+    predicate: (state, action) => {
+        return action && actionBlackList.indexOf(action.type) ===-1
+    },
+    actionsBlacklist: Object.keys(ReducerRegistryActionTypes).map(idx =>
+        String(ReducerRegistryActionTypes[idx])
     )
 };
 const defaultOptions = {
@@ -57,13 +64,16 @@ class AppContainer {
         ];
         this.eventEmitters = [];
         this.componentRegistry = new ComponentRegistry(this, {
-            isServerSideRendering: containerCreationOptions.isServerSideRendering
+            isServerSideRendering:
+                containerCreationOptions.isServerSideRendering
         });
         this.reducerRegistry = new ReducerRegistry(this);
         this.sagaRegistry = new SagaRegistry();
 
         this.store = createStore(
-            this.reducerRegistry.createGlobalReducer(containerCreationOptions.reducer),
+            this.reducerRegistry.createGlobalReducer(
+                containerCreationOptions.reducer
+            ),
             { ...containerCreationOptions.initState },
             composeEnhancers(applyMiddleware(...middlewares))
         );
@@ -73,11 +83,11 @@ class AppContainer {
         );
     }
 
-    registerComponent(componentInstance, options){
+    registerComponent(componentInstance, options) {
         return this.componentRegistry.register(componentInstance, options);
     }
 
-    deregisterComponent(componentInstance){
+    deregisterComponent(componentInstance) {
         this.componentRegistry.deregister(componentInstance);
     }
 

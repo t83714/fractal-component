@@ -4,6 +4,7 @@ import PathRegistry, { normalize } from "./PathRegistry";
 import objectPath from "object-path";
 import objectPathImmutable from "object-path-immutable";
 import intersection from "lodash/intersection";
+import { is } from "./utils";
 
 const defaultReducerOptions = {
     initState: {},
@@ -48,18 +49,16 @@ function processEmptyState(state, action) {
 }
 
 function processNamespacedAction(state, action) {
+    if(!is.namespacedAction(action)) return state;
     const matchedPaths = this.pathRegistry.searchDispatchPaths(action);
     if (!matchedPaths || !matchedPaths.length) return state;
-    const lastSepIdx = action.type.lastIndexOf("/@");
-    const pureAction = action.type.substring(lastSepIdx + 2);
-    const newAction = { ...action, type: pureAction };
     let newState = state;
     matchedPaths.forEach(p => {
         const { reducer } = this.reducerStore[p];
         if (!reducer || typeof reducer !== "function") return;
         const pathItems = p.split("/");
         const componentState = objectPath.get(state, pathItems);
-        const newComponentState = reducer(componentState, newAction);
+        const newComponentState = reducer(componentState, action);
         if (componentState === newComponentState) {
             //--- skip update when no changes; likely not interested action
             return;
@@ -75,7 +74,7 @@ function processNamespacedAction(state, action) {
 }
 
 function globalReducer(externalGlobalReducer, state, action) {
-    if (!action || !action.type) return state;
+    if(!is.action(action)) return state;
     let newState = state;
     switch (action.type) {
         case actionTypes.INIT_STATE:

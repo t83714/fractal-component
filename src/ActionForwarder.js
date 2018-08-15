@@ -24,7 +24,7 @@ class ActionForwarder extends React.Component {
 ActionForwarder.propTypes = {
     namespacePrefix: PropTypes.string.isRequired,
     pattern: PropTypes.oneOfType([
-        PropTypes.string,
+        PropTypes.symbol,
         PropTypes.func,
         PropTypes.arrayOf(
             PropTypes.oneOfType([PropTypes.string, PropTypes.func])
@@ -37,7 +37,7 @@ ActionForwarder.propTypes = {
 
     absoluteDispatchPath: PropTypes.string,
     relativeDispatchPath: PropTypes.string,
-    transformer: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
+    transformer: PropTypes.oneOfType([PropTypes.symbol, PropTypes.func])
 };
 
 function* forwarderSaga(effects) {
@@ -81,7 +81,7 @@ function* forwarderSaga(effects) {
 
 function actionTransformer(action, transformer) {
     if (!transformer) return action;
-    if (is.string(transformer)) return { ...action, type: transformer };
+    if (is.symbol(transformer)) return { ...action, type: transformer };
     else if (is.func(transformer)) return transformer(action);
     return action;
 }

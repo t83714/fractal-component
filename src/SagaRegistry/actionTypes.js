@@ -1,2 +1,3 @@
-export const INIT_SAGA = "@@fractal-component/INIT_SAGA";
-export const CANCEL_SAGA = "@@fractal-component/CANCEL_SAGA";
+import { getPackageName } from "../utils"; 
+export const INIT_SAGA = Symbol(`@@${getPackageName()}/INIT_SAGA`);
+export const CANCEL_SAGA = Symbol(`@@${getPackageName()}/CANCEL_SAGA`);

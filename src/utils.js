@@ -1,5 +1,6 @@
 import { is as reduxSagaIs } from "redux-saga/utils";
 import pkg from "../package.json";
+import { NAMESPACED } from "./PathRegistry";
 
 let devMode = false;
 if (
@@ -50,5 +51,9 @@ export const identity = v => v;
 
 export const is = {
     ...reduxSagaIs,
-    bool: v => typeof v === "boolean"
+    bool: v => typeof v === "boolean",
+    action: function(v) {
+        return reduxSagaIs.object(v) && reduxSagaIs.symbol(v.type);
+    },
+    namespacedAction: v => is.action(v) && v[NAMESPACED]
 };

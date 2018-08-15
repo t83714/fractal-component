@@ -1,2 +1,3 @@
-export const INIT_STATE = "@@fractal-component/INIT_STATE";
-export const EMPTY_STATE = "@@fractal-component/EMPTY_STATE";
+import { getPackageName } from "../utils"; 
+export const INIT_STATE = Symbol(`@@${getPackageName()}/INIT_STATE`);
+export const EMPTY_STATE = Symbol(`@@${getPackageName()}/EMPTY_STATE`);

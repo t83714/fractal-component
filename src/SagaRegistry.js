@@ -1,6 +1,6 @@
 import * as actionTypes from "./SagaRegistry/actionTypes";
 import * as actions from "./SagaRegistry/actions";
-import PathRegistry, { normalize } from "./PathRegistry";
+import PathRegistry, { normalize, NAMESPACED } from "./PathRegistry";
 import { log, is } from "./utils";
 import EventChannel from "./EventChannel";
 import {
@@ -18,16 +18,10 @@ function* hostSaga() {
 
 const forwardNamespacedAction = function*() {
     yield rsEffects.takeEvery(
-        action => action.type.indexOf("/@") !== -1,
+        action => is.symbol(action[NAMESPACED]),
         function*(action) {
             const matchedPaths = this.pathRegistry.searchDispatchPaths(action);
             if (!matchedPaths || !matchedPaths.length) return;
-            const lastSepIdx = action.type.lastIndexOf("/@");
-            const pureAction = action.type.substring(lastSepIdx + 2);
-            const newAction = {
-                ...action,
-                type: pureAction
-            };
             for (let i = 0; i < matchedPaths.length; i++) {
                 const sagaItem = this.namespacedSagaItemStore[matchedPaths[i]];
                 if (!sagaItem || !sagaItem.chan) continue;

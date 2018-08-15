@@ -1,4 +1,6 @@
-import { is, trim } from "./utils";
+import { is, trim, getPackageName } from "./utils";
+
+export const NAMESPACED = Symbol(`@@${getPackageName()}/NAMESPACED`);
 
 export class PathContext {
     constructor(cwd) {
@@ -54,17 +56,17 @@ export class PathContext {
     }
 
     convertNamespacedAction(action, relativeDispatchPath) {
-        if (is.string(action)) {
-            action = { type: action };
-        }
         if (!is.object(action)) {
             throw new Error(
                 `Tried to dispatch action in invalid type: ${typeof action}`
             );
         }
-        const { type: actionType } = action;
-        if (actionType.indexOf("/") !== -1)
-            throw new Error("Namespaced action type cannot contains `/`.");
+        if (!is.symbol(action.type)) {
+            throw new Error(
+                `action.type cannot be ${typeof action.type} and must be a Symbol`
+            );
+        }
+
         let path = normalize(relativeDispatchPath);
         let isMulticast = false;
         if (path.length && path[path.length - 1] === "*") {
@@ -72,26 +74,20 @@ export class PathContext {
             path = normalize(path.substring(0, path.length - 1));
         }
         const absolutePath = this.resolve(path);
-        const pathParts = [];
-        if (absolutePath !== "") pathParts.push(absolutePath);
-        if (isMulticast && absolutePath !== "") pathParts.push("*");
-        pathParts.push(pathParts.length ? `@${action.type}` : action.type);
-        const type = pathParts.join("/");
         const newAction = {
             ...action,
-            type,
+            NAMESPACED: true,
             isMulticast,
-            pureType: actionType,
-            currentSenderPath: this.cwd,
-            currentDispatchPath: absolutePath,
-            currentComponentId: this.getLastSegment()
+            senderPath: this.cwd,
+            dispatchPath: absolutePath,
+            componentId: this.getLastSegment()
         };
-        if (!newAction.senderPath)
-            newAction.senderPath = newAction.currentSenderPath;
-        if (!newAction.dispatchPath)
-            newAction.dispatchPath = newAction.currentDispatchPath;
-        if (!newAction.componentId)
-            newAction.componentId = newAction.currentComponentId;
+        if (!newAction.originalSenderPath)
+            newAction.originalSenderPath = newAction.senderPath;
+        if (!newAction.originalDispatchPath)
+            newAction.originalDispatchPath = newAction.dispatchPath;
+        if (!newAction.originalComponentId)
+            newAction.originalComponentId = newAction.componentId;
         return newAction;
     }
 }
@@ -128,25 +124,17 @@ export default class PathRegistry {
     /**
      *
      * @param {Action} action dispatch Action
-     * 
+     *
      */
     searchDispatchPaths(action) {
-        let dispatchPath, isMulticast;
-
-        if (!action.currentDispatchPath) {
-            const lastSepIdx = action.type.lastIndexOf("/@");
-            if (lastSepIdx === -1) return [];
-            let path = normalize(action.type.substring(0, lastSepIdx));
-            isMulticast = path[path.length - 1] === "*";
-            path = path.substring(0, path.length - 1);
-            if (path[path.length - 1] === "/") {
-                path = path.substring(0, path.length - 1);
-            }
-            dispatchPath = path;
-        } else {
-            dispatchPath = action.currentDispatchPath;
-            isMulticast = action.isMulticast;
+        if (action[NAMESPACED] !== true) {
+            throw new Error(
+                "PathRegistry: cannot searchDispatchPaths for a non-namespaced action."
+            );
         }
+
+        dispatchPath = action.currentDispatchPath;
+        isMulticast = action.isMulticast;
 
         if (!isMulticast) {
             if (this.exist(dispatchPath)) return [dispatchPath];
@@ -158,14 +146,14 @@ export default class PathRegistry {
             if (item === dispatchPath) return true;
             // --- only include sub branch paths. e.g. `dispatchPath` is part of and shorter than `item`
             if (item.indexOf(dispatchPath + "/") !== 0) return false;
-            
+
             /**
              * the dispatch path must on or beyond local namespace boundary before an action is dispatched to this component.
              * e.g. For a component:
              * Namespace Prefix     Namespace               ComponentID
              * exampleApp/Gifs   /  io.github.t83714    /    RandomGif-sdjiere
              * The local namespace boundary is between `exampleApp/Gifs` and `io.github.t83714/RandomGif-sdjiere`
-             * Actions dispatched on `exampleApp/Gifs` (on boundary) or 
+             * Actions dispatched on `exampleApp/Gifs` (on boundary) or
              * `exampleApp/Gifs/io.github.t83714` (beyond the boundary) will be accepted by this component.
              * Actions dispatched on `exampleApp` will not be accepted by this component.
              */

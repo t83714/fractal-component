@@ -26,5 +26,6 @@ declare class PathRegistry {
 
 export default PathRegistry;
 
+export declare const NAMESPACED: symbol;
 export declare function validate(path: string): void;
 export declare function normalize(path: string): string;
