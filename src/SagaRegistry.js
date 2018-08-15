@@ -24,7 +24,10 @@ const forwardNamespacedAction = function*() {
             if (!matchedPaths || !matchedPaths.length) return;
             const lastSepIdx = action.type.lastIndexOf("/@");
             const pureAction = action.type.substring(lastSepIdx + 2);
-            const newAction = {...action, type: pureAction};
+            const newAction = {
+                ...action,
+                type: pureAction
+            };
             for (let i = 0; i < matchedPaths.length; i++) {
                 const sagaItem = this.namespacedSagaItemStore[matchedPaths[i]];
                 if (!sagaItem || !sagaItem.chan) continue;
@@ -76,7 +79,7 @@ function* initSaga(sagaItem) {
     const localPathPos = localPath
         ? registeredPath.lastIndexOf(localPath)
         : registeredPath.length;
-        
+
     if (this.pathRegistry.add(registeredPath, localPathPos) === null) {
         throw new Error(
             `Failed to register namespaced saga: given path \`${registeredPath}\` has been registered.`
