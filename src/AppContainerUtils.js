@@ -2,7 +2,7 @@ import AppContainer from "./AppContainer";
 
 let defaultAppContainer = null;
 
-export function createAppContainer(options) {
+export function createAppContainer(options = {}) {
     const ac = new AppContainer(options);
     defaultAppContainer = ac;
     return ac;
@@ -10,9 +10,7 @@ export function createAppContainer(options) {
 
 export function getAppContainer() {
     if (!defaultAppContainer) {
-        throw new Error(
-            "App Container is not available. You need to create one via `createAppContainer` first."
-        );
+        defaultAppContainer = createAppContainer();
     }
     return defaultAppContainer;
 }
@@ -20,6 +18,46 @@ export function getAppContainer() {
 export function registerComponent(componentInstance, options) {
     const appContainer = getAppContainer();
     return appContainer.registerComponent(componentInstance, options);
+}
+
+export function deregisterComponent(componentInstance) {
+    const appContainer = getAppContainer();
+    return appContainer.deregisterComponent(componentInstance);
+}
+
+export function registerSaga(saga, sagaOptions) {
+    const appContainer = getAppContainer();
+    return appContainer.sagaRegistry.register(saga, sagaOptions);
+}
+
+export function deregisterSaga(pathOrTask) {
+    const appContainer = getAppContainer();
+    return appContainer.sagaRegistry.deregister(componentInstance);
+}
+
+export function registerReducer(reducer, reducerOptions) {
+    const appContainer = getAppContainer();
+    return appContainer.reducerRegistry.register(reducer, reducerOptions);
+}
+
+export function deregisterReducer(path) {
+    const appContainer = getAppContainer();
+    return appContainer.reducerRegistry.deregister(path);
+}
+
+export function registerActions(namespace, actions) {
+    const appContainer = getAppContainer();
+    return appContainer.actionRegistry.register(namespace, actions);
+}
+
+export function serialiseAction(action) {
+    const appContainer = getAppContainer();
+    return appContainer.actionRegistry.serialiseAction(action);
+}
+
+export function deserialiseAction(actionJson) {
+    const appContainer = getAppContainer();
+    return appContainer.actionRegistry.deserialiseAction(actionJson);
 }
 
 export function destroyAppContainer() {

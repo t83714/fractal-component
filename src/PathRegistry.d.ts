@@ -17,11 +17,13 @@ export declare class PathContext {
 
 declare class PathRegistry {
     constructor();
-    add(path: string): string;
+    add(path: string, data?: object): string;
     remove(path: string): void;
     exist(path: string): boolean;
     searchSubPath(path: string): string[];
     remove(path: string): void;
+    getPathData(path: string): object;
+    setPathData(path: string, data: object);
 }
 
 export default PathRegistry;

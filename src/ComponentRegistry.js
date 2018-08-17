@@ -43,6 +43,10 @@ class ComponentRegistry {
         if (!cm) return;
         deRegisterComponentManager.call(this, cm);
     }
+
+    destroy() {
+        Object.values(this.componentManagerStore).map(cm => cm.destroy());
+    }
 }
 
 function registerComponentManager(cm) {
@@ -52,7 +56,7 @@ function registerComponentManager(cm) {
             {
                 initState: cm.initState,
                 path: cm.fullPath,
-                localPath: cm.fullLocalPath,
+                namespace: cm.namespace,
                 acceptUpperNamespaceActions: cm.acceptUpperNamespaceActions,
                 persistState: cm.persistState
             }
@@ -63,7 +67,7 @@ function registerComponentManager(cm) {
             cm.options.saga.bind(cm.componentInstance),
             {
                 path: cm.fullPath,
-                localPath: cm.fullLocalPath,
+                namespace: cm.namespace,
                 acceptUpperNamespaceActions: cm.acceptUpperNamespaceActions
             }
         );

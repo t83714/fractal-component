@@ -3,6 +3,7 @@ import createSagaMiddleware from "redux-saga";
 import ComponentRegistry from "./ComponentRegistry";
 import ReducerRegistry from "./ReducerRegistry";
 import SagaRegistry from "./SagaRegistry";
+import ActionRegistry from "./ActionRegistry";
 import * as ReducerRegistryActionTypes from "./ReducerRegistry/actionTypes";
 
 const actionBlackList = Object.keys(ReducerRegistryActionTypes).map(
@@ -69,6 +70,7 @@ class AppContainer {
         });
         this.reducerRegistry = new ReducerRegistry(this);
         this.sagaRegistry = new SagaRegistry();
+        this.actionRegistry = new ActionRegistry();
 
         this.store = createStore(
             this.reducerRegistry.createGlobalReducer(
@@ -91,7 +93,9 @@ class AppContainer {
         this.componentRegistry.deregister(componentInstance);
     }
 
-    destroy() {}
+    destroy() {
+        this.componentRegistry.destroy();
+    }
 }
 
 export default AppContainer;

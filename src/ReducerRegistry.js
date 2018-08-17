@@ -49,7 +49,7 @@ function processEmptyState(state, action) {
 }
 
 function processNamespacedAction(state, action) {
-    if(!is.namespacedAction(action)) return state;
+    if (!is.namespacedAction(action)) return state;
     const matchedPaths = this.pathRegistry.searchDispatchPaths(action);
     if (!matchedPaths || !matchedPaths.length) return state;
     let newState = state;
@@ -74,7 +74,7 @@ function processNamespacedAction(state, action) {
 }
 
 function globalReducer(externalGlobalReducer, state, action) {
-    if(!is.action(action)) return state;
+    if (!is.action(action)) return state;
     let newState = state;
     switch (action.type) {
         case actionTypes.INIT_STATE:
@@ -109,13 +109,7 @@ class ReducerRegistry {
             );
         if (!reducerOptions) reducerOptions = { ...defaultReducerOptions };
 
-        const {
-            path,
-            localPath,
-            acceptUpperNamespaceActions,
-            initState,
-            persistState
-        } = reducerOptions;
+        const { path, namespace, initState, persistState } = reducerOptions;
 
         if (!path)
             throw new Error(
@@ -123,11 +117,16 @@ class ReducerRegistry {
             );
 
         const registeredPath = normalize(path);
-        const localPathPos = localPath
-            ? registeredPath.lastIndexOf(localPath)
+        const localPathPos = namespace
+            ? registeredPath.lastIndexOf(namespace)
             : registeredPath.length;
 
-        if (this.pathRegistry.add(registeredPath, localPathPos) === null) {
+        if (
+            this.pathRegistry.add(registeredPath, {
+                localPathPos,
+                namespace
+            }) === null
+        ) {
             throw new Error(
                 `Failed to register namespaced reducer: given path \`${registeredPath}\` has been registered.`
             );
@@ -137,11 +136,9 @@ class ReducerRegistry {
             ...reducerOptions,
             reducer,
             initState,
-            localPath,
             localPathPos,
             persistState,
-            registeredPath,
-            acceptUpperNamespaceActions
+            registeredPath
         };
 
         setInitState.call(this, registeredPath, initState, persistState);

@@ -1,6 +1,6 @@
 import * as actionTypes from "./SagaRegistry/actionTypes";
 import * as actions from "./SagaRegistry/actions";
-import PathRegistry, { normalize, NAMESPACED } from "./PathRegistry";
+import PathRegistry, { normalize } from "./PathRegistry";
 import { log, is } from "./utils";
 import EventChannel from "./EventChannel";
 import {
@@ -18,14 +18,14 @@ function* hostSaga() {
 
 const forwardNamespacedAction = function*() {
     yield rsEffects.takeEvery(
-        action => is.symbol(action[NAMESPACED]),
+        action => is.namespacedAction(action),
         function*(action) {
             const matchedPaths = this.pathRegistry.searchDispatchPaths(action);
             if (!matchedPaths || !matchedPaths.length) return;
             for (let i = 0; i < matchedPaths.length; i++) {
                 const sagaItem = this.namespacedSagaItemStore[matchedPaths[i]];
                 if (!sagaItem || !sagaItem.chan) continue;
-                yield rsEffects.put(sagaItem.chan, newAction);
+                yield rsEffects.put(sagaItem.chan, action);
             }
         }.bind(this)
     );
@@ -64,17 +64,17 @@ function* processCommandAction({ type, payload }) {
 }
 
 function* initSaga(sagaItem) {
-    const { saga, path, localPath } = sagaItem;
+    const { saga, path, namespace } = sagaItem;
     const registeredPath = normalize(path);
     if (!registeredPath) {
         yield rsEffects.call([this, initGlobalSaga], saga);
         return;
     }
-    const localPathPos = localPath
-        ? registeredPath.lastIndexOf(localPath)
+    const localPathPos = namespace
+        ? registeredPath.lastIndexOf(namespace)
         : registeredPath.length;
 
-    if (this.pathRegistry.add(registeredPath, localPathPos) === null) {
+    if (this.pathRegistry.add(registeredPath, { localPathPos, namespace }) === null) {
         throw new Error(
             `Failed to register namespaced saga: given path \`${registeredPath}\` has been registered.`
         );

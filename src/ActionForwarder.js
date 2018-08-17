@@ -12,7 +12,7 @@ class ActionForwarder extends React.Component {
         super(props);
         this.componentManager = AppContainerUtils.registerComponent(this, {
             namespace: "io.github.t83714",
-            saga: forwarderSaga
+            saga: forwarderSaga.bind(this)
         });
     }
 

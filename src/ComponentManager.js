@@ -56,7 +56,7 @@ class ComponentManager {
             throw new Error("`Component ID` cannot contain `/` or `*`.");
         if (!this.componentId) {
             this.isAutoComponentId = true;
-            this.componentId = uniqid(`${this.displayName}-`);
+            this.componentId = uniqid();
         }
         if (
             this.componentInstance.props &&

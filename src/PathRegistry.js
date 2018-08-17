@@ -76,7 +76,7 @@ export class PathContext {
         const absolutePath = this.resolve(path);
         const newAction = {
             ...action,
-            NAMESPACED: true,
+            [NAMESPACED]: true,
             isMulticast,
             senderPath: this.cwd,
             dispatchPath: absolutePath,
@@ -95,25 +95,32 @@ export class PathContext {
 export default class PathRegistry {
     constructor() {
         this.paths = [];
-        this.localPathPosStore = {};
+        this.dataStore = {};
     }
 
-    add(path, localPathPos = null) {
+    add(path, data = undefined) {
         validate(path);
         path = normalize(path);
         if (this.paths.indexOf(path) !== -1) return null;
         this.paths.push(path);
-        if (is.number(localPathPos)) {
-            this.localPathPosStore[path] = localPathPos;
-        }
+        this.dataStore[path] = data;
         return path;
+    }
+
+    getPathData(path) {
+        const data = this.dataStore[path];
+        return data ? data : {};
+    }
+
+    setPathData(path, data) {
+        this.dataStore[path] = data;
     }
 
     remove(path) {
         validate(path);
         path = normalize(path);
         this.paths = this.paths.filter(item => item !== path);
-        delete this.localPathPosStore[path];
+        delete this.dataStore[path];
     }
 
     exist(path) {
@@ -133,8 +140,7 @@ export default class PathRegistry {
             );
         }
 
-        dispatchPath = action.currentDispatchPath;
-        isMulticast = action.isMulticast;
+        const { dispatchPath, isMulticast } = action;
 
         if (!isMulticast) {
             if (this.exist(dispatchPath)) return [dispatchPath];
@@ -157,7 +163,9 @@ export default class PathRegistry {
              * `exampleApp/Gifs/io.github.t83714` (beyond the boundary) will be accepted by this component.
              * Actions dispatched on `exampleApp` will not be accepted by this component.
              */
-            const localPathPos = this.localPathPosStore[item];
+            const { localPathPos } = this.dataStore[item]
+                ? this.dataStore[item]
+                : {};
             if (!is.number(localPathPos)) return true;
             if (dispatchPath.length - 1 >= localPathPos - 2) return true;
             return false;
