@@ -44,6 +44,7 @@ const getComposeEnhancers = function(devOnly, options) {
 class AppContainer {
     constructor(options = {}) {
         this.store = null;
+        this.actionRegistry = new ActionRegistry();
         const containerCreationOptions = {
             ...defaultOptions,
             ...options
@@ -69,9 +70,7 @@ class AppContainer {
                 containerCreationOptions.isServerSideRendering
         });
         this.reducerRegistry = new ReducerRegistry(this);
-        this.sagaRegistry = new SagaRegistry();
-        this.actionRegistry = new ActionRegistry();
-
+        this.sagaRegistry = new SagaRegistry(this);
         this.store = createStore(
             this.reducerRegistry.createGlobalReducer(
                 containerCreationOptions.reducer
