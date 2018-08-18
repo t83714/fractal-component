@@ -10,6 +10,7 @@ import {
 import * as rsEffects from "redux-saga/effects";
 import * as namespacedEffects from "./SagaRegistry/effects";
 import partial from "lodash/partial";
+import namespace from "./ReducerRegistry/namespace";
 
 function* hostSaga() {
     yield rsEffects.fork([this, startCommandChan]);
@@ -139,11 +140,13 @@ function* cancelSaga(pathOrTask) {
 }
 
 class SagaRegistry {
-    constructor() {
+    constructor(appContainer) {
+        this.appContainer = appContainer;
         this.namespacedSagaItemStore = {};
         this.globalSagaTaskList = [];
         this.pathRegistry = new PathRegistry();
         this.hostSagaCommandChan = new EventChannel(bufferFactory.expanding());
+        this.appContainer.actionRegistry.register(namespace, actionTypes);
     }
 
     createHostSaga() {

@@ -1,5 +1,5 @@
 import AppContainer from "./AppContainer";
-import { Store } from "redux";
+import { Action, Reducer, Store } from "redux";
 
 declare class ReducerRegistry {
     constructor(appContainer: AppContainer);
@@ -11,13 +11,13 @@ declare class ReducerRegistry {
     register(reducer: Reducer, reducerOptions: ReducerOptions): void;
     deregister(path: string): void;
     createGlobalReducer(
-        externalGlobalReducer: (object, object) => object = null
-    ): (object, object) => state;
+        externalGlobalReducer: Reducer
+    ): Reducer;
 }
 
 export default ReducerRegistry;
 
-export type Reducer = (state: object, action: any) => object;
+export type Reducer = (state: object, action: Action) => object;
 
 export interface ReducerOptions {
     initState?: object;

@@ -5,6 +5,7 @@ import objectPath from "object-path";
 import objectPathImmutable from "object-path-immutable";
 import intersection from "lodash/intersection";
 import { is } from "./utils";
+import namespace from "./ReducerRegistry/namespace";
 
 const defaultReducerOptions = {
     initState: {},
@@ -96,6 +97,7 @@ class ReducerRegistry {
         this.appContainer = appContainer;
         this.reducerStore = {};
         this.pathRegistry = new PathRegistry();
+        this.appContainer.actionRegistry.register(namespace, actionTypes);
     }
 
     createGlobalReducer(externalGlobalReducer = null) {

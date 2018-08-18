@@ -1,7 +1,6 @@
 import * as React from "react";
 import ComponentRegistry from "./ComponentRegistry";
-import { Reducer } from "./ReducerRegistry";
-import { Store, Action } from "redux";
+import { Store, Action, Reducer } from "redux";
 
 declare class ComponentManager {
     constructor(
@@ -25,10 +24,10 @@ declare class ComponentManager {
     destroyCallback: DestroyCallback;
 
     enhanceComponentInstance(
-        initCallback: InitCallback = null,
-        destroyCallback: DestroyCallback = null
+        initCallback?: InitCallback,
+        destroyCallback?: DestroyCallback
     ): void;
-    dispatch(action: Action, relativeDispatchPath: string = ""): Action;
+    dispatch(action: Action, relativeDispatchPath?: string): Action;
     init(): void;
     destroy(): void;
 }
@@ -41,13 +40,16 @@ export type DestroyCallback = (ComponentManager) => void;
 export declare const COMPONENT_MANAGER_LOCAL_KEY:Symbol;
 
 export type ManageableComponent = React.Component | React.PureComponent;
+
+export type ComponentStringSettingFunc = (ComponentManager, string, ManageableComponent)=>string;
+
 export interface ManageableComponentOptions {
     saga?: GeneratorFunction;
     initState?: object;
     reducer: Reducer;
-    namespace?: string | function;
-    namespacePrefix?: string | function;
-    componentId?: string | function;
+    namespace?: string | ComponentStringSettingFunc;
+    namespacePrefix?: string | ComponentStringSettingFunc;
+    componentId?: string | ComponentStringSettingFunc;
     persistState?: boolean;
     acceptUpperNamespaceActions?: boolean;
     isServerSideRendering?: boolean;

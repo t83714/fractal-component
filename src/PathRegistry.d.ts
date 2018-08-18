@@ -6,13 +6,13 @@ export declare class PathContext {
     getLastSegment(): string;
     compressPath(
         paths: string[] | string,
-        ignoreExcessDoubleDot: boolean = true
+        ignoreExcessDoubleDot?: boolean
     ): string;
     convertNamespacedAction(
         action: Action,
         relativeDispatchPath: string
     ): Action;
-    resolve(...paths: string): string;
+    resolve(...paths: string[]): string;
 }
 
 declare class PathRegistry {

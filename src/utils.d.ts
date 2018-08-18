@@ -1,7 +1,7 @@
 import { is as reduxSagaIs, GuardPredicate } from "redux-saga/utils";
 import { Action } from "redux";
 
-const extraIs: {
+declare const extraIs: {
     bool: GuardPredicate<boolean>;
     symbol: GuardPredicate<symbol>;
     action: (v: any) => boolean;

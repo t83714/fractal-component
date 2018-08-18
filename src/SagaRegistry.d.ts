@@ -1,10 +1,11 @@
 import AppContainer from "./AppContainer";
-import { Store } from "redux";
+import { Store, Action } from "redux";
 import { Channel, Task } from "redux-saga";
 
 declare class SagaRegistry {
-    constructor();
+    constructor(appContainer: AppContainer);
 
+    appContainer: AppContainer;
     namespacedSagaItemStore: SagaItem[];
     globalSagaTaskList: Task[];
 
@@ -22,6 +23,6 @@ export interface SagaOptions {
 
 export interface SagaItem extends SagaOptions {
     saga: GeneratorFunction;
-    chan?: Channel;
+    chan?: Channel<Action>;
     task?: Task;
 }
