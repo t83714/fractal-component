@@ -10,9 +10,11 @@ import RandomGifPair, {
     actionTypes as RandomGifPairActionTypes
 } from "../RandomGifPair";
 
+import namespace from "./namespace";
 import * as actions from "./actions";
 import * as actionTypes from "./actions/types";
 import camelCase from "lodash/camelCase";
+import findKey from "lodash/findKey";
 
 const styles = {
     table: {
@@ -70,7 +72,7 @@ class RandomGifPairPair extends React.Component {
         };
         this.isLoadingStartActionDispatched = false;
         this.componentManager = AppContainerUtils.registerComponent(this, {
-            namespace: "io.github.t83714",
+            namespace,
             reducer: function(state, action) {
                 switch (action.type) {
                     case RandomGifPairActionTypes.LOADING_START:
@@ -237,12 +239,13 @@ const exposedActionTypes = {};
 const exposedActions = {};
 
 exposedActionList.forEach(act => {
-    const camelcaseAct = camelCase(act);
-    exposedActionTypes[act] = act;
+    const actKey = findKey(actionTypes, item => item === act);
+    const camelcaseAct = camelCase(actKey);
+    exposedActionTypes[actKey] = act;
     exposedActions[camelcaseAct] = actions[camelcaseAct];
 });
 
 /**
  * expose actions for component users
  */
-export { exposedActionTypes as actionTypes, exposedActions as actions };
+export { exposedActionTypes as actionTypes, exposedActions as actions, namespace };

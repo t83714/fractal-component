@@ -20,11 +20,13 @@ declare class AppContainer {
     reducerRegistry: ReducerRegistry;
     sagaRegistry: SagaRegistry;
     actionRegistry: ActionRegistry;
+    
     registerComponent(
         componentInstance: ManageableComponent,
         options?: ManageableComponentOptions
     ): ComponentManager;
-    deregisterComponent(omponentInstance: ManageableComponent): void;
+    deregisterComponent(componentInstance: ManageableComponent): void;
+    destroy(): void;
 }
 
 export default AppContainer;

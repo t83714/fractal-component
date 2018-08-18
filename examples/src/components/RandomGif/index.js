@@ -11,6 +11,7 @@ import saga from "./sagas";
 import * as actions from "./actions";
 import * as actionTypes from "./actions/types";
 import camelCase from "lodash/camelCase";
+import findKey from "lodash/findKey";
 
 const styles = {
     table: {
@@ -136,12 +137,13 @@ const exposedActionTypes = {};
 const exposedActions = {};
 
 exposedActionList.forEach(act => {
-    const camelcaseAct = camelCase(act);
-    exposedActionTypes[act] = act;
+    const actKey = findKey(actionTypes, item => item === act);
+    const camelcaseAct = camelCase(actKey);
+    exposedActionTypes[actKey] = act;
     exposedActions[camelcaseAct] = actions[camelcaseAct];
 });
 
 /**
  * expose actions for component users
  */
-export { exposedActionTypes as actionTypes, exposedActions as actions };
+export { exposedActionTypes as actionTypes, exposedActions as actions, namespace };

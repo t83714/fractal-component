@@ -45,6 +45,7 @@ class ComponentManager {
         );
         if (this.namespace.indexOf("*") !== -1)
             throw new Error("`Namespace` cannot contain `*`.");
+        if(!this.namespace) throw new Error("Missing Component `namespace`: Component `namespace` must be specified.");
         this.isAutoComponentId = false;
         this.componentId = normalize(
             settleStringSettingFunc(this.options.componentId)

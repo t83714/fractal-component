@@ -24,6 +24,7 @@ declare class PathRegistry {
     remove(path: string): void;
     getPathData(path: string): object;
     setPathData(path: string, data: object);
+    searchPathByPathData(predictFunc: (any) => boolean): string;
 }
 
 export default PathRegistry;

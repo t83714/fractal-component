@@ -10,8 +10,9 @@ import { put } from "redux-saga/effects";
 class ActionForwarder extends React.Component {
     constructor(props) {
         super(props);
+        this.appContainer = AppContainerUtils.getAppContainer();
         this.componentManager = AppContainerUtils.registerComponent(this, {
-            namespace: "io.github.t83714",
+            namespace: "io.github.t83714/ActionForwarder",
             saga: forwarderSaga.bind(this)
         });
     }
@@ -43,10 +44,14 @@ ActionForwarder.propTypes = {
 function* forwarderSaga(effects) {
     yield effects.takeEvery(
         this.props.pattern ? this.props.pattern : "*",
-        (function*(action) {
+        function*(action) {
             //--- avoid forwarder loop
-            if (action.currentSenderPath === this.componentManager.fullPath) return;
-            const newAction = actionTransformer(action, this.props.transformer);
+            if (action.currentSenderPath === this.componentManager.fullPath)
+                return;
+            const newAction = actionTransformer(
+                action,
+                this.props.transformer
+            ).bind(this);
             //--- unnamespace forward
             if (this.props.toGlobal === true) {
                 if (this.props.absoluteDispatchPath) {
@@ -64,26 +69,36 @@ function* forwarderSaga(effects) {
                 /**
                  * namespaced forward
                  * `ActionForwarder`'s current namespace path is:
-                 * `${props.namespace}/io.github.t83714/${this.componentManager.componentId}`
-                 * Add `../../` to `props.relativeDispatchPath` so that relative namespace path
+                 * `${props.namespace}/io.github.t83714/ActionForwarder/${this.componentManager.componentId}`
+                 * Add `../../../` to `props.relativeDispatchPath` so that relative namespace path
                  * will start from `${props.namespace}`.
                  * This might be easier for people to use `ActionForwarder` as we don't need to
-                 * always add `two levels up` in order to throw action out of `ActionForwarder`
+                 * always add `three levels up` in order to throw action out of `ActionForwarder`
                  */
                 const relativeDispatchPath = this.props.relativeDispatchPath
-                    ? `../../${this.props.relativeDispatchPath}`
+                    ? `../../../${this.props.relativeDispatchPath}`
                     : "";
                 yield effects.put(newAction, relativeDispatchPath);
             }
-        }).bind(this)
+        }.bind(this)
     );
 }
 
 function actionTransformer(action, transformer) {
     if (!transformer) return action;
-    if (is.symbol(transformer)) return { ...action, type: transformer };
-    else if (is.func(transformer)) return transformer(action);
-    return action;
+    let newAction = action;
+    if (is.symbol(transformer)){
+        newAction = {
+            ...action,
+            type: transformer
+        };
+    }else if (is.func(transformer)){
+        newAction = transformer(action);
+    }
+    if(is.symbol(newAction)){
+        newAction.namespace = this.appContainer.actionRegistry.findNamespaceByActionType(newAction.type);
+    }
+    return newAction;
 }
 
 export default ActionForwarder;

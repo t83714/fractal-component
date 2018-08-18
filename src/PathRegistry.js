@@ -116,6 +116,16 @@ export default class PathRegistry {
         this.dataStore[path] = data;
     }
 
+    searchPathByPathData(predictFunc) {
+        if (!is.func(predictFunc))
+            throw new Error(
+                "searchPathByPathData require function as parameter!"
+            );
+        return Object.keys(this.dataStore).find(key =>
+            predictFunc(this.dataStore[key])
+        );
+    }
+
     remove(path) {
         validate(path);
         path = normalize(path);
