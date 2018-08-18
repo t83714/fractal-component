@@ -1,13 +1,13 @@
 import PathRegistry, { normalize, NAMESPACED } from "./PathRegistry";
 import { is } from "./utils";
 
-class ActionRegistry {
+export default class ActionRegistry {
     constructor() {
         this.pathRegistry = new PathRegistry();
     }
 
     register(namespace, actions) {
-        namespace = normalize(normalize);
+        namespace = normalize(namespace);
         let newActionList = {};
         if (is.symbol(actions)) {
             newActionList[String(actions)] = actions;
@@ -36,15 +36,15 @@ class ActionRegistry {
         }
 
         if (this.pathRegistry.exist(namespace)) {
-            const data = this.pathRegistry.getPathData(path);
+            const data = this.pathRegistry.getPathData(namespace);
             const actionList = Object.assign(
                 {},
                 is.object(data.actionList) ? data.actionList : {},
                 newActionList
             );
-            this.pathRegistry.setPathData(path, { ...data, actionList });
+            this.pathRegistry.setPathData(namespace, { ...data, actionList });
         } else {
-            this.pathRegistry.add(path, { actionList });
+            this.pathRegistry.add(namespace, { actionList: newActionList });
         }
     }
 
@@ -83,13 +83,13 @@ class ActionRegistry {
 
     deserialiseAction(actionJson){
         const action = JSON.parse(actionJson);
-        if(!action.namespace) {
+        if(!action || !action.namespace) {
             throw new Error("Cannot deserialise action without namespace property!");
         }
         if(action[String(NAMESPACED)] === true){
             action[NAMESPACED] = true;
         }
-        const { actionList } = this.pathRegistry.getPathData(namespace);
+        const { actionList } = this.pathRegistry.getPathData(action.namespace);
         if(!is.object(actionList)){
             throw new Error("Cannot deserialise unregistered action!");
         }
