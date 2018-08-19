@@ -5,18 +5,18 @@ import ReducerRegistry from "./ReducerRegistry";
 import SagaRegistry from "./SagaRegistry";
 import ActionRegistry from "./ActionRegistry";
 import * as ReducerRegistryActionTypes from "./ReducerRegistry/actionTypes";
+import * as SagaRegistryActionTypes from "./SagaRegistry/actionTypes";
 
 const actionBlackList = Object.keys(ReducerRegistryActionTypes).map(
     idx => ReducerRegistryActionTypes[idx]
-);
+).concat(Object.keys(SagaRegistryActionTypes).map(
+    idx => SagaRegistryActionTypes[idx]
+));
 const defaultDevToolOptions = {
     actionSanitizer: action => ({ ...action, type: String(action.type) }),
     predicate: (state, action) => {
         return action && actionBlackList.indexOf(action.type) ===-1
-    },
-    actionsBlacklist: Object.keys(ReducerRegistryActionTypes).map(idx =>
-        String(ReducerRegistryActionTypes[idx])
-    )
+    }
 };
 const defaultOptions = {
     reducer: null,

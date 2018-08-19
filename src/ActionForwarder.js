@@ -69,7 +69,7 @@ function* forwarderSaga(effects) {
                 /**
                  * namespaced forward
                  * `ActionForwarder`'s current namespace path is:
-                 * `${props.namespace}/io.github.t83714/ActionForwarder/${this.componentManager.componentId}`
+                 * `${props.namespacePrefix}/io.github.t83714/ActionForwarder/${this.componentManager.componentId}`
                  * Add `../../../` to `props.relativeDispatchPath` so that relative namespace path
                  * will start from `${props.namespace}`.
                  * This might be easier for people to use `ActionForwarder` as we don't need to
