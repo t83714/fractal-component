@@ -5,7 +5,9 @@ import { call } from "redux-saga/effects";
 function fetchGif() {
     return fetch(
         "https://api.giphy.com/v1/gifs/random?api_key=Y4P38sTJAgEBOHP1B3sVs0Jtk01tb6fA"
-    ).then(response => response.json())
+    ).then(response => response.json()).catch(error=>{
+        throw new Error("Giphy API key used exceeded its daily or hourly limit.");
+    });
 }
 
 /**
