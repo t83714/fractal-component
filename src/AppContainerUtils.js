@@ -1,8 +1,13 @@
 import AppContainer from "./AppContainer";
+import { log } from "./utils";
 
 let defaultAppContainer = null;
 
 export function createAppContainer(options = {}) {
+    if (defaultAppContainer) {
+        log("AppContainerUtils.createAppContainer: Existing appContainer found. The appContainer options supplied was ignored. ", "warn");
+        return defaultAppContainer;
+    }
     const ac = new AppContainer(options);
     defaultAppContainer = ac;
     return ac;

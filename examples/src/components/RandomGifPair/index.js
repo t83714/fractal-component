@@ -114,7 +114,7 @@ class RandomGifPair extends React.Component {
                     RandomGifActionTypes.LOADING_START,
                     function*() {
                         if (!this.isLoadingStartActionDispatched) {
-                            yield effects.put(actions.loadingStart(), "../../*");
+                            yield effects.put(actions.loadingStart(), "../../../*");
                         }
                     }.bind(this)
                 );
@@ -131,7 +131,7 @@ class RandomGifPair extends React.Component {
                         if (!isLoading) {
                             yield effects.put(
                                 actions.loadingComplete(error),
-                                "../../*"
+                                "../../../*"
                             );
                             this.isLoadingStartActionDispatched = false;
                         }
@@ -200,7 +200,7 @@ class RandomGifPair extends React.Component {
                 <ActionForwarder
                     namespacePrefix={`${this.componentManager.fullPath}/Gifs`}
                     pattern={RandomGifActionTypes.NEW_GIF}
-                    relativeDispatchPath="../../../*"
+                    relativeDispatchPath="../../../../*"
                 />
 
                 {/**

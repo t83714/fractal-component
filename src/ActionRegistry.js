@@ -49,7 +49,9 @@ export default class ActionRegistry {
     }
 
     findNamespaceByActionType(actionType) {
-        return this.pathRegistry.findNamespaceByActionType(actionType);
+        return this.pathRegistry.searchPathByPathData(
+            ({ actionList }) => Object.values(actionList).indexOf(actionType) !== -1
+        );
     }
 
     serialiseAction(action) {

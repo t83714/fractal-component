@@ -10,7 +10,7 @@ import {
 import * as rsEffects from "redux-saga/effects";
 import * as namespacedEffects from "./SagaRegistry/effects";
 import partial from "lodash/partial";
-import namespace from "./ReducerRegistry/namespace";
+import namespace from "./SagaRegistry/namespace";
 
 function* hostSaga() {
     yield rsEffects.fork([this, startCommandChan]);

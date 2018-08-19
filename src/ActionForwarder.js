@@ -48,10 +48,10 @@ function* forwarderSaga(effects) {
             //--- avoid forwarder loop
             if (action.currentSenderPath === this.componentManager.fullPath)
                 return;
-            const newAction = actionTransformer(
+            const newAction = actionTransformer.call(this, 
                 action,
                 this.props.transformer
-            ).bind(this);
+            );
             //--- unnamespace forward
             if (this.props.toGlobal === true) {
                 if (this.props.absoluteDispatchPath) {
@@ -95,8 +95,11 @@ function actionTransformer(action, transformer) {
     }else if (is.func(transformer)){
         newAction = transformer(action);
     }
-    if(is.symbol(newAction)){
-        newAction.namespace = this.appContainer.actionRegistry.findNamespaceByActionType(newAction.type);
+    if(is.symbol(newAction.type)){
+        // --- query action Type's original namespace so that it can be serialised correctly if needed
+        const namespace = this.appContainer.actionRegistry.findNamespaceByActionType(newAction.type);
+        if(!namespace) throw new Error(`Cannot forward Action \`${newAction.type}\`: \`${newAction.type}\` needs to be registered first.`);
+        newAction.namespace = namespace;
     }
     return newAction;
 }

@@ -1,5 +1,5 @@
 import * as actionTypes from "./actionTypes";
-import namespace from ".//namespace";
+import namespace from "./namespace";
 
 export const initSaga = function(sagaItem) {
     return {
