@@ -20,7 +20,7 @@ const reducer = function(state, action) {
             };
             let isLoading = false;
             Object.keys(itemsLoading).forEach(componentId => {
-                if (!itemsLoading[componentId]) isLoading = true;
+                if (itemsLoading[componentId]) isLoading = true;
             });
             return {
                 ...state,

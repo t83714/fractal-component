@@ -23,7 +23,7 @@ function* mainSaga(effects) {
              * Therefore, if you get state in a saga via `select` effect,
              * it'll always be applied state.
              */
-            const { isLoading } = yield effects.select();
+            const { isLoading, error } = yield effects.select();
             if(!isLoading){
                 yield effects.put(
                     actions.loadingComplete(error),

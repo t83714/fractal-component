@@ -78,16 +78,16 @@ export class PathContext {
             ...action,
             [NAMESPACED]: true,
             isMulticast,
-            senderPath: this.cwd,
-            dispatchPath: absolutePath,
-            componentId: this.getLastSegment()
+            currentSenderPath: this.cwd,
+            currentDispatchPath: absolutePath,
+            currentComponentId: this.getLastSegment()
         };
-        if (!newAction.originalSenderPath)
-            newAction.originalSenderPath = newAction.senderPath;
-        if (!newAction.originalDispatchPath)
-            newAction.originalDispatchPath = newAction.dispatchPath;
-        if (!newAction.originalComponentId)
-            newAction.originalComponentId = newAction.componentId;
+        if (!newAction.senderPath)
+            newAction.senderPath = newAction.currentSenderPath;
+        if (!newAction.dispatchPath)
+            newAction.dispatchPath = newAction.currentDispatchPath;
+        if (!newAction.componentId)
+            newAction.componentId = newAction.currentComponentId;
         return newAction;
     }
 }
@@ -169,7 +169,7 @@ export default class PathRegistry {
             );
         }
 
-        const { dispatchPath, isMulticast } = action;
+        const { currentDispatchPath: dispatchPath, isMulticast } = action;
 
         if (!isMulticast) {
             if (this.exist(dispatchPath)) return [dispatchPath];
