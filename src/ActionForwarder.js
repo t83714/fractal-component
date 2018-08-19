@@ -13,7 +13,11 @@ class ActionForwarder extends React.Component {
         this.appContainer = AppContainerUtils.getAppContainer();
         this.componentManager = AppContainerUtils.registerComponent(this, {
             namespace: "io.github.t83714/ActionForwarder",
-            saga: forwarderSaga.bind(this)
+            saga: forwarderSaga.bind(this),
+            // --- By default, component will not accept any incoming multicast action.
+            // --- "*" will allow any action types to be accepted
+            // --- No limit to actions that are sent out
+            acceptMulticastActionTypes: "*"
         });
     }
 

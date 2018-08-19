@@ -57,8 +57,8 @@ function registerComponentManager(cm) {
                 initState: cm.initState,
                 path: cm.fullPath,
                 namespace: cm.namespace,
-                acceptUpperNamespaceActions: cm.acceptUpperNamespaceActions,
-                persistState: cm.persistState
+                persistState: cm.persistState,
+                acceptMulticastActionTypes: cm.acceptMulticastActionTypes
             }
         );
     }
@@ -68,7 +68,7 @@ function registerComponentManager(cm) {
             {
                 path: cm.fullPath,
                 namespace: cm.namespace,
-                acceptUpperNamespaceActions: cm.acceptUpperNamespaceActions
+                acceptMulticastActionTypes: cm.acceptMulticastActionTypes
             }
         );
     }

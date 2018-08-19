@@ -11,6 +11,17 @@ class Counter extends React.Component {
         this.state = {
             count: 0
         };
+        /**
+         * Register actions is optional for action serialisation / deserialisation.
+         * It's much easier to use Symbol as action type to make sure no action type collision among different component.
+         * ( Considering we now use actions as primary way for inter-component communication, it's quite important in a multicaset action environment)
+         * However, Symbol is not serialisable by its nature and serialisable actions is the key to `time travel` feature.
+         * Here we provide an ActionRegistry facility to achieve the serialisation (By re-establish the mapping). To do that, you need:
+         * - Register your action types via `AppContainerUtils.registerActions(namespace, actionTypes)`
+         * - All actions created must carry the namespace fields. Here the namespace is your component namespace.
+         */
+        AppContainerUtils.registerActions(namespace, actionTypes);
+
         this.componentManager = AppContainerUtils.registerComponent(this, {
             namespace,
             reducer: function(state, action) {
@@ -20,7 +31,11 @@ class Counter extends React.Component {
                     default:
                         return state;
                 }
-            }
+            },
+            // --- specify accepted types of external multicast actions
+            // --- By default, component will not accept any incoming multicast action.
+            // --- No limit to actions that are sent out
+            acceptMulticastActionTypes: [actionTypes.INCREASE_COUNT]
         });
     }
 

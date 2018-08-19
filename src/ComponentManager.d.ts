@@ -18,7 +18,7 @@ declare class ComponentManager {
     fullPath: string;
     isServerSideRendering: boolean;
     persistState: boolean;
-    acceptUpperNamespaceActions: boolean;
+    acceptMulticastActionTypes: symbol[] | symbol | string;
 
     initCallback: InitCallback;
     destroyCallback: DestroyCallback;
@@ -51,6 +51,8 @@ export interface ManageableComponentOptions {
     namespacePrefix?: string | ComponentStringSettingFunc;
     componentId?: string | ComponentStringSettingFunc;
     persistState?: boolean;
-    acceptUpperNamespaceActions?: boolean;
+    //--- when `acceptMulticastActionTypes` is string
+    //--- only "*" is accepted (means accepting any actionTypes)
+    acceptMulticastActionTypes?: symbol[] | symbol | string;
     isServerSideRendering?: boolean;
 }

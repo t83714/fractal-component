@@ -24,6 +24,7 @@ declare class PathRegistry {
     remove(path: string): void;
     getPathData(path: string): object;
     setPathData(path: string, data: object);
+    isAllowedMulticast(path: string, actionType: symbol): boolean;
     searchPathByPathData(predictFunc: (any) => boolean): string;
 }
 

@@ -5,14 +5,13 @@ import color from "color";
 //-- import fractal-component lib from src entry point
 import { AppContainerUtils, ActionForwarder } from "../../../../src/index";
 
-import RandomGif, {
-    actions as RandomGifActions,
-    actionTypes as RandomGifActionTypes
-} from "../RandomGif";
+import RandomGif, { actionTypes as RandomGifActionTypes } from "../RandomGif";
 
 import namespace from "./namespace";
 import * as actions from "./actions";
 import * as actionTypes from "./actions/types";
+import reducer from "./reducers";
+import saga from "./sagas";
 import camelCase from "lodash/camelCase";
 import findKey from "lodash/findKey";
 
@@ -71,83 +70,26 @@ class RandomGifPair extends React.Component {
             error: null
         };
         this.isLoadingStartActionDispatched = false;
+
+        /**
+         * Register actions is optional for action serialisation / deserialisation.
+         * It's much easier to use Symbol as action type to make sure no action type collision among different component.
+         * ( Considering we now use actions as primary way for inter-component communication, it's quite important in a multicaset action environment)
+         * However, Symbol is not serialisable by its nature and serialisable actions is the key to `time travel` feature.
+         * Here we provide an ActionRegistry facility to achieve the serialisation (By re-establish the mapping). To do that, you need:
+         * - Register your action types via `AppContainerUtils.registerActions(namespace, actionTypes)`
+         * - All actions created must carry the namespace fields. Here the namespace is your component namespace.
+         */
+        AppContainerUtils.registerActions(namespace, actionTypes);
+
         this.componentManager = AppContainerUtils.registerComponent(this, {
             namespace,
-            reducer: function(state, action) {
-                switch (action.type) {
-                    case RandomGifActionTypes.LOADING_START:
-                        return {
-                            ...state,
-                            isLoading: true,
-                            itemsLoading: {
-                                ...state.itemsLoading,
-                                [action.componentId]: true
-                            }
-                        };
-                    case RandomGifActionTypes.LOADING_COMPLETE:
-                        const { isSuccess, payloadError } = action.payload;
-                        let { itemsLoading, error } = state;
-                        itemsLoading = {
-                            ...itemsLoading,
-                            [action.componentId]: false
-                        };
-                        let isLoading = false;
-                        Object.keys(itemsLoading).forEach(componentId => {
-                            if (!itemsLoading[componentId]) isLoading = true;
-                        });
-                        return {
-                            ...state,
-                            isLoading,
-                            error: error
-                                ? error
-                                : isSuccess
-                                    ? null
-                                    : payloadError,
-                            itemsLoading
-                        };
-                    default:
-                        return state;
-                }
-            },
-            saga: function*(effects) {
-                yield effects.takeEvery(
-                    RandomGifActionTypes.LOADING_START,
-                    function*() {
-                        if (!this.isLoadingStartActionDispatched) {
-                            yield effects.put(actions.loadingStart(), "../../../*");
-                        }
-                    }.bind(this)
-                );
-                yield effects.takeEvery(
-                    RandomGifActionTypes.LOADING_COMPLETE,
-                    function*() {
-                        /**
-                         * throw exposed action out of box
-                         * It's guaranteed all reducers are run before saga.
-                         * Therefore, if you get state in a saga via `select` effect,
-                         * it'll always be applied state.
-                         */
-                        const { isLoading } = yield effects.select();
-                        if (!isLoading) {
-                            yield effects.put(
-                                actions.loadingComplete(error),
-                                "../../../*"
-                            );
-                            this.isLoadingStartActionDispatched = false;
-                        }
-                    }.bind(this)
-                );
-                // --- monitor `REQUEST_NEW_PAIR` and send multicast actions to RandomGifs
-                yield effects.takeEvery(
-                    actionTypes.REQUEST_NEW_PAIR,
-                    function*() {
-                        yield effects.put(
-                            RandomGifActions.requestNewGif(),
-                            "./Gifs/*"
-                        );
-                    }
-                );
-            }
+            reducer,
+            saga,
+            // --- specify accepted types of external multicast actions
+            // --- By default, component will not accept any incoming multicast action.
+            // --- No limit to actions that are sent out
+            acceptMulticastActionTypes: [actionTypes.REQUEST_NEW_PAIR]
         });
     }
 
@@ -231,8 +173,7 @@ export default RandomGifPair;
 const exposedActionList = [
     actionTypes.LOADING_START,
     actionTypes.LOADING_COMPLETE,
-    actionTypes.REQUEST_NEW_PAIR,
-    actionTypes.NEW_GIF
+    actionTypes.REQUEST_NEW_PAIR
 ];
 
 const exposedActionTypes = {};
@@ -245,7 +186,15 @@ exposedActionList.forEach(act => {
     exposedActions[camelcaseAct] = actions[camelcaseAct];
 });
 
+// --- export NEW_GIF action type as well just 
+// --- so people can use `RandomGifPair` without knowing `RandomGif`
+exposedActionTypes["NEW_GIF"] = RandomGifActionTypes.NEW_GIF;
+
 /**
  * expose actions for component users
  */
-export { exposedActionTypes as actionTypes, exposedActions as actions, namespace };
+export {
+    exposedActionTypes as actionTypes,
+    exposedActions as actions,
+    namespace
+};

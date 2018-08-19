@@ -138,6 +138,25 @@ export default class PathRegistry {
         else return false;
     }
 
+    isAllowedMulticast(path, actionType) {
+        const { acceptMulticastActionTypes } = this.getPathData(path);
+        if (!acceptMulticastActionTypes) return false;
+        if (
+            is.string(acceptMulticastActionTypes) &&
+            acceptMulticastActionTypes === "*"
+        )
+            return true;
+        if (is.symbol(acceptMulticastActionTypes)) {
+            return acceptMulticastActionTypes === actionType;
+        }
+        if (!is.array(acceptMulticastActionTypes)) {
+            throw new Error(
+                "PathRegistry.isAllowedMulticast: invalid `acceptMulticastActionTypes` option type. "
+            );
+        }
+        return acceptMulticastActionTypes.indexOf(actionType) !== -1;
+    }
+
     /**
      *
      * @param {Action} action dispatch Action
@@ -158,27 +177,34 @@ export default class PathRegistry {
         }
 
         const r = this.paths.filter(item => {
-            // --- exact match will always be included
-            if (item === dispatchPath) return true;
             // --- only include sub branch paths. e.g. `dispatchPath` is part of and shorter than `item`
-            if (item.indexOf(dispatchPath + "/") !== 0) return false;
+            // --- exact same path should also be included e.g. item === dispatchPath
+            if (item.indexOf(dispatchPath + "/") !== 0 && item !== dispatchPath)
+                return false;
 
-            /**
-             * the dispatch path must on or beyond local namespace boundary before an action is dispatched to this component.
-             * e.g. For a component:
-             * Namespace Prefix     Namespace               ComponentID
-             * exampleApp/Gifs   /  io.github.t83714    /    RandomGif-sdjiere
-             * The local namespace boundary is between `exampleApp/Gifs` and `io.github.t83714/RandomGif-sdjiere`
-             * Actions dispatched on `exampleApp/Gifs` (on boundary) or
-             * `exampleApp/Gifs/io.github.t83714` (beyond the boundary) will be accepted by this component.
-             * Actions dispatched on `exampleApp` will not be accepted by this component.
-             */
-            const { localPathPos } = this.dataStore[item]
-                ? this.dataStore[item]
-                : {};
-            if (!is.number(localPathPos)) return true;
-            if (dispatchPath.length - 1 >= localPathPos - 2) return true;
-            return false;
+            const { acceptMulticastActionTypes } = this.getPathData(item);
+            if (acceptMulticastActionTypes === "*") {
+                /**
+                 * If a component is set to accept `any` action types (i.e. `acceptMulticastActionTypes` set to "*"), the dispatch path
+                 * must on or beyond local namespace boundary before a multicast action is dispatched to this component.
+                 * e.g. For a component:
+                 * Namespace Prefix                Namespace                   ComponentID
+                 * exampleApp/Gifs   /  io.github.t83714/ActionForwarder    /  sdjiere
+                 * The local namespace boundary is between `exampleApp/Gifs` and `io.github.t83714/ActionForwarder/sdjiere`
+                 * Actions dispatched on `exampleApp/Gifs` (on boundary) or
+                 * `exampleApp/Gifs/io.github.t83714` (beyond the boundary) will be accepted by this component.
+                 * Actions dispatched on `exampleApp` will not be accepted by this component.
+                 */
+                const { localPathPos } = this.dataStore[item]
+                    ? this.dataStore[item]
+                    : {};
+                if (!is.number(localPathPos)) return true;
+                if (dispatchPath.length - 1 >= localPathPos - 2) return true;
+                return false;
+            } else {
+                // --- only components / registered path accepts Multicast action will be included.
+                return this.isAllowedMulticast(item, action.type);
+            }
         });
         return r;
     }

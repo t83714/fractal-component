@@ -11,7 +11,9 @@ const defaultOptions = {
     namespacePrefix: null,
     componentId: null,
     persistState: false,
-    acceptUpperNamespaceActions: false,
+    //--- when `acceptMulticastActionTypes` is string
+    //--- only "*" is accepted (means accepting any actionTypes)
+    acceptMulticastActionTypes: null,
     isServerSideRendering: false
 };
 
@@ -76,22 +78,13 @@ class ComponentManager {
         }
         if (this.namespacePrefix.indexOf("*") !== -1)
             throw new Error("`namespacePrefix` cannot contain `*`.");
-        if (
-            this.componentInstance.props &&
-            is.bool(
-                this.componentInstance.props.acceptUpperNamespaceActions
-            )
-        ) {
-            this.acceptUpperNamespaceActions = this.componentInstance.props.acceptUpperNamespaceActions;
-        } else {
-            this.acceptUpperNamespaceActions = this.options.acceptUpperNamespaceActions;
-        }
 
         this.isServerSideRendering = this.options.isServerSideRendering;
         this.persistState = this.options.persistState;
         this.fullNamespace = fullNamespace.bind(this)();
         this.fullPath = fullPath.bind(this)();
         this.fullLocalPath = fullLocalPath.bind(this)();
+        this.acceptMulticastActionTypes = this.options.acceptMulticastActionTypes;
 
         determineInitState.apply(this);
     }
