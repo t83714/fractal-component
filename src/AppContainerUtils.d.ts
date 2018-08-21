@@ -11,7 +11,9 @@ import { Task } from "redux-saga";
 export declare function createAppContainer(
     options: AppContainerOptions
 ): AppContainer;
-export declare function getAppContainer(): AppContainer;
+export declare function getAppContainer(
+    componentInstance?: ManageableComponent
+): AppContainer;
 export declare function registerComponent(
     componentInstance: ManageableComponent,
     options: ManageableComponentOptions
@@ -21,18 +23,36 @@ export declare function deregisterComponent(
 ): void;
 export declare function registerSaga(
     saga: GeneratorFunction,
-    sagaOptions: SagaOptions
+    sagaOptions: SagaOptions,
+    componentInstance?: ManageableComponent
 ): void;
-export declare function deregisterSaga(pathOrTask: string | Task): void;
+export declare function deregisterSaga(
+    pathOrTask: string | Task,
+    componentInstance?: ManageableComponent
+): void;
 export declare function registerReducer(
     reducer: Reducer,
-    reducerOptions: ReducerOptions
+    reducerOptions: ReducerOptions,
+    componentInstance?: ManageableComponent
 ): void;
-export declare function deregisterReducer(path: string): void;
+export declare function deregisterReducer(
+    path: string,
+    componentInstance?: ManageableComponent
+): void;
 export declare function registerActions(
     namespace: string,
-    actions: symbol | symbol[] | object
+    actions: symbol | symbol[] | object,
+    componentInstance?: ManageableComponent
 ): void;
-export declare function serialiseAction(action: Action): string;
-export declare function deserialiseAction(actionJson: string): Action;
-export declare function destroyAppContainer(): void;
+export declare function serialiseAction(
+    action: Action,
+    componentInstance?: ManageableComponent
+): string;
+export declare function deserialiseAction(
+    actionJson: string,
+    componentInstance?: ManageableComponent
+): Action;
+export declare function destroyAppContainer(
+    componentInstance?: ManageableComponent
+): void;
+export declare function updateAppContainerRetrieveKey(newKey: string): string;
