@@ -1,7 +1,4 @@
 import * as React from "react";
-import { create as jssCreate } from "jss";
-import jssDefaultPreset from "jss-preset-default";
-import color from "color";
 //-- import fractal-component lib from src entry point
 import { AppContainerUtils } from "../../../../src/index";
 
@@ -13,44 +10,10 @@ import * as actionTypes from "./actions/types";
 import camelCase from "lodash/camelCase";
 import findKey from "lodash/findKey";
 
-const styles = {
-    table: {
-        display: "flex",
-        "flex-wrap": "wrap",
-        margin: "0.2em 0.2em 0.2em 0.2em",
-        padding: 0,
-        "flex-direction": "column",
-        width: "20em"
-    },
-    cell: {
-        "box-sizing": "border-box",
-        "flex-grow": 1,
-        width: "100%",
-        overflow: "hidden",
-        padding: "0.2em 0.2em",
-        border: `solid 2px ${color("slategrey").fade(0.5)}`,
-        "border-bottom": "none",
-        "background-color": "#f7f7f7",
-        display: "flex",
-        "align-items": "center",
-        "justify-content": "center",
-        "&:last-child": {
-            "border-bottom": `solid 2px ${color("slategrey").fade(
-                0.5
-            )} !important`
-        }
-    },
-    "image-container": {
-        height: "15em"
-    },
-    image: {
-        width: "100%",
-        height: "100%"
-    }
-};
+import jss from "jss";
+import styles from "./styles";
 
-const jss = jssCreate(jssDefaultPreset());
-const { classes } = jss.createStyleSheet(styles).attach();
+let styleSheet;
 
 class RandomGif extends React.Component {
     constructor(props) {
@@ -64,30 +27,36 @@ class RandomGif extends React.Component {
             imageUrl: null,
             error: null
         };
-
-        /**
-         * Register actions is optional for action serialisation / deserialisation.
-         * It's much easier to use Symbol as action type to make sure no action type collision among different component.
-         * ( Considering we now use actions as primary way for inter-component communication, it's quite important in a multicaset action environment)
-         * However, Symbol is not serialisable by its nature and serialisable actions is the key to `time travel` feature.
-         * Here we provide an ActionRegistry facility to achieve the serialisation (By re-establish the mapping). To do that, you need:
-         * - Register your action types via `AppContainerUtils.registerActions(namespace, actionTypes)`
-         * - All actions created must carry the namespace fields. Here the namespace is your component namespace.
-         */
-        AppContainerUtils.registerActions(namespace, actionTypes);
-
         this.componentManager = AppContainerUtils.registerComponent(this, {
             namespace,
             reducer: reducer,
             saga: saga,
+            /**
+             * Register actions is optional for action serialisation / deserialisation.
+             * It's much easier to use Symbol as action type to make sure no action type collision among different component.
+             * ( Considering we now use actions as primary way for inter-component communication, it's quite important in a multicaset action environment)
+             * However, Symbol is not serialisable by its nature and serialisable actions is the key to `time travel` feature.
+             * Here we provide an ActionRegistry facility to achieve the serialisation (By re-establish the mapping). To do that, you need:
+             * - Register your action types via `AppContainerUtils.registerActions(namespace, actionTypes)`
+             * - All actions created must carry the namespace fields. Here the namespace is your component namespace.
+             */
+            actionTypes,
             // --- only accept one type of external multicast action
             // --- By default, component will not accept any incoming multicast action.
             // --- No limit to actions that are sent out
-            acceptMulticastActionTypes: [actionTypes.REQUEST_NEW_GIF]
+            allowedIncomingMulticastActionTypes: [actionTypes.REQUEST_NEW_GIF],
+            namespaceInitCallback: () => {
+                styleSheet = jss.createStyleSheet(styles).attach();
+                return { styleSheet };
+            },
+            namespaceDestroyCallback: ({ styleSheet }) => {
+                styleSheet.detach();
+            }
         });
     }
 
     render() {
+        const { classes } = styleSheet;
         return (
             <div className={classes.table}>
                 <div className={classes.cell}>RandomGif</div>

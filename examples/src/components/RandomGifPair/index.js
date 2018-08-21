@@ -1,7 +1,4 @@
 import * as React from "react";
-import { create as jssCreate } from "jss";
-import jssDefaultPreset from "jss-preset-default";
-import color from "color";
 //-- import fractal-component lib from src entry point
 import { AppContainerUtils, ActionForwarder } from "../../../../src/index";
 
@@ -15,45 +12,10 @@ import saga from "./sagas";
 import camelCase from "lodash/camelCase";
 import findKey from "lodash/findKey";
 
-const styles = {
-    table: {
-        display: "flex",
-        "flex-wrap": "wrap",
-        margin: "0.2em 0.2em 0.2em 0.2em",
-        padding: 0,
-        "flex-direction": "column",
-        width: "41em"
-    },
-    cell: {
-        "box-sizing": "border-box",
-        "flex-grow": 1,
-        width: "100%",
-        overflow: "hidden",
-        padding: "0.2em 0.2em",
-        border: `solid 2px ${color("slategrey").fade(0.5)}`,
-        "border-bottom": "none",
-        "background-color": "#f7f7f7",
-        display: "flex",
-        "flex-direction": "row",
-        "align-items": "center",
-        "justify-content": "space-evenly",
-        "&:last-child": {
-            "border-bottom": `solid 2px ${color("slategrey").fade(
-                0.5
-            )} !important`
-        }
-    },
-    "image-container": {
-        height: "15em"
-    },
-    image: {
-        width: "100%",
-        height: "100%"
-    }
-};
+import jss from "jss";
+import styles from "./styles";
 
-const jss = jssCreate(jssDefaultPreset());
-const { classes } = jss.createStyleSheet(styles).attach();
+let styleSheet;
 
 class RandomGifPair extends React.Component {
     constructor(props) {
@@ -71,29 +33,36 @@ class RandomGifPair extends React.Component {
         };
         this.isLoadingStartActionDispatched = false;
 
-        /**
-         * Register actions is optional for action serialisation / deserialisation.
-         * It's much easier to use Symbol as action type to make sure no action type collision among different component.
-         * ( Considering we now use actions as primary way for inter-component communication, it's quite important in a multicaset action environment)
-         * However, Symbol is not serialisable by its nature and serialisable actions is the key to `time travel` feature.
-         * Here we provide an ActionRegistry facility to achieve the serialisation (By re-establish the mapping). To do that, you need:
-         * - Register your action types via `AppContainerUtils.registerActions(namespace, actionTypes)`
-         * - All actions created must carry the namespace fields. Here the namespace is your component namespace.
-         */
-        AppContainerUtils.registerActions(namespace, actionTypes);
-
         this.componentManager = AppContainerUtils.registerComponent(this, {
             namespace,
             reducer,
             saga,
+            /**
+             * Register actions is optional for action serialisation / deserialisation.
+             * It's much easier to use Symbol as action type to make sure no action type collision among different component.
+             * ( Considering we now use actions as primary way for inter-component communication, it's quite important in a multicaset action environment)
+             * However, Symbol is not serialisable by its nature and serialisable actions is the key to `time travel` feature.
+             * Here we provide an ActionRegistry facility to achieve the serialisation (By re-establish the mapping). To do that, you need:
+             * - Register your action types via `AppContainerUtils.registerActions(namespace, actionTypes)`
+             * - All actions created must carry the namespace fields. Here the namespace is your component namespace.
+             */
+            actionTypes,
             // --- specify accepted types of external multicast actions
             // --- By default, component will not accept any incoming multicast action.
             // --- No limit to actions that are sent out
-            acceptMulticastActionTypes: [actionTypes.REQUEST_NEW_PAIR]
+            allowedIncomingMulticastActionTypes: [actionTypes.REQUEST_NEW_PAIR],
+            namespaceInitCallback: () => {
+                styleSheet = jss.createStyleSheet(styles).attach();
+                return { styleSheet };
+            },
+            namespaceDestroyCallback: ({ styleSheet }) => {
+                styleSheet.detach();
+            }
         });
     }
 
     render() {
+        const { classes } = styleSheet;
         return (
             <div className={classes.table}>
                 <div className={classes.cell}>RandomGif Pair</div>
@@ -186,7 +155,7 @@ exposedActionList.forEach(act => {
     exposedActions[camelcaseAct] = actions[camelcaseAct];
 });
 
-// --- export NEW_GIF action type as well just 
+// --- export NEW_GIF action type as well just
 // --- so people can use `RandomGifPair` without knowing `RandomGif`
 exposedActionTypes["NEW_GIF"] = RandomGifActionTypes.NEW_GIF;
 

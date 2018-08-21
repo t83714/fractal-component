@@ -35,6 +35,7 @@ class ComponentRegistry {
             registerComponentManager.bind(this),
             deRegisterComponentManager.bind(this)
         );
+        this.appContainer.namespaceRegistry.registerComponentManager(manager);
         return manager;
     }
 
@@ -72,7 +73,6 @@ function registerComponentManager(cm) {
             }
         );
     }
-    this.appContainer.namespaceRegistry.registerComponentManager(cm);
 }
 
 function deRegisterComponentManager(cm) {

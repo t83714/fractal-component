@@ -46,7 +46,7 @@ class AppContainer {
     constructor(options = {}) {
         this.store = null;
         this.actionRegistry = new ActionRegistry();
-        this.namespaceRegistry = new NamespaceRegistry();
+        this.namespaceRegistry = new NamespaceRegistry(this);
         const containerCreationOptions = {
             ...defaultOptions,
             ...options
