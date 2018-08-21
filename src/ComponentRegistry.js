@@ -58,7 +58,7 @@ function registerComponentManager(cm) {
                 path: cm.fullPath,
                 namespace: cm.namespace,
                 persistState: cm.persistState,
-                acceptMulticastActionTypes: cm.acceptMulticastActionTypes
+                allowedIncomingMulticastActionTypes: cm.allowedIncomingMulticastActionTypes
             }
         );
     }
@@ -68,15 +68,21 @@ function registerComponentManager(cm) {
             {
                 path: cm.fullPath,
                 namespace: cm.namespace,
-                acceptMulticastActionTypes: cm.acceptMulticastActionTypes
+                allowedIncomingMulticastActionTypes: cm.allowedIncomingMulticastActionTypes
             }
         );
     }
+    this.appContainer.namespaceRegistry.registerComponentManager(cm);
 }
 
 function deRegisterComponentManager(cm) {
-    this.appContainer.sagaRegistry.deregister(cm.fullPath);
-    this.appContainer.reducerRegistry.deregister(cm.fullPath);
+    if (cm.options.reducer && is.func(cm.options.reducer)) {
+        this.appContainer.sagaRegistry.deregister(cm.fullPath);
+    }
+    if (cm.options.saga && is.func(cm.options.saga)) {
+        this.appContainer.reducerRegistry.deregister(cm.fullPath);
+    }
+    this.appContainer.namespaceRegistry.deregisterComponentManager(cm);
 }
 
 export default ComponentRegistry;

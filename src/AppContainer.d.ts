@@ -6,6 +6,7 @@ import ReducerRegistry from "./ReducerRegistry";
 import PathRegistry from "./PathRegistry";
 import SagaRegistry from "./SagaRegistry";
 import ActionRegistry from "./ActionRegistry";
+import NamespaceRegistry from "./NamespaceRegistry";
 import {
     ManageableComponent,
     ManageableComponentOptions
@@ -20,6 +21,7 @@ declare class AppContainer {
     reducerRegistry: ReducerRegistry;
     sagaRegistry: SagaRegistry;
     actionRegistry: ActionRegistry;
+    namespaceRegistry: NamespaceRegistry;
     
     registerComponent(
         componentInstance: ManageableComponent,

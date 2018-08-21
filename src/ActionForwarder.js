@@ -17,7 +17,7 @@ class ActionForwarder extends React.Component {
             // --- By default, component will not accept any incoming multicast action.
             // --- "*" will allow any action types to be accepted
             // --- No limit to actions that are sent out
-            acceptMulticastActionTypes: "*"
+            allowedIncomingMulticastActionTypes: "*"
         });
     }
 

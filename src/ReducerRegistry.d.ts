@@ -24,7 +24,7 @@ export interface ReducerOptions {
     path: string;
     namespace: string;
     persistState?: boolean;
-    acceptMulticastActionTypes?: symbol[] | symbol | string;
+    allowedIncomingMulticastActionTypes?: symbol[] | symbol | string;
 }
 
 export interface ReducerItem extends ReducerOptions {

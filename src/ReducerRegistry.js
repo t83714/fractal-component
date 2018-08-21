@@ -111,7 +111,7 @@ class ReducerRegistry {
             );
         if (!reducerOptions) reducerOptions = { ...defaultReducerOptions };
 
-        const { path, namespace, initState, persistState, acceptMulticastActionTypes } = reducerOptions;
+        const { path, namespace, initState, persistState, allowedIncomingMulticastActionTypes } = reducerOptions;
 
         if (!path)
             throw new Error(
@@ -127,7 +127,7 @@ class ReducerRegistry {
             this.pathRegistry.add(registeredPath, {
                 localPathPos,
                 namespace,
-                acceptMulticastActionTypes
+                allowedIncomingMulticastActionTypes
             }) === null
         ) {
             throw new Error(
@@ -140,7 +140,7 @@ class ReducerRegistry {
             reducer,
             initState,
             persistState,
-            acceptMulticastActionTypes,
+            allowedIncomingMulticastActionTypes,
             path: registeredPath
         };
 

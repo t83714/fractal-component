@@ -11,9 +11,9 @@ const defaultOptions = {
     namespacePrefix: null,
     componentId: null,
     persistState: false,
-    //--- when `acceptMulticastActionTypes` is string
+    //--- when `allowedIncomingMulticastActionTypes` is string
     //--- only "*" is accepted (means accepting any actionTypes)
-    acceptMulticastActionTypes: null,
+    allowedIncomingMulticastActionTypes: null,
     isServerSideRendering: false
 };
 
@@ -84,7 +84,7 @@ class ComponentManager {
         this.fullNamespace = fullNamespace.bind(this)();
         this.fullPath = fullPath.bind(this)();
         this.fullLocalPath = fullLocalPath.bind(this)();
-        this.acceptMulticastActionTypes = this.options.acceptMulticastActionTypes;
+        this.allowedIncomingMulticastActionTypes = this.options.allowedIncomingMulticastActionTypes;
 
         determineInitState.apply(this);
     }

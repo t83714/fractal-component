@@ -4,6 +4,7 @@ import ComponentRegistry from "./ComponentRegistry";
 import ReducerRegistry from "./ReducerRegistry";
 import SagaRegistry from "./SagaRegistry";
 import ActionRegistry from "./ActionRegistry";
+import NamespaceRegistry from "./NamespaceRegistry";
 import * as ReducerRegistryActionTypes from "./ReducerRegistry/actionTypes";
 import * as SagaRegistryActionTypes from "./SagaRegistry/actionTypes";
 
@@ -45,6 +46,7 @@ class AppContainer {
     constructor(options = {}) {
         this.store = null;
         this.actionRegistry = new ActionRegistry();
+        this.namespaceRegistry = new NamespaceRegistry();
         const containerCreationOptions = {
             ...defaultOptions,
             ...options

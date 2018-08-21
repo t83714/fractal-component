@@ -103,7 +103,7 @@ export default class PathRegistry {
         path = normalize(path);
         if (this.paths.indexOf(path) !== -1) return null;
         this.paths.push(path);
-        this.dataStore[path] = data;
+        if (is.notUndef(data)) this.dataStore[path] = data;
         return path;
     }
 
@@ -114,6 +114,34 @@ export default class PathRegistry {
 
     setPathData(path, data) {
         this.dataStore[path] = data;
+    }
+
+    mergePathData(path, data) {
+        if (is.object(this.dataStore[path])) {
+            this.dataStore[path] = Object.assign(
+                {},
+                this.dataStore[path],
+                data
+            );
+        } else {
+            this.dataStore[path] = data;
+        }
+    }
+
+    removePathData(path) {
+        delete this.dataStore[path];
+    }
+
+    foreach(iteratee) {
+        Object.keys(this.dataStore).forEach(key =>
+            iteratee(this.dataStore[key], key)
+        );
+    }
+
+    map(iteratee) {
+        return Object.keys(this.dataStore).map(key =>
+            iteratee(this.dataStore[key], key)
+        );
     }
 
     searchPathByPathData(predictFunc) {
@@ -139,22 +167,22 @@ export default class PathRegistry {
     }
 
     isAllowedMulticast(path, actionType) {
-        const { acceptMulticastActionTypes } = this.getPathData(path);
-        if (!acceptMulticastActionTypes) return false;
+        const { allowedIncomingMulticastActionTypes } = this.getPathData(path);
+        if (!allowedIncomingMulticastActionTypes) return false;
         if (
-            is.string(acceptMulticastActionTypes) &&
-            acceptMulticastActionTypes === "*"
+            is.string(allowedIncomingMulticastActionTypes) &&
+            allowedIncomingMulticastActionTypes === "*"
         )
             return true;
-        if (is.symbol(acceptMulticastActionTypes)) {
-            return acceptMulticastActionTypes === actionType;
+        if (is.symbol(allowedIncomingMulticastActionTypes)) {
+            return allowedIncomingMulticastActionTypes === actionType;
         }
-        if (!is.array(acceptMulticastActionTypes)) {
+        if (!is.array(allowedIncomingMulticastActionTypes)) {
             throw new Error(
-                "PathRegistry.isAllowedMulticast: invalid `acceptMulticastActionTypes` option type. "
+                "PathRegistry.isAllowedMulticast: invalid `allowedIncomingMulticastActionTypes` option type. "
             );
         }
-        return acceptMulticastActionTypes.indexOf(actionType) !== -1;
+        return allowedIncomingMulticastActionTypes.indexOf(actionType) !== -1;
     }
 
     /**
@@ -182,10 +210,12 @@ export default class PathRegistry {
             if (item.indexOf(dispatchPath + "/") !== 0 && item !== dispatchPath)
                 return false;
 
-            const { acceptMulticastActionTypes } = this.getPathData(item);
-            if (acceptMulticastActionTypes === "*") {
+            const { allowedIncomingMulticastActionTypes } = this.getPathData(
+                item
+            );
+            if (allowedIncomingMulticastActionTypes === "*") {
                 /**
-                 * If a component is set to accept `any` action types (i.e. `acceptMulticastActionTypes` set to "*"), the dispatch path
+                 * If a component is set to accept `any` action types (i.e. `allowedIncomingMulticastActionTypes` set to "*"), the dispatch path
                  * must on or beyond local namespace boundary before a multicast action is dispatched to this component.
                  * e.g. For a component:
                  * Namespace Prefix                Namespace                   ComponentID

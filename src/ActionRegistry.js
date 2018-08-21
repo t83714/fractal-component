@@ -1,6 +1,36 @@
 import PathRegistry, { normalize, NAMESPACED } from "./PathRegistry";
 import { is } from "./utils";
 
+const standardliseActionTypesParameter = function(actionTypes) {
+    let newActionList = {};
+    if (is.symbol(actionTypes)) {
+        newActionList[String(actionTypes)] = actionTypes;
+    } else if (is.array(actionTypes) && actionTypes.length) {
+        actionTypes.forEach(actionType => {
+            if (!is.symbol(actionType)) {
+                throw new Error(
+                    "ActionRegistry: Action type must be a symbol."
+                );
+            }
+            newActionList[String(actionType)] = actionType;
+        });
+    } else if (is.object(actionTypes)) {
+        Object.keys(actionTypes).forEach(key => {
+            if (!is.symbol(actionTypes[key])) {
+                throw new Error(
+                    "ActionRegistry: Action type must be a symbol."
+                );
+            }
+            newActionList[String(actionTypes[key])] = actionTypes[key];
+        });
+    } else {
+        throw new Error(
+            "ActionRegistry: actionTypes must be a symbol or a list / array of symbols."
+        );
+    }
+    return newActionList;
+};
+
 export default class ActionRegistry {
     constructor() {
         this.pathRegistry = new PathRegistry();
@@ -8,32 +38,8 @@ export default class ActionRegistry {
 
     register(namespace, actionTypes) {
         namespace = normalize(namespace);
-        let newActionList = {};
-        if (is.symbol(actionTypes)) {
-            newActionList[String(actionTypes)] = actionTypes;
-        } else if (is.array(actionTypes) && actionTypes.length) {
-            actionTypes.forEach(actionType => {
-                if (!is.symbol(actionType)) {
-                    throw new Error(
-                        "ActionRegistry: Action type must be a symbol."
-                    );
-                }
-                newActionList[String(actionType)] = actionType;
-            });
-        } else if (is.object(actionTypes)) {
-            Object.keys(actionTypes).forEach(key => {
-                if (!is.symbol(actionTypes[key])) {
-                    throw new Error(
-                        "ActionRegistry: Action type must be a symbol."
-                    );
-                }
-                newActionList[String(actionTypes[key])] = actionTypes[key];
-            });
-        } else {
-            throw new Error(
-                "ActionRegistry: actionTypes must be a symbol or a list / array of symbols."
-            );
-        }
+
+        const newActionList = standardliseActionTypesParameter(actionTypes);
 
         if (this.pathRegistry.exist(namespace)) {
             const data = this.pathRegistry.getPathData(namespace);
@@ -48,9 +54,34 @@ export default class ActionRegistry {
         }
     }
 
+    deregister(namespace, actionTypes = null) {
+        namespace = normalize(namespace);
+        if (!this.pathRegistry.exist(namespace)) return;
+        if (!actionTypes) {
+            this.pathRegistry.remove(namespace);
+        } else {
+            const newActionList = Object.values(
+                standardliseActionTypesParameter(actionTypes)
+            );
+            let { actionList } = this.pathRegistry.getPathData(namespace);
+            const actionListKeys = Object.keys(actionList).filter(
+                key => newActionList.indexOf(actionList[key]) === -1
+            );
+            if (!actionListKeys.length) {
+                this.pathRegistry.remove(namespace);
+            } else {
+                actionListKeys.forEach(key => {
+                    delete actionList[key];
+                });
+                this.pathRegistry.setPathData({ actionList });
+            }
+        }
+    }
+
     findNamespaceByActionType(actionType) {
         return this.pathRegistry.searchPathByPathData(
-            ({ actionList }) => Object.values(actionList).indexOf(actionType) !== -1
+            ({ actionList }) =>
+                Object.values(actionList).indexOf(actionType) !== -1
         );
     }
 

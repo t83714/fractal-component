@@ -23,7 +23,11 @@ declare class PathRegistry {
     searchSubPath(path: string): string[];
     remove(path: string): void;
     getPathData(path: string): object;
-    setPathData(path: string, data: object);
+    setPathData(path: string, data: object): void;
+    mergePathData(path: string, data: object): void;
+    foreach(iteratee: (data: object, path: string) => void): void;
+    map(iteratee: (data: object, path: string) => any): any[];
+    removePathData(path: string): void;
     isAllowedMulticast(path: string, actionType: symbol): boolean;
     searchPathByPathData(predictFunc: (any) => boolean): string;
 }
