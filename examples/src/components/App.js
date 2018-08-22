@@ -52,15 +52,6 @@ export default () => {
                     transformer={counterActionTypes.INCREASE_COUNT}
                 />
             </div>
-
-            <div>
-                <div style={{ textAlign: "center", color: "red" }}>
-                    Random Gif
-                </div>
-                <div>
-                    <img width="100px" />
-                </div>
-            </div>
         </div>
     );
 }
