@@ -1,48 +1,66 @@
 import * as React from "react";
 //-- import fractal-component lib from src entry point
 import { ActionForwarder } from "../../../src/index";
-import RandomGif, { actionTypes as randomGifActionTypes} from "./RandomGif";
+import RandomGif, { actionTypes as randomGifActionTypes } from "./RandomGif";
 import RandomGifPair from "./RandomGifPair";
 import RandomGifPairPair from "./RandomGifPairPair";
-import Counter, {actionTypes as counterActionTypes} from "./Counter";
+import Counter, { actionTypes as counterActionTypes } from "./Counter";
+import once from "lodash/once";
+import jss from "jss";
+import styles from "./App.style";
 
-export default () => (
-    <div>
-        <div>
-            <RandomGif namespacePrefix="exampleApp/RandomGif" hideButton={true} />
-            <ActionForwarder
-                namespacePrefix="exampleApp/RandomGif"
-                pattern={randomGifActionTypes.NEW_GIF}
-                relativeDispatchPath="../Counter/*"
-                transformer={counterActionTypes.INCREASE_COUNT}
-            />
-        </div>
-        <div>
-            <RandomGifPair namespacePrefix="exampleApp/RandomGifPair" />
-            <ActionForwarder
-                namespacePrefix="exampleApp/RandomGifPair"
-                pattern={randomGifActionTypes.NEW_GIF}
-                relativeDispatchPath="../Counter/*"
-                transformer={counterActionTypes.INCREASE_COUNT}
-            />
-        </div>
-        <div>
-            <RandomGifPairPair namespacePrefix="exampleApp/RandomGifPairPair" />
-            <ActionForwarder
-                namespacePrefix="exampleApp/RandomGifPairPair"
-                pattern={randomGifActionTypes.NEW_GIF}
-                relativeDispatchPath="../Counter/*"
-                transformer={counterActionTypes.INCREASE_COUNT}
-            />
-        </div>
+const createStyleSheet = once(() => {
+    return jss.createStyleSheet(styles).attach();
+});
 
-        <Counter namespacePrefix="exampleApp/Counter" />
-
+export default () => {
+    const { classes } = createStyleSheet();
+    return (
         <div>
-            <div style={{ textAlign: "center", color: "red" }}>Random Gif</div>
+            <div className={classes.table}>
+                <div className={classes.cell}>
+                    <RandomGif
+                        namespacePrefix="exampleApp/RandomGif"
+                        hideButton={true}
+                    />
+                    <ActionForwarder
+                        namespacePrefix="exampleApp/RandomGif"
+                        pattern={randomGifActionTypes.NEW_GIF}
+                        relativeDispatchPath="../Counter/*"
+                        transformer={counterActionTypes.INCREASE_COUNT}
+                    />
+                </div>
+                <div className={classes.cell}>
+                    <Counter namespacePrefix="exampleApp/Counter" />
+                </div>
+            </div>
             <div>
-                <img width="100px" />
+                <RandomGifPair namespacePrefix="exampleApp/RandomGifPair" />
+                <ActionForwarder
+                    namespacePrefix="exampleApp/RandomGifPair"
+                    pattern={randomGifActionTypes.NEW_GIF}
+                    relativeDispatchPath="../Counter/*"
+                    transformer={counterActionTypes.INCREASE_COUNT}
+                />
+            </div>
+            <div>
+                <RandomGifPairPair namespacePrefix="exampleApp/RandomGifPairPair" />
+                <ActionForwarder
+                    namespacePrefix="exampleApp/RandomGifPairPair"
+                    pattern={randomGifActionTypes.NEW_GIF}
+                    relativeDispatchPath="../Counter/*"
+                    transformer={counterActionTypes.INCREASE_COUNT}
+                />
+            </div>
+
+            <div>
+                <div style={{ textAlign: "center", color: "red" }}>
+                    Random Gif
+                </div>
+                <div>
+                    <img width="100px" />
+                </div>
             </div>
         </div>
-    </div>
-);
+    );
+}

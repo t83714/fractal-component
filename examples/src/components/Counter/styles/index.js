@@ -25,15 +25,15 @@ const styles = {
             "border-bottom": `solid 2px ${color("slategrey").fade(
                 0.5
             )} !important`
+        },
+        "&$counter-container":{
+            height: "16.5em",
+            "& span": {
+                "font-size": "40px"
+            }
         }
     },
-    "image-container": {
-        height: "15em"
-    },
-    image: {
-        width: "100%",
-        height: "100%"
-    }
+    "counter-container": {}
 };
 
 export default styles;
