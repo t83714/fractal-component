@@ -20,7 +20,10 @@ class Counter extends React.Component {
             reducer: function(state, action) {
                 switch (action.type) {
                     case actionTypes.INCREASE_COUNT:
-                        return { ...state, count: state.count + 1 };
+                        const { toggleButtonActive } = action;
+                        const incresement =
+                            state.count >= 10 && toggleButtonActive ? 2 : 1;
+                        return { ...state, count: state.count + incresement };
                     default:
                         return state;
                 }
