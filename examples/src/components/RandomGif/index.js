@@ -1,4 +1,5 @@
 import * as React from "react";
+import PropTypes from "prop-types";
 //-- import fractal-component lib from src entry point
 import { AppContainerUtils } from "../../../../src/index";
 
@@ -9,6 +10,7 @@ import * as actions from "./actions";
 import * as actionTypes from "./actions/types";
 import camelCase from "lodash/camelCase";
 import findKey from "lodash/findKey";
+import partialRight from "lodash/partialRight";
 
 import jss from "jss";
 import styles from "./styles";
@@ -30,7 +32,7 @@ class RandomGif extends React.Component {
         this.componentManager = AppContainerUtils.registerComponent(this, {
             namespace,
             reducer: reducer,
-            saga: saga,
+            saga: partialRight(saga, props.apiKey),
             /**
              * Register actions is optional for action serialisation / deserialisation.
              * It's much easier to use Symbol as action type to make sure no action type collision among different component.
@@ -105,8 +107,14 @@ class RandomGif extends React.Component {
     }
 }
 
+RandomGif.propTypes = {
+    showButton: PropTypes.bool,
+    apiKey: PropTypes.string
+};
+
 RandomGif.defaultProps = {
-    showButton: true
+    showButton: true,
+    apiKey: "Y4P38sTJAgEBOHP1B3sVs0Jtk01tb6fA"
 };
 
 export default RandomGif;

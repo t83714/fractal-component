@@ -1,4 +1,5 @@
 import * as React from "react";
+import PropTypes from "prop-types";
 //-- import fractal-component lib from src entry point
 import { AppContainerUtils, ActionForwarder } from "../../../../src/index";
 
@@ -72,6 +73,7 @@ class RandomGifPairPair extends React.Component {
                     <div>
                         <RandomGifPair
                             showButton={false}
+                            apiKey={this.props.apiKey}
                             namespacePrefix={`${
                                 this.componentManager.fullPath
                             }/GifPairs`}
@@ -80,6 +82,7 @@ class RandomGifPairPair extends React.Component {
                     <div>
                         <RandomGifPair
                             showButton={false}
+                            apiKey={this.props.apiKey}
                             namespacePrefix={`${
                                 this.componentManager.fullPath
                             }/GifPairs`}
@@ -140,6 +143,11 @@ class RandomGifPairPair extends React.Component {
         );
     }
 }
+
+RandomGifPairPair.propTypes = {
+    showButton: PropTypes.bool,
+    apiKey: PropTypes.string
+};
 
 RandomGifPairPair.defaultProps = {
     showButton: true

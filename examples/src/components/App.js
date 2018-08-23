@@ -20,9 +20,12 @@ export default () => {
         <div>
             <div className={classes.table}>
                 <div className={classes.cell}>
+                    {/*
+                        RandomGif / RandomGifPair / RandomGifPairPair support apiKey property as well
+                        You can supply your giphy API key as component property
+                    */}
                     <RandomGif
                         namespacePrefix="exampleApp/RandomGif"
-                        hideButton={true}
                     />
                     {/*Forward `NEW_GIF` actions (and convert to `INCREASE_COUNT`) to ToggleButton for processing*/}
                     <ActionForwarder

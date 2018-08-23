@@ -2,11 +2,11 @@ import * as actionTypes from "../actions/types";
 import * as actions from "../actions";
 import { call } from "redux-saga/effects";
 
-function fetchGif() {
+function fetchGif(apiKey) {
     return fetch(
-        "https://api.giphy.com/v1/gifs/random?api_key=Y4P38sTJAgEBOHP1B3sVs0Jtk01tb6fA"
+        `https://api.giphy.com/v1/gifs/random?api_key=${apiKey}`
     ).then(response => response.json()).catch(error=>{
-        throw new Error("Giphy API key used exceeded its daily or hourly limit.");
+        throw new Error("Giphy API key is invalid or exceeded its daily / hourly limit.");
     });
 }
 
@@ -29,7 +29,7 @@ function fetchGif() {
  *  import { take } from "redux-saga/effects"; 
  *  const action = yield take("*"); //--- take an `any` action from global level
  */
-const mainSaga = function*(effects) {
+const mainSaga = function*(effects, apiKey) {
     yield effects.takeLeading(actionTypes.REQUEST_NEW_GIF, function*() {
         try {
             /**
@@ -38,7 +38,7 @@ const mainSaga = function*(effects) {
              */
             yield effects.put(actions.loadingStart(), "../../../*");
 
-            const response = yield call(fetchGif);
+            const response = yield call(fetchGif, apiKey);
             const imgUrl = response.data.fixed_width_small_url;
             yield effects.put(actions.receiveNewGif(imgUrl));
             /**
