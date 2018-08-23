@@ -52,6 +52,10 @@ export declare function deserialiseAction(
     actionJson: string,
     componentInstance?: ManageableComponent
 ): Action;
+export declare function findNamespaceByActionType(
+    actionType: symbol,
+    componentInstance?: ManageableComponent
+): string;
 export declare function destroyAppContainer(
     componentInstance?: ManageableComponent
 ): void;

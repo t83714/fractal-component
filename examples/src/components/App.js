@@ -5,6 +5,7 @@ import RandomGif, { actionTypes as randomGifActionTypes } from "./RandomGif";
 import RandomGifPair from "./RandomGifPair";
 import RandomGifPairPair from "./RandomGifPairPair";
 import Counter, { actionTypes as counterActionTypes } from "./Counter";
+import ToggleButton from "./ToggleButton";
 import once from "lodash/once";
 import jss from "jss";
 import styles from "./App.style";
@@ -23,10 +24,11 @@ export default () => {
                         namespacePrefix="exampleApp/RandomGif"
                         hideButton={true}
                     />
+                    {/*Forward `NEW_GIF` actions (and convert to `INCREASE_COUNT`) to ToggleButton for processing*/}
                     <ActionForwarder
                         namespacePrefix="exampleApp/RandomGif"
                         pattern={randomGifActionTypes.NEW_GIF}
-                        relativeDispatchPath="../Counter/*"
+                        relativeDispatchPath="../ToggleButton/*"
                         transformer={counterActionTypes.INCREASE_COUNT}
                     />
                 </div>
@@ -34,21 +36,38 @@ export default () => {
                     <Counter namespacePrefix="exampleApp/Counter" />
                 </div>
             </div>
-            <div>
-                <RandomGifPair namespacePrefix="exampleApp/RandomGifPair" />
-                <ActionForwarder
-                    namespacePrefix="exampleApp/RandomGifPair"
-                    pattern={randomGifActionTypes.NEW_GIF}
-                    relativeDispatchPath="../Counter/*"
-                    transformer={counterActionTypes.INCREASE_COUNT}
-                />
+            <div className={classes.table}>
+                <div className={classes.cell}>
+                    <RandomGifPair namespacePrefix="exampleApp/RandomGifPair" />
+                    {/*Forward `NEW_GIF` actions (and convert to `INCREASE_COUNT`) to ToggleButton for processing*/}
+                    <ActionForwarder
+                        namespacePrefix="exampleApp/RandomGifPair"
+                        pattern={randomGifActionTypes.NEW_GIF}
+                        relativeDispatchPath="../ToggleButton/*"
+                        transformer={counterActionTypes.INCREASE_COUNT}
+                    />
+                </div>
+                <div className={classes.cell}>
+                    {/*
+                        ToggleButton acts as a proxy --- depends on its status
+                        add an `toggleButtonActive`= true / false field to all actions
+                        and then forward actions to Counter
+                    */}
+                    <ToggleButton 
+                        namespacePrefix="exampleApp/ToggleButton"
+                        pattern={randomGifActionTypes.INCREASE_COUNT}
+                        relativeDispatchPath="../Counter/*"
+                        transformer={counterActionTypes.INCREASE_COUNT}
+                    />
+                </div>
             </div>
             <div>
                 <RandomGifPairPair namespacePrefix="exampleApp/RandomGifPairPair" />
+                {/*Forward `NEW_GIF` actions (and convert to `INCREASE_COUNT`) to ToggleButton for processing*/}
                 <ActionForwarder
                     namespacePrefix="exampleApp/RandomGifPairPair"
                     pattern={randomGifActionTypes.NEW_GIF}
-                    relativeDispatchPath="../Counter/*"
+                    relativeDispatchPath="../ToggleButton/*"
                     transformer={counterActionTypes.INCREASE_COUNT}
                 />
             </div>

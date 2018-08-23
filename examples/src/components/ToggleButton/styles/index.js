@@ -26,14 +26,24 @@ const styles = {
                 0.5
             )} !important`
         },
-        "&$counter-container":{
+        "&$button-container":{
             height: "16.5em",
-            "& span": {
-                "font-size": "40px"
-            }
+            "& button":{
+                "font-size": "32px"
+            },
+            "& $active": {
+                "background-color": "green",
+                "color": "white"
+            },
+            "& $inactive":{
+                "background-color": "red",
+                "color": "white"
+            },
         }
     },
-    "counter-container": {}
+    "button-container": {},
+    "active":{},
+    "inactive":{}
 };
 
 export default styles;

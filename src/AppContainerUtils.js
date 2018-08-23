@@ -79,6 +79,11 @@ export function deserialiseAction(actionJson, componentInstance = null) {
     return appContainer.actionRegistry.deserialiseAction(actionJson);
 }
 
+export function findNamespaceByActionType(actionType, componentInstance = null) {
+    const appContainer = getAppContainer(componentInstance);
+    return appContainer.actionRegistry.findNamespaceByActionType(actionType);
+}
+
 export function destroyAppContainer(componentInstance = null) {
     const appContainer = getAppContainer(componentInstance);
     appContainer.destroy();

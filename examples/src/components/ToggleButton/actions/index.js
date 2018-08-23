@@ -1,7 +1,7 @@
 import * as actionTypes from "./types";
 import namespace from "../namespace";
 
-export function increaseCount() {
+export function click() {
     return {
         type: actionTypes.CLICK,
         namespace
