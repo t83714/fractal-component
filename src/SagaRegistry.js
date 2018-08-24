@@ -9,7 +9,6 @@ import {
 } from "redux-saga";
 import * as rsEffects from "redux-saga/effects";
 import * as namespacedEffects from "./SagaRegistry/effects";
-import partial from "lodash/partial";
 import namespace from "./SagaRegistry/namespace";
 
 function* hostSaga() {
@@ -89,7 +88,7 @@ function* initSaga(sagaItem) {
     };
     const effects = {};
     Object.keys(namespacedEffects).forEach(idx => {
-        effects[idx] = partial(namespacedEffects[idx], newSagaItem);
+        effects[idx] = namespacedEffects[idx].bind(this, newSagaItem);
     });
     const task = yield rsEffects.fork(function*() {
         try {

@@ -99,12 +99,6 @@ function actionTransformer(action, transformer) {
     }else if (is.func(transformer)){
         newAction = transformer(action);
     }
-    if(is.symbol(newAction.type)){
-        // --- query action Type's original namespace so that it can be serialised correctly if needed
-        const namespace = this.appContainer.actionRegistry.findNamespaceByActionType(newAction.type);
-        if(!namespace) throw new Error(`Cannot forward Action \`${newAction.type}\`: \`${newAction.type}\` needs to be registered first.`);
-        newAction.namespace = namespace;
-    }
     return newAction;
 }
 

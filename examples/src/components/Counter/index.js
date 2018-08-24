@@ -1,7 +1,6 @@
 import * as React from "react";
 //-- import fractal-component lib from src entry point
 import { AppContainerUtils } from "../../../../src/index";
-import namespace from "./namespace";
 import * as actionTypes from "./actions/types";
 import * as actions from "./actions/index";
 import jss from "jss";
@@ -16,7 +15,7 @@ class Counter extends React.Component {
             count: 0
         };
         this.componentManager = AppContainerUtils.registerComponent(this, {
-            namespace,
+            namespace: "io.github.t83714/Counter",
             reducer: function(state, action) {
                 switch (action.type) {
                     case actionTypes.INCREASE_COUNT:
@@ -71,4 +70,4 @@ class Counter extends React.Component {
 
 export default Counter;
 
-export { actionTypes, actions, namespace };
+export { actionTypes, actions };

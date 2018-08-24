@@ -2,7 +2,6 @@ import * as React from "react";
 import PropTypes from "prop-types";
 //-- import fractal-component lib from src entry point
 import { AppContainerUtils, ActionForwarder, is } from "../../../../src/index";
-import namespace from "./namespace";
 import * as actionTypes from "./actions/types";
 import * as actions from "./actions/index";
 import jss from "jss";
@@ -17,7 +16,7 @@ class ToggleButton extends React.Component {
             isActive: false
         };
         this.componentManager = AppContainerUtils.registerComponent(this, {
-            namespace,
+            namespace: "io.github.t83714/ToggleButton",
             reducer: function(state, action) {
                 switch (action.type) {
                     case actionTypes.CLICK:
@@ -121,4 +120,4 @@ ToggleButton.propTypes = {
 
 export default ToggleButton;
 
-export { actionTypes, actions, namespace };
+export { actionTypes, actions };

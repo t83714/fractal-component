@@ -12,7 +12,7 @@ import {
 } from "redux-saga";
 import objectPath from "object-path";
 import { PathContext } from "../PathRegistry";
-import { is } from "../utils";
+import { is, log } from "../utils";
 
 export function take(sagaItem, pattern) {
     const { chan } = sagaItem;
@@ -22,11 +22,20 @@ export function take(sagaItem, pattern) {
 export function put(sagaItem, action, relativeDispatchPath = "") {
     const { path } = sagaItem;
     const pc = new PathContext(path);
-    const unnamespacedAction = pc.convertNamespacedAction(
+    const namespacedAction = pc.convertNamespacedAction(
         action,
         relativeDispatchPath
     );
-    return oPut(unnamespacedAction);
+    
+    // --- query action Type's original namespace so that it can be serialised correctly if needed
+    const namespace = this.appContainer.actionRegistry.findNamespaceByActionType(namespacedAction.type);
+    if(!namespace) {
+        log(`Cannot locate namespace for Action \`${newAction.type}\`: \`${newAction.type}\` needs to be registered otherwise the action won't be serializable.`)
+    } else {
+        namespacedAction.namespace = namespace;
+    }
+
+    return oPut(namespacedAction);
 }
 
 export function select(sagaItem, selector, ...args) {

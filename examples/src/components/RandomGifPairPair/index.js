@@ -7,7 +7,6 @@ import RandomGifPair, {
     actionTypes as RandomGifPairActionTypes
 } from "../RandomGifPair";
 
-import namespace from "./namespace";
 import * as actions from "./actions";
 import * as actionTypes from "./actions/types";
 import reducer from "./reducers";
@@ -37,7 +36,7 @@ class RandomGifPairPair extends React.Component {
         this.isLoadingStartActionDispatched = false;
 
         this.componentManager = AppContainerUtils.registerComponent(this, {
-            namespace,
+            namespace: "io.github.t83714/RandomGifPairPair",
             reducer: reducer,
             saga: saga,
             /**
@@ -180,6 +179,5 @@ exposedActionTypes["NEW_GIF"] = RandomGifPairActionTypes.NEW_GIF;
  */
 export {
     exposedActionTypes as actionTypes,
-    exposedActions as actions,
-    namespace
+    exposedActions as actions
 };

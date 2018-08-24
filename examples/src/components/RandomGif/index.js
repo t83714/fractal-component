@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 //-- import fractal-component lib from src entry point
 import { AppContainerUtils } from "../../../../src/index";
 
-import namespace from "./namespace";
 import reducer from "./reducers";
 import saga from "./sagas";
 import * as actions from "./actions";
@@ -30,7 +29,7 @@ class RandomGif extends React.Component {
             error: null
         };
         this.componentManager = AppContainerUtils.registerComponent(this, {
-            namespace,
+            namespace: "io.github.t83714/RandomGif",
             reducer: reducer,
             saga: partialRight(saga, props.apiKey),
             /**
@@ -141,6 +140,5 @@ exposedActionList.forEach(act => {
  */
 export {
     exposedActionTypes as actionTypes,
-    exposedActions as actions,
-    namespace
+    exposedActions as actions
 };

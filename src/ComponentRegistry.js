@@ -21,7 +21,7 @@ class ComponentRegistry {
         const manager = new ComponentManager(
             componentInstance,
             runTimeOptions,
-            this.appContainer.store
+            this.appContainer
         );
         if (this.componentManagerStore[manager.fullPath]) {
             throw new Error(

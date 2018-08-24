@@ -1,13 +1,15 @@
 import * as React from "react";
 import ComponentRegistry from "./ComponentRegistry";
+import AppContainer from "./AppContainer";
 import { Store, Action, Reducer } from "redux";
 
 declare class ComponentManager {
     constructor(
         componentInstance: ManageableComponent,
         options: ManageableComponentOptions,
-        store: Store
+        appContrainer: AppContainer
     );
+    appContrainer: AppContainer;
     store: Store;
     options: ManageableComponentOptions;
     namespace: string;

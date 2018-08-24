@@ -1,7 +1,7 @@
 import uniqid from "uniqid";
 import objectPath from "object-path";
 import { PathContext, normalize } from "./PathRegistry";
-import { noop, getPackageName, is } from "./utils";
+import { noop, getPackageName, log } from "./utils";
 
 const defaultOptions = {
     saga: null,
@@ -24,10 +24,11 @@ export const COMPONENT_MANAGER_LOCAL_KEY = Symbol(
 );
 
 class ComponentManager {
-    constructor(componentInstance, options, store) {
+    constructor(componentInstance, options, appContainer) {
         this.componentInstance = componentInstance;
         this.options = { ...defaultOptions, ...options };
-        this.store = store;
+        this.appContainer = appContainer;
+        this.store = appContainer.store;
 
         this.isInitialized = false;
         this.isDestroyed = false;
@@ -119,11 +120,20 @@ class ComponentManager {
 
     dispatch(action, relativeDispatchPath = "") {
         const pc = new PathContext(this.fullPath);
-        const unnamespacedAction = pc.convertNamespacedAction(
+        const namespacedAction = pc.convertNamespacedAction(
             action,
             relativeDispatchPath
         );
-        return this.store.dispatch(unnamespacedAction);
+        
+        // --- query action Type's original namespace so that it can be serialised correctly if needed
+        const namespace = this.appContainer.actionRegistry.findNamespaceByActionType(namespacedAction.type);
+        if(!namespace) {
+            log(`Cannot locate namespace for Action \`${newAction.type}\`: \`${newAction.type}\` needs to be registered otherwise the action won't be serializable.`)
+        } else {
+            namespacedAction.namespace = namespace;
+        }
+
+        return this.store.dispatch(namespacedAction);
     }
 
     init() {
@@ -140,6 +150,8 @@ class ComponentManager {
             this.storeListenerUnsubscribe();
             this.storeListenerUnsubscribe = null;
         }
+        this.appContainer = null;
+        this.store = null;
         this.isInitialized = false;
     }
 }
