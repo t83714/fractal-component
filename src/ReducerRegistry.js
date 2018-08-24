@@ -174,7 +174,7 @@ function emptyInitState(path, initState) {
         throw new Error(
             "Failed to set init state for component reducer: redux store not available yet!"
         );
-    this.store.dispatch(actions.emptyState(path, initState));
+    this.appContainer.store.dispatch(actions.emptyState(path, initState));
 }
 
 export default ReducerRegistry;
