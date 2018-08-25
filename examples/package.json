@@ -12,7 +12,10 @@
     "color": "^3.0.0",
     "jss": "^9.8.7",
     "jss-preset-default": "^4.5.0",
-    "redux-saga": "^1.0.0-beta.1"
+    "redux-saga": "^1.0.0-beta.1",
+    "prop-types": "^15.6.2",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1"
   },
   "devDependencies": {
     "@babel/core": "7.0.0-beta.52",
@@ -24,9 +27,6 @@
     "babel-loader": "8.0.0-beta.4",
     "cross-env": "^1.0.8",
     "html-webpack-plugin": "^3.2.0",
-    "prop-types": "^15.6.2",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
     "tap-spec": "^4.1.1",
     "tape": "^4.2.2",
     "webpack": "^4.15.1",

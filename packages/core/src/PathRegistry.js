@@ -1,7 +1,7 @@
-import { is, trim, getPackageName } from "./utils";
+import { is, trim } from "./utils";
+import { NAMESPACED } from "./PathRegistry/symbols";
 
-export const NAMESPACED = Symbol(`@@${getPackageName()}/NAMESPACED`);
-
+export { NAMESPACED };
 export class PathContext {
     constructor(cwd) {
         this.cwd = normalize(cwd);

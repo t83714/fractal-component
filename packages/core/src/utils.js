@@ -1,6 +1,6 @@
 import { is as reduxSagaIs } from "redux-saga/utils";
 import pkg from "../package.json";
-import { NAMESPACED } from "./PathRegistry";
+import { NAMESPACED } from "./PathRegistry/symbols";
 
 let devMode = false;
 if (
