@@ -64,7 +64,12 @@ function* processCommandAction({ type, payload }) {
 }
 
 function* initSaga(sagaItem) {
-    const { saga, path, namespace, allowedIncomingMulticastActionTypes } = sagaItem;
+    const {
+        saga,
+        path,
+        namespace,
+        allowedIncomingMulticastActionTypes
+    } = sagaItem;
     const registeredPath = normalize(path);
     if (!registeredPath) {
         yield rsEffects.call([this, initGlobalSaga], saga);
@@ -74,7 +79,13 @@ function* initSaga(sagaItem) {
         ? registeredPath.lastIndexOf(namespace)
         : registeredPath.length;
 
-    if (this.pathRegistry.add(registeredPath, { localPathPos, namespace, allowedIncomingMulticastActionTypes }) === null) {
+    if (
+        this.pathRegistry.add(registeredPath, {
+            localPathPos,
+            namespace,
+            allowedIncomingMulticastActionTypes
+        }) === null
+    ) {
         throw new Error(
             `Failed to register namespaced saga: given path \`${registeredPath}\` has been registered.`
         );

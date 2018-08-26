@@ -8,15 +8,17 @@ import NamespaceRegistry from "./NamespaceRegistry";
 import * as ReducerRegistryActionTypes from "./ReducerRegistry/actionTypes";
 import * as SagaRegistryActionTypes from "./SagaRegistry/actionTypes";
 
-const actionBlackList = Object.keys(ReducerRegistryActionTypes).map(
-    idx => ReducerRegistryActionTypes[idx]
-).concat(Object.keys(SagaRegistryActionTypes).map(
-    idx => SagaRegistryActionTypes[idx]
-));
+const actionBlackList = Object.keys(ReducerRegistryActionTypes)
+    .map(idx => ReducerRegistryActionTypes[idx])
+    .concat(
+        Object.keys(SagaRegistryActionTypes).map(
+            idx => SagaRegistryActionTypes[idx]
+        )
+    );
 const defaultDevToolOptions = {
     actionSanitizer: action => ({ ...action, type: String(action.type) }),
     predicate: (state, action) => {
-        return action && actionBlackList.indexOf(action.type) ===-1
+        return action && actionBlackList.indexOf(action.type) === -1;
     }
 };
 const defaultOptions = {
@@ -33,7 +35,11 @@ const defaultOptions = {
 
 const getComposeEnhancers = function(devOnly, options) {
     /* eslint-disable-next-line no-underscore-dangle */
-    if (typeof window !== "object" || !window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) return compose;
+    if (
+        typeof window !== "object" ||
+        !window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    )
+        return compose;
     if (devOnly && process.env.NODE_ENV === "production") return compose;
     const devToolOptions = {
         ...(options ? options : {})

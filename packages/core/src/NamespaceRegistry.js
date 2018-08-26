@@ -9,13 +9,20 @@ export default class NamespaceRegistry {
 
     registerComponentManager(cm) {
         const { namespace, options } = cm;
-        const { namespaceInitCallback, namespaceDestroyCallback, actionTypes } = options;
+        const {
+            namespaceInitCallback,
+            namespaceDestroyCallback,
+            actionTypes
+        } = options;
         if (this.pathRegistry.exist(namespace)) {
             const { cmList } = this.pathRegistry.getPathData(namespace);
             cmList.push(cm);
         } else {
-            if(actionTypes){
-                this.appContainer.actionRegistry.register(namespace, actionTypes);
+            if (actionTypes) {
+                this.appContainer.actionRegistry.register(
+                    namespace,
+                    actionTypes
+                );
             }
             this.pathRegistry.add(namespace, {
                 cmList: [cm],

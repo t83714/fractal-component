@@ -111,7 +111,13 @@ class ReducerRegistry {
             );
         if (!reducerOptions) reducerOptions = { ...defaultReducerOptions };
 
-        const { path, namespace, initState, persistState, allowedIncomingMulticastActionTypes } = reducerOptions;
+        const {
+            path,
+            namespace,
+            initState,
+            persistState,
+            allowedIncomingMulticastActionTypes
+        } = reducerOptions;
 
         if (!path)
             throw new Error(

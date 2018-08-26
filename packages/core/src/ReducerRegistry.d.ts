@@ -10,9 +10,7 @@ declare class ReducerRegistry {
 
     register(reducer: Reducer, reducerOptions: ReducerOptions): void;
     deregister(path: string): void;
-    createGlobalReducer(
-        externalGlobalReducer: Reducer
-    ): Reducer;
+    createGlobalReducer(externalGlobalReducer: Reducer): Reducer;
 }
 
 export default ReducerRegistry;

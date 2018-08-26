@@ -52,7 +52,8 @@ function* forwarderSaga(effects) {
             //--- avoid forwarder loop
             if (action.currentSenderPath === this.componentManager.fullPath)
                 return;
-            const newAction = actionTransformer.call(this, 
+            const newAction = actionTransformer.call(
+                this,
                 action,
                 this.props.transformer
             );
@@ -91,12 +92,12 @@ function* forwarderSaga(effects) {
 function actionTransformer(action, transformer) {
     if (!transformer) return action;
     let newAction = action;
-    if (is.symbol(transformer)){
+    if (is.symbol(transformer)) {
         newAction = {
             ...action,
             type: transformer
         };
-    }else if (is.func(transformer)){
+    } else if (is.func(transformer)) {
         newAction = transformer(action);
     }
     return newAction;

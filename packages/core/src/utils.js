@@ -57,7 +57,7 @@ export const getMachineInfo = function() {
                     break;
                 }
             }
-            if(macAddr!=="") break;
+            if (macAddr !== "") break;
         }
         pid = process && process.pid ? process.pid : null;
         macAddrInt = macAddr ? parseInt(macAddr.replace(/\:|\D+/gi, "")) : null;

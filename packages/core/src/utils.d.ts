@@ -24,7 +24,7 @@ export const getMachineInfo: () => {
     macAddrInt?: number;
 };
 
-export const uniqid: (prefix?:string) => string;
+export const uniqid: (prefix?: string) => string;
 
 export const log: (message: string, level?: string, error?: any) => void;
 

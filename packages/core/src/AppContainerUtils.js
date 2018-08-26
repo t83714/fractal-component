@@ -7,9 +7,9 @@ let defaultAppContainer = null;
 export function createAppContainer(options = {}) {
     if (defaultAppContainer) {
         log(
-            "AppContainerUtils.createAppContainer: Existing appContainer found. "+
-            "The appContainer options supplied was ignored. "+
-            "Existing appContainer will be used.",
+            "AppContainerUtils.createAppContainer: Existing appContainer found. " +
+                "The appContainer options supplied was ignored. " +
+                "Existing appContainer will be used.",
             "warn"
         );
         return defaultAppContainer;
@@ -20,9 +20,17 @@ export function createAppContainer(options = {}) {
 }
 
 export function getAppContainer(componentInstance = null) {
-    if(componentInstance){
-        if(componentInstance.props && componentInstance.props[APP_CONTAINER_KEY]) return componentInstance.props[APP_CONTAINER_KEY];
-        if(componentInstance.context && componentInstance.context[APP_CONTAINER_KEY]) return componentInstance.context[APP_CONTAINER_KEY];
+    if (componentInstance) {
+        if (
+            componentInstance.props &&
+            componentInstance.props[APP_CONTAINER_KEY]
+        )
+            return componentInstance.props[APP_CONTAINER_KEY];
+        if (
+            componentInstance.context &&
+            componentInstance.context[APP_CONTAINER_KEY]
+        )
+            return componentInstance.context[APP_CONTAINER_KEY];
     }
     if (!defaultAppContainer) {
         defaultAppContainer = createAppContainer();
@@ -79,7 +87,10 @@ export function deserialiseAction(actionJson, componentInstance = null) {
     return appContainer.actionRegistry.deserialiseAction(actionJson);
 }
 
-export function findNamespaceByActionType(actionType, componentInstance = null) {
+export function findNamespaceByActionType(
+    actionType,
+    componentInstance = null
+) {
     const appContainer = getAppContainer(componentInstance);
     return appContainer.actionRegistry.findNamespaceByActionType(actionType);
 }
@@ -96,10 +107,10 @@ export function destroyAppContainer(componentInstance = null) {
  * Update AppContainerRetrieveKey
  * This key is used by AppContainerUtils for looking up `appContainer` instance
  * from either Component Instance props or context
- * @param {string} newKey 
+ * @param {string} newKey
  * return Current key
  */
-export function updateAppContainerRetrieveKey(newKey){
+export function updateAppContainerRetrieveKey(newKey) {
     const currentKey = APP_CONTAINER_KEY;
     APP_CONTAINER_KEY = newKey;
     return currentKey;

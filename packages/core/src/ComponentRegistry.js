@@ -59,7 +59,8 @@ function registerComponentManager(cm) {
                 path: cm.fullPath,
                 namespace: cm.namespace,
                 persistState: cm.persistState,
-                allowedIncomingMulticastActionTypes: cm.allowedIncomingMulticastActionTypes
+                allowedIncomingMulticastActionTypes:
+                    cm.allowedIncomingMulticastActionTypes
             }
         );
     }
@@ -69,7 +70,8 @@ function registerComponentManager(cm) {
             {
                 path: cm.fullPath,
                 namespace: cm.namespace,
-                allowedIncomingMulticastActionTypes: cm.allowedIncomingMulticastActionTypes
+                allowedIncomingMulticastActionTypes:
+                    cm.allowedIncomingMulticastActionTypes
             }
         );
     }

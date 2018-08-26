@@ -22,7 +22,7 @@ declare class AppContainer {
     sagaRegistry: SagaRegistry;
     actionRegistry: ActionRegistry;
     namespaceRegistry: NamespaceRegistry;
-    
+
     registerComponent(
         componentInstance: ManageableComponent,
         options?: ManageableComponentOptions
