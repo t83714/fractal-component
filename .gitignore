@@ -61,6 +61,4 @@ typings/
 .next
 
 # dist
-dist/*
-es/*
-lib/*
+dist/
