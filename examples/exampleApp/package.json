@@ -4,8 +4,10 @@
   "version": "1.0.0",
   "scripts": {
     "start": "webpack-dev-server",
+    "prebuild": "npm run clean",
     "build": "webpack --mode=production",
     "build-dev": "webpack --mode=development",
+    "clean": "rimraf dist",
     "profile": "webpack --mode=production --profile --json > dist/stats.json"
   },
   "dependencies": {
