@@ -26,7 +26,7 @@ export const isInNode = function() {
 /**
  * Modified from https://github.com/adamhalasz/uniqid
  */
-const machineInfo = null;
+let machineInfo = null;
 
 export const getMachineInfo = function() {
     if (machineInfo !== null) return machineInfo;

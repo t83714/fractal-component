@@ -1,6 +1,6 @@
 import AppContainer from "./AppContainer";
 import * as AppContainerUtils from "./AppContainerUtils";
 import ActionForwarder from "./ActionForwarder";
-import { is } from "./utils";
+import * as utils from "./utils";
 
-export { AppContainer, AppContainerUtils, ActionForwarder, is };
+export { AppContainer, AppContainerUtils, ActionForwarder, utils };

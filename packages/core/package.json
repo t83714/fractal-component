@@ -2,13 +2,10 @@
   "name": "fractal-component",
   "version": "1.0.0",
   "description": "`fractal-component` helps to encapsulate state store access, actions (messages, events) processing and side-effect management into decoupled container components.",
-  "main": "src/index.js",
-  "module": "es/index.js",
-  "jsnext:main": "es/index.js",
-  "unpkg": "dist/fractal-component.min.js",
+  "main": "dist/fractal-component.cjs.js",
+  "module": "dist/fractal-component.esm.js",
+  "unpkg": "dist/fractal-component.min.umd.js",
   "files": [
-    "es",
-    "lib",
     "dist",
     "*.d.ts"
   ],
@@ -63,8 +60,7 @@
     "redux-saga": "^1.0.0-beta.1",
     "object-path": "^0.11.4",
     "object-path-immutable": "^3.0.0",
-    "lodash": "^4.17.10",
-    "uniqid": "^5.0.3"
+    "lodash": "^4.17.10"
   },
   "peerDependencies": {
     "react": ">= 15.0.0",
@@ -85,7 +81,7 @@
     "prettier": "^1.13.7",
     "redux-devtools-extension": "^2.13.5",
     "rimraf": "^2.6.2",
-    "rollup": "^0.63.4",
+    "rollup": "^0.64.1",
     "rollup-plugin-babel": "4.0.0-beta.1",
     "rollup-plugin-commonjs": "^9.1.5",
     "rollup-plugin-json": "^3.0.0",
@@ -94,6 +90,7 @@
     "rollup-plugin-replace": "^2.0.0",
     "rollup-plugin-uglify": "^4.0.0"
   },
+  "typings": "./src/index.d.ts",
   "npmName": "fractal-component",
   "npmFileMap": [
     {

@@ -22,7 +22,7 @@ const makeExternalPredicate = externalArr => {
 const deps = Object.keys(pkg.dependencies || {});
 const peerDeps = Object.keys(pkg.peerDependencies || {});
 
-const createConfig = ({ input, output, external, env, min = false }) => ({
+const createConfig = ({ input, output, external, env, min = false, ...props }) => ({
     input,
     experimentalCodeSplitting: typeof input !== "string",
     output: ensureArray(output).map(format =>
@@ -42,14 +42,8 @@ const createConfig = ({ input, output, external, env, min = false }) => ({
             exclude: ["../../node_modules/**"]
         }),
         commonjs({
-            include: [
-                "../../node_modules/object-path/**",
-                "../../node_modules/object-path-immutable/**",
-                "../../node_modules/lodash/*",
-                "../../node_modules/uniqid/*"
-            ]
+            include: "../../node_modules/**"
         }),
-        builtins(),
         babel({
             exclude: "../../node_modules/**",
             babelrcRoots: path.resolve(__dirname, "../*")
@@ -67,8 +61,10 @@ const createConfig = ({ input, output, external, env, min = false }) => ({
                     warnings: false
                 }
             })
-    ].filter(Boolean)
+    ].filter(Boolean),
+    ...props
 });
+
 
 export default [
     createConfig({
@@ -89,7 +85,11 @@ export default [
         input: "src/index.js",
         output: {
             file: "dist/" + pkg.name + ".umd.js",
-            format: "umd"
+            format: "umd",
+            globals: {
+                react : "React",
+                "prop-types" : "PropTypes"
+            }
         },
         external: "peers",
         env: "development"
@@ -98,7 +98,11 @@ export default [
         input: "src/index.js",
         output: {
             file: "dist/" + pkg.name + ".min.umd.js",
-            format: "umd"
+            format: "umd",
+            globals: {
+                react : "React",
+                "prop-types" : "PropTypes"
+            }
         },
         external: "peers",
         env: "production",

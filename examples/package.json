@@ -18,12 +18,12 @@
     "react-dom": "^16.4.1"
   },
   "devDependencies": {
-    "@babel/core": "7.0.0-beta.52",
-    "@babel/node": "7.0.0-beta.52",
-    "@babel/plugin-proposal-object-rest-spread": "7.0.0-beta.52",
-    "@babel/polyfill": "7.0.0-beta.52",
-    "@babel/preset-env": "7.0.0-beta.52",
-    "@babel/preset-react": "7.0.0-beta.52",
+    "@babel/core": "7.0.0-beta.54",
+    "@babel/node": "7.0.0-beta.54",
+    "@babel/plugin-proposal-object-rest-spread": "7.0.0-beta.54",
+    "@babel/polyfill": "7.0.0-beta.54",
+    "@babel/preset-env": "7.0.0-beta.54",
+    "@babel/preset-react": "7.0.0-beta.54",
     "babel-loader": "8.0.0-beta.4",
     "cross-env": "^1.0.8",
     "html-webpack-plugin": "^3.2.0",
