@@ -39,3 +39,16 @@ or
 npm start
 ```
 
+## Getting started
+
+### Install
+
+```
+yarn add fractal-component
+```
+or
+```
+npm install --save fractal-component
+```
+
+Alternatively, you may use the provided [UMD builds](packages/core/dist/fractal-component.min.umd.js) directly in the <script> tag of an HTML page.
