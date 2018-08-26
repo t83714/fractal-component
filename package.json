@@ -1,15 +1,9 @@
 {
   "private": true,
   "scripts": {
-    "prettier": "prettier --write 'src/*.js' 'src/*.ts'",
-    "prebundlesize": "yarn run build:umd:prod",
-    "bundlesize": "bundlesize",
-    "clean": "rimraf dist es lib",
-    "build:umd:dev": "cross-env BABEL_ENV=es NODE_ENV=development rollup -c -i src/index.js -o dist/fractal-component.js",
-    "build:umd:prod": "cross-env BABEL_ENV=es NODE_ENV=production rollup -c -i src/index.js -o dist/fractal-component.min.js",
-    "build:cjs": "cross-env BABEL_ENV=cjs babel src --out-dir lib",
-    "build:es": "cross-env BABEL_ENV=es babel src --out-dir es",
-    "build": "yarn run clean && run-p build:**"
+    "prettier": "npm run prettier --prefix packages/core && npm run prettier --prefix examples/exampleApp",
+    "build": "npm run build --prefix packages/core && npm run build --prefix examples/exampleApp",
+    "start": "npm run build --prefix packages/core && npm run start --prefix examples/exampleApp"
   },
   "repository": {
     "type": "git",
