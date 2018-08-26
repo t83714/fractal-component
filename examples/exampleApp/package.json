@@ -6,7 +6,7 @@
     "start": "webpack-dev-server",
     "build": "webpack --mode=production",
     "build-dev": "webpack --mode=development",
-    "profile": "webpack --mode=production --profile --json > stats.json"
+    "profile": "webpack --mode=production --profile --json > dist/stats.json"
   },
   "dependencies": {
     "color": "^3.0.0",

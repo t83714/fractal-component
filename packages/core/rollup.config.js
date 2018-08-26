@@ -46,6 +46,7 @@ const createConfig = ({ input, output, external, env, min = false, ...props }) =
         }),
         babel({
             exclude: "../../node_modules/**",
+            runtimeHelpers: true,
             babelrcRoots: path.resolve(__dirname, "../*")
         }),
         env &&

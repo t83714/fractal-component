@@ -33,7 +33,7 @@ const defaultOptions = {
 
 const getComposeEnhancers = function(devOnly, options) {
     /* eslint-disable-next-line no-underscore-dangle */
-    if (!window || !window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) return compose;
+    if (typeof window !== "object" || !window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) return compose;
     if (devOnly && process.env.NODE_ENV === "production") return compose;
     const devToolOptions = {
         ...(options ? options : {})

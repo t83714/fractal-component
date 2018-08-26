@@ -41,8 +41,10 @@ export const getMachineInfo = function() {
     let macAddr = "",
         macAddrInt = null,
         pid = null;
+
     try {
         const networkInterfaces = require("os").networkInterfaces();
+        let interface_key;
         for (interface_key in networkInterfaces) {
             const networkInterface = networkInterfaces[interface_key];
             const length = networkInterface.length;
@@ -55,16 +57,17 @@ export const getMachineInfo = function() {
                     break;
                 }
             }
+            if(macAddr!=="") break;
         }
         pid = process && process.pid ? process.pid : null;
-        macAddrInt = macAddrInt ? parseInt(mac.replace(/\:|\D+/gi, "")) : null;
+        macAddrInt = macAddr ? parseInt(macAddr.replace(/\:|\D+/gi, "")) : null;
         if (isNaN(macAddrInt)) macAddrInt = null;
     } catch (e) {}
 
     machineInfo = {
         pid,
-        macAddr: macAddr,
-        macAddrInt: null
+        macAddr,
+        macAddrInt
     };
 
     return machineInfo;
