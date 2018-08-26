@@ -1,11 +1,11 @@
 # fractal-component
 
 `fractal-component` helps to encapsulate state store access, actions (messages, events) processing and side-effect management into decoupled container components by introducing the following features to react / redux ecosystem:
-- Multicast Actions
+- `Multicast` Actions
 - Namespaced Actions
 - Serializable [Symbol](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol) Action Type 
-- Hot plug Redux Reducer & Auto mount / unmount
-- Hot plug [Saga](https://redux-saga.js.org/) & Auto mount / unmount
+- `Hot Plug` Redux Reducer & Auto mount / unmount
+- `Hot Plug` [Saga](https://redux-saga.js.org/) & Auto mount / unmount
 - Namespaced Redux Store
 - Auto Component State Management & Redux Store Mapping
 
