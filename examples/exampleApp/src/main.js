@@ -9,7 +9,7 @@ import jssDefaultPreset from "jss-preset-default";
 import { AppContainerUtils } from "fractal-component";
 import App from "./components/App";
 
-jss.setup(jssDefaultPreset())
+jss.setup(jssDefaultPreset());
 
 AppContainerUtils.createAppContainer();
 
