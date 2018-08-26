@@ -16,6 +16,7 @@ module.exports = {
     ],
     plugins: [
         cjs && "@babel/plugin-transform-modules-commonjs",
-        "@babel/plugin-proposal-object-rest-spread"
+        "@babel/plugin-proposal-object-rest-spread",
+        "lodash"
     ].filter(Boolean)
 };

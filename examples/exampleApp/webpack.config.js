@@ -1,6 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 
 module.exports = {
     mode: "development",
@@ -12,6 +13,7 @@ module.exports = {
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
+        new LodashModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, "index.html")
         })
