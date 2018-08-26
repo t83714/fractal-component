@@ -2618,22 +2618,22 @@
 	}
 
 	var name = "fractal-component";
-	var version = "1.0.0";
+	var version = "3.0.2";
 	var description = "`fractal-component` helps to encapsulate state store access, actions (messages, events) processing and side-effect management into decoupled container components.";
 	var main = "dist/fractal-component.cjs.js";
 	var module$1 = "dist/fractal-component.esm.js";
 	var unpkg = "dist/fractal-component.min.umd.js";
-	var files = ["dist", "*.d.ts"];
+	var files = ["dist", "src/**/*.d.ts"];
 	var scripts = {
 	  prettier: "prettier --write 'src/*.js' 'src/*.ts'",
 	  eslint: "eslint 'src/*.js'",
-	  test: "jest",
+	  test: "echo 0",
 	  prebundlesize: "npm run build",
 	  bundlesize: "bundlesize",
 	  clean: "rimraf dist",
 	  prebuild: "npm run clean",
 	  build: "rollup -c",
-	  prepare: "npm run build",
+	  prepare: "npm run build && cp ../../README.md ./README.md && cp ../../LICENSE ./LICENSE",
 	  prepush: "npm run test",
 	  preversion: "npm run test && npm run prepare",
 	  "release:patch": "npm version patch && npm publish && git push --follow-tags",
@@ -2714,7 +2714,7 @@
 	  homepage: homepage,
 	  author: author,
 	  license: license,
-	  "private": true,
+	  "private": false,
 	  bugs: bugs,
 	  bundlesize: bundlesize,
 	  dependencies: dependencies,

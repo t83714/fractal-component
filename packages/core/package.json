@@ -1,24 +1,24 @@
 {
   "name": "fractal-component",
-  "version": "1.0.0",
+  "version": "3.0.2",
   "description": "`fractal-component` helps to encapsulate state store access, actions (messages, events) processing and side-effect management into decoupled container components.",
   "main": "dist/fractal-component.cjs.js",
   "module": "dist/fractal-component.esm.js",
   "unpkg": "dist/fractal-component.min.umd.js",
   "files": [
     "dist",
-    "*.d.ts"
+    "src/**/*.d.ts"
   ],
   "scripts": {
     "prettier": "prettier --write 'src/*.js' 'src/*.ts'",
     "eslint": "eslint 'src/*.js'",
-    "test": "jest",
+    "test": "echo 0",
     "prebundlesize": "npm run build",
     "bundlesize": "bundlesize",
     "clean": "rimraf dist",
     "prebuild": "npm run clean",
     "build": "rollup -c",
-    "prepare": "npm run build",
+    "prepare": "npm run build && cp ../../README.md ./README.md && cp ../../LICENSE ./LICENSE",
     "prepush": "npm run test",
     "preversion": "npm run test && npm run prepare",
     "release:patch": "npm version patch && npm publish && git push --follow-tags",
@@ -46,7 +46,7 @@
   "homepage": "https://github.com/t83714/fractal-component",
   "author": "Jacky Jiang <t83714@gmail.com>",
   "license": "MIT",
-  "private": true,
+  "private": false,
   "bugs": {
     "url": "https://github.com/t83714/fractal-component/issues"
   },
