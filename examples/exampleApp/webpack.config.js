@@ -5,6 +5,11 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 module.exports = {
     mode: "development",
     entry: path.resolve(__dirname, "src/main.js"),
+    resolve: {
+        alias: {
+            "fractal-component": path.resolve(__dirname, "../../packages/core/")
+        }
+    },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({

@@ -1,11 +1,13 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 //-- import fractal-component lib from src entry point
-import { AppContainerUtils, ActionForwarder, is } from "../../../../src/index";
+import { AppContainerUtils, ActionForwarder, utils } from "fractal-component";
 import * as actionTypes from "./actions/types";
 import * as actions from "./actions/index";
 import jss from "jss";
 import styles from "./styles";
+
+const { is } = utils;
 
 let styleSheet;
 
@@ -84,14 +86,14 @@ class ToggleButton extends React.Component {
                     relativeDispatchPath={this.props.relativeDispatchPath}
                     transformer={action => {
                         let newAction;
-                        if(is.func(this.props.transformer)){
+                        if (is.func(this.props.transformer)) {
                             newAction = this.props.transformer(action);
-                        } else if(is.symbol(this.props.transformer)){
+                        } else if (is.symbol(this.props.transformer)) {
                             newAction = {
                                 ...action,
                                 type: this.props.transformer
                             };
-                        }else{
+                        } else {
                             throw new Error("Invalid transformer type.");
                         }
                         return {

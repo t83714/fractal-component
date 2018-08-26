@@ -1,6 +1,6 @@
 import * as React from "react";
 //-- import fractal-component lib from src entry point
-import { ActionForwarder } from "../../../src/index";
+import { ActionForwarder } from "fractal-component";
 import RandomGif, { actionTypes as randomGifActionTypes } from "./RandomGif";
 import RandomGifPair from "./RandomGifPair";
 import RandomGifPairPair from "./RandomGifPairPair";

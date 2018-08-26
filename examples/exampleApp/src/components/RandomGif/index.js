@@ -1,7 +1,7 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 //-- import fractal-component lib from src entry point
-import { AppContainerUtils } from "../../../../src/index";
+import { AppContainerUtils } from "fractal-component";
 
 import reducer from "./reducers";
 import saga from "./sagas";
