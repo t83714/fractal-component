@@ -1,4 +1,4 @@
-import uniqid from "uniqid";
+import { uniqid } from "./utils";
 import objectPath from "object-path";
 import { PathContext, normalize } from "./PathRegistry";
 import { noop, getPackageName, log } from "./utils";
@@ -48,7 +48,10 @@ class ComponentManager {
         );
         if (this.namespace.indexOf("*") !== -1)
             throw new Error("`Namespace` cannot contain `*`.");
-        if(!this.namespace) throw new Error("Missing Component `namespace`: Component `namespace` must be specified.");
+        if (!this.namespace)
+            throw new Error(
+                "Missing Component `namespace`: Component `namespace` must be specified."
+            );
         this.isAutoComponentId = false;
         this.componentId = normalize(
             settleStringSettingFunc(this.options.componentId)
@@ -124,11 +127,17 @@ class ComponentManager {
             action,
             relativeDispatchPath
         );
-        
+
         // --- query action Type's original namespace so that it can be serialised correctly if needed
-        const namespace = this.appContainer.actionRegistry.findNamespaceByActionType(namespacedAction.type);
-        if(!namespace) {
-            log(`Cannot locate namespace for Action \`${newAction.type}\`: \`${newAction.type}\` needs to be registered otherwise the action won't be serializable.`)
+        const namespace = this.appContainer.actionRegistry.findNamespaceByActionType(
+            namespacedAction.type
+        );
+        if (!namespace) {
+            log(
+                `Cannot locate namespace for Action \`${newAction.type}\`: \`${
+                    newAction.type
+                }\` needs to be registered otherwise the action won't be serializable.`
+            );
         } else {
             namespacedAction.namespace = namespace;
         }

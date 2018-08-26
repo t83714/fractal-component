@@ -16,6 +16,16 @@ export const getPackageVersion: () => string;
 
 export const isDevMode: () => boolean;
 
+export const isInNode: () => boolean;
+
+export const getMachineInfo: () => {
+    pid?: number;
+    macAddr?: string;
+    macAddrInt?: number;
+};
+
+export const uniqid: (prefix?:string) => string;
+
 export const log: (message: string, level?: string, error?: any) => void;
 
 export const trim: (v: string) => void;

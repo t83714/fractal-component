@@ -1,3 +1,8 @@
+/**
+ * Scoped saga effects.
+ * recreated from redux saga API documents examples
+ */
+
 import {
     take as oTake,
     put as oPut,
