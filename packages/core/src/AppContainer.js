@@ -58,6 +58,12 @@ class AppContainer {
             ...defaultOptions,
             ...options
         };
+        if(options && options.devToolOptions){
+            containerCreationOptions.devToolOptions = {
+                ...defaultDevToolOptions,
+                ...options.devToolOptions
+            }
+        }
         const composeEnhancers = getComposeEnhancers(
             containerCreationOptions.reduxDevToolsDevOnly,
             containerCreationOptions.devToolOptions
