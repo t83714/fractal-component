@@ -7,6 +7,7 @@ import ActionRegistry from "./ActionRegistry";
 import NamespaceRegistry from "./NamespaceRegistry";
 import * as ReducerRegistryActionTypes from "./ReducerRegistry/actionTypes";
 import * as SagaRegistryActionTypes from "./SagaRegistry/actionTypes";
+import { isDevMode } from "./utils";
 
 const actionBlackList = Object.keys(ReducerRegistryActionTypes)
     .map(idx => ReducerRegistryActionTypes[idx])
@@ -40,7 +41,7 @@ const getComposeEnhancers = function(devOnly, options) {
         !window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     )
         return compose;
-    if (devOnly && process.env.NODE_ENV === "production") return compose;
+    if (devOnly && !isDevMode()) return compose;
     const devToolOptions = {
         ...(options ? options : {})
     };
