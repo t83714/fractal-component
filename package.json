@@ -3,7 +3,8 @@
   "scripts": {
     "prettier": "npm run prettier --prefix packages/core && npm run prettier --prefix examples/exampleApp",
     "build": "npm run build --prefix packages/core && npm run build --prefix examples/exampleApp",
-    "start": "npm run build --prefix packages/core && npm run start --prefix examples/exampleApp"
+    "start": "npm run build --prefix packages/core && npm run start --prefix examples/exampleApp",
+    "test" : "npm run test --prefix packages/core"
   },
   "repository": {
     "type": "git",
