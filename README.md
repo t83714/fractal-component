@@ -21,22 +21,18 @@ git clone https://github.com/t83714/fractal-component.git
 ```
 
 2. Install Dependencies
+
+We use yarn to manage monorepo workspaces:
+
 ```
 yarn install
 ```
-or
-```
-npm install
-```
+
 3. Run the Example App
 
 At project root directory:
 ```
 yarn start
-```
-or
-```
-npm start
 ```
 
 ## Getting started
