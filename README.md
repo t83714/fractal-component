@@ -1,6 +1,9 @@
 # fractal-component
 
+[![Build Status](https://travis-ci.org/t83714/fractal-component.svg?branch=master)](https://travis-ci.org/t83714/fractal-component)
+
 `fractal-component` helps to encapsulate state store access, actions (messages, events) processing and side-effect management into decoupled container components by introducing the following features to react / redux ecosystem:
+
 - `Multicast` Actions
 - Namespaced Actions
 - Serializable [Symbol](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol) Action Type 
