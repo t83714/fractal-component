@@ -4,9 +4,8 @@ node_js:
   - "10.2.1"
 
 script:
-  - npm install
-  - npm run build
-  - npm run test 
+  - yarn build
+  - yarn test 
 
 #after_script:
 #  - npm run bundlesize
