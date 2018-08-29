@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import PropTypes from "prop-types";
 //-- import fractal-component lib from src entry point
 import { AppContainerUtils, ActionForwarder } from "fractal-component";

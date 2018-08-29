@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 //-- import fractal-component lib from src entry point
 import { AppContainerUtils } from "fractal-component";
 import * as actionTypes from "./actions/types";

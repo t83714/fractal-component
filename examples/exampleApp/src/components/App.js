@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 //-- import fractal-component lib from src entry point
 import { ActionForwarder } from "fractal-component";
 import RandomGif, { actionTypes as randomGifActionTypes } from "./RandomGif";
@@ -14,7 +14,7 @@ const createStyleSheet = once(() => {
     return jss.createStyleSheet(styles).attach();
 });
 
-export default () => {
+export default function App() {
     const { classes } = createStyleSheet();
     return (
         <div>
@@ -24,9 +24,7 @@ export default () => {
                         RandomGif / RandomGifPair / RandomGifPairPair support apiKey property as well
                         You can supply your giphy API key as component property
                     */}
-                    <RandomGif
-                        namespacePrefix="exampleApp/RandomGif"
-                    />
+                    <RandomGif namespacePrefix="exampleApp/RandomGif" />
                     {/*Forward `NEW_GIF` actions (and convert to `INCREASE_COUNT`) to ToggleButton for processing*/}
                     <ActionForwarder
                         namespacePrefix="exampleApp/RandomGif"
@@ -56,7 +54,7 @@ export default () => {
                         add an `toggleButtonActive`= true / false field to all actions
                         and then forward actions to Counter
                     */}
-                    <ToggleButton 
+                    <ToggleButton
                         namespacePrefix="exampleApp/ToggleButton"
                         pattern={randomGifActionTypes.INCREASE_COUNT}
                         relativeDispatchPath="../Counter/*"
