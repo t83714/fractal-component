@@ -153,7 +153,7 @@ class SagaRegistry {
         this.appContainer = appContainer;
         this.namespacedSagaItemStore = {};
         this.globalSagaTaskList = [];
-        this.pathRegistry = new PathRegistry();
+        this.pathRegistry = new PathRegistry(true);
         this.hostSagaCommandChan = new EventChannel(bufferFactory.expanding());
         this.appContainer.actionRegistry.register(namespace, actionTypes);
     }

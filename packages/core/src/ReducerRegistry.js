@@ -96,7 +96,7 @@ class ReducerRegistry {
     constructor(appContainer) {
         this.appContainer = appContainer;
         this.reducerStore = {};
-        this.pathRegistry = new PathRegistry();
+        this.pathRegistry = new PathRegistry(true);
         this.appContainer.actionRegistry.register(namespace, actionTypes);
     }
 

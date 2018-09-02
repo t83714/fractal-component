@@ -1,0 +1,166 @@
+{
+    "paths": [
+      "exampleApp/RandomGif/io.github.t83714/RandomGif/jlk5zo17",
+      "exampleApp/RandomGif/io.github.t83714/ActionForwarder/jlk5zo1c",
+      "exampleApp/RandomGifPair/io.github.t83714/RandomGifPair/jlk5zo1e/Gifs/io.github.t83714/RandomGif/jlk5zo1f",
+      "exampleApp/RandomGifPair/io.github.t83714/RandomGifPair/jlk5zo1e/Gifs/io.github.t83714/RandomGif/jlk5zo1g",
+      "exampleApp/RandomGifPair/io.github.t83714/RandomGifPair/jlk5zo1e/Gifs/io.github.t83714/ActionForwarder/jlk5zo1h",
+      "exampleApp/RandomGifPair/io.github.t83714/RandomGifPair/jlk5zo1e/Gifs/io.github.t83714/ActionForwarder/jlk5zo1i",
+      "exampleApp/RandomGifPair/io.github.t83714/RandomGifPair/jlk5zo1e",
+      "exampleApp/RandomGifPair/io.github.t83714/ActionForwarder/jlk5zo1j",
+      "exampleApp/ToggleButton/io.github.t83714/ActionForwarder/jlk5zo1l",
+      "exampleApp/RandomGifPairPair/io.github.t83714/RandomGifPairPair/jlk5zo1m/GifPairs/io.github.t83714/RandomGifPair/jlk5zo1n/Gifs/io.github.t83714/RandomGif/jlk5zo1o",
+      "exampleApp/RandomGifPairPair/io.github.t83714/RandomGifPairPair/jlk5zo1m/GifPairs/io.github.t83714/RandomGifPair/jlk5zo1n/Gifs/io.github.t83714/RandomGif/jlk5zo1p",
+      "exampleApp/RandomGifPairPair/io.github.t83714/RandomGifPairPair/jlk5zo1m/GifPairs/io.github.t83714/RandomGifPair/jlk5zo1n/Gifs/io.github.t83714/ActionForwarder/jlk5zo1q",
+      "exampleApp/RandomGifPairPair/io.github.t83714/RandomGifPairPair/jlk5zo1m/GifPairs/io.github.t83714/RandomGifPair/jlk5zo1n/Gifs/io.github.t83714/ActionForwarder/jlk5zo1r",
+      "exampleApp/RandomGifPairPair/io.github.t83714/RandomGifPairPair/jlk5zo1m/GifPairs/io.github.t83714/RandomGifPair/jlk5zo1n",
+      "exampleApp/RandomGifPairPair/io.github.t83714/RandomGifPairPair/jlk5zo1m/GifPairs/io.github.t83714/RandomGifPair/jlk5zo1s/Gifs/io.github.t83714/RandomGif/jlk5zo1t",
+      "exampleApp/RandomGifPairPair/io.github.t83714/RandomGifPairPair/jlk5zo1m/GifPairs/io.github.t83714/RandomGifPair/jlk5zo1s/Gifs/io.github.t83714/RandomGif/jlk5zo1u",
+      "exampleApp/RandomGifPairPair/io.github.t83714/RandomGifPairPair/jlk5zo1m/GifPairs/io.github.t83714/RandomGifPair/jlk5zo1s/Gifs/io.github.t83714/ActionForwarder/jlk5zo1v",
+      "exampleApp/RandomGifPairPair/io.github.t83714/RandomGifPairPair/jlk5zo1m/GifPairs/io.github.t83714/RandomGifPair/jlk5zo1s/Gifs/io.github.t83714/ActionForwarder/jlk5zo1w",
+      "exampleApp/RandomGifPairPair/io.github.t83714/RandomGifPairPair/jlk5zo1m/GifPairs/io.github.t83714/RandomGifPair/jlk5zo1s",
+      "exampleApp/RandomGifPairPair/io.github.t83714/RandomGifPairPair/jlk5zo1m/GifPairs/io.github.t83714/ActionForwarder/jlk5zo1x",
+      "exampleApp/RandomGifPairPair/io.github.t83714/RandomGifPairPair/jlk5zo1m/GifPairs/io.github.t83714/ActionForwarder/jlk5zo1y",
+      "exampleApp/RandomGifPairPair/io.github.t83714/RandomGifPairPair/jlk5zo1m",
+      "exampleApp/RandomGifPairPair/io.github.t83714/ActionForwarder/jlk5zo1z"
+    ],
+    "dataStore": {
+      "exampleApp/RandomGif/io.github.t83714/RandomGif/jlk5zo17": {
+        "localPathPos": 21,
+        "namespace": "io.github.t83714/RandomGif",
+        "allowedIncomingMulticastActionTypes": [
+          "Symbol(REQUEST_NEW_GIF)"
+        ]
+      },
+      "exampleApp/RandomGif/io.github.t83714/ActionForwarder/jlk5zo1c": {
+        "localPathPos": 21,
+        "namespace": "io.github.t83714/ActionForwarder",
+        "allowedIncomingMulticastActionTypes": "*"
+      },
+      "exampleApp/RandomGifPair/io.github.t83714/RandomGifPair/jlk5zo1e/Gifs/io.github.t83714/RandomGif/jlk5zo1f": {
+        "localPathPos": 70,
+        "namespace": "io.github.t83714/RandomGif",
+        "allowedIncomingMulticastActionTypes": [
+          "Symbol(REQUEST_NEW_GIF)"
+        ]
+      },
+      "exampleApp/RandomGifPair/io.github.t83714/RandomGifPair/jlk5zo1e/Gifs/io.github.t83714/RandomGif/jlk5zo1g": {
+        "localPathPos": 70,
+        "namespace": "io.github.t83714/RandomGif",
+        "allowedIncomingMulticastActionTypes": [
+          "Symbol(REQUEST_NEW_GIF)"
+        ]
+      },
+      "exampleApp/RandomGifPair/io.github.t83714/RandomGifPair/jlk5zo1e/Gifs/io.github.t83714/ActionForwarder/jlk5zo1h": {
+        "localPathPos": 70,
+        "namespace": "io.github.t83714/ActionForwarder",
+        "allowedIncomingMulticastActionTypes": "*"
+      },
+      "exampleApp/RandomGifPair/io.github.t83714/RandomGifPair/jlk5zo1e/Gifs/io.github.t83714/ActionForwarder/jlk5zo1i": {
+        "localPathPos": 70,
+        "namespace": "io.github.t83714/ActionForwarder",
+        "allowedIncomingMulticastActionTypes": "*"
+      },
+      "exampleApp/RandomGifPair/io.github.t83714/RandomGifPair/jlk5zo1e": {
+        "localPathPos": 25,
+        "namespace": "io.github.t83714/RandomGifPair",
+        "allowedIncomingMulticastActionTypes": [
+          "Symbol(REQUEST_NEW_PAIR)"
+        ]
+      },
+      "exampleApp/RandomGifPair/io.github.t83714/ActionForwarder/jlk5zo1j": {
+        "localPathPos": 25,
+        "namespace": "io.github.t83714/ActionForwarder",
+        "allowedIncomingMulticastActionTypes": "*"
+      },
+      "exampleApp/ToggleButton/io.github.t83714/ActionForwarder/jlk5zo1l": {
+        "localPathPos": 24,
+        "namespace": "io.github.t83714/ActionForwarder",
+        "allowedIncomingMulticastActionTypes": "*"
+      },
+      "exampleApp/RandomGifPairPair/io.github.t83714/RandomGifPairPair/jlk5zo1m/GifPairs/io.github.t83714/RandomGifPair/jlk5zo1n/Gifs/io.github.t83714/RandomGif/jlk5zo1o": {
+        "localPathPos": 127,
+        "namespace": "io.github.t83714/RandomGif",
+        "allowedIncomingMulticastActionTypes": [
+          "Symbol(REQUEST_NEW_GIF)"
+        ]
+      },
+      "exampleApp/RandomGifPairPair/io.github.t83714/RandomGifPairPair/jlk5zo1m/GifPairs/io.github.t83714/RandomGifPair/jlk5zo1n/Gifs/io.github.t83714/RandomGif/jlk5zo1p": {
+        "localPathPos": 127,
+        "namespace": "io.github.t83714/RandomGif",
+        "allowedIncomingMulticastActionTypes": [
+          "Symbol(REQUEST_NEW_GIF)"
+        ]
+      },
+      "exampleApp/RandomGifPairPair/io.github.t83714/RandomGifPairPair/jlk5zo1m/GifPairs/io.github.t83714/RandomGifPair/jlk5zo1n/Gifs/io.github.t83714/ActionForwarder/jlk5zo1q": {
+        "localPathPos": 127,
+        "namespace": "io.github.t83714/ActionForwarder",
+        "allowedIncomingMulticastActionTypes": "*"
+      },
+      "exampleApp/RandomGifPairPair/io.github.t83714/RandomGifPairPair/jlk5zo1m/GifPairs/io.github.t83714/RandomGifPair/jlk5zo1n/Gifs/io.github.t83714/ActionForwarder/jlk5zo1r": {
+        "localPathPos": 127,
+        "namespace": "io.github.t83714/ActionForwarder",
+        "allowedIncomingMulticastActionTypes": "*"
+      },
+      "exampleApp/RandomGifPairPair/io.github.t83714/RandomGifPairPair/jlk5zo1m/GifPairs/io.github.t83714/RandomGifPair/jlk5zo1n": {
+        "localPathPos": 82,
+        "namespace": "io.github.t83714/RandomGifPair",
+        "allowedIncomingMulticastActionTypes": [
+          "Symbol(REQUEST_NEW_PAIR)"
+        ]
+      },
+      "exampleApp/RandomGifPairPair/io.github.t83714/RandomGifPairPair/jlk5zo1m/GifPairs/io.github.t83714/RandomGifPair/jlk5zo1s/Gifs/io.github.t83714/RandomGif/jlk5zo1t": {
+        "localPathPos": 127,
+        "namespace": "io.github.t83714/RandomGif",
+        "allowedIncomingMulticastActionTypes": [
+          "Symbol(REQUEST_NEW_GIF)"
+        ]
+      },
+      "exampleApp/RandomGifPairPair/io.github.t83714/RandomGifPairPair/jlk5zo1m/GifPairs/io.github.t83714/RandomGifPair/jlk5zo1s/Gifs/io.github.t83714/RandomGif/jlk5zo1u": {
+        "localPathPos": 127,
+        "namespace": "io.github.t83714/RandomGif",
+        "allowedIncomingMulticastActionTypes": [
+          "Symbol(REQUEST_NEW_GIF)"
+        ]
+      },
+      "exampleApp/RandomGifPairPair/io.github.t83714/RandomGifPairPair/jlk5zo1m/GifPairs/io.github.t83714/RandomGifPair/jlk5zo1s/Gifs/io.github.t83714/ActionForwarder/jlk5zo1v": {
+        "localPathPos": 127,
+        "namespace": "io.github.t83714/ActionForwarder",
+        "allowedIncomingMulticastActionTypes": "*"
+      },
+      "exampleApp/RandomGifPairPair/io.github.t83714/RandomGifPairPair/jlk5zo1m/GifPairs/io.github.t83714/RandomGifPair/jlk5zo1s/Gifs/io.github.t83714/ActionForwarder/jlk5zo1w": {
+        "localPathPos": 127,
+        "namespace": "io.github.t83714/ActionForwarder",
+        "allowedIncomingMulticastActionTypes": "*"
+      },
+      "exampleApp/RandomGifPairPair/io.github.t83714/RandomGifPairPair/jlk5zo1m/GifPairs/io.github.t83714/RandomGifPair/jlk5zo1s": {
+        "localPathPos": 82,
+        "namespace": "io.github.t83714/RandomGifPair",
+        "allowedIncomingMulticastActionTypes": [
+          "Symbol(REQUEST_NEW_PAIR)"
+        ]
+      },
+      "exampleApp/RandomGifPairPair/io.github.t83714/RandomGifPairPair/jlk5zo1m/GifPairs/io.github.t83714/ActionForwarder/jlk5zo1x": {
+        "localPathPos": 82,
+        "namespace": "io.github.t83714/ActionForwarder",
+        "allowedIncomingMulticastActionTypes": "*"
+      },
+      "exampleApp/RandomGifPairPair/io.github.t83714/RandomGifPairPair/jlk5zo1m/GifPairs/io.github.t83714/ActionForwarder/jlk5zo1y": {
+        "localPathPos": 82,
+        "namespace": "io.github.t83714/ActionForwarder",
+        "allowedIncomingMulticastActionTypes": "*"
+      },
+      "exampleApp/RandomGifPairPair/io.github.t83714/RandomGifPairPair/jlk5zo1m": {
+        "localPathPos": 29,
+        "namespace": "io.github.t83714/RandomGifPairPair",
+        "allowedIncomingMulticastActionTypes": [
+          "Symbol(REQUEST_NEW_PAIR_PAIR)"
+        ]
+      },
+      "exampleApp/RandomGifPairPair/io.github.t83714/ActionForwarder/jlk5zo1z": {
+        "localPathPos": 29,
+        "namespace": "io.github.t83714/ActionForwarder",
+        "allowedIncomingMulticastActionTypes": "*"
+      }
+    }
+  }

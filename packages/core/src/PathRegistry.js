@@ -93,12 +93,13 @@ export class PathContext {
 }
 
 export default class PathRegistry {
-    constructor() {
+    constructor(shouldKeepOrder = false) {
         this.paths = [];
         this.dataStore = {};
+        this.shouldKeepOrder = shouldKeepOrder;
     }
 
-    destroy(){
+    destroy() {
         this.paths = [];
         this.dataStore = {};
     }
@@ -108,6 +109,13 @@ export default class PathRegistry {
         path = normalize(path);
         if (this.paths.indexOf(path) !== -1) return null;
         this.paths.push(path);
+        if (this.shouldKeepOrder) {
+            this.paths.sort((a, b) => {
+                if (a.length < b.length) return -1;
+                else if (a.length > b.length) return 1;
+                else 0;
+            });
+        }
         if (is.notUndef(data)) this.dataStore[path] = data;
         return path;
     }
@@ -196,6 +204,10 @@ export default class PathRegistry {
      *
      */
     searchDispatchPaths(action) {
+        if (!this.shouldKeepOrder) {
+            throw new Error("`searchDispatchPaths` method requires PathRegistry to be initialised in `keepOrder` mode.");
+        }
+
         if (action[NAMESPACED] !== true) {
             throw new Error(
                 "PathRegistry: cannot searchDispatchPaths for a non-namespaced action."
@@ -209,11 +221,31 @@ export default class PathRegistry {
             else return [];
         }
 
-        const r = this.paths.filter(item => {
+        const rejectedPaths = [];
+
+        return this.paths.filter(item => {
             // --- only include sub branch paths. e.g. `dispatchPath` is part of and shorter than `item`
             // --- exact same path should also be included e.g. item === dispatchPath
-            if (item.indexOf(dispatchPath + "/") !== 0 && item !== dispatchPath)
+            if (
+                dispatchPath !== "" && // --- empty dispatchPath indicates a multicast action dispatched at root level
+                item.indexOf(dispatchPath + "/") !== 0 &&
+                item !== dispatchPath
+            ) {
+                rejectedPaths.push(item);
                 return false;
+            }
+
+            if (
+                rejectedPaths.findIndex(
+                    path => item.indexOf(path + "/") !== -1
+                ) !== -1
+            ) {
+                // --- if parent container reject this action
+                // --- child containers won't see it
+                // --- this logic requires that all paths are added in order
+                // --- i.e. from string length lower to higher
+                return false;
+            }
 
             const { allowedIncomingMulticastActionTypes } = this.getPathData(
                 item
@@ -235,13 +267,17 @@ export default class PathRegistry {
                     : {};
                 if (!is.number(localPathPos)) return true;
                 if (dispatchPath.length - 1 >= localPathPos - 2) return true;
+                rejectedPaths.push(item);
                 return false;
             } else {
                 // --- only components / registered path accepts Multicast action will be included.
-                return this.isAllowedMulticast(item, action.type);
+                const isAllowed = this.isAllowedMulticast(item, action.type);
+                if (!isAllowed) {
+                    rejectedPaths.push(item);
+                }
+                return isAllowed;
             }
         });
-        return r;
     }
 }
 
