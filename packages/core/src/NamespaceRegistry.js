@@ -1,10 +1,15 @@
-import PathRegistry, { normalize } from "./PathRegistry";
+import PathRegistry from "./PathRegistry";
 import { is } from "./utils";
 
 export default class NamespaceRegistry {
     constructor(appContainer) {
         this.appContainer = appContainer;
         this.pathRegistry = new PathRegistry();
+    }
+
+    destroy(){
+        this.pathRegistry.destroy();
+        this.appContainer = null;
     }
 
     registerComponentManager(cm) {

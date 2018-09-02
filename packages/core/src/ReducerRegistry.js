@@ -100,6 +100,11 @@ class ReducerRegistry {
         this.appContainer.actionRegistry.register(namespace, actionTypes);
     }
 
+    destroy(){
+        this.pathRegistry.destroy();
+        this.appContainer = null;
+    }
+
     createGlobalReducer(externalGlobalReducer = null) {
         return globalReducer.bind(this, externalGlobalReducer);
     }

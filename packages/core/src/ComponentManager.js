@@ -134,8 +134,8 @@ class ComponentManager {
         );
         if (!namespace) {
             log(
-                `Cannot locate namespace for Action \`${newAction.type}\`: \`${
-                    newAction.type
+                `Cannot locate namespace for Action \`${namespacedAction.type.toString()}\`: \`${
+                    namespacedAction.type.toString()
                 }\` needs to be registered otherwise the action won't be serializable.`
             );
         } else {

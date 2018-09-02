@@ -3,7 +3,8 @@ import { Action, Reducer, Store } from "redux";
 
 declare class ReducerRegistry {
     constructor(appContainer: AppContainer);
-
+    destroy():void;
+    
     store: Store;
     reducerStore: ReducerItem[];
     appContainer: AppContainer;

@@ -1,6 +1,6 @@
 import { EnhancerOptions } from "redux-devtools-extension";
 import { SagaMiddlewareOptions } from "redux-saga";
-import { Store, Middleware } from "redux";
+import { Store, Middleware, Action } from "redux";
 import ComponentRegistry from "./ComponentRegistry";
 import ReducerRegistry from "./ReducerRegistry";
 import PathRegistry from "./PathRegistry";
@@ -29,6 +29,25 @@ declare class AppContainer {
     ): ComponentManager;
     deregisterComponent(componentInstance: ManageableComponent): void;
     destroy(): void;
+    /**
+     * This function is mainly used for server side rendering.
+     * i.e. To decide to when the initial data loading is finised 
+     * and when it is ready to create a snapshot of the redux store
+     * via appContainer.store.getState()
+     * 
+     * You shouldn't need it for implmenting any logic
+     * 
+     */
+    subscribeActionDispatch(func:(Action)=>void):void;
+
+    /**
+     * This function is mainly used for server side rendering.
+     * i.e. Send out actions (if necessary) to trigger initial data loading
+     * 
+     * You shouldn't need it for implmenting any logic
+     * 
+     */
+    dispatch(action: Action, relativeDispatchPath?: string): Action;
 }
 
 export default AppContainer;

@@ -44,7 +44,6 @@ function* startCommandChan() {
         }
     } finally {
         if (yield rsEffects.cancelled()) {
-            log("Terminating Global Host Saga Command Channel.");
             commandChan.close();
         }
     }
@@ -181,6 +180,13 @@ class SagaRegistry {
                 "SagaRegistry::deregister: pathOrTask parameter cannot be empty!"
             );
         this.hostSagaCommandChan.dispatch(actions.cancelSaga(pathOrTask));
+    }
+
+    destroy(){
+        this.hostSagaCommandChan.destroy();
+        this.appContainer = null;
+        this.globalSagaTaskList = [];
+        this.pathRegistry.destroy();
     }
 }
 

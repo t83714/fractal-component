@@ -1,7 +1,7 @@
 import AppContainer from "./AppContainer";
 import { log } from "./utils";
 
-let APP_CONTAINER_KEY = "__appContainer";
+let APP_CONTAINER_KEY = "appContainer";
 let defaultAppContainer = null;
 
 export function createAppContainer(options = {}) {

@@ -17,6 +17,7 @@ export declare class PathContext {
 
 declare class PathRegistry {
     constructor();
+    destroy(): void;
     add(path: string, data?: object): string;
     remove(path: string): void;
     exist(path: string): boolean;
@@ -29,7 +30,7 @@ declare class PathRegistry {
     map(iteratee: (data: object, path: string) => any): any[];
     removePathData(path: string): void;
     isAllowedMulticast(path: string, actionType: symbol): boolean;
-    searchPathByPathData(predictFunc: (any) => boolean): string;
+    searchDispatchPaths(action: Action): string[];
 }
 
 export default PathRegistry;

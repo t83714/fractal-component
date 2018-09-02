@@ -8,6 +8,7 @@ declare class NamespaceRegistry {
     //--- iterate through all stored namespace data
     foreach(iteratee: (data: object, namespace: string) => void): void;
     map(iteratee: (data: object, namespace: string) => any): any[];
+    destroy(): void;
 }
 
 export default NamespaceRegistry;

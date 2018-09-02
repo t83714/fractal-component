@@ -98,6 +98,11 @@ export default class PathRegistry {
         this.dataStore = {};
     }
 
+    destroy(){
+        this.paths = [];
+        this.dataStore = {};
+    }
+
     add(path, data = undefined) {
         validate(path);
         path = normalize(path);

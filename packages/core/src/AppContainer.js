@@ -3,11 +3,13 @@ import createSagaMiddleware from "redux-saga";
 import ComponentRegistry from "./ComponentRegistry";
 import ReducerRegistry from "./ReducerRegistry";
 import SagaRegistry from "./SagaRegistry";
+import SagaMonitorRegistry from "./SagaMonitorRegistry";
+import { PathContext } from "./PathRegistry";
 import ActionRegistry from "./ActionRegistry";
 import NamespaceRegistry from "./NamespaceRegistry";
 import * as ReducerRegistryActionTypes from "./ReducerRegistry/actionTypes";
 import * as SagaRegistryActionTypes from "./SagaRegistry/actionTypes";
-import { isDevMode } from "./utils";
+import { isDevMode, log, is } from "./utils";
 
 const actionBlackList = Object.keys(ReducerRegistryActionTypes)
     .map(idx => ReducerRegistryActionTypes[idx])
@@ -17,7 +19,10 @@ const actionBlackList = Object.keys(ReducerRegistryActionTypes)
         )
     );
 const defaultDevToolOptions = {
-    actionSanitizer: action => ({ ...action, type: String(action.type) }),
+    actionSanitizer: action => ({
+        ...action,
+        type: is.symbol(action.type) ? action.type.toString() : action.type
+    }),
     predicate: (state, action) => {
         return action && actionBlackList.indexOf(action.type) === -1;
     }
@@ -31,6 +36,7 @@ const defaultOptions = {
     devToolOptions: { ...defaultDevToolOptions },
     //-- https://redux-saga.js.org/docs/api/index.html#createsagamiddlewareoptions
     sagaMiddlewareOptions: {},
+
     isServerSideRendering: false
 };
 
@@ -52,25 +58,27 @@ const getComposeEnhancers = function(devOnly, options) {
 class AppContainer {
     constructor(options = {}) {
         this.store = null;
+        this.sagaMonitorRegistry = new SagaMonitorRegistry();
         this.actionRegistry = new ActionRegistry();
         this.namespaceRegistry = new NamespaceRegistry(this);
         const containerCreationOptions = {
             ...defaultOptions,
             ...options
         };
-        if(options && options.devToolOptions){
+        if (options && options.devToolOptions) {
             containerCreationOptions.devToolOptions = {
                 ...defaultDevToolOptions,
                 ...options.devToolOptions
-            }
+            };
         }
         const composeEnhancers = getComposeEnhancers(
             containerCreationOptions.reduxDevToolsDevOnly,
             containerCreationOptions.devToolOptions
         );
-        const sagaMiddleware = createSagaMiddleware(
-            containerCreationOptions.sagaMiddlewareOptions
-        );
+        const sagaMiddleware = createSagaMiddleware({
+            ...containerCreationOptions.sagaMiddlewareOptions,
+            sagaMonitor: this.sagaMonitorRegistry.getCombinedMonitor()
+        });
         const middlewares = [
             ...containerCreationOptions.middlewares,
             /**
@@ -107,8 +115,61 @@ class AppContainer {
         this.componentRegistry.deregister(componentInstance);
     }
 
+    /**
+     * This function is mainly used for server side rendering.
+     * i.e. To decide to when the initial data loading is finised
+     * and when it is ready to create a snapshot of the redux store
+     * via appContainer.store.getState()
+     *
+     * You shouldn't need it for implmenting any logic
+     *
+     */
+    subscribeActionDispatch(func) {
+        this.sagaMonitorRegistry.register({
+            actionDispatched: func
+        });
+    }
+
+    /**
+     * This function is mainly used for server side rendering.
+     * i.e. Send out actions (if necessary) to trigger initial data loading
+     *
+     * You shouldn't need it for implmenting any logic
+     *
+     */
+    dispatch(action, relativeDispatchPath = "") {
+        const pc = new PathContext("");
+        const namespacedAction = pc.convertNamespacedAction(
+            action,
+            relativeDispatchPath
+        );
+
+        // --- query action Type's original namespace so that it can be serialised correctly if needed
+        const namespace = this.actionRegistry.findNamespaceByActionType(
+            namespacedAction.type
+        );
+        if (!namespace) {
+            log(
+                `Cannot locate namespace for Action \`${namespacedAction.type.toString()}\`: \`${namespacedAction.type.toString()}\` needs to be registered otherwise the action won't be serializable.`
+            );
+        } else {
+            namespacedAction.namespace = namespace;
+        }
+
+        return this.store.dispatch(namespacedAction);
+    }
+
     destroy() {
         this.componentRegistry.destroy();
+        if (this.hostSagaTask) {
+            this.hostSagaTask.cancel();
+            this.hostSagaTask = null;
+        }
+        this.sagaRegistry.destroy();
+        this.reducerRegistry.destroy();
+        this.sagaMonitorRegistry.destroy();
+        this.actionRegistry.destroy();
+        this.namespaceRegistry.destroy();
     }
 }
 

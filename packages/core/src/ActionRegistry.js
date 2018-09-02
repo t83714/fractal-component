@@ -4,7 +4,7 @@ import { is } from "./utils";
 const standardliseActionTypesParameter = function(actionTypes) {
     let newActionList = {};
     if (is.symbol(actionTypes)) {
-        newActionList[String(actionTypes)] = actionTypes;
+        newActionList[actionTypes.toString()] = actionTypes;
     } else if (is.array(actionTypes) && actionTypes.length) {
         actionTypes.forEach(actionType => {
             if (!is.symbol(actionType)) {
@@ -12,7 +12,7 @@ const standardliseActionTypesParameter = function(actionTypes) {
                     "ActionRegistry: Action type must be a symbol."
                 );
             }
-            newActionList[String(actionType)] = actionType;
+            newActionList[actionType.toString()] = actionType;
         });
     } else if (is.object(actionTypes)) {
         Object.keys(actionTypes).forEach(key => {
@@ -21,7 +21,7 @@ const standardliseActionTypesParameter = function(actionTypes) {
                     "ActionRegistry: Action type must be a symbol."
                 );
             }
-            newActionList[String(actionTypes[key])] = actionTypes[key];
+            newActionList[actionTypes[key].toString()] = actionTypes[key];
         });
     } else {
         throw new Error(
@@ -34,6 +34,10 @@ const standardliseActionTypesParameter = function(actionTypes) {
 export default class ActionRegistry {
     constructor() {
         this.pathRegistry = new PathRegistry();
+    }
+
+    destroy(){
+        this.pathRegistry.destroy();
     }
 
     register(namespace, actionTypes) {
@@ -110,10 +114,10 @@ export default class ActionRegistry {
 
         const newAction = {
             ...action,
-            type: String(type)
+            type: type.toString()
         };
         if (action[NAMESPACED] === true) {
-            newAction[String(NAMESPACED)] = true;
+            newAction[NAMESPACED.toString()] = true;
         }
         return JSON.stringify(newAction);
     }
@@ -125,7 +129,7 @@ export default class ActionRegistry {
                 "Cannot deserialise action without namespace property!"
             );
         }
-        if (action[String(NAMESPACED)] === true) {
+        if (action[NAMESPACED.toString()] === true) {
             action[NAMESPACED] = true;
         }
         const { actionList } = this.pathRegistry.getPathData(action.namespace);
