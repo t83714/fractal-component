@@ -4,7 +4,8 @@ import sampleData from "./sampleData/exampleAppPathRegistryData.json";
 const actionTypes = {
     "Symbol(REQUEST_NEW_GIF)": Symbol("REQUEST_NEW_GIF"),
     "Symbol(REQUEST_NEW_PAIR)": Symbol("REQUEST_NEW_PAIR"),
-    "Symbol(REQUEST_NEW_PAIR_PAIR)": Symbol("REQUEST_NEW_PAIR_PAIR")
+    "Symbol(REQUEST_NEW_PAIR_PAIR)": Symbol("REQUEST_NEW_PAIR_PAIR"),
+    "Symbol(NEW_GIF)": Symbol("NEW_GIF"),
 };
 
 test("`map` method should travel through all paths & pathData and relevant result in an array", () => {
@@ -158,6 +159,28 @@ describe("Verify `RandomGifPair` component related logic", () => {
         expect(dispatchResult).toEqual(expect.arrayContaining(expectedPath));
         expect(expectedPath).toEqual(expect.arrayContaining(dispatchResult));
     });
+
+    test("`NEW_GIF` actions dispatched by two `RandomGif` components should be heard by `ActionForwarder`", () => {
+        const pathRegistry = new PathRegistry(true);
+        initPathRegistryWithSampleData(pathRegistry);
+        const pathContext = new PathContext(
+            "exampleApp/RandomGifPair/io.github.t83714/RandomGifPair/jlk5zo1e/Gifs/io.github.t83714/RandomGif/jlk5zo1f"
+        );
+        const action = pathContext.convertNamespacedAction(
+            {
+                type: actionTypes["Symbol(NEW_GIF)"]
+            },
+            "../../../*"
+        );
+        const dispatchResult = pathRegistry.searchDispatchPaths(action);
+        const expectedPath = [
+            "exampleApp/RandomGifPair/io.github.t83714/RandomGifPair/jlk5zo1e/Gifs/io.github.t83714/ActionForwarder/jlk5zo1i",
+            "exampleApp/RandomGifPair/io.github.t83714/RandomGifPair/jlk5zo1e/Gifs/io.github.t83714/ActionForwarder/jlk5zo1h"
+        ];
+        expect(dispatchResult).toEqual(expect.arrayContaining(expectedPath));
+        expect(expectedPath).toEqual(expect.arrayContaining(dispatchResult));
+    });
+    
 });
 
 function initPathRegistryWithSampleData(
