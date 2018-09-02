@@ -27,59 +27,61 @@ test("`map` method should travel through all paths & pathData and relevant resul
         expect(pathMarkingSheet[path]).toEqual(true);
     });
     Object.keys(pathMappingValues).forEach(path => {
-        expect(r.indexOf(pathMappingValues[path])!==-1).toEqual(true);
+        expect(r.indexOf(pathMappingValues[path]) !== -1).toEqual(true);
     });
 });
 
 test("`KeepOrder` PathRegistry should keep all paths in asc ordering by its string length", () => {
     const pathRegistry = new PathRegistry(true);
     initPathRegistryWithSampleData(pathRegistry);
-    for(let i=0; i<pathRegistry.paths.length-1;i++){
-        expect(pathRegistry.paths[i+1].length>=pathRegistry.paths[i].length).toEqual(true);
+    for (let i = 0; i < pathRegistry.paths.length - 1; i++) {
+        expect(
+            pathRegistry.paths[i + 1].length >= pathRegistry.paths[i].length
+        ).toEqual(true);
     }
 });
 
 describe("Multicast actions should not be dispatched to a container if the action type is not on its parent's `allowedIncomingMulticastActionTypes` list", () => {
-    test("Multicast `REQUEST_NEW_GIF` action dispatched at root should only be received by `RandomGif` with no parents", ()=>{
+    test("Multicast `REQUEST_NEW_GIF` action dispatched at root should only be received by `RandomGif` with no parents", () => {
         const pathRegistry = new PathRegistry(true);
         initPathRegistryWithSampleData(pathRegistry);
         const pathContext = new PathContext("");
-        let action = pathContext.convertNamespacedAction(
+        const action = pathContext.convertNamespacedAction(
             {
                 type: actionTypes["Symbol(REQUEST_NEW_GIF)"]
             },
             "*"
         );
-        let dispatchResult = pathRegistry.searchDispatchPaths(action);
+        const dispatchResult = pathRegistry.searchDispatchPaths(action);
         /**
          * All other RandomGifs included by others Components (e.g RandomGifPair or RandomGifPairPair)
-         * won't receive the actions as their parants (i.e. RandomGifPair or RandomGifPairPair) 
+         * won't receive the actions as their parants (i.e. RandomGifPair or RandomGifPairPair)
          * are not interested in multicast actions with that type (set by allowedIncomingMulticastActionTypes)
          */
-        let expectedPath = [
+        const expectedPath = [
             "exampleApp/RandomGif/io.github.t83714/RandomGif/jlk5zo17"
         ];
         expect(dispatchResult).toEqual(expect.arrayContaining(expectedPath));
         expect(expectedPath).toEqual(expect.arrayContaining(dispatchResult));
     });
 
-    test("Multicast `REQUEST_NEW_PAIR` action dispatched at root should only be received by `RandomGifPair` with no parents", ()=>{
+    test("Multicast `REQUEST_NEW_PAIR` action dispatched at root should only be received by `RandomGifPair` with no parents", () => {
         const pathRegistry = new PathRegistry(true);
         initPathRegistryWithSampleData(pathRegistry);
         const pathContext = new PathContext("");
-        let action = pathContext.convertNamespacedAction(
+        const action = pathContext.convertNamespacedAction(
             {
                 type: actionTypes["Symbol(REQUEST_NEW_PAIR)"]
             },
             "*"
         );
-        let dispatchResult = pathRegistry.searchDispatchPaths(action);
+        const dispatchResult = pathRegistry.searchDispatchPaths(action);
         /**
          * All other RandomGifPair included by others Components (e.g RandomGifPairPair)
-         * won't receive the actions as their parants (i.e. RandomGifPairPair) 
+         * won't receive the actions as their parants (i.e. RandomGifPairPair)
          * are not interested in multicast actions with that type (set by allowedIncomingMulticastActionTypes)
          */
-        let expectedPath = [
+        const expectedPath = [
             "exampleApp/RandomGifPair/io.github.t83714/RandomGifPair/jlk5zo1e"
         ];
         expect(dispatchResult).toEqual(expect.arrayContaining(expectedPath));
@@ -87,8 +89,30 @@ describe("Multicast actions should not be dispatched to a container if the actio
     });
 });
 
-
-
+describe("Verify `RandomGifPair` component related logic", () => {
+    test("Dispatched `REQUEST_NEW_GIF` action should be heard by two `RandomGif` components", () => {
+        const pathRegistry = new PathRegistry(true);
+        initPathRegistryWithSampleData(pathRegistry);
+        const pathContext = new PathContext(
+            "exampleApp/RandomGifPair/io.github.t83714/RandomGifPair/jlk5zo1e"
+        );
+        const action = pathContext.convertNamespacedAction(
+            {
+                type: actionTypes["Symbol(REQUEST_NEW_GIF)"]
+            },
+            "./Gifs/*"
+        );
+        const dispatchResult = pathRegistry.searchDispatchPaths(action);
+        const expectedPath = [
+            "exampleApp/RandomGifPair/io.github.t83714/RandomGifPair/jlk5zo1e/Gifs/io.github.t83714/RandomGif/jlk5zo1g",
+            "exampleApp/RandomGifPair/io.github.t83714/RandomGifPair/jlk5zo1e/Gifs/io.github.t83714/RandomGif/jlk5zo1f",
+            "exampleApp/RandomGifPair/io.github.t83714/RandomGifPair/jlk5zo1e/Gifs/io.github.t83714/ActionForwarder/jlk5zo1i",
+            "exampleApp/RandomGifPair/io.github.t83714/RandomGifPair/jlk5zo1e/Gifs/io.github.t83714/ActionForwarder/jlk5zo1h"
+        ];
+        expect(dispatchResult).toEqual(expect.arrayContaining(expectedPath));
+        expect(expectedPath).toEqual(expect.arrayContaining(dispatchResult));
+    });
+});
 
 function initPathRegistryWithSampleData(
     pathRegistry,

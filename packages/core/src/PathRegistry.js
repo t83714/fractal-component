@@ -231,7 +231,6 @@ export default class PathRegistry {
                 item.indexOf(dispatchPath + "/") !== 0 &&
                 item !== dispatchPath
             ) {
-                rejectedPaths.push(item);
                 return false;
             }
 
