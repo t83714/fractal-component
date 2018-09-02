@@ -87,6 +87,52 @@ describe("Multicast actions should not be dispatched to a container if the actio
         expect(dispatchResult).toEqual(expect.arrayContaining(expectedPath));
         expect(expectedPath).toEqual(expect.arrayContaining(dispatchResult));
     });
+
+    test("Multicast `REQUEST_NEW_GIF` action dispatched at `exampleApp` should only be received by `RandomGif` with no parents", () => {
+        const pathRegistry = new PathRegistry(true);
+        initPathRegistryWithSampleData(pathRegistry);
+        const pathContext = new PathContext("");
+        const action = pathContext.convertNamespacedAction(
+            {
+                type: actionTypes["Symbol(REQUEST_NEW_GIF)"]
+            },
+            "exampleApp/*"
+        );
+        const dispatchResult = pathRegistry.searchDispatchPaths(action);
+        /**
+         * All other RandomGifs included by others Components (e.g RandomGifPair or RandomGifPairPair)
+         * won't receive the actions as their parants (i.e. RandomGifPair or RandomGifPairPair)
+         * are not interested in multicast actions with that type (set by allowedIncomingMulticastActionTypes)
+         */
+        const expectedPath = [
+            "exampleApp/RandomGif/io.github.t83714/RandomGif/jlk5zo17"
+        ];
+        expect(dispatchResult).toEqual(expect.arrayContaining(expectedPath));
+        expect(expectedPath).toEqual(expect.arrayContaining(dispatchResult));
+    });
+
+    test("Multicast `REQUEST_NEW_PAIR` action dispatched at `exampleApp` should only be received by `RandomGifPair` with no parents", () => {
+        const pathRegistry = new PathRegistry(true);
+        initPathRegistryWithSampleData(pathRegistry);
+        const pathContext = new PathContext("");
+        const action = pathContext.convertNamespacedAction(
+            {
+                type: actionTypes["Symbol(REQUEST_NEW_PAIR)"]
+            },
+            "exampleApp/*"
+        );
+        const dispatchResult = pathRegistry.searchDispatchPaths(action);
+        /**
+         * All other RandomGifPair included by others Components (e.g RandomGifPairPair)
+         * won't receive the actions as their parants (i.e. RandomGifPairPair)
+         * are not interested in multicast actions with that type (set by allowedIncomingMulticastActionTypes)
+         */
+        const expectedPath = [
+            "exampleApp/RandomGifPair/io.github.t83714/RandomGifPair/jlk5zo1e"
+        ];
+        expect(dispatchResult).toEqual(expect.arrayContaining(expectedPath));
+        expect(expectedPath).toEqual(expect.arrayContaining(dispatchResult));
+    });
 });
 
 describe("Verify `RandomGifPair` component related logic", () => {
