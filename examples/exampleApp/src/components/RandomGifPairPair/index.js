@@ -17,8 +17,6 @@ import findKey from "lodash/findKey";
 import jss from "jss";
 import styles from "./styles";
 
-let styleSheet;
-
 class RandomGifPairPair extends React.Component {
     constructor(props) {
         super(props);
@@ -52,9 +50,15 @@ class RandomGifPairPair extends React.Component {
             // --- specify accepted types of external multicast actions
             // --- By default, component will not accept any incoming multicast action.
             // --- No limit to actions that are sent out
-            allowedIncomingMulticastActionTypes: [actionTypes.REQUEST_NEW_PAIR_PAIR],
-            namespaceInitCallback: () => {
-                styleSheet = jss.createStyleSheet(styles).attach();
+            allowedIncomingMulticastActionTypes: [
+                actionTypes.REQUEST_NEW_PAIR_PAIR
+            ],
+            namespaceInitCallback: componentManager => {
+                const styleSheet = jss
+                    .createStyleSheet(styles, {
+                        generateClassName: componentManager.createClassNameGenerator()
+                    })
+                    .attach();
                 return { styleSheet };
             },
             namespaceDestroyCallback: ({ styleSheet }) => {
@@ -64,6 +68,7 @@ class RandomGifPairPair extends React.Component {
     }
 
     render() {
+        const { styleSheet } = this.componentManager.getNamespaceData();
         const { classes } = styleSheet;
         return (
             <div className={classes.table}>
@@ -93,7 +98,7 @@ class RandomGifPairPair extends React.Component {
                         <button
                             onClick={() => {
                                 this.componentManager.dispatch(
-                                    actions.requestNewPair()
+                                    actions.requestNewPairPair()
                                 );
                             }}
                             disabled={this.state.isLoading}
@@ -177,7 +182,4 @@ exposedActionTypes["NEW_GIF"] = RandomGifPairActionTypes.NEW_GIF;
 /**
  * expose actions for component users
  */
-export {
-    exposedActionTypes as actionTypes,
-    exposedActions as actions
-};
+export { exposedActionTypes as actionTypes, exposedActions as actions };

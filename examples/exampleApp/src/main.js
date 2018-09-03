@@ -1,6 +1,6 @@
 import "@babel/polyfill";
 
-import * as React from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 
 import jss from "jss";

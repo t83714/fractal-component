@@ -14,8 +14,6 @@ import partialRight from "lodash/partialRight";
 import jss from "jss";
 import styles from "./styles";
 
-let styleSheet;
-
 class RandomGif extends React.Component {
     constructor(props) {
         super(props);
@@ -46,8 +44,12 @@ class RandomGif extends React.Component {
             // --- By default, component will not accept any incoming multicast action.
             // --- No limit to actions that are sent out
             allowedIncomingMulticastActionTypes: [actionTypes.REQUEST_NEW_GIF],
-            namespaceInitCallback: () => {
-                styleSheet = jss.createStyleSheet(styles).attach();
+            namespaceInitCallback: componentManager => {
+                const styleSheet = jss
+                    .createStyleSheet(styles, {
+                        generateClassName: componentManager.createClassNameGenerator()
+                    })
+                    .attach();
                 return { styleSheet };
             },
             namespaceDestroyCallback: ({ styleSheet }) => {
@@ -57,6 +59,7 @@ class RandomGif extends React.Component {
     }
 
     render() {
+        const { styleSheet } = this.componentManager.getNamespaceData();
         const { classes } = styleSheet;
         return (
             <div className={classes.table}>
@@ -138,7 +141,4 @@ exposedActionList.forEach(act => {
 /**
  * expose actions for component users
  */
-export {
-    exposedActionTypes as actionTypes,
-    exposedActions as actions
-};
+export { exposedActionTypes as actionTypes, exposedActions as actions };

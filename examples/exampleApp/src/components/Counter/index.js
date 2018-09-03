@@ -6,8 +6,6 @@ import * as actions from "./actions/index";
 import jss from "jss";
 import styles from "./styles";
 
-let styleSheet;
-
 class Counter extends React.Component {
     constructor(props) {
         super(props);
@@ -18,11 +16,12 @@ class Counter extends React.Component {
             namespace: "io.github.t83714/Counter",
             reducer: function(state, action) {
                 switch (action.type) {
-                    case actionTypes.INCREASE_COUNT:
+                    case actionTypes.INCREASE_COUNT: {
                         const { toggleButtonActive } = action;
                         const incresement =
                             state.count >= 10 && toggleButtonActive ? 2 : 1;
                         return { ...state, count: state.count + incresement };
+                    }
                     default:
                         return state;
                 }
@@ -41,8 +40,12 @@ class Counter extends React.Component {
             // --- By default, component will not accept any incoming multicast action.
             // --- No limit to actions that are sent out
             allowedIncomingMulticastActionTypes: [actionTypes.INCREASE_COUNT],
-            namespaceInitCallback: () => {
-                styleSheet = jss.createStyleSheet(styles).attach();
+            namespaceInitCallback: componentManager => {
+                const styleSheet = jss
+                    .createStyleSheet(styles, {
+                        generateClassName: componentManager.createClassNameGenerator()
+                    })
+                    .attach();
                 return { styleSheet };
             },
             namespaceDestroyCallback: ({ styleSheet }) => {
@@ -52,6 +55,7 @@ class Counter extends React.Component {
     }
 
     render() {
+        const { styleSheet } = this.componentManager.getNamespaceData();
         const { classes } = styleSheet;
         return (
             <div className={classes.table}>

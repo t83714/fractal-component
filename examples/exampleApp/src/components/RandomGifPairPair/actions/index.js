@@ -1,6 +1,6 @@
 import * as actionTypes from "./types";
 
-export function requestNewPair() {
+export function requestNewPairPair() {
     return {
         type: actionTypes.REQUEST_NEW_PAIR_PAIR
     };

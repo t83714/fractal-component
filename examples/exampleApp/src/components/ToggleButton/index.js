@@ -9,8 +9,6 @@ import styles from "./styles";
 
 const { is } = utils;
 
-let styleSheet;
-
 class ToggleButton extends React.Component {
     constructor(props) {
         super(props);
@@ -41,8 +39,12 @@ class ToggleButton extends React.Component {
             // --- No limit to actions that are sent out
             // --- Commented out the following line as Toggle button doesn't need to process any actions (ActionForwarder below will do the job).
             // --- allowedIncomingMulticastActionTypes: "*",
-            namespaceInitCallback: () => {
-                styleSheet = jss.createStyleSheet(styles).attach();
+            namespaceInitCallback: componentManager => {
+                const styleSheet = jss
+                    .createStyleSheet(styles, {
+                        generateClassName: componentManager.createClassNameGenerator()
+                    })
+                    .attach();
                 return { styleSheet };
             },
             namespaceDestroyCallback: ({ styleSheet }) => {
@@ -52,6 +54,7 @@ class ToggleButton extends React.Component {
     }
 
     render() {
+        const { styleSheet } = this.componentManager.getNamespaceData();
         const { classes } = styleSheet;
         return (
             <div className={classes.table}>
