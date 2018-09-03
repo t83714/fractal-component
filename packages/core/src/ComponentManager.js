@@ -1,7 +1,7 @@
 import { uniqid } from "./utils";
 import objectPath from "object-path";
 import { PathContext, normalize } from "./PathRegistry";
-import { noop, getPackageName, log } from "./utils";
+import { noop, getPackageName, log, createClassNameGenerator } from "./utils";
 
 const defaultOptions = {
     saga: null,
@@ -25,6 +25,7 @@ export const COMPONENT_MANAGER_LOCAL_KEY = Symbol(
 
 class ComponentManager {
     constructor(componentInstance, options, appContainer) {
+        this.createClassNameGenerator = createClassNameGenerator.bind(this);
         this.componentInstance = componentInstance;
         this.options = { ...defaultOptions, ...options };
         this.appContainer = appContainer;

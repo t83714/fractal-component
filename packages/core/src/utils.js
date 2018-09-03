@@ -137,3 +137,16 @@ export const is = {
     },
     namespacedAction: v => is.action(v) && v[NAMESPACED]
 };
+
+export const createClassNameGenerator = function(namespace) {
+    let ruleCounter = 0;
+    const runtimeNamespace = namespace ? namespace : this ? this.namespace : "";
+    if (!runtimeNamespace) {
+        throw new Error("createClassNameGenerator: namespace cannot be empty!");
+    }
+    const prefix = runtimeNamespace.replace(/[^a-zA-Z0-9-]/g, "-");
+    return () => {
+        ruleCounter += 1;
+        return `${prefix}-${ruleCounter}`;
+    };
+};

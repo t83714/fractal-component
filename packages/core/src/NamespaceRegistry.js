@@ -32,7 +32,7 @@ export default class NamespaceRegistry {
             this.pathRegistry.add(namespace, {
                 cmList: [cm],
                 namespaceData: is.func(namespaceInitCallback)
-                    ? namespaceInitCallback()
+                    ? namespaceInitCallback(cm)
                     : {},
                 namespaceInitCallback,
                 namespaceDestroyCallback,

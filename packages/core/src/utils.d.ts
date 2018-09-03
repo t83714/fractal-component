@@ -35,3 +35,4 @@ export const kTrue: (v: any) => (() => boolean);
 export const kFalse: (v: any) => (() => boolean);
 export const noop: () => void;
 export const identity: (v: any) => any;
+export const createClassNameGenerator: () => string;
