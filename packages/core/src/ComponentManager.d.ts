@@ -30,6 +30,7 @@ declare class ComponentManager {
         destroyCallback?: DestroyCallback
     ): void;
     dispatch(action: Action, relativeDispatchPath?: string): Action;
+    getNamespaceData(): any;
     init(): void;
     destroy(): void;
 }

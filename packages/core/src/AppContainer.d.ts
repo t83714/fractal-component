@@ -40,6 +40,9 @@ declare class AppContainer {
      */
     subscribeActionDispatch(func:(Action)=>void):void;
 
+    // --- an utility mainly designed for server side rendering.
+    waitForActionsUntil(testerFunc: (Action)=>boolean, timeout?: number): Promise<void>;
+
     /**
      * This function is mainly used for server side rendering.
      * i.e. Send out actions (if necessary) to trigger initial data loading

@@ -130,6 +130,22 @@ class AppContainer {
         });
     }
 
+    // --- an utility mainly designed for server side rendering.
+    waitForActionsUntil(testerFunc, timeout = 5000) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                const error = new Error("waitForActionsUntil timeout");
+                error.isTimeout = true;
+                reject(error);
+            }, timeout);
+            this.subscribeActionDispatch(action => {
+                if (testerFunc(action)) {
+                    resolve();
+                }
+            });
+        });
+    }
+
     /**
      * This function is mainly used for server side rendering.
      * i.e. Send out actions (if necessary) to trigger initial data loading

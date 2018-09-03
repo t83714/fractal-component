@@ -102,9 +102,14 @@ class ComponentManager {
         }
         //--- should NOT shallow copy to avoid unnecessary render
         this.componentInstance.state = this.initState;
-        this.setState = this.componentInstance.setState.bind(
-            this.componentInstance
-        );
+        if (this.isServerSideRendering) {
+            this.setState = noop;
+        } else {
+            this.setState = this.componentInstance.setState.bind(
+                this.componentInstance
+            );
+        }
+
         this.componentInstance.setState = function() {
             throw new Error(
                 `This component is managed by \`${pkgName}\`. You should dispatch action to mutate component state.`
@@ -134,9 +139,7 @@ class ComponentManager {
         );
         if (!namespace) {
             log(
-                `Cannot locate namespace for Action \`${namespacedAction.type.toString()}\`: \`${
-                    namespacedAction.type.toString()
-                }\` needs to be registered otherwise the action won't be serializable.`
+                `Cannot locate namespace for Action \`${namespacedAction.type.toString()}\`: \`${namespacedAction.type.toString()}\` needs to be registered otherwise the action won't be serializable.`
             );
         } else {
             namespacedAction.namespace = namespace;
@@ -149,6 +152,10 @@ class ComponentManager {
         if (this.isInitialized || this.isDestroyed) return;
         this.initCallback(this);
         this.isInitialized = true;
+    }
+
+    getNamespaceData(){
+        return this.appContainer.namespaceRegistry.getData(this.namespace);
     }
 
     destroy() {
@@ -261,8 +268,10 @@ function settleStringSetting(setting) {
             if (!value) return "";
             return value;
         } catch (e) {
-            console.log(
-                `Failed to retrieve setting via executing generating function: ${e.getMessage()}`
+            log(
+                `Failed to retrieve setting via executing generating function: ${e.getMessage()}`,
+                "error",
+                e
             );
             return "";
         }

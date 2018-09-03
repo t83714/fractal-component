@@ -58,6 +58,11 @@ export default class NamespaceRegistry {
         }
     }
 
+    getData(namespace){
+        const { namespaceData } = this.pathRegistry.getPathData(namespace);
+        return namespaceData;
+    }
+
     foreach(iteratee) {
         this.pathRegistry.foreach(({ namespaceData }, namespace) =>
             iteratee(namespaceData, namespace)
