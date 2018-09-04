@@ -70,7 +70,7 @@ export default class NamespaceRegistry {
     }
 
     map(iteratee) {
-        this.pathRegistry.map(({ namespaceData }, namespace) =>
+        return this.pathRegistry.map(({ namespaceData }, namespace) =>
             iteratee(namespaceData, namespace)
         );
     }
