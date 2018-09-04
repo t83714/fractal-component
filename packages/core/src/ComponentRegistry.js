@@ -14,6 +14,17 @@ class ComponentRegistry {
         this.options = { ...defaultOptions, ...options };
         this.pathRegistry = new PathRegistry();
         this.componentManagerStore = {};
+        this.componentAutoIdCounter = {};
+    }
+
+    createComponentId(...pathItems) {
+        const path = pathItems.filter(item => (item ? true : false)).join("/");
+        if (is.number(this.componentAutoIdCounter[path])) {
+            this.componentAutoIdCounter[path] += 1;
+        } else {
+            this.componentAutoIdCounter[path] = 0;
+        }
+        return "c" + this.componentAutoIdCounter[path];
     }
 
     register(componentInstance, options) {

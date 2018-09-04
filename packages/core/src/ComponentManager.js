@@ -1,4 +1,3 @@
-import { uniqid } from "./utils";
 import objectPath from "object-path";
 import { PathContext, normalize } from "./PathRegistry";
 import { noop, getPackageName, log, createClassNameGenerator } from "./utils";
@@ -10,7 +9,7 @@ const defaultOptions = {
     namespace: null,
     namespacePrefix: null,
     componentId: null,
-    persistState: false,
+    persistState: true,
     //--- when `allowedIncomingMulticastActionTypes` is string
     //--- only "*" is accepted (means accepting any actionTypes)
     allowedIncomingMulticastActionTypes: null,
@@ -44,6 +43,15 @@ class ComponentManager {
         this.displayName = getComponentName(this.managingInstance);
 
         const settleStringSettingFunc = settleStringSetting.bind(this);
+
+        if (!this.namespacePrefix) {
+            this.namespacePrefix = normalize(
+                settleStringSettingFunc(this.options.namespacePrefix)
+            );
+        }
+        if (this.namespacePrefix.indexOf("*") !== -1)
+            throw new Error("`namespacePrefix` cannot contain `*`.");
+
         this.namespace = normalize(
             settleStringSettingFunc(this.options.namespace)
         );
@@ -53,6 +61,7 @@ class ComponentManager {
             throw new Error(
                 "Missing Component `namespace`: Component `namespace` must be specified."
             );
+
         this.isAutoComponentId = false;
         this.componentId = normalize(
             settleStringSettingFunc(this.options.componentId)
@@ -64,7 +73,10 @@ class ComponentManager {
             throw new Error("`Component ID` cannot contain `/` or `*`.");
         if (!this.componentId) {
             this.isAutoComponentId = true;
-            this.componentId = uniqid();
+            this.componentId = this.appContainer.componentRegistry.createComponentId(
+                this.namespacePrefix,
+                this.namespace
+            );
         }
         if (
             this.componentInstance.props &&
@@ -76,13 +88,6 @@ class ComponentManager {
                 )
             );
         }
-        if (!this.namespacePrefix) {
-            this.namespacePrefix = normalize(
-                settleStringSettingFunc(this.options.namespacePrefix)
-            );
-        }
-        if (this.namespacePrefix.indexOf("*") !== -1)
-            throw new Error("`namespacePrefix` cannot contain `*`.");
 
         this.isServerSideRendering = this.options.isServerSideRendering;
         this.persistState = this.options.persistState;
@@ -155,7 +160,7 @@ class ComponentManager {
         this.isInitialized = true;
     }
 
-    getNamespaceData(){
+    getNamespaceData() {
         return this.appContainer.namespaceRegistry.getData(this.namespace);
     }
 
@@ -253,7 +258,7 @@ function getComponentName(componentInstance) {
             "Component"
         );
     } catch (e) {
-        return `Compon`;
+        return `Component`;
     }
 }
 

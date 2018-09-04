@@ -3,13 +3,12 @@ import * as actions from "./ReducerRegistry/actions";
 import PathRegistry, { normalize } from "./PathRegistry";
 import objectPath from "object-path";
 import objectPathImmutable from "object-path-immutable";
-import intersection from "lodash/intersection";
 import { is } from "./utils";
 import namespace from "./ReducerRegistry/namespace";
 
 const defaultReducerOptions = {
     initState: {},
-    persistState: false
+    persistState: true
 };
 
 /**
@@ -22,14 +21,10 @@ function processInitState(state, action) {
     const hasData = objectPath.has(state, pathItems);
     if (hasData) {
         if (doNotReplace) {
+            // --- has initialised
+            // --- force component.state to refresh
             const existingData = objectPath.get(state, pathItems);
-            if (
-                intersection(Object.keys(existingData), Object.keys(data))
-                    .length
-            ) {
-                //--- has initilised
-                return state;
-            }
+            return objectPathImmutable.assign(state, pathItems, existingData);
         }
     }
     return objectPathImmutable.assign(state, pathItems, data);
@@ -100,7 +95,7 @@ class ReducerRegistry {
         this.appContainer.actionRegistry.register(namespace, actionTypes);
     }
 
-    destroy(){
+    destroy() {
         this.pathRegistry.destroy();
         this.appContainer = null;
     }
