@@ -1,0 +1,43 @@
+{
+  "name": "fractal-component-exampleapp-ssr",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node index.js",
+    "prebuild": "npm run clean",
+    "build": "webpack --mode=production",
+    "build-dev": "webpack --mode=development",
+    "clean": "rimraf dist",
+    "prettier": "prettier --write 'src/*.js'",
+    "profile": "webpack --mode=production --profile --json > dist/stats.json"
+  },
+  "dependencies": {
+    "color": "^3.0.0",
+    "express": "^4.16.3",
+    "jss": "^9.8.7",
+    "jss-preset-default": "^4.5.0",
+    "prop-types": "^15.6.2",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "redux-saga": "^1.0.0-beta.1"
+  },
+  "devDependencies": {
+    "@babel/core": "7.0.0-rc.3",
+    "@babel/node": "7.0.0-rc.3",
+    "@babel/plugin-proposal-object-rest-spread": "7.0.0-rc.3",
+    "@babel/polyfill": "7.0.0-rc.3",
+    "@babel/preset-env": "7.0.0-rc.3",
+    "@babel/preset-react": "7.0.0-rc.3",
+    "@babel/register": "^7.0.0",
+    "babel-loader": "8.0.0-beta.4",
+    "babel-plugin-lodash": "^3.3.4",
+    "es6-promise": "^4.2.4",
+    "html-webpack-plugin": "^3.2.0",
+    "isomorphic-fetch": "^2.2.1",
+    "lodash-webpack-plugin": "^0.11.5",
+    "webpack": "^4.15.1",
+    "webpack-bundle-analyzer": "^2.13.1",
+    "webpack-cli": "^3.0.8",
+    "webpack-dev-server": "^3.1.4"
+  }
+}
