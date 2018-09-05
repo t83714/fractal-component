@@ -108,6 +108,7 @@ class ToggleButton extends React.Component {
                             toggleButtonActive: this.state.isActive
                         };
                     }}
+                    appContainer={this.props.appContainer}
                 />
             </div>
         );

@@ -13,7 +13,7 @@ import { renderToString } from "react-dom/server";
 import jss from "jss";
 import jssDefaultPreset from "jss-preset-default";
 
-import { AppContainerUtils, AppContainer } from "fractal-component";
+import { AppContainer } from "fractal-component";
 import App from "./components/App";
 import {
     actions as randomGifActions,
@@ -50,12 +50,19 @@ function htmlTemplate(reactDom, storeData, serverSideStyles) {
 }
 
 app.get(["/", "/index.html*"], (req, res) => {
-    // --- create a new appContainer for serving request
+    // --- create a new appContainer for serving every request
     const appContainer = new AppContainer({
         isServerSideRendering: true
     });
-    // --- render app to
+    /**
+     * Render App & passing appContainer down  
+     * to avoid `AppContainerUtils.registerComponent` registering component to the same appContianer
+     */
     const reactDom = renderToString(<App appContainer={appContainer} />);
+    /**
+     * Simply way of deciding when to create a redux store snapshot
+     * You can have your own logic or make `<App/>` send out an action to indicate initial data loading complete.
+     */
     const loadingProgress = {
         isRandomGifLoadingComplete: false,
         isRandomGifError: false,
@@ -65,9 +72,18 @@ app.get(["/", "/index.html*"], (req, res) => {
         isRandomGifPairPairError: false,
         increaseCounterEventRecevied: 0
     };
+
+    // --- send multicast actions to trigger data loading
+    appContainer.dispatch(randomGifActions.requestNewGif(), "*");
+    appContainer.dispatch(randomGifPairActions.requestNewPair(), "*");
+    appContainer.dispatch(randomGifPairPairActions.requestNewPairPair(), "*");
+
+    /**
+     * `waitForActionsUntil` is a simple helper
+     * it calls appContainer.subscribeActionDispatch internally to register an action monitor
+     */
     appContainer
         .waitForActionsUntil(action => {
-            console.log(action);
             switch (action.type) {
                 case randomGifActionTypes.LOADING_COMPLETE:
                     loadingProgress.isRandomGifLoadingComplete = true;
@@ -107,29 +123,27 @@ app.get(["/", "/index.html*"], (req, res) => {
             ) {
                 return true;
             }
-            console.log(loadingProgress);
             return false;
-        }, 10000)
+        }, 10000) //--- Timeout after 10 seconds if conditions never meet
         .catch(e => {
-            console.log(e);
+            res.status(500).send(e);
         })
         .finally(() => {
             const storeData = JSON.stringify(appContainer.store.getState());
+            /**
+             * Loop through all namespace data to generate CSS
+             */
             const cssContent = appContainer.namespaceRegistry
                 .map(
                     ({ styleSheet }) =>
                         styleSheet ? styleSheet.toString() : ""
                 )
                 .join("");
-            //appContainer.destroy();
+            // --- Destroy appContainer
+            appContainer.destroy();
             res.writeHead(200, { "Content-Type": "text/html" });
             res.end(htmlTemplate(reactDom, storeData, cssContent));
         });
-    
-    // --- send multicast actions to trigger data loading
-    appContainer.dispatch(randomGifActions.requestNewGif(), "*");
-    //appContainer.dispatch(randomGifPairActions.requestNewPair(), "*");
-    //appContainer.dispatch(randomGifPairPairActions.requestNewPairPair(), "*");
 });
 
 app.use(express.static(path.resolve(__dirname, "../dist")));

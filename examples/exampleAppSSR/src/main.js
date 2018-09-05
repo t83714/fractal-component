@@ -19,4 +19,11 @@ if(window.appStoreData){
 
 AppContainerUtils.createAppContainer(appContainerOptions);
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.hydrate(<App />, document.getElementById("root"),()=>{
+    try{
+        const ssStyles = document.getElementById('server-side-styles')
+        ssStyles.parentNode.removeChild(ssStyles)
+    }catch(e){
+        console.log(e);
+    }
+});
