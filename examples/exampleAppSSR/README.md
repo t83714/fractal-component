@@ -28,6 +28,6 @@ yarn build
 3. Run the Example App
 
 ```
-cd examples/exampleApp
+cd examples/exampleAppSSR
 yarn start
 ```
