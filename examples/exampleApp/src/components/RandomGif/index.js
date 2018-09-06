@@ -6,8 +6,6 @@ import reducer from "./reducers";
 import saga from "./sagas";
 import * as actions from "./actions";
 import * as actionTypes from "./actions/types";
-import camelCase from "lodash/camelCase";
-import findKey from "lodash/findKey";
 import partialRight from "lodash/partialRight";
 
 import jss from "jss";
@@ -116,22 +114,17 @@ RandomGif.defaultProps = {
 
 export default RandomGif;
 
-const exposedActionList = [
-    actionTypes.NEW_GIF,
-    actionTypes.LOADING_START,
-    actionTypes.LOADING_COMPLETE,
-    actionTypes.REQUEST_NEW_GIF
-];
-
-const exposedActionTypes = {};
-const exposedActions = {};
-
-exposedActionList.forEach(act => {
-    const actKey = findKey(actionTypes, item => item === act);
-    const camelcaseAct = camelCase(actKey);
-    exposedActionTypes[actKey] = act;
-    exposedActions[camelcaseAct] = actions[camelcaseAct];
-});
+//--- actions component may send out
+const exposedActionTypes = {
+    NEW_GIF: actionTypes.NEW_GIF,
+    LOADING_START: actionTypes.LOADING_START,
+    LOADING_COMPLETE: actionTypes.LOADING_COMPLETE,
+    REQUEST_NEW_GIF: actionTypes.REQUEST_NEW_GIF
+};
+//--- action component will accept
+const exposedActions = {
+    requestNewGif: actions.requestNewGif
+};
 
 /**
  * expose actions for component users

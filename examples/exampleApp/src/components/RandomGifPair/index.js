@@ -8,8 +8,6 @@ import * as actions from "./actions";
 import * as actionTypes from "./actions/types";
 import reducer from "./reducers";
 import saga from "./sagas";
-import camelCase from "lodash/camelCase";
-import findKey from "lodash/findKey";
 
 import jss from "jss";
 import styles from "./styles";
@@ -144,25 +142,19 @@ RandomGifPair.defaultProps = {
 
 export default RandomGifPair;
 
-const exposedActionList = [
-    actionTypes.LOADING_START,
-    actionTypes.LOADING_COMPLETE,
-    actionTypes.REQUEST_NEW_PAIR
-];
-
-const exposedActionTypes = {};
-const exposedActions = {};
-
-exposedActionList.forEach(act => {
-    const actKey = findKey(actionTypes, item => item === act);
-    const camelcaseAct = camelCase(actKey);
-    exposedActionTypes[actKey] = act;
-    exposedActions[camelcaseAct] = actions[camelcaseAct];
-});
-
-// --- export NEW_GIF action type as well just
-// --- so people can use `RandomGifPair` without knowing `RandomGif`
-exposedActionTypes["NEW_GIF"] = RandomGifActionTypes.NEW_GIF;
+//--- actions component may send out
+const exposedActionTypes = {
+    // --- export NEW_GIF action type as well just
+    // --- so people can use `RandomGifPair` without knowing `RandomGif`
+    NEW_GIF: RandomGifActionTypes.NEW_GIF,
+    LOADING_START: actionTypes.LOADING_START,
+    LOADING_COMPLETE: actionTypes.LOADING_COMPLETE,
+    REQUEST_NEW_PAIR: actionTypes.REQUEST_NEW_PAIR
+};
+//--- action component will accept
+const exposedActions = {
+    requestNewPair: actions.requestNewPair
+};
 
 /**
  * expose actions for component users
