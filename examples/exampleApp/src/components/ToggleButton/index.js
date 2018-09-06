@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-//-- import fractal-component lib from src entry point
 import { AppContainerUtils, ActionForwarder, utils } from "fractal-component";
 import * as actionTypes from "./actions/types";
 import * as actions from "./actions/index";
@@ -26,12 +25,9 @@ class ToggleButton extends React.Component {
                 }
             },
             /**
-             * Register action types is optional for action serialisation / deserialisation.
+             * Register actions for action serialisation / deserialisation.
              * It's much easier to use Symbol as action type to make sure no action type collision among different component.
              * ( Considering we now use actions as primary way for inter-component communication, it's quite important in a multicaset action environment)
-             * However, Symbol is not serialisable by its nature and serialisable actions is the key to `time travel` feature.
-             * Here we provide an ActionRegistry facility to achieve the serialisation (By re-establish the mapping). To do that, you need:
-             * - Register your action types via `AppContainerUtils.registerActions(namespace, actionTypes)`
              */
             actionTypes,
             // --- specify accepted types of external multicast actions
