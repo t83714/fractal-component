@@ -36,7 +36,7 @@ export default class ActionRegistry {
         this.pathRegistry = new PathRegistry();
     }
 
-    destroy(){
+    destroy() {
         this.pathRegistry.destroy();
     }
 

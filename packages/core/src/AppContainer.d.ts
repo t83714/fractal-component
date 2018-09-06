@@ -31,24 +31,27 @@ declare class AppContainer {
     destroy(): void;
     /**
      * This function is mainly used for server side rendering.
-     * i.e. To decide to when the initial data loading is finised 
+     * i.e. To decide to when the initial data loading is finised
      * and when it is ready to create a snapshot of the redux store
      * via appContainer.store.getState()
-     * 
+     *
      * You shouldn't need it for implmenting any logic
-     * 
+     *
      */
-    subscribeActionDispatch(func:(Action)=>void):void;
+    subscribeActionDispatch(func: (Action) => void): void;
 
     // --- an utility mainly designed for server side rendering.
-    waitForActionsUntil(testerFunc: (Action)=>boolean, timeout?: number): Promise<void>;
+    waitForActionsUntil(
+        testerFunc: (Action) => boolean,
+        timeout?: number
+    ): Promise<void>;
 
     /**
      * This function is mainly used for server side rendering.
      * i.e. Send out actions (if necessary) to trigger initial data loading
-     * 
+     *
      * You shouldn't need it for implmenting any logic
-     * 
+     *
      */
     dispatch(action: Action, relativeDispatchPath?: string): Action;
 }

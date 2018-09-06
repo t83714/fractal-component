@@ -7,7 +7,7 @@ export default class NamespaceRegistry {
         this.pathRegistry = new PathRegistry();
     }
 
-    destroy(){
+    destroy() {
         this.pathRegistry.destroy();
         this.appContainer = null;
     }
@@ -58,7 +58,7 @@ export default class NamespaceRegistry {
         }
     }
 
-    getData(namespace){
+    getData(namespace) {
         const { namespaceData } = this.pathRegistry.getPathData(namespace);
         return namespaceData;
     }

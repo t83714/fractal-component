@@ -205,7 +205,9 @@ export default class PathRegistry {
      */
     searchDispatchPaths(action) {
         if (!this.shouldKeepOrder) {
-            throw new Error("`searchDispatchPaths` method requires PathRegistry to be initialised in `keepOrder` mode.");
+            throw new Error(
+                "`searchDispatchPaths` method requires PathRegistry to be initialised in `keepOrder` mode."
+            );
         }
 
         if (action[NAMESPACED] !== true) {

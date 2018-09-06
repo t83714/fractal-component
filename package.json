@@ -1,10 +1,9 @@
 {
   "private": true,
   "scripts": {
-    "prettier": "npm run prettier --prefix packages/core && npm run prettier --prefix examples/exampleApp",
-    "build": "npm run build --prefix packages/core && npm run build --prefix examples/exampleApp",
-    "start": "npm run build --prefix packages/core && npm run start --prefix examples/exampleApp",
-    "test" : "npm run test --prefix packages/core"
+    "prettier": "yarn wsrun prettier",
+    "build": "yarn wsrun build --stages",
+    "test": "npm run test --prefix packages/core"
   },
   "repository": {
     "type": "git",
@@ -25,12 +24,12 @@
     "@babel/cli": "^7.0.0-rc.3",
     "@babel/core": "^7.0.0-rc.3",
     "@babel/node": "^7.0.0-rc.3",
+    "@babel/plugin-proposal-object-rest-spread": "7.0.0-rc.3",
     "@babel/polyfill": "^7.0.0-rc.3",
     "@babel/preset-env": "^7.0.0-rc.3",
     "@babel/preset-react": "^7.0.0-rc.3",
     "@babel/preset-stage-2": "^7.0.0-rc.3",
     "babel-plugin-annotate-pure-calls": "babel7",
-    "@babel/plugin-proposal-object-rest-spread": "7.0.0-rc.3",
     "bundlesize": "^0.17.0",
     "cross-env": "^5.2.0",
     "eslint": "^5.2.0",
@@ -43,7 +42,8 @@
     "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-node-resolve": "^3.3.0",
     "rollup-plugin-replace": "^2.0.0",
-    "rollup-plugin-uglify": "^4.0.0"
+    "rollup-plugin-uglify": "^4.0.0",
+    "wsrun": "^2.2.1"
   },
   "workspaces": [
     "examples/*",

@@ -18,7 +18,6 @@
     "clean": "rimraf dist",
     "prebuild": "npm run clean",
     "build": "rollup -c",
-    "prepare": "npm run build && cp ../../README.md ./README.md && cp ../../LICENSE ./LICENSE",
     "prepush": "npm run test",
     "preversion": "npm run test && npm run prepare",
     "release:patch": "npm version patch && npm publish && git push --follow-tags",

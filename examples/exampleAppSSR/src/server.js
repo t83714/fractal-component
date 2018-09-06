@@ -55,7 +55,7 @@ app.get(["/", "/index.html*"], (req, res) => {
         isServerSideRendering: true
     });
     /**
-     * Render App & passing appContainer down  
+     * Render App & passing appContainer down
      * to avoid `AppContainerUtils.registerComponent` registering component to the same appContianer
      */
     const reactDom = renderToString(<App appContainer={appContainer} />);
@@ -107,7 +107,7 @@ app.get(["/", "/index.html*"], (req, res) => {
                     break;
                 case counterActionTypes.INCREASE_COUNT:
                     // --- only count actions sent to `exampleApp/Counter`
-                    if(action.currentDispatchPath==="exampleApp/Counter"){
+                    if (action.currentDispatchPath === "exampleApp/Counter") {
                         loadingProgress.increaseCounterEventRecevied += 1;
                     }
                     break;

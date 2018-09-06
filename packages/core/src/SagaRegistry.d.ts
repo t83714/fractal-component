@@ -12,7 +12,7 @@ declare class SagaRegistry {
     register(saga: GeneratorFunction, sagaOptions: SagaOptions): Task;
     deregister(pathOrTask: string | Task): void;
     createHostSaga(): GeneratorFunction;
-    destroy():void;
+    destroy(): void;
 }
 
 export default SagaRegistry;

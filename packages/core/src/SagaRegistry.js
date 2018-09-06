@@ -182,7 +182,7 @@ class SagaRegistry {
         this.hostSagaCommandChan.dispatch(actions.cancelSaga(pathOrTask));
     }
 
-    destroy(){
+    destroy() {
         this.hostSagaCommandChan.destroy();
         this.appContainer = null;
         this.globalSagaTaskList = [];

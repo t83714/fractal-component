@@ -13,17 +13,17 @@ jss.setup(jssDefaultPreset());
 
 const appContainerOptions = {};
 // --- if server side generate initData is avaiable, set initData to redux store
-if(window.appStoreData){
+if (window.appStoreData) {
     appContainerOptions.initState = window.appStoreData;
 }
 
 AppContainerUtils.createAppContainer(appContainerOptions);
 
-ReactDOM.hydrate(<App />, document.getElementById("root"),()=>{
-    try{
-        const ssStyles = document.getElementById('server-side-styles')
-        ssStyles.parentNode.removeChild(ssStyles)
-    }catch(e){
+ReactDOM.hydrate(<App />, document.getElementById("root"), () => {
+    try {
+        const ssStyles = document.getElementById("server-side-styles");
+        ssStyles.parentNode.removeChild(ssStyles);
+    } catch (e) {
         console.log(e);
     }
 });

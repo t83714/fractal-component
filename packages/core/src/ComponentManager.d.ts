@@ -31,7 +31,7 @@ declare class ComponentManager {
     ): void;
     dispatch(action: Action, relativeDispatchPath?: string): Action;
     getNamespaceData(): any;
-    createClassNameGenerator(): ()=>string;
+    createClassNameGenerator(): () => string;
     init(): void;
     destroy(): void;
 }
