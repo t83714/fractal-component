@@ -5,7 +5,6 @@ import replace from "rollup-plugin-replace";
 import { uglify } from "rollup-plugin-uglify";
 import json from "rollup-plugin-json";
 import commonjs from "rollup-plugin-commonjs";
-import builtins from 'rollup-plugin-node-builtins';
 import pkg from "./package.json";
 
 const ensureArray = maybeArr =>
@@ -27,7 +26,7 @@ const createConfig = ({ input, output, external, env, min = false, ...props }) =
     experimentalCodeSplitting: typeof input !== "string",
     output: ensureArray(output).map(format =>
         Object.assign({}, format, {
-            name: "FractalComponent",
+            name: "RandomGif",
             exports: "named"
         })
     ),
@@ -92,6 +91,7 @@ export default [
             file: "dist/" + pkg.name + ".umd.js",
             format: "umd",
             globals: {
+                "fractal-component" : "FractalComponent",
                 react : "React",
                 "prop-types" : "PropTypes"
             }
@@ -105,6 +105,7 @@ export default [
             file: "dist/" + pkg.name + ".min.umd.js",
             format: "umd",
             globals: {
+                "fractal-component" : "FractalComponent",
                 react : "React",
                 "prop-types" : "PropTypes"
             }
