@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/t83714/fractal-component.svg?branch=master)](https://travis-ci.org/t83714/fractal-component)
 
-`fractal-component` is a javascript library that can help you to encapsulate decoupled resuable UI component easily. It aims to provide a one-stop solution that can encapsulate state store (redux) management, actions (messages, events) processing & routing, side-effect management and component styling into one software module. You can then reuse your component to create new components (composition), use in a different project or publish as a NPM module. You can not only use those components in web browsers but also can render them at server-side (SSR) & create redux store snapshot easily.
+`fractal-component` is a javascript library that can help you to encapsulate decoupled UI component easily. It aims to provide a one-stop solution that allows state store (redux) management, actions (messages, events) processing & routing, side-effect management and component styling to be encapsulated into one single software module. You can then reuse your component to create new components (composition), use in a different project or publish it as a NPM module. You can not only use those components in web browsers but also can render them at server-side (SSR) & create redux store snapshot easily ([see example](https://github.com/t83714/fractal-component/tree/master/examples/exampleAppSSR)).
 
 In order to achieve that, `fractal-component` introduce the following features to react / redux ecosystem:
 
@@ -15,7 +15,7 @@ In order to achieve that, `fractal-component` introduce the following features t
 - Auto Component State Management & Redux Store Mapping
 - Enhanced Server Side Rendering (SSR) Support
 
-With `fractal-component`, you can create fractal reusable [Container Components](https://redux.js.org/basics/usagewithreact#presentational-and-container-components) and construct scalable [fractal architecture](https://www.metropolismag.com/architecture/science-for-designers-scaling-and-fractals/) application while still enjoy the convenience of [Redux dev tool](https://github.com/zalmoxisus/redux-devtools-extension) & predictable single global store.
+With `fractal-component`, you can create reusable [Container Components](https://redux.js.org/basics/usagewithreact#presentational-and-container-components) and construct scalable [fractal architecture](https://www.metropolismag.com/architecture/science-for-designers-scaling-and-fractals/) application while still enjoy the convenience of [Redux dev tool](https://github.com/zalmoxisus/redux-devtools-extension) & predictable single global store.
 
 A typical structure of Container Components created by `fractal-component` is illustrated in the graph below:
 
