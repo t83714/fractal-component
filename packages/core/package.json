@@ -1,7 +1,7 @@
 {
   "name": "fractal-component",
   "version": "3.1.1",
-  "description": "`fractal-component` helps to encapsulate state store access, actions (messages, events) processing and side-effect management into decoupled container components.",
+  "description": "`fractal-component` is a javascript library that can help you to encapsulate decoupled resuable UI component easily",
   "main": "dist/fractal-component.cjs.js",
   "module": "dist/fractal-component.esm.js",
   "unpkg": "dist/fractal-component.min.umd.js",

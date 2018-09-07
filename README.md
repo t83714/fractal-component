@@ -2,7 +2,9 @@
 
 [![Build Status](https://travis-ci.org/t83714/fractal-component.svg?branch=master)](https://travis-ci.org/t83714/fractal-component)
 
-`fractal-component` helps to encapsulate state store access, actions (messages, events) processing and side-effect management into decoupled container components by introducing the following features to react / redux ecosystem:
+`fractal-component` is a javascript library that can help you to encapsulate decoupled resuable UI component easily. It aims to provide a one-stop solution that can encapsulate state store (redux) management, actions (messages, events) processing & routing, side-effect management and component styling into one software module. You can then reuse your component to create new components (composition), use in a different project or publish as a NPM module. You can not only use those components in web browsers but also can render them at server-side (SSR) & create redux store snapshot easily.
+
+In order to achieve that, `fractal-component` introduce the following features to react / redux ecosystem:
 
 - `Multicast` Actions
 - Namespaced Actions
