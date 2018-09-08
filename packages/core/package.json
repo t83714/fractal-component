@@ -52,8 +52,8 @@
   },
   "bundlesize": [
     {
-      "path": "./dist/fractal-component.min.js",
-      "maxSize": "15 Kb"
+      "path": "./dist/fractal-component.min.umd.js",
+      "maxSize": "20 Kb"
     }
   ],
   "dependencies": {
@@ -62,7 +62,9 @@
     "object-path": "^0.11.4",
     "object-path-immutable": "^3.0.0",
     "redux": "^4.0.0",
-    "redux-saga": "^1.0.0-beta.1"
+    "redux-saga": "^1.0.0-beta.1",
+    "prop-types": ">= 15.5.7",
+    "react": ">= 15.0.0"
   },
   "peerDependencies": {
     "prop-types": ">= 15.5.7",

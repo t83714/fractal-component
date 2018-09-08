@@ -5,7 +5,6 @@ import replace from "rollup-plugin-replace";
 import { uglify } from "rollup-plugin-uglify";
 import json from "rollup-plugin-json";
 import commonjs from "rollup-plugin-commonjs";
-import builtins from 'rollup-plugin-node-builtins';
 import pkg from "./package.json";
 
 const ensureArray = maybeArr =>
