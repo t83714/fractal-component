@@ -4,9 +4,9 @@ import { NAMESPACED } from "./PathRegistry/symbols";
 
 let devMode = false;
 if (
-    is.notUndef(process) &&
-    is.notUndef(process.env) &&
-    is.notUndef(process.env.NODE_ENV) &&
+    reduxSagaIs.notUndef(process) &&
+    reduxSagaIs.notUndef(process.env) &&
+    reduxSagaIs.notUndef(process.env.NODE_ENV) &&
     process.env.NODE_ENV === "development"
 ) {
     devMode = true;
