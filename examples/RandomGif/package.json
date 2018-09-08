@@ -1,6 +1,7 @@
 {
   "name": "@fractal-components/random-gif",
-  "version": "1.0.0",
+  "version": "1.0.1",
+  "private": true,
   "description": "A sample UI component built using `fractal-component`",
   "main": "dist/@fractal-components/random-gif.cjs.js",
   "module": "dist/@fractal-components/random-gif.esm.js",
@@ -41,12 +42,20 @@
   "author": "Jacky Jiang <t83714@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@babel/runtime": "^7.0.0-rc.3"
+    "@babel/runtime": "^7.0.0-rc.3",
+    "fractal-component": ">=3.1.1",
+    "prop-types": ">= 15.5.7",
+    "react": ">= 15.0.0",
+    "jss": "^9.8.7",
+    "color": "^3.0.0",
+    "redux-saga": "^1.0.0-beta.1"
   },
   "peerDependencies": {
     "fractal-component": ">=3.1.1",
     "prop-types": ">= 15.5.7",
-    "react": ">= 15.0.0"
+    "react": ">= 15.0.0",
+    "jss": "^9.8.7",
+    "redux-saga": "^1.0.0-beta.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0-rc.3",

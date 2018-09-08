@@ -39,7 +39,7 @@ class RandomGif extends React.Component {
             allowedIncomingMulticastActionTypes: [actionTypes.REQUEST_NEW_GIF],
             namespaceInitCallback: componentManager => {
                 const styleSheet = jss
-                    .createStyleSheet(styles, {
+                    .createStyleSheet(props.styles ? props.styles : styles, {
                         generateClassName: componentManager.createClassNameGenerator()
                     })
                     .attach();
@@ -105,6 +105,7 @@ class RandomGif extends React.Component {
 RandomGif.propTypes = {
     showButton: PropTypes.bool,
     apiKey: PropTypes.string,
+    styles: PropTypes.object,
     appContainer: PropTypes.instanceOf(AppContainer)
 };
 
@@ -130,7 +131,4 @@ const exposedActions = {
 /**
  * expose actions for component users
  */
-export {
-    exposedActionTypes as actionTypes,
-    exposedActions as actions
-};
+export { exposedActionTypes as actionTypes, exposedActions as actions };

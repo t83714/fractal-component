@@ -9,6 +9,7 @@ This is a sample UI Component built using [fractal-component](https://github.com
 
 - apiKey: Giphy.com API key. If not set, default one will be used
 - showButton: Boolean. Whether a click button should be shown. You will want to hide the button when you reuse this component to create a new component. e.g. `RandomGifPair`
+- styles: Can used to replace the built-in styling. Accepts [JSS styling object](https://github.com/cssinjs/jss/blob/master/docs/json-api.md)
 
 ### Action Interface
 #### Outgoing Actions

@@ -12,7 +12,7 @@
   "scripts": {
     "prettier": "prettier --write 'src/*.js' 'src/*.ts'",
     "eslint": "eslint 'src/*.js'",
-    "test": "jest",
+    "test": "jest && bundlesize",
     "prebundlesize": "npm run build",
     "bundlesize": "bundlesize",
     "clean": "rimraf dist",
@@ -46,7 +46,7 @@
   "homepage": "https://github.com/t83714/fractal-component",
   "author": "Jacky Jiang <t83714@gmail.com>",
   "license": "MIT",
-  "private": false,
+  "private": true,
   "bugs": {
     "url": "https://github.com/t83714/fractal-component/issues"
   },

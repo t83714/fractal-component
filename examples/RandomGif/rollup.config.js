@@ -92,7 +92,9 @@ export default [
             format: "umd",
             globals: {
                 "fractal-component" : "FractalComponent",
+                "jss" : "jss",
                 react : "React",
+                "redux-saga/effects" : "ReduxSaga.effects",
                 "prop-types" : "PropTypes"
             }
         },
@@ -106,7 +108,9 @@ export default [
             format: "umd",
             globals: {
                 "fractal-component" : "FractalComponent",
+                "jss" : "jss",
                 react : "React",
+                "redux-saga/effects" : "ReduxSaga.effects",
                 "prop-types" : "PropTypes"
             }
         },
