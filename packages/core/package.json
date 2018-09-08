@@ -1,6 +1,6 @@
 {
   "name": "fractal-component",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "`fractal-component` is a javascript library that can help you to encapsulate decoupled resuable UI component easily",
   "main": "dist/fractal-component.cjs.js",
   "module": "dist/fractal-component.esm.js",
@@ -13,14 +13,13 @@
     "prettier": "prettier --write 'src/*.js' 'src/*.ts'",
     "eslint": "eslint 'src/*.js'",
     "test": "jest && bundlesize",
-    "prebundlesize": "npm run build",
     "bundlesize": "bundlesize",
     "clean": "rimraf dist",
     "prebuild": "npm run clean",
     "build": "rollup -c",
     "prepush": "npm run test",
     "prepare": "npm run build && cp ../../README.md ./README.md && cp ../../LICENSE ./LICENSE",
-    "preversion": "npm run test && npm run prepare",
+    "preversion": "npm run prepare && npm run test",
     "release:patch": "npm version patch && npm publish && git push --follow-tags",
     "release:minor": "npm version minor && npm publish && git push --follow-tags",
     "release:major": "npm version major && npm publish && git push --follow-tags"
