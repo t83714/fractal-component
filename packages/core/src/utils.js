@@ -4,9 +4,9 @@ import { NAMESPACED } from "./PathRegistry/symbols";
 
 let devMode = false;
 if (
-    process &&
-    process.env &&
-    process.env.NODE_ENV &&
+    is.notUndef(process) &&
+    is.notUndef(process.env) &&
+    is.notUndef(process.env.NODE_ENV) &&
     process.env.NODE_ENV === "development"
 ) {
     devMode = true;
