@@ -1,12 +1,12 @@
-import { is as reduxSagaIs } from "redux-saga/utils";
+import * as is from "./utils/is";
 import pkg from "../package.json";
-import { NAMESPACED } from "./PathRegistry/symbols";
+
 
 let devMode = false;
 if (
-    reduxSagaIs.notUndef(process) &&
-    reduxSagaIs.notUndef(process.env) &&
-    reduxSagaIs.notUndef(process.env.NODE_ENV) &&
+    typeof process === "object" &&
+    is.notUndef(process.env) &&
+    is.notUndef(process.env.NODE_ENV) &&
     process.env.NODE_ENV === "development"
 ) {
     devMode = true;
@@ -129,14 +129,7 @@ export const kFalse = konst(false);
 export const noop = () => {};
 export const identity = v => v;
 
-export const is = {
-    ...reduxSagaIs,
-    bool: v => typeof v === "boolean",
-    action: function(v) {
-        return reduxSagaIs.object(v) && reduxSagaIs.symbol(v.type);
-    },
-    namespacedAction: v => is.action(v) && v[NAMESPACED]
-};
+export { is };
 
 export const createClassNameGenerator = function(namespace) {
     let ruleCounter = 0;

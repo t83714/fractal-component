@@ -92,7 +92,10 @@ export default [
             format: "umd",
             globals: {
                 react : "React",
-                "prop-types" : "PropTypes"
+                "prop-types" : "PropTypes",
+                "redux-saga" : "ReduxSaga",
+                "redux-saga/utils" : "ReduxSaga.utils",
+                "redux-saga/effects" : "ReduxSaga.effects"
             }
         },
         external: "peers",
@@ -105,7 +108,10 @@ export default [
             format: "umd",
             globals: {
                 react : "React",
-                "prop-types" : "PropTypes"
+                "prop-types" : "PropTypes",
+                "redux-saga" : "ReduxSaga",
+                "redux-saga/utils" : "ReduxSaga.utils",
+                "redux-saga/effects" : "ReduxSaga.effects"
             }
         },
         external: "peers",

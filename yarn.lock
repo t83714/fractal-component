@@ -806,6 +806,26 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
+"@redux-saga/deferred@^1.0.0-beta.2":
+  version "1.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/@redux-saga/deferred/-/deferred-1.0.0-beta.2.tgz#676d40caf17486349a24629918ccc8e0277d8889"
+
+"@redux-saga/delay-p@^1.0.0-beta.2":
+  version "1.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/@redux-saga/delay-p/-/delay-p-1.0.0-beta.2.tgz#5b6ba15c72e5a1178e66148dfd5edd03c0481387"
+  dependencies:
+    "@redux-saga/symbols" "^1.0.0-beta.2"
+
+"@redux-saga/is@^1.0.0-beta.2":
+  version "1.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/@redux-saga/is/-/is-1.0.0-beta.2.tgz#e1d0714c75bba985ea323a3c2655724dd85e8008"
+  dependencies:
+    "@redux-saga/symbols" "^1.0.0-beta.2"
+
+"@redux-saga/symbols@^1.0.0-beta.2":
+  version "1.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/@redux-saga/symbols/-/symbols-1.0.0-beta.2.tgz#4ee36997971e974f64532fe0b1f398f2a6ce41b0"
+
 "@types/estree@0.0.39":
   version "0.0.39"
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.39.tgz#e177e699ee1b8c22d23174caaa7422644389509f"
@@ -5783,7 +5803,7 @@ prompts@^0.1.9:
     kleur "^2.0.1"
     sisteransi "^0.1.1"
 
-prop-types@^15.6.0, prop-types@^15.6.2:
+"prop-types@>= 15.5.7", prop-types@^15.6.0, prop-types@^15.6.2:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
   dependencies:
@@ -5935,6 +5955,15 @@ react-dom@^16.4.1:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
+"react@>= 15.0.0":
+  version "16.5.0"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.5.0.tgz#f2c1e754bf9751a549d9c6d9aca41905beb56575"
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.2"
+    schedule "^0.3.0"
+
 react@^16.4.1:
   version "16.4.2"
   resolved "https://registry.yarnpkg.com/react/-/react-16.4.2.tgz#2cd90154e3a9d9dd8da2991149fdca3c260e129f"
@@ -6030,10 +6059,14 @@ redux-devtools-extension@^2.13.5:
   version "2.13.5"
   resolved "https://registry.yarnpkg.com/redux-devtools-extension/-/redux-devtools-extension-2.13.5.tgz#3ff34f7227acfeef3964194f5f7fc2765e5c5a39"
 
-redux-saga@^1.0.0-beta.1:
-  version "1.0.0-beta.1"
-  resolved "https://registry.yarnpkg.com/redux-saga/-/redux-saga-1.0.0-beta.1.tgz#2a5d46c85cd8d67238062ac5a2b3f3e757a6c9df"
+redux-saga@^1.0.0-beta.2:
+  version "1.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/redux-saga/-/redux-saga-1.0.0-beta.2.tgz#6f87a491dbd35bc78d4b8a3433c064f833df9789"
   dependencies:
+    "@redux-saga/deferred" "^1.0.0-beta.2"
+    "@redux-saga/delay-p" "^1.0.0-beta.2"
+    "@redux-saga/is" "^1.0.0-beta.2"
+    "@redux-saga/symbols" "^1.0.0-beta.2"
     redux ">=0.10 <5"
 
 "redux@>=0.10 <5", redux@^4.0.0:
@@ -6396,6 +6429,12 @@ sane@^2.0.0:
 sax@^1.2.4:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
+
+schedule@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/schedule/-/schedule-0.3.0.tgz#1be2ab2fc2e768536269ce7326efb478d6c045e8"
+  dependencies:
+    object-assign "^4.1.1"
 
 schema-utils@^0.4.4, schema-utils@^0.4.5:
   version "0.4.7"
