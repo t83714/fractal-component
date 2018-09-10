@@ -1,6 +1,7 @@
 import PathRegistry, { normalize, NAMESPACED } from "./PathRegistry";
 import { is } from "./utils";
 
+// --- avoid toString to be converted to ""+ by minifier
 const symbolToString = s => Symbol.prototype.toString.apply(s);
 
 const standardliseActionTypesParameter = function(actionTypes) {
