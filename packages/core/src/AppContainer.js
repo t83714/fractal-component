@@ -9,7 +9,7 @@ import ActionRegistry from "./ActionRegistry";
 import NamespaceRegistry from "./NamespaceRegistry";
 import * as ReducerRegistryActionTypes from "./ReducerRegistry/actionTypes";
 import * as SagaRegistryActionTypes from "./SagaRegistry/actionTypes";
-import { isDevMode, log, is } from "./utils";
+import { isDevMode, log, is, symbolToString } from "./utils"; } from "./utils";
 
 const actionBlackList = Object.keys(ReducerRegistryActionTypes)
     .map(idx => ReducerRegistryActionTypes[idx])
@@ -21,7 +21,7 @@ const actionBlackList = Object.keys(ReducerRegistryActionTypes)
 const defaultDevToolOptions = {
     actionSanitizer: action => ({
         ...action,
-        type: is.symbol(action.type) ? action.type.toString() : action.type
+        type: is.symbol(action.type) ? symbolToString(action.type) : action.type
     }),
     predicate: (state, action) => {
         return action && actionBlackList.indexOf(action.type) === -1;
@@ -166,7 +166,7 @@ class AppContainer {
         );
         if (!namespace) {
             log(
-                `Cannot locate namespace for Action \`${namespacedAction.type.toString()}\`: \`${namespacedAction.type.toString()}\` needs to be registered otherwise the action won't be serializable.`
+                `Cannot locate namespace for Action \`${symbolToString(namespacedAction.type)}\`: \`${symbolToString(namespacedAction.type)}\` needs to be registered otherwise the action won't be serializable.`
             );
         } else {
             namespacedAction.namespace = namespace;

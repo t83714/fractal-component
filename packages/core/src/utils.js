@@ -143,3 +143,6 @@ export const createClassNameGenerator = function(namespace) {
         return `${prefix}-${ruleCounter}`;
     };
 };
+
+// --- avoid toString to be converted to ""+ by minifier
+export const symbolToString = s => Symbol.prototype.toString.apply(s);

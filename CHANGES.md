@@ -1,3 +1,7 @@
+## 3.2.2
+
+-   Moved `symbolToString` to `utils`. Fixed remaining symbol.toString issue for UMD version
+
 ## 3.2.1
 
 -   Fixed: avoid symbol.toString to be coverted to ""+ by minifier
