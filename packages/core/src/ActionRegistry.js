@@ -1,10 +1,12 @@
 import PathRegistry, { normalize, NAMESPACED } from "./PathRegistry";
 import { is } from "./utils";
 
+const symbolToString = s => Symbol.prototype.toString.apply(s);
+
 const standardliseActionTypesParameter = function(actionTypes) {
     let newActionList = {};
     if (is.symbol(actionTypes)) {
-        newActionList[actionTypes.toString()] = actionTypes;
+        newActionList[symbolToString(actionTypes)] = actionTypes;
     } else if (is.array(actionTypes) && actionTypes.length) {
         actionTypes.forEach(actionType => {
             if (!is.symbol(actionType)) {
@@ -12,7 +14,7 @@ const standardliseActionTypesParameter = function(actionTypes) {
                     "ActionRegistry: Action type must be a symbol."
                 );
             }
-            newActionList[actionType.toString()] = actionType;
+            newActionList[symbolToString(actionType)] = actionType;
         });
     } else if (is.object(actionTypes)) {
         Object.keys(actionTypes).forEach(key => {
@@ -21,7 +23,7 @@ const standardliseActionTypesParameter = function(actionTypes) {
                     "ActionRegistry: Action type must be a symbol."
                 );
             }
-            newActionList[actionTypes[key].toString()] = actionTypes[key];
+            newActionList[symbolToString(actionTypes[key])] = actionTypes[key];
         });
     } else {
         throw new Error(
@@ -114,10 +116,10 @@ export default class ActionRegistry {
 
         const newAction = {
             ...action,
-            type: type.toString()
+            type: symbolToString(type)
         };
         if (action[NAMESPACED] === true) {
-            newAction[NAMESPACED.toString()] = true;
+            newAction[symbolToString(NAMESPACED)] = true;
         }
         return JSON.stringify(newAction);
     }
@@ -129,7 +131,7 @@ export default class ActionRegistry {
                 "Cannot deserialise action without namespace property!"
             );
         }
-        if (action[NAMESPACED.toString()] === true) {
+        if (action[symbolToString(NAMESPACED)] === true) {
             action[NAMESPACED] = true;
         }
         const { actionList } = this.pathRegistry.getPathData(action.namespace);
