@@ -7,8 +7,8 @@ import saga from "./sagas";
 import * as actions from "./actions";
 import * as actionTypes from "./actions/types";
 import partialRight from "lodash/partialRight";
-
 import jss from "jss";
+import jssDefaultPreset from "jss-preset-default";
 import styles from "./styles";
 
 class RandomGif extends React.Component {
@@ -38,7 +38,14 @@ class RandomGif extends React.Component {
             // --- No limit to actions that are sent out
             allowedIncomingMulticastActionTypes: [actionTypes.REQUEST_NEW_GIF],
             namespaceInitCallback: componentManager => {
-                const styleSheet = jss
+                let jssRef;
+                if(!props.styles){
+                    // --- if use built-in style, we want to make sure this component use its own jss setting
+                    jssRef = jss.setup(jssDefaultPreset());
+                }else{
+                    jssRef = jss
+                }
+                const styleSheet = jssRef
                     .createStyleSheet(props.styles ? props.styles : styles, {
                         generateClassName: componentManager.createClassNameGenerator()
                     })

@@ -44,19 +44,19 @@
   "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.0.0-rc.3",
-    "fractal-component": ">=3.1.1",
+    "fractal-component": ">=3.2.2",
     "prop-types": ">= 15.5.7",
     "react": ">= 15.0.0",
     "jss": "^9.8.7",
     "color": "^3.0.0",
-    "redux-saga": "^1.0.0-beta.1"
+    "redux-saga": "^1.0.0-beta.2"
   },
   "peerDependencies": {
-    "fractal-component": ">=3.1.1",
+    "fractal-component": ">=3.2.2",
     "prop-types": ">= 15.5.7",
     "react": ">= 15.0.0",
     "jss": "^9.8.7",
-    "redux-saga": "^1.0.0-beta.1"
+    "redux-saga": "^1.0.0-beta.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0-rc.3",
