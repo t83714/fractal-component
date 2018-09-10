@@ -9,7 +9,7 @@ import ActionRegistry from "./ActionRegistry";
 import NamespaceRegistry from "./NamespaceRegistry";
 import * as ReducerRegistryActionTypes from "./ReducerRegistry/actionTypes";
 import * as SagaRegistryActionTypes from "./SagaRegistry/actionTypes";
-import { isDevMode, log, is, symbolToString } from "./utils"; } from "./utils";
+import { isDevMode, log, is, symbolToString } from "./utils";
 
 const actionBlackList = Object.keys(ReducerRegistryActionTypes)
     .map(idx => ReducerRegistryActionTypes[idx])
