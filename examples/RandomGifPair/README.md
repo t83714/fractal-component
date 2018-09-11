@@ -6,7 +6,7 @@ This is a sample UI Component built using [fractal-component](https://github.com
 
 ## Quick Start
 
-To try it out, simply create a HTML file with the following content (also available on [CodePen](https://codepen.io/t83714/pen/RYQWPg)):
+To try it out, simply create a HTML file with the following content (also available on [CodePen](https://codepen.io/t83714/pen/xaWVQe)):
 ```html
 <!doctype html>
 <html>

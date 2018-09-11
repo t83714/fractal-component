@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RandomGif Demo</title>
+    <title>RandomGifPair Demo</title>
     <!--
         Load `babel-standalone` to support JSX in script tag
     -->
@@ -16,6 +16,7 @@
     <script src="https://unpkg.com/jss@9.8.7/dist/jss.min.js"></script>
     <script src="https://unpkg.com/jss-preset-default@4.5.0/dist/jss-preset-default.min.js"></script>
     <script src="https://unpkg.com/@fractal-components/random-gif@latest/dist/@fractal-components/random-gif.umd.js"></script>
+    <script src="https://unpkg.com/@fractal-components/random-gif-pair@latest/dist/@fractal-components/random-gif-pair.umd.js"></script>
   </head>
   <body>
 
@@ -24,7 +25,7 @@
     FractalComponent.AppContainerUtils.createAppContainer({
         reduxDevToolsDevOnly: false
     });
-    ReactDOM.render(<RandomGif.default />, document.getElementById("app_root"));
+    ReactDOM.render(<RandomGifPair.default />, document.getElementById("app_root"));
     </script>
   </body>
 </html>
