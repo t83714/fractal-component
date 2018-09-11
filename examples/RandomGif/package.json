@@ -44,18 +44,20 @@
   "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.0.0-rc.3",
+    "color": "^3.0.0",
     "fractal-component": ">=3.2.2",
+    "jss": "^9.8.7",
+    "jss-preset-default": "^4.5.0",
     "prop-types": ">= 15.5.7",
     "react": ">= 15.0.0",
-    "jss": "^9.8.7",
-    "color": "^3.0.0",
     "redux-saga": "^1.0.0-beta.2"
   },
   "peerDependencies": {
     "fractal-component": ">=3.2.2",
+    "jss": "^9.8.7",
+    "jss-preset-default": "^4.5.0",
     "prop-types": ">= 15.5.7",
     "react": ">= 15.0.0",
-    "jss": "^9.8.7",
     "redux-saga": "^1.0.0-beta.2"
   },
   "devDependencies": {

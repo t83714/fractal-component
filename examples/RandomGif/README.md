@@ -24,6 +24,7 @@ To try it out, simply create a HTML file with the following content (also availa
     <script src="https://unpkg.com/redux-saga@1.0.0-beta.2/dist/redux-saga.min.umd.js"></script>
     <script src="https://unpkg.com/fractal-component@latest/dist/fractal-component.min.umd.js"></script>
     <script src="https://unpkg.com/jss@9.8.7/dist/jss.min.js"></script>
+    <script src="https://unpkg.com/jss-preset-default@4.5.0/dist/jss-preset-default.min.js"></script>
     <script src="https://unpkg.com/@fractal-components/random-gif@latest/dist/@fractal-components/random-gif.umd.js"></script>
   </head>
   <body>

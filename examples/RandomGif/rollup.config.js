@@ -21,7 +21,14 @@ const makeExternalPredicate = externalArr => {
 const deps = Object.keys(pkg.dependencies || {});
 const peerDeps = Object.keys(pkg.peerDependencies || {});
 
-const createConfig = ({ input, output, external, env, min = false, ...props }) => ({
+const createConfig = ({
+    input,
+    output,
+    external,
+    env,
+    min = false,
+    ...props
+}) => ({
     input,
     experimentalCodeSplitting: typeof input !== "string",
     output: ensureArray(output).map(format =>
@@ -33,7 +40,7 @@ const createConfig = ({ input, output, external, env, min = false, ...props }) =
     external: makeExternalPredicate(
         external === "peers" ? peerDeps : deps.concat(peerDeps)
     ),
-    onwarn (warning, warn) {
+    onwarn(warning, warn) {
         if (warning.code === "CIRCULAR_DEPENDENCY") return;
         warn(warning);
     },
@@ -69,7 +76,6 @@ const createConfig = ({ input, output, external, env, min = false, ...props }) =
     ...props
 });
 
-
 export default [
     createConfig({
         input: "src/index.js",
@@ -91,11 +97,12 @@ export default [
             file: "dist/" + pkg.name + ".umd.js",
             format: "umd",
             globals: {
-                "fractal-component" : "FractalComponent",
-                "jss" : "jss",
-                react : "React",
-                "redux-saga/effects" : "ReduxSaga.effects",
-                "prop-types" : "PropTypes"
+                "fractal-component": "FractalComponent",
+                jss: "jss",
+                "jss-preset-default": "jssPreset",
+                react: "React",
+                "redux-saga/effects": "ReduxSaga.effects",
+                "prop-types": "PropTypes"
             }
         },
         external: "peers",
@@ -107,11 +114,12 @@ export default [
             file: "dist/" + pkg.name + ".min.umd.js",
             format: "umd",
             globals: {
-                "fractal-component" : "FractalComponent",
-                "jss" : "jss",
-                react : "React",
-                "redux-saga/effects" : "ReduxSaga.effects",
-                "prop-types" : "PropTypes"
+                "fractal-component": "FractalComponent",
+                jss: "jss",
+                "jss-preset-default": "jssPreset",
+                react: "React",
+                "redux-saga/effects": "ReduxSaga.effects",
+                "prop-types": "PropTypes"
             }
         },
         external: "peers",
