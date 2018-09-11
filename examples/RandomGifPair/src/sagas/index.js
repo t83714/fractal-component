@@ -3,7 +3,7 @@ import * as actionTypes from "../actions/types";
 import {
     actions as RandomGifActions,
     actionTypes as RandomGifActionTypes
-} from "../../RandomGif";
+} from "@fractal-component/RandomGif";
 
 function* mainSaga(effects) {
     yield effects.takeEvery(

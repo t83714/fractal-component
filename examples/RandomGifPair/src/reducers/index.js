@@ -1,4 +1,4 @@
-import { actionTypes as RandomGifActionTypes } from "../../RandomGif";
+import { actionTypes as RandomGifActionTypes } from "@fractal-component/RandomGif";
 
 const reducer = function(state, action) {
     switch (action.type) {
