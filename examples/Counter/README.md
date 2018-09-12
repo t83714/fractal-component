@@ -1,4 +1,4 @@
-# A Sample RandomGif UI Component
+# A Sample Counter UI Component
 
 [![npm version](https://img.shields.io/npm/v/@fractal-components/counter.svg)](https://www.npmjs.com/package/@fractal-components/counter)
 [![unpkg](https://img.shields.io/badge/unpkg-latest-blue.svg)](https://unpkg.com/@fractal-components/counter)

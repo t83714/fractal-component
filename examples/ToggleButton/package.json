@@ -1,6 +1,6 @@
 {
   "name": "@fractal-components/toggle-button",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "description": "A sample UI component built using `fractal-component`",
   "main": "dist/@fractal-components/toggle-button.cjs.js",
