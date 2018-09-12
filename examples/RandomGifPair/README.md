@@ -145,7 +145,7 @@ ReactDOM.render(<RandomGifPair />, document.getElementById("root"));
 - LOADING_START: Send out when loading is started
 - LOADING_COMPLETE: Send out when loading is completed
 
-#### Outgoing Actions
+#### Accepted Actions
 - REQUEST_NEW_PAIR: Will attempt to get a pair of random Gifs from Giphy.com when receive this action
 
 ## Giphy.com API key
