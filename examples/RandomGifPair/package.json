@@ -1,6 +1,6 @@
 {
   "name": "@fractal-components/random-gif-pair",
-  "version": "1.0.2",
+  "version": "1.0.5",
   "private": true,
   "description": "A sample UI component built using `fractal-component`",
   "main": "dist/@fractal-components/random-gif-pair.cjs.js",
@@ -51,7 +51,7 @@
     "jss-preset-default": "^4.5.0",
     "color": "^3.0.0",
     "redux-saga": "^1.0.0-beta.2",
-    "@fractal-components/random-gif": "^1.0.4"
+    "@fractal-components/random-gif": "^1.0.5"
   },
   "peerDependencies": {
     "fractal-component": ">=3.2.2",
@@ -59,8 +59,7 @@
     "react": ">= 15.0.0",
     "jss": "^9.8.7",
     "jss-preset-default": "^4.5.0",
-    "redux-saga": "^1.0.0-beta.2",
-    "@fractal-components/random-gif": "^1.0.4"
+    "redux-saga": "^1.0.0-beta.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0-rc.3",

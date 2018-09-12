@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { AppContainerUtils, ActionForwarder, AppContainer } from "fractal-component";
 
-import RandomGif, { actionTypes as RandomGifActionTypes } from "@fractal-component/RandomGif";
+import RandomGif, { actionTypes as RandomGifActionTypes } from "@fractal-components/random-gif";
 
 import * as actions from "./actions";
 import * as actionTypes from "./actions/types";

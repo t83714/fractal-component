@@ -1,8 +1,82 @@
 # A Sample RandomGifPair UI Component
 
+[![npm version](https://img.shields.io/npm/v/@fractal-components/random-gif-pair.svg)](https://www.npmjs.com/package/@fractal-components/random-gif-pair)
+[![unpkg](https://img.shields.io/badge/unpkg-latest-blue.svg)](https://unpkg.com/@fractal-components/random-gif-pair)
+[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/@fractal-components/random-gif-pair.svg)](https://bundlephobia.com/result?p=@fractal-components/random-gif-pair)
+
 ## Overview
 
-This is a sample UI Component built using [fractal-component](https://github.com/t83714/fractal-component) to demonstrate its reusability.
+This is a sample UI Component built by re-using two [RandomGif](https://www.npmjs.com/package/@fractal-components/random-gif-pair) components. Its internal structure is simply as below:
+```javascript
+<div className={classes.table}>
+    <div className={classes.cell}>RandomGif Pair</div>
+    <div className={`${classes.cell}`}>
+        <div>
+            <RandomGif
+                showButton={false}
+                apiKey={this.props.apiKey}
+                namespacePrefix={`${
+                    this.componentManager.fullPath
+                }/Gifs`}
+                appContainer={this.props.appContainer}
+            />
+        </div>
+        <div>
+            <RandomGif
+                showButton={false}
+                apiKey={this.props.apiKey}
+                namespacePrefix={`${
+                    this.componentManager.fullPath
+                }/Gifs`}
+                appContainer={this.props.appContainer}
+            />
+        </div>
+    </div>
+    {this.props.showButton && (
+        <div className={`${classes.cell} `}>
+            <button
+                onClick={() => {
+                    this.componentManager.dispatch(
+                        actions.requestNewPair()
+                    );
+                }}
+                disabled={this.state.isLoading}
+            >
+                {this.state.isLoading
+                    ? "Loading..."
+                    : "Get Gif Pair"}
+            </button>
+        </div>
+    )}
+    {/**
+        * Use ActionForwarder to throw NEW_GIF out of RandomGifPair container
+        * Set namespace to `${this.componentManager.fullPath}/Gifs` in order to listen to
+        * all `out of box` actions from two `RandomGif` components
+        */}
+    <ActionForwarder
+        namespacePrefix={`${this.componentManager.fullPath}/Gifs`}
+        pattern={RandomGifActionTypes.NEW_GIF}
+        relativeDispatchPath="../../../../*"
+        appContainer={this.props.appContainer}
+    />
+
+    {/**
+        * Use ActionForwarder to forward LOADING_START & LOADING_COMPLETE actions from `RandomGif`
+        * to current component (`RandomGifPair`)'s namespace.
+        * i.e. from `${this.componentManager.fullPath}/Gifs` to `${this.componentManager.fullPath}`
+        * Thus, `relativeDispatchPath` should be ".."
+        */}
+    <ActionForwarder
+        namespacePrefix={`${this.componentManager.fullPath}/Gifs`}
+        pattern={action =>
+            action.type === RandomGifActionTypes.LOADING_START ||
+            action.type === RandomGifActionTypes.LOADING_COMPLETE
+        }
+        relativeDispatchPath=".."
+        appContainer={this.props.appContainer}
+    />
+</div>
+```
 
 ## Quick Start
 
@@ -25,7 +99,6 @@ To try it out, simply create a HTML file with the following content (also availa
     <script src="https://unpkg.com/fractal-component@latest/dist/fractal-component.min.umd.js"></script>
     <script src="https://unpkg.com/jss@9.8.7/dist/jss.min.js"></script>
     <script src="https://unpkg.com/jss-preset-default@4.5.0/dist/jss-preset-default.min.js"></script>
-    <script src="https://unpkg.com/@fractal-components/random-gif@latest/dist/@fractal-components/random-gif.umd.js"></script>
     <script src="https://unpkg.com/@fractal-components/random-gif-pair@latest/dist/@fractal-components/random-gif-pair.umd.js"></script>
   </head>
   <body>

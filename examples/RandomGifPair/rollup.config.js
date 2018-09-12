@@ -102,8 +102,7 @@ export default [
                 "jss-preset-default": "jssPreset",
                 react: "React",
                 "redux-saga/effects": "ReduxSaga.effects",
-                "prop-types": "PropTypes",
-                "@fractal-components/random-gif": "RandomGif"
+                "prop-types": "PropTypes"
             }
         },
         external: "peers",
@@ -120,8 +119,7 @@ export default [
                 "jss-preset-default": "jssPreset",
                 react: "React",
                 "redux-saga/effects": "ReduxSaga.effects",
-                "prop-types": "PropTypes",
-                "@fractal-components/random-gif": "RandomGif"
+                "prop-types": "PropTypes"
             }
         },
         external: "peers",

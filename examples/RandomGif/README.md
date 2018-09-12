@@ -1,5 +1,9 @@
 # A Sample RandomGif UI Component
 
+[![npm version](https://img.shields.io/npm/v/@fractal-components/random-gif.svg)](https://www.npmjs.com/package/@fractal-components/random-gif)
+[![unpkg](https://img.shields.io/badge/unpkg-latest-blue.svg)](https://unpkg.com/@fractal-components/random-gif)
+[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/@fractal-components/random-gif.svg)](https://bundlephobia.com/result?p=@fractal-components/random-gif)
+
 ## Overview
 
 This is a sample UI Component built using [fractal-component](https://github.com/t83714/fractal-component) to demonstrate its reusability.
