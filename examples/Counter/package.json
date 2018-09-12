@@ -1,7 +1,7 @@
 {
   "name": "@fractal-components/counter",
   "version": "1.0.3",
-  "private": false,
+  "private": true,
   "description": "A sample UI component built using `fractal-component`",
   "main": "dist/@fractal-components/counter.cjs.js",
   "module": "dist/@fractal-components/counter.esm.js",
