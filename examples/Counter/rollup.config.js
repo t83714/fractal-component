@@ -33,7 +33,7 @@ const createConfig = ({
     experimentalCodeSplitting: typeof input !== "string",
     output: ensureArray(output).map(format =>
         Object.assign({}, format, {
-            name: "Couter",
+            name: "Counter",
             exports: "named"
         })
     ),

@@ -65,6 +65,7 @@ ReactDOM.render(<RandomGif />, document.getElementById("root"));
 ## API / Interface
 ### Component Properties
 
+- namespacePrefix: String. Optional. Used to extend component's namespace (without impact component's internal namespace) so that two components' namespaces have a common part. It will impact the action multicast dispatch.
 - apiKey: Giphy.com API key. If not set, default one will be used
 - showButton: Boolean. Whether a click button should be shown. You will want to hide the button when you reuse this component to create a new component. e.g. `RandomGifPair`
 - styles: Can used to replace the built-in styling. Accepts [JSS styling object](https://github.com/cssinjs/jss/blob/master/docs/json-api.md)

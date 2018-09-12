@@ -64,7 +64,7 @@ ReactDOM.render(<Counter />, document.getElementById("root"));
 
 ## API / Interface
 ### Component Properties
-
+- namespacePrefix: String. Optional. Used to extend component's namespace (without impact component's internal namespace) so that two components' namespaces have a common part. It will impact the action multicast dispatch.
 - styles: Can used to replace the built-in styling. Accepts [JSS styling object](https://github.com/cssinjs/jss/blob/master/docs/json-api.md)
 
 ### Action Interface

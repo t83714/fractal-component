@@ -4,3 +4,5 @@
 - [RandomGif](RandomGif): NPM published version of the sample `RandomGif` component
 - [RandomGifPair](RandomGifPair): NPM published version of the sample `RandomGifPair` component. Built using `RandomGif` component.
 - [RandomGifPairPair](RandomGifPairPair): NPM published version of the sample `RandomGifPairPair` component. Built using `RandomGifPair` component.
+- [Counter](Counter): NPM published version of the sample `Counter` component
+- [ToggleButton](ToggleButton): NPM published version of the sample `ToggleButton` component
