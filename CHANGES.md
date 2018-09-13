@@ -1,3 +1,7 @@
+## 3.2.3
+
+- Fixed: avoid using toString to convert action type in effects
+
 ## 3.2.2
 
 -   Moved `symbolToString` to `utils`. Fixed remaining symbol.toString issue for UMD version
