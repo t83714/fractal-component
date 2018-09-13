@@ -9,7 +9,8 @@ import {
     select as oSelect,
     call,
     fork,
-    delay
+    delay,
+    cancel
 } from "redux-saga/effects";
 import {
     buffers as bufferFactory,
@@ -17,7 +18,7 @@ import {
 } from "redux-saga";
 import objectPath from "object-path";
 import { PathContext } from "../PathRegistry";
-import { is, log } from "../utils";
+import { is, log, symbolToString } from "../utils";
 
 export function take(sagaItem, pattern) {
     const { chan } = sagaItem;
@@ -35,7 +36,7 @@ export function put(sagaItem, action, relativeDispatchPath = "") {
     // --- query action Type's original namespace so that it can be serialised correctly if needed
     const namespace = this.appContainer.actionRegistry.findNamespaceByActionType(namespacedAction.type);
     if(!namespace) {
-        log(`Cannot locate namespace for Action \`${newAction.type}\`: \`${newAction.type}\` needs to be registered otherwise the action won't be serializable.`)
+        log(`Cannot locate namespace for Action \`${symbolToString(namespacedAction.type)}\`: \`${symbolToString(namespacedAction.type)}\` needs to be registered otherwise the action won't be serializable.`)
     } else {
         namespacedAction.namespace = namespace;
     }
