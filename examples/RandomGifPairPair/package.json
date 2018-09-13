@@ -1,6 +1,6 @@
 {
   "name": "@fractal-components/random-gif-pair-pair",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "private": true,
   "description": "A sample UI component built using `fractal-component`",
   "main": "dist/@fractal-components/random-gif-pair-pair.cjs.js",

@@ -29,6 +29,8 @@ To try it out, simply create a HTML file with the following content (also availa
     <script src="https://unpkg.com/fractal-component@latest/dist/fractal-component.min.umd.js"></script>
     <script src="https://unpkg.com/jss@9.8.7/dist/jss.min.js"></script>
     <script src="https://unpkg.com/jss-preset-default@4.5.0/dist/jss-preset-default.min.js"></script>
+    <script src="https://unpkg.com/@fractal-components/random-gif@latest/dist/@fractal-components/random-gif.min.umd.js"></script>
+    <script src="https://unpkg.com/@fractal-components/random-gif-pair@latest/dist/@fractal-components/random-gif-pair.min.umd.js"></script>
     <script src="https://unpkg.com/@fractal-components/random-gif-pair-pair@latest/dist/@fractal-components/random-gif-pair-pair.min.umd.js"></script>
   </head>
   <body>
@@ -39,7 +41,7 @@ To try it out, simply create a HTML file with the following content (also availa
         //--- make dev tool always available
         reduxDevToolsDevOnly: false
     });
-    ReactDOM.render(<RandomGifPair.default />, document.getElementById("app_root"));
+    ReactDOM.render(<RandomGifPairPair.default />, document.getElementById("app_root"));
     </script>
   </body>
 </html>
