@@ -16,6 +16,6 @@
   - SagaMonitor
 - [API Reference](/docs/api/README.md)
   - [AppContainer](/docs/api/AppContainer.md)
-  - AppContainerUtils
+  - [AppContainerUtils](/docs/api/AppContainerUtils.md)
   - ActionForwarder
   - utils

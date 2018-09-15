@@ -1,5 +1,18 @@
 ## AppContainer
 
+- [`Overview`](#overview)
+- [`Initialisation / Constructor`](#initialisation-constructor)
+    - [`AppContainerUtils.createAppContainer()`](#appcontainerutilscreateappcontainer)
+- [`Other Methods`](#other-methods)
+    - [`registerComponent`](#registercomponent)
+        - [`ManageableComponentOptions`](#manageablecomponentoptions)
+    - [`deregisterComponent(component)`](#deregistercomponentcomponent)
+    - [`destroy()`](#destroy)
+    - [`subscribeActionDispatch`](#subscribeactiondispatch)
+    - [`waitForActionsUntil`](#waitforactionsuntil)
+    - [`dispatch`](#dispatch)
+
+
 ### Overview
 
 `AppContainer` is the container holds the entire application's runtime state via a [Redux store](https://redux.js.org/). It also manages the application structure information via various `registries` including:
@@ -12,7 +25,7 @@
 
 You will need at least one `AppContainer` for your App (For `Server-Side Rendering`, you may want to create more than one `AppContainer` to serve different requests). If you don't create an `AppContainer` for your App, the system will automatically create one for you when you first time call `AppContainerUtils.registerComponent()` to register a [`React`](https://reactjs.org/) component.
 
-### Initialisation / Constructor
+### `Initialisation / Constructor`
 
 To create an `AppContainer`, you can simply:
 ```
@@ -44,9 +57,9 @@ const appContainer = AppContainerUtils.createAppContainer({
 `AppContainerUtils.createAppContainer()` calls `new AppContainer()` internally to create `AppContainer`. The reason why you want to use this static method verion is that it will store newly created `AppContainer` internally. And then other methods provided by `AppContainerUtils` will subsequently have access to this `AppContainer` without your explicitly passing around the reference.
 
 
-### Other Methods
+### `Other Methods`
 
-#### registerComponent
+#### `registerComponent`
 ```
 registerComponent(
     componentInstance: ManageableComponent,
@@ -54,7 +67,7 @@ registerComponent(
 ): ComponentManager;
 ```
 
-`registerComponent` is used to register a [React Class Component](https://reactjs.org/docs/components-and-props.html#functional-and-class-components). Once registered, a `Component Manager` is created to manage this `React Class Component` and a `Component Container` is created behind the scenes to maintain a more advanced component structure as illustrated by [this diagram](https://raw.githubusercontent.com/t83714/fractal-component/master/docs/assets/container-structure.png). You no longer can call [`this.setState`](https://reactjs.org/docs/state-and-lifecycle.html) to update your react component state. Instead, you should update your component state via `Component Reducer` (you can supply via `ManageableComponentOptions`) and system will auto sync between Redux store and your component state.
+`registerComponent` is used to register a [React Class Component](https://reactjs.org/docs/components-and-props.html#functional-and-class-components). Once registered, a `Component Manager` is created to manage this `React Class Component` and a `Component Container` is created behind the scenes to maintain a more advanced component structure as illustrated by [this diagram](https://raw.githubusercontent.com/t83714/fractal-component/master/docs/assets/container-structure.png). After that, you no longer can call [`this.setState`](https://reactjs.org/docs/state-and-lifecycle.html) to update your react component state. Instead, you should update your component state via `Component Reducer` (you can supply via `ManageableComponentOptions`) and system will auto sync between Redux store and your component state.
 
 You likely will not call this method directly. Instead, you may want to use static method `AppContainerUtils.registerComponent()`. It calls `appContainer.registerComponent()` internally to provide similar function. Moreover, calling `AppContainerUtils.registerComponent()` doesn't require the reference of `AppContainer` instance. It will automatically look for `appContainer` from:
 
@@ -85,7 +98,7 @@ class Counter extends React.Component {
 ```
 
 
-##### ManageableComponentOptions
+##### `ManageableComponentOptions`
 
 The following options can be used to config the `Component Container` created via `registerComponent()` method:
 
@@ -110,25 +123,28 @@ The following options can be used to config the `Component Container` created vi
 - `namespaceInitCallback`: Optional; `Function`; namespaceInitCallback & namespaceDestroyCallback will be called once (among all component instances of the same namespace). It's used for required one-off initlalisation job for all same type component (of the same namespace). e.g. create JSS style sheet for the component. `namespaceInitCallback` is called when Component namespace has just been created. i.e. at least one Component is created & mounted.
 - `namespaceDestroyCallback`: Optional; `Function`; Called when component namespace is destroyed. All components of the namespace are unmounted / destroyed.
 
-#### deregisterComponent(component)
+#### `deregisterComponent(component)`
 
 Deregister the React Component from `AppContainer`. This method is automatically called when the React Component is unmounted.
 
-#### destroy()
+#### `destroy()`
 
 Destroy `AppContainer`. Mainly for use cases when you need to create more than one `AppContainers`. e.g. Server-Side Rendering (SSR).
 
-#### subscribeActionDispatch()
+#### `subscribeActionDispatch`
 
-```javascript
+The method's type declaration is shown as below:
+
+```typescript
 subscribeActionDispatch(func: (Action) => void): void;
 ```
 
 This method is mainly used for Server-Side Rendering (SSR). i.e. To decide to when the initial data loading is finised and when it is ready to create a snapshot of the redux store via `appContainer.store.getState()` You shouldn't need it for implmenting any logic. 
+#### `waitForActionsUntil`
 
-#### waitForActionsUntil
+The method's type declaration is shown as below:
 
-```javascript
+```typescript
 waitForActionsUntil(
     testerFunc: (Action) => boolean,
     timeout?: number
@@ -137,9 +153,11 @@ waitForActionsUntil(
 
 An utility mainly designed for Server-Side Rendering (SSR). see [example app](/examples/exampleAppSSR)
 
-#### dispatch
+#### `dispatch`
 
-```javascript
+The method's type declaration is shown as below:
+
+```typescript
 dispatch(action: Action, relativeDispatchPath?: string): Action;
 ```
 

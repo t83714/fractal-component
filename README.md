@@ -38,6 +38,30 @@ npm install --save fractal-component
 
 Alternatively, you may use the UMD builds from [unpkg](https://unpkg.com/fractal-component) directly in the <script> tag of an HTML page.
 
+## Documents
+
+### Table of Contents
+
+- [Read Me](/README.md)
+- Introduction
+  - Beginner Tutorial
+- Basic Concepts
+  - Component Namespace
+  - Action Dispatch Tree
+  - Symbol Action Type
+  - Component State
+  - Component Reducer
+  - Component Saga
+  - Component Styling
+- Advanced Concepts
+  - ActionForwarder
+  - SagaMonitor
+- [API Reference](/docs/api/README.md)
+  - [AppContainer](/docs/api/AppContainer.md)
+  - [AppContainerUtils](/docs/api/AppContainerUtils.md)
+  - ActionForwarder
+  - utils
+
 ## Quick Start
 
 A Reusable RandomGif Component. You can also find complete source code [here](https://github.com/t83714/fractal-component/tree/master/examples/exampleApp/src/components/RandomGif).
@@ -176,27 +200,3 @@ const exposedActions = {
  */
 export { exposedActionTypes as actionTypes, exposedActions as actions };
 ```
-
-## Documents
-
-## Table of Contents
-
-- [Read Me](/README.md)
-- Introduction
-  - Beginner Tutorial
-- Basic Concepts
-  - Component Namespace
-  - Action Dispatch Tree
-  - Symbol Action Type
-  - Component State
-  - Component Reducer
-  - Component Saga
-  - Component Styling
-- Advanced Concepts
-  - ActionForwarder
-  - SagaMonitor
-- [API Reference](/docs/api/README.md)
-  - [AppContainer](/docs/api/AppContainer.md)
-  - AppContainerUtils
-  - ActionForwarder
-  - utils
