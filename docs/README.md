@@ -2,8 +2,9 @@
 
 - [Read Me](/README.md)
 - Introduction
-  - Beginner Tutorial
+  - [Beginner Tutorial](/docs/Introduction/BeginnerTutorial.md)
 - Basic Concepts
+  - [Recommended Component Structure](/docs/BasicConcepts/RecommendedStructure.md)
   - Component Namespace
   - Action Dispatch Tree
   - Symbol Action Type

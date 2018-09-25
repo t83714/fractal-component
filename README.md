@@ -44,8 +44,9 @@ Alternatively, you may use the UMD builds from [unpkg](https://unpkg.com/fractal
 
 - [Read Me](/README.md)
 - Introduction
-  - Beginner Tutorial
+  - [Beginner Tutorial](/docs/Introduction/BeginnerTutorial.md)
 - Basic Concepts
+  - [Recommended Component Structure](/docs/BasicConcepts/RecommendedStructure.md)
   - Component Namespace
   - Action Dispatch Tree
   - Symbol Action Type
@@ -61,6 +62,7 @@ Alternatively, you may use the UMD builds from [unpkg](https://unpkg.com/fractal
   - [AppContainerUtils](/docs/api/AppContainerUtils.md)
   - ActionForwarder
   - utils
+
 
 ## Quick Start
 
