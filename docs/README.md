@@ -18,5 +18,6 @@
 - [API Reference](/docs/api/README.md)
   - [AppContainer](/docs/api/AppContainer.md)
   - [AppContainerUtils](/docs/api/AppContainerUtils.md)
+  - [ComponentManager](/docs/api/ComponentManager.md)
   - ActionForwarder
   - utils

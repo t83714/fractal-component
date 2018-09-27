@@ -103,14 +103,26 @@ class Counter extends React.Component {
 The following options can be used to config the `Component Container` created via `registerComponent()` method:
 
 - `saga`: Optional; You can supply a [Generator Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*) to run as a concurrent process. You can use it to run an event loop or managing side-effects. We internally use [redux-saga](https://redux-saga.js.org/) to run your `saga`. Your will be supply one parameter `effects` which provides the following APIs similar to [redux-saga](https://redux-saga.js.org/docs/api/#saga-helpers) (except they are all namespaced. i.e. you only have access to actions that are dispatched to your namespace or your component state):
-  - `take`
-  - `put`
-  - `select`
-  - `takeEvery`
-  - `takeLatest`
-  - `takeLeading`
-  - `throttle`
-  - `actionChannel`
+  - `take(pattern)`
+  - `put(action: Action, relativeDispatchPath: string)`
+  - `select(selector?: (state: any, ...args: any[]) => any, ...args: any[])`
+  - `takeEvery(pattern, childSaga, ...args: any[])`
+  - `takeLatest(pattern, childSaga, ...args: any[])`
+  - `takeLeading(pattern, childSaga, ...args: any[])`
+  - `throttle(mileseconds, pattern, childSaga, ...args: any[])`
+  - `actionChannel(pattern, buffer)`
+
+Here is a sample saga:
+```javascript
+function*(effects) {
+    // --- while(true) won't freeze your UI as your function will not continue to run
+    // --- until the effect is resolved. 
+    while(true){
+        const action = yield effects.take(actionTypes.REQUEST_NEW_GIF);
+        yield effects.put(actions.loadingStart(), "../../../*");
+    }
+};
+```
 - `initState`: Optional; Used as intial state of the component. You can normally set component initial state in react component constructor via `this.state={...}` in which case you don't need this. 
 - `reducer`: Optional; A reducer for updating component state. This reducer will only see its component state in redux store and only be called when an action is dispatched to the component namespace.
 - `namespace`: String; e.g. `io.github.t83714/Counter` It's recommended to use a domain name, a `/` seperator and a menaingful Component name to create the namespace. 
@@ -122,6 +134,52 @@ The following options can be used to config the `Component Container` created vi
 - `allowedIncomingMulticastActionTypes`: Optional; Specify which actionTypes are allowed to be dispatched to this component. By Default, the component will not accept any incoming multicast actions. (Direct address actions will still be delivered). when `allowedIncomingMulticastActionTypes` is string only "*" is accepted (means accepting any actionTypes).
 - `namespaceInitCallback`: Optional; `Function`; namespaceInitCallback & namespaceDestroyCallback will be called once (among all component instances of the same namespace). It's used for required one-off initlalisation job for all same type component (of the same namespace). e.g. create JSS style sheet for the component. `namespaceInitCallback` is called when Component namespace has just been created. i.e. at least one Component is created & mounted.
 - `namespaceDestroyCallback`: Optional; `Function`; Called when component namespace is destroyed. All components of the namespace are unmounted / destroyed.
+
+Example for `namespaceInitCallback` & `namespaceInitCallback`
+```javascript
+class Counter extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { ... };
+        this.styleSheet = null;
+        this.componentManager = AppContainerUtils.registerComponent(this, {
+            namespace: "io.github.t83714/Counter",
+            reducer: function(state, action) { ... },
+            actionTypes,
+            allowedIncomingMulticastActionTypes: [actionTypes.INCREASE_COUNT],
+            // --- `namespaceInitCallback` is guaranteed only to be called once
+            namespaceInitCallback: componentManager => {
+                const styleSheet = jss
+                    .createStyleSheet(styles, {
+                        generateClassName: componentManager.createClassNameGenerator()
+                    })
+                    .attach();
+                return { styleSheet };
+            },
+            namespaceDestroyCallback: ({ styleSheet }) => {
+                styleSheet.detach();
+            }
+        });
+    }
+
+    render() {
+        const { styleSheet } = this.componentManager.getNamespaceData();
+        const { classes } = styleSheet;
+        return (
+            <div className={classes.table}>
+                <div className={classes.cell}>Counter</div>
+                <div
+                    className={`${classes.cell} ${
+                        classes["counter-container"]
+                    }`}
+                >
+                    <span>{this.state.count}</span>
+                </div>
+            </div>
+        );
+    }
+}
+```
 
 #### `deregisterComponent(component)`
 

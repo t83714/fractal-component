@@ -101,7 +101,12 @@ One example of the `Full Namespace Path` could be:
 
 #### 3.2.1 Namespace Tree & Action Dispatch
 
-All component `Full Namespace Paths` registered in an `AppContainer` forms a `Namespace Tree`. Below is an example of the `Namespace Tree` structure:
+The `namespace` system in `fractal-component` is similar to file system path. It consists of `namespace` path parts that are seperated by `/` delimiting character. It also supports relative path calculation:
+
+> Suppose the `Full Namespace Path` of a component is `exampleApp/io.github.t83714/RandomGif/c0`
+> A `relative path`: `../..` will be resolve to `exampleApp/io.github.t83714` for this component.
+
+All registered (in an `AppContainer`) components' `Full Namespace Paths`   forms a `Namespace Tree`. Below is an example of the `Namespace Tree` structure:
 
 ![Namespace Tree structure diagram](/docs/assets/NamespaceTree.png)
 
@@ -125,4 +130,8 @@ The `namespace` of the containers included in the diagram are:
 ```
 Then, the actual action dispatch namespace node would be `ExampleApp/GifPair` in the `Namespace Tree`.
 
-If the `relativeDispatchPath` is specified as `../../../*`, the action is a `multicast` action. For `multicast` actions, all lower levels namespace nodes will receive the actions. i.e. `multicast` actions will always be sent `down` the `Namespace Tree`. In this case, Container A & Container B will receive the `multicast` action.
+If the `relativeDispatchPath` is specified as `../../../*`, the action is a `multicast` action. For `multicast` actions, all lower levels namespace nodes will receive the actions. i.e. `multicast` actions will always be sent `down` the `Namespace Tree`. In this case, Container A & Container B will receive the `multicast` action as they are lower level nodes of dispatch point `ExampleApp/GifPair`. Container C won't receive the actions.
+
+There are two ways to dispatch namespaced actions in component:
+- In component namespaced `saga`, you will need to `yield` a `take` `effect`. See [AppContainer / ManageableComponentOptions / saga / take](/docs/api/AppContainer.md#manageablecomponentoptions)
+- Outside `saga`, you can call [dispatch](/docs/api/ComponentManager.md#dispatch) method of `ComponentManager`. 
