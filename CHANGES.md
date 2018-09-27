@@ -1,6 +1,8 @@
 ## 3.2.3
 
 - Fixed: avoid using toString to convert action type in effects
+- Fixed: throttle effects not use `pattern` parameter.
+- Fixed: effects typescript definitions.
 
 ## 3.2.2
 

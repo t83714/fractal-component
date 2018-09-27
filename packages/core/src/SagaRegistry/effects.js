@@ -90,7 +90,7 @@ export const throttle = (sagaItem, ms, pattern, task, ...args) =>
             channelFactory,
             bufferFactory.sliding(1)
         );
-        yield takeEvery(sagaItem, "*", function*(action) {
+        yield takeEvery(sagaItem, pattern, function*(action) {
             yield oPut(throttleChannel, action);
         });
         while (true) {
