@@ -82,16 +82,35 @@ Here we define a React Component that may look very similar to an ordinary react
 namespace: "io.github.t83714/RandomGif"
 ```
 
+Next, to render this newly created component, you modify `src/main.js` to import it:
+```javascript
+import "@babel/polyfill";
+
+import React from "react";
+import ReactDOM from "react-dom";
+import RandomGif from "./RandomGif";
+
+ReactDOM.render(<RandomGif />, document.getElementById("root"));
+```
+
+Now, if you run the App by `npm start` & access `http://localhost:3000/`, you should see:
+```
+Hello from RandomGif!
+```
+
+So far, our component looks pretty much similar to an ordinary React component. However, behind the scenes, a [ComponentManager](/docs/api/ComponentManager.md) instance (the `Component Container`) has been created for this component and it's running in a portable private `namespace`: `io.github.t83714/RandomGif`.
+
+
 ### 3.2 Namespace
 
 It's compulsory to specify a unique `namespace` for a `Component Container`. The `namespace` of a `Component Container` helps to make sure the `Component Container` state store & actions dispatch won't interfere other `Component Container`. 
 
-A `Component Container` namespace is a string that may contain `/` character as namespace parts sperator. It's recommended that to construct the `Component Container Namespace` as `Reverse domain name notation` of your domain + `/` + `Component Name` to avoid name-space collisions. e.g. `io.github.t83714/RandomGif` as shown in sample above.
+A `Component Container` namespace is a string that may contain `/` character as namespace parts sperator. It's recommended that to construct the `Component Container Namespace` as `Reverse domain name notation` of your registered domain + `/` + `Component Name` to avoid name-space collisions. e.g. `io.github.t83714/RandomGif` as shown in sample above.
 
 Please note: Here, the `Component Container Namespace` (e.g. `io.github.t83714/RandomGif` we supplied to `AppContainerUtils.registerComponent` method in sample code above ) is NOT the full runtime namespace (or we call `Full Namespace Path`). The `Full Namespace Path` will be automatically created for each `Component Container` instance using the following parts:
-- `Namespace Prefix`: `fractal-component` will lookup this value from react component's `namespacePrefix` property (default value is empty string). It's an `interface` reserved for component users.  A component user can use it to put component namespace to a particular position to control action delivery without impacting component's internal logic. 
+- `Namespace Prefix`: `fractal-component` will lookup this value from react component's `namespacePrefix` property (default value is empty string). It's an `interface` reserved for component users.  A component user can use it to put component namespace to a particular position (of the `Namespace Tree`) to control action delivery without impacting component's internal logic. 
 - `Component Container Namespace`: That's the namespace we specified when register component. e.g. `io.github.t83714/RandomGif`
-- `Component ID`: It's a unique ID auto-generated to make sure any two `Component Containers`' `Full Namespaces` are different.
+- `Component ID`: It's a unique ID auto-generated to make sure any two `Component Containers`' `Full Namespace Paths` are different.
 
 One example of the `Full Namespace Path` could be:
 ```
@@ -135,3 +154,122 @@ If the `relativeDispatchPath` is specified as `../../../*`, the action is a `mul
 There are two ways to dispatch namespaced actions in component:
 - In component namespaced `saga`, you will need to `yield` a `take` `effect`. See [AppContainer / ManageableComponentOptions / saga / take](/docs/api/AppContainer.md#manageablecomponentoptions)
 - Outside `saga`, you can call [dispatch](/docs/api/ComponentManager.md#dispatch) method of `ComponentManager`. 
+
+### 3.3 A simple Switch / Namespaced State
+
+Next, let's add a simple switch function to our `RandomGif` component. It's not part of required functionalities of our `RandomGif` component. However, implemnt this simple function will help us to understand the some basics that `fractal-component` brought to the component state management area.
+
+Firstly, we want to modify `src/RandomGif/index.js` to add a `switch` button & initialise component state:
+```javascript
+import React from "react";
+import { AppContainerUtils } from "fractal-component";
+
+class RandomGif extends React.Component {
+    constructor(props) {
+        super(props);
+        // --- initialise component state
+        this.state = {
+            isSwitchOn: false
+        };
+        this.componentManager = AppContainerUtils.registerComponent(this, {
+            namespace: "io.github.t83714/RandomGif"
+        });
+    }
+
+    render() {
+        return (
+            <button onClick={() => {}}>
+                {this.state.isSwitchOn ? "Switch ON" : "Switch OFF"}
+            </button>
+        );
+    }
+}
+
+export default RandomGif;
+```
+
+To make the button clickable and display correct status (`Switch ON` or `Switch OFF`), we just need to mutate component state `this.state` and make sure `this.state.isSwitchOn` has been set correct value (`true` or `false`) when the button is clicked.
+
+In a React Component, to achieve that, we usually can mutate `this.state` by calling `this.setState` method. However, for a `ComponentManager` managed component, we cannot do that because `this.state` is actually managed by the `ComponentManager` and it's part of [global application Redux state store](https://redux.js.org/basics/store). In fact, if you try to call `this.setState` in a managed component, you will get an Error:
+
+>Error: This component is managed by `fractal-component`. You should dispatch action to mutate component state.
+
+i.e. If you want to mutate the component state `this.state`, you should trigger an action and mutate the component state in a `namespaced` component [reducer](https://redux.js.org/basics/reducers). You can provide this reducer when call [AppContainerUtils.registerComponent](/docs/api/AppContainerUtils.md#appcontainerutilsregistercomponent) method.
+
+Next, you need to define the [Action](https://redux.js.org/basics/actions) before we can dispatch the action in `onClick` event handler of our switch button. To do so, we need to create a file `src/RandomGif/actions/types.js` with the `Action Type` definition:
+```javascript
+export const CLICK = Symbol("CLICK");
+```
+
+Here, `fractal-component`'s action dispatch system requires all action types are [Symbols](http://2ality.com/2014/12/es6-symbols.html). A Redux App usually won't define `Action Type` as `Symbols` as they are not serialisable and you will need to serialise `Actions` when you try to implement [Time Travel](https://www.ibm.com/developerworks/library/wa-manage-state-with-redux-p4-david-geary/index.html#N10076) alike features in your app. However, `fractal-component` has sovled this by providing an `Action` serialisation / de-serialisation solution via its `ActionRegistry`. See [AppContainerUtils.serialiseAction](/docs/api/AppContainerUtils.md#appcontainerutilsserialiseaction) & [AppContainerUtils.deserialiseAction](/docs/api/AppContainerUtils.md#appcontainerutilsdeserialiseaction) for more info.
+
+Next, create a file `src/RandomGif/actions/index.js` with all action creator function definitions for your component:
+```javascript
+import * as actionTypes from "./types";
+
+export function click() {
+    return {
+        type: actionTypes.CLICK
+    };
+}
+```
+
+Then, we will need to create our `reducer` in `src/RandomGif/reducers/index.js`:
+```javascript
+import * as actionTypes from "../actions/types";
+
+const reducer = function(state, action) {
+    switch (action.type) {
+        case actionTypes.CLICK:
+            return {
+                ...state,
+                isSwitchOn: state.isSwitchOn ? false : true
+            };
+        default:
+            return state;
+    }
+};
+export default reducer;
+```
+
+You probably have noticed that the reducer is a `namespaced` reducer. i.e. 
+- It only receives the actions that the component receives.
+- It only sees the component state `this.state`.
+
+We now can complete our `switch button` feature by importing everything above into `src/RandomGif/index.js`:
+
+```javascript
+import React from "react";
+import { AppContainerUtils } from "fractal-component";
+import reducer from "./reducers";
+import { click } from "./actions";
+
+class RandomGif extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isSwitchOn: false
+        };
+        this.componentManager = AppContainerUtils.registerComponent(this, {
+            namespace: "io.github.t83714/RandomGif",
+            reducer
+        });
+    }
+
+    render() {
+        return (
+            <button onClick={() => {
+                this.componentManager.dispatch(click());
+            }}>
+                {this.state.isSwitchOn ? "Switch ON" : "Switch OFF"}
+            </button>
+        );
+    }
+}
+
+export default RandomGif;
+```
+
+If you run the app via `npm start`, you will find the button text will reflects the `switch status` along your clicks. You can open the [Redux Devtool](https://github.com/zalmoxisus/redux-devtools-extension) to observe the component state changes.
+
+![Redux DevTool](/docs/assets/BeginnerTutorial/devtoolSec3.3.png)
