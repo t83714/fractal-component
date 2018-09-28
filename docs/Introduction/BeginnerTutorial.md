@@ -167,7 +167,8 @@ import { AppContainerUtils } from "fractal-component";
 class RandomGif extends React.Component {
     constructor(props) {
         super(props);
-        // --- initialise component state
+        // --- Component state need to be initialised
+        // --- before `registerComponent` method call
         this.state = {
             isSwitchOn: false
         };
