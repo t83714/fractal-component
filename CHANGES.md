@@ -1,4 +1,4 @@
-## 3.3.1
+## 3.3.0
 - Effects API provided through namespaced saga includes all redux-saga effects creators
 - Test typescript definitions
 - Added takeMabe & debounce to namespaced Effects 
