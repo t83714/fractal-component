@@ -5,12 +5,14 @@
 
 import {
     take as oTake,
+    takeMaybe as oTakeMaybe,
     put as oPut,
     select as oSelect,
     call,
     fork,
     delay,
-    cancel
+    cancel,
+    race
 } from "redux-saga/effects";
 import {
     buffers as bufferFactory,
@@ -25,6 +27,11 @@ export function take(sagaItem, pattern) {
     return oTake(chan, pattern);
 }
 
+export function takeMaybe(sagaItem, pattern) {
+    const { chan } = sagaItem;
+    return oTakeMaybe(chan, pattern);
+}
+
 export function put(sagaItem, action, relativeDispatchPath = "") {
     const { path } = sagaItem;
     const pc = new PathContext(path);
@@ -32,11 +39,19 @@ export function put(sagaItem, action, relativeDispatchPath = "") {
         action,
         relativeDispatchPath
     );
-    
+
     // --- query action Type's original namespace so that it can be serialised correctly if needed
-    const namespace = this.appContainer.actionRegistry.findNamespaceByActionType(namespacedAction.type);
-    if(!namespace) {
-        log(`Cannot locate namespace for Action \`${symbolToString(namespacedAction.type)}\`: \`${symbolToString(namespacedAction.type)}\` needs to be registered otherwise the action won't be serializable.`)
+    const namespace = this.appContainer.actionRegistry.findNamespaceByActionType(
+        namespacedAction.type
+    );
+    if (!namespace) {
+        log(
+            `Cannot locate namespace for Action \`${symbolToString(
+                namespacedAction.type
+            )}\`: \`${symbolToString(
+                namespacedAction.type
+            )}\` needs to be registered otherwise the action won't be serializable.`
+        );
     } else {
         namespacedAction.namespace = namespace;
     }
@@ -97,6 +112,24 @@ export const throttle = (sagaItem, ms, pattern, task, ...args) =>
             const action = yield oTake(throttleChannel);
             yield fork(task, ...args, action);
             yield delay(ms);
+        }
+    });
+
+export const debounce = (sagaItem, ms, pattern, task, ...args) =>
+    fork(function*() {
+        while (true) {
+            let action = yield take(sagaItem, pattern);
+            while (true) {
+                const { debounced, _action } = yield race({
+                    debounced: delay(ms),
+                    _action: take(sagaItem, pattern)
+                });
+                if (debounced) {
+                    yield fork(task, ...args, action);
+                    break;
+                }
+                action = _action;
+            }
         }
     });
 
