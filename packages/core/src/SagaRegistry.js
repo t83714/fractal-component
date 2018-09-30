@@ -8,7 +8,7 @@ import {
     multicastChannel as multicastChannelFactory
 } from "redux-saga";
 import * as rsEffects from "redux-saga/effects";
-import * as namespacedEffects from "./SagaRegistry/effects";
+import createEffects from "./SagaRegistry/createEffects";
 import namespace from "./SagaRegistry/namespace";
 
 function* hostSaga() {
@@ -96,10 +96,7 @@ function* initSaga(sagaItem) {
         path: registeredPath,
         allowedIncomingMulticastActionTypes
     };
-    const effects = {};
-    Object.keys(namespacedEffects).forEach(idx => {
-        effects[idx] = namespacedEffects[idx].bind(this, newSagaItem);
-    });
+    const effects = createEffects(this, newSagaItem);
     const task = yield rsEffects.fork(function*() {
         try {
             yield rsEffects.call(saga, effects);
