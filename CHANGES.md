@@ -1,3 +1,7 @@
+## 3.3.1
+- Effects API provided through namespaced saga includes all redux-saga effects creators
+- Test typescript definitions
+
 ## 3.2.3
 
 - Fixed: avoid using toString to convert action type in effects
