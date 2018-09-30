@@ -38,17 +38,17 @@ declare class ComponentManager {
 
 export default ComponentManager;
 
-export type InitCallback = (ComponentManager) => void;
-export type DestroyCallback = (ComponentManager) => void;
+export type InitCallback = (cm: ComponentManager) => void;
+export type DestroyCallback = (cm: ComponentManager) => void;
 
 export declare const COMPONENT_MANAGER_LOCAL_KEY: Symbol;
 
 export type ManageableComponent = React.Component | React.PureComponent;
 
 export type ComponentStringSettingFunc = (
-    ComponentManager,
-    string,
-    ManageableComponent
+    cmRef: ComponentManager,
+    key: string,
+    component: ManageableComponent
 ) => string;
 
 /**

@@ -38,11 +38,11 @@ declare class AppContainer {
      * You shouldn't need it for implmenting any logic
      *
      */
-    subscribeActionDispatch(func: (Action) => void): void;
+    subscribeActionDispatch(func: (action: Action) => void): void;
 
     // --- an utility mainly designed for server side rendering.
     waitForActionsUntil(
-        testerFunc: (Action) => boolean,
+        testerFunc: (action: Action) => boolean,
         timeout?: number
     ): Promise<void>;
 

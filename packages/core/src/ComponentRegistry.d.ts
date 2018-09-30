@@ -13,7 +13,7 @@ declare class ComponentRegistry {
         options?: ManageableComponentOptions
     ): ComponentManager;
     deregister(componentInstance: ManageableComponent): void;
-    createComponentId(...pathItems: string): string;
+    createComponentId(...pathItems: string[]): string;
     destroy(): void;
 }
 
