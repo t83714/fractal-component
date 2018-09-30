@@ -1,6 +1,5 @@
 import * as actionTypes from "../actions/types";
 import * as actions from "../actions";
-import { call } from "redux-saga/effects";
 
 function fetchGif(apiKey) {
     return fetch(
@@ -38,7 +37,7 @@ const mainSaga = function*(effects, apiKey) {
              */
             yield effects.put(actions.loadingStart(), "../../../*");
 
-            const response = yield call(fetchGif, apiKey);
+            const response = yield effects.call(fetchGif, apiKey);
             const imgUrl = response.data.fixed_width_small_url;
             yield effects.put(actions.receiveNewGif(imgUrl));
             /**
