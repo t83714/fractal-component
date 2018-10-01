@@ -242,6 +242,7 @@ We now can complete our `switch button` feature by importing everything above in
 ```javascript
 import React from "react";
 import { AppContainerUtils } from "fractal-component";
+import * as actionTypes from "./actions/types";
 import reducer from "./reducers";
 import { click } from "./actions";
 
@@ -253,6 +254,8 @@ class RandomGif extends React.Component {
         };
         this.componentManager = AppContainerUtils.registerComponent(this, {
             namespace: "io.github.t83714/RandomGif",
+            // --- register all action types so that actions are serialisable
+            actionTypes,
             reducer
         });
     }
@@ -270,7 +273,12 @@ class RandomGif extends React.Component {
 
 export default RandomGif;
 ```
+> Please note: In order to make your component actions serialisable, you need to register all your component action types via `AppContainerUtils.registerComponent` method's [ManageableComponentOptions.actionTypes](/docs/api/AppContainer.md#manageablecomponentoptions)
 
 If you run the app via `npm start`, you will find the button text will reflects the `switch status` along your clicks. You can open the [Redux Devtool](https://github.com/zalmoxisus/redux-devtools-extension) to observe the component state changes.
 
 ![Redux DevTool](/docs/assets/BeginnerTutorial/devtoolSec3.3.png)
+
+### 3.4 Request GIF / Namespaced Saga
+
+

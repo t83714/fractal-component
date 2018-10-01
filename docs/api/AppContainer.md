@@ -73,7 +73,7 @@ You likely will not call this method directly. Instead, you may want to use stat
 
 - Current `React Component` `this.props.appContainer` (It's configurable via `AppContainerUtils.updateAppContainerRetrieveKey()`)
 - Current `React Component` `this.context.appContainer`
-- Previous created `AppContainer` via [`AppContainerUtils.createAppContainer()`](#appcontainerutilscreateappcontainer) call.
+- Previous created `AppContainer` via [`AppContainerUtils.createAppContainer()`](/docs/api/AppContainerUtils.md#appcontainerutilscreateappcontainer) call.
 - If can't find, it will auto create (using `AppContainerUtils.createAppContainer()`) a new `AppContainer` with default options.
 
 
@@ -102,14 +102,22 @@ class Counter extends React.Component {
 
 The following options can be used to config the `Component Container` created via `registerComponent()` method:
 
-- `saga`: Optional; You can supply a [Generator Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*) to run as a concurrent process. You can use it to run an event loop or managing side-effects. We internally use [redux-saga](https://redux-saga.js.org/) to run your `saga`. Your will be supply one parameter `effects` which provides the following APIs similar to [redux-saga](https://redux-saga.js.org/docs/api/#saga-helpers) (except they are all namespaced. i.e. you only have access to actions that are dispatched to your namespace or your component state):
+- `saga`: Optional; You can supply a [Generator Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*) to run as a concurrent process. You can use it to run an event loop or managing side-effects. We internally use [redux-saga](https://redux-saga.js.org/) to run your `saga`. 
+
+Your will `saga` be supplied one parameter `effects` which contains a list of `effect creator` functions. Those `effect creator` functions return an object `effect description` of what needs to be done rather than create the effect immediately. The `effect description` object will be sent to underlayer `saga` processor when you [yield](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/yield) the `effect description` object. The underlayer `saga` processor will then create the effect, monitor its process and resume your `saga` (the [Generator Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*)) with possible result (through the return value of `yield` operator) once it's completed. 
+
+The `effect creator` functions provided by `effects` parameter provide the same function as [redux-saga](https://redux-saga.js.org/docs/api/#saga-helpers). The only difference is that any action related `effect creators` are namespaced. i.e. you only have access to actions that are dispatched to your component `Full Namespace Path` and the actions dispatched (i.e. using `put` effect) are also namespaced. Here is a list of key `effect creators` and full list of available `effect creators` can refer to the [redux-saga API document](https://github.com/redux-saga/redux-saga/tree/v1.0.0-beta.2/docs/api):
   - `take(pattern)`
+    - Take an action action with certain [pattern](https://github.com/redux-saga/redux-saga/tree/v1.0.0-beta.2/docs/api#takepattern).
   - `put(action: Action, relativeDispatchPath: string)`
+    - Dispatch an action. The action is, by default, considered as dispatched from the component `Full namespace path`. You can supply an optional `relativeDispatchPath` parameter to alter the default dispatch position on the [Namespace Tree](/docs/Introduction/BeginnerTutorial.md#321-namespace-tree-action-dispatch).
   - `select(selector?: (state: any, ...args: any[]) => any, ...args: any[])`
+    - Get current state in store and return it or return the result an optional selector function involved on it.
   - `takeEvery(pattern, childSaga, ...args: any[])`
   - `takeLatest(pattern, childSaga, ...args: any[])`
   - `takeLeading(pattern, childSaga, ...args: any[])`
   - `throttle(mileseconds, pattern, childSaga, ...args: any[])`
+  - `debounce(mileseconds, pattern, childSaga, ...args: any[])`
   - `actionChannel(pattern, buffer)`
 
 Here is a sample saga:
