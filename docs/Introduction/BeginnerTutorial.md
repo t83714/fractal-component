@@ -469,9 +469,23 @@ const action = yield effects.take(actionTypes.REQUEST_NEW_GIF);
 ```
 will not return until a `REQUEST_NEW_GIF` is received.
 
-You don't have to always write a `while(true)` `event loop`. You can use a [takeEvery](https://github.com/redux-saga/redux-saga/tree/v1.0.0-beta.2/docs/api#takeeverypattern-saga-args), [takeLatest](https://github.com/redux-saga/redux-saga/tree/v1.0.0-beta.2/docs/api#takelatestpattern-saga-args) or [takeLeading](https://github.com/redux-saga/redux-saga/tree/v1.0.0-beta.2/docs/api#takeleadingpattern-saga-args) effect creator to acheive the similar function. They are provided as shortcut and implmented using `take` effect.  
+You don't have to always write a `while(true)` `event loop`. You can use: [takeEvery](https://github.com/redux-saga/redux-saga/tree/v1.0.0-beta.2/docs/api#takeeverypattern-saga-args), [takeLatest](https://github.com/redux-saga/redux-saga/tree/v1.0.0-beta.2/docs/api#takelatestpattern-saga-args) or [takeLeading](https://github.com/redux-saga/redux-saga/tree/v1.0.0-beta.2/docs/api#takeleadingpattern-saga-args) effect creator to acheive the similar function. They are provided as shortcut and implmented using `take` effect. e.g. the above `while` loop can also be re-written to:
+```javascript
+const mainSaga = function*(effects) {
+    yield effects.takeLeading(actionTypes.REQUEST_NEW_GIF, function*(action) {
+        try{
+            const response = yield effects.call(fetchGif, "xxxxxxxxxxxx"); 
+            const imgUrl = response.data.fixed_width_small_url;
+            yield effects.put(actions.receiveNewGif(imgUrl));
+        }catch(e){
+            yield effects.put(actions.requestNewGifError(e));
+        }
+    });
+};
 
-In the end, you can add the `saga` into your `Component Container` when call ``
+```
+
+
 
 In the end, you can add the `saga` into your `Component Container` via `AppContainerUtils.registerComponent` method's [ManageableComponentOptions.saga option](/docs/api/AppContainer.md#manageablecomponentoptions)
 
