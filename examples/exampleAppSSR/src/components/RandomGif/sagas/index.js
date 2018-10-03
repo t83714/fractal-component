@@ -42,15 +42,15 @@ const mainSaga = function*(effects, apiKey) {
             yield effects.put(actions.receiveNewGif(imgUrl));
             /**
              * The optional second `relativeDispatchPath` parameter defines
-             * the relative (from current componet namespace) namespace dispatch path.
-             * i.e. current component full namespace path is:
-             *     namespace:              random componet ID
-             * `io.github.t83714` +"/"+ `NewGif-xxxxxxxxx`
-             * e.g. `io.github.t83714/NewGif-4n5pxq24kpiob12og9`
-             * If `relativeDispatchPath` is `../../*`, all namespace direct parents will get action `NEW_GIF`
-             * Although, theoretically, you could use `relativeDispatchPath` & ".." to dispatch the action 
-             * into any namespace, you should throw the action just out of the your box.
-             * --- because as a component author, you are supposed to know nothing about outside world.
+             * the relative (from current component full namespace path) namespace dispatch path.
+             * i.e. suppose the current component full namespace path is:
+             *  namespacePrefix        namespace                  random component ID
+             *    `xxxxxx`   /  `io.github.t83714/RandomGif`  /        `cx`
+             * e.g. `exampleApp/Gifs/io.github.t83714/RandomGif/c0`
+             * If `relativeDispatchPath` is `../../../*`, the effective dispatch path is `exampleApp/Gifs/*`.
+             * Although, theoretically, you could use `relativeDispatchPath` & ".." to dispatch the action
+             * into any namespace, you should throw the action just out of the your component 
+             * as you are supposed to know nothing about outside world as a component author.
              */
             //--- optional second `relativeDispatchPath` parameter
             //--- specify the action dispatch path

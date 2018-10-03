@@ -702,5 +702,151 @@ If you run the app via `npm start`, you will find that the component now comes w
 
 ![RandomGifSec3.5](/docs/assets/BeginnerTutorial/RandomGifSec3.5.png)
 
+### 3.6 Encapsulation & External Interfaces
 
+Now, the required UI & functionalities of our `RandomGif` component have all been completed. However, we still need to do the followings to make sure the component is easy to be reused:
+
+#### 3.6.1 Define External Action Interfaces
+
+#### 3.6.1.1 Incoming Actions / `allowedIncomingMulticastActionTypes`
+
+By default, the `Component Container` won't accept any multicast actions (non-multicast & direct addressed actions will always be accepted though). To make sure the component users can send `REQUEST_NEW_GIF` actions to this component in order to programmingly trigger the image loading, we can set the incoming actions rulse using `allowedIncomingMulticastActionTypes` option when register our component:
+
+```javascript
+this.componentManager = AppContainerUtils.registerComponent(this, {
+    namespace: "io.github.t83714/RandomGif",
+    actionTypes,
+    reducer,
+    saga,
+    // --- Only allow `actionTypes.REQUEST_NEW_GIF` to be received by component
+    allowedIncomingMulticastActionTypes: [actionTypes.REQUEST_NEW_GIF],
+    namespaceInitCallback: componentManager => {
+        const styleSheet = jss
+            .setup(jssDefaultPreset())
+            .createStyleSheet(styles, {
+                generateClassName: componentManager.createClassNameGenerator()
+            })
+            .attach();
+        return { styleSheet };
+    },
+    namespaceDestroyCallback: ({ styleSheet }) => {
+        styleSheet.detach();
+    }
+});
+```
+
+If you want your component to accept any actions, you can set `allowedIncomingMulticastActionTypes` to `"*"`.
+
+#### 3.6.1.2 `Outgoing External Actions`
+
+It would be useful if our component sends out actions at different stages of requesting data from remote API so that other part of the program can monitor the actions and can act accordingly. We are going to define the following `Outgoing External Actions` (in `src/RandomGif/actions/types.js`):
+
+```javascript
+// --- dispatch when a NEW Random Gif URl is received from API
+export const NEW_GIF = Symbol("NEW_GIF");
+// --- dispatch when a request is just sent
+export const LOADING_START = Symbol("LOADING_START");
+// --- dispatch when a request is complete 
+export const LOADING_COMPLETE = Symbol("LOADING_COMPLETE");
+```
+
+And, we need to define the following action creator functions accordingly (in `src/RandomGif/actions/index.js`):
+
+```javascript
+export function newGif() {
+    return {
+        type: actionTypes.NEW_GIF
+    };
+}
+
+export function loadingStart() {
+    return {
+        type: actionTypes.LOADING_START
+    };
+}
+
+export function loadingComplete(error = null) {
+    return {
+        type: actionTypes.LOADING_COMPLETE,
+        payload: {
+            isSuccess: error ? false : true,
+            error
+        }
+    };
+}
+```
+
+Next, we can modify `saga` to dispatch those actions at appropriate places:
+
+```javascript
+const mainSaga = function*(effects) {
+    try{
+        while(true){
+            /**
+             * Dedicated LOADING_START action to notify interested components outside
+             * This component will not use it in any way
+             */
+            yield effects.put(actions.loadingStart(), "../../../*");
+
+            // --- create an effect of taking an `REQUEST_NEW_GIF` action from this Component's action channel
+            // --- Until an action is available for being taken, this saga will not resume its execution.
+            const action = yield effects.take(actionTypes.REQUEST_NEW_GIF);
+            const response = yield effects.call(fetchGif, "Y4P38sTJAgEBOHP1B3sVs0Jtk01tb6fA");
+            const imgUrl = response.data.fixed_width_small_url;
+            yield effects.put(actions.receiveNewGif(imgUrl));
+
+            /**
+             * The optional second `relativeDispatchPath` parameter defines
+             * the relative (from current component full namespace path) namespace dispatch path.
+             * i.e. suppose the current component full namespace path is:
+             *  namespacePrefix        namespace                  random component ID
+             *    `xxxxxx`   /  `io.github.t83714/RandomGif`  /        `cx`
+             * e.g. `exampleApp/Gifs/io.github.t83714/RandomGif/c0`
+             * If `relativeDispatchPath` is `../../../*`, the effective dispatch path is `exampleApp/Gifs/*`.
+             * Although, theoretically, you could use `relativeDispatchPath` & ".." to dispatch the action
+             * into any namespace, you should throw the action just out of the your component 
+             * as you are supposed to know nothing about outside world as a component author.
+             */
+            //--- optional second `relativeDispatchPath` parameter
+            //--- specify the action dispatch path
+            yield effects.put(actions.newGif(), "../../../*");
+
+            /**
+             * Dedicated LOADING_COMPLETE action to notify interested components outside
+             */
+            yield effects.put(actions.loadingComplete(), "../../../*");
+        }
+    }catch(e){
+        yield effects.put(actions.requestNewGifError(e));
+        /**
+         * Dedicated LOADING_COMPLETE action to notify interested components outside
+         * This component will not use it in any way
+         */
+        yield effects.put(actions.loadingComplete(e), "../../../*");
+    }
+};
+```
+
+#### 3.6.2 Export External Actions Types
+
+We will also want to export those external actions types (`in src/RandomGif/index.js`) for potential component users:
+
+```javascript
+//--- actions component may send out
+const exposedActionTypes = {
+    NEW_GIF: actionTypes.NEW_GIF,
+    LOADING_START: actionTypes.LOADING_START,
+    LOADING_COMPLETE: actionTypes.LOADING_COMPLETE,
+    REQUEST_NEW_GIF: actionTypes.REQUEST_NEW_GIF
+};
+//--- action component will accept
+const exposedActions = {
+    requestNewGif: actions.requestNewGif
+};
+
+/**
+ * expose actions for component users
+ */
+export { exposedActionTypes as actionTypes, exposedActions as actions };
+```
 
