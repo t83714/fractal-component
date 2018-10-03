@@ -708,7 +708,7 @@ Now, the required UI & functionalities of our `RandomGif` component have all bee
 
 #### 3.6.1 Define External Action Interfaces
 
-#### 3.6.1.1 Incoming Actions / `allowedIncomingMulticastActionTypes`
+##### 3.6.1.1 Incoming Actions / `allowedIncomingMulticastActionTypes`
 
 By default, the `Component Container` won't accept any multicast actions (non-multicast & direct addressed actions will always be accepted though). To make sure the component users can send `REQUEST_NEW_GIF` actions to this component in order to programmingly trigger the image loading, we can set the incoming actions rulse using `allowedIncomingMulticastActionTypes` option when register our component:
 
@@ -737,7 +737,7 @@ this.componentManager = AppContainerUtils.registerComponent(this, {
 
 If you want your component to accept any actions, you can set `allowedIncomingMulticastActionTypes` to `"*"`.
 
-#### 3.6.1.2 `Outgoing External Actions`
+##### 3.6.1.2 `Outgoing External Actions`
 
 It would be useful if our component sends out actions at different stages of requesting data from remote API so that other part of the program can monitor the actions and can act accordingly. We are going to define the following `Outgoing External Actions` (in `src/RandomGif/actions/types.js`):
 
@@ -827,7 +827,7 @@ const mainSaga = function*(effects) {
 };
 ```
 
-#### 3.6.2 Export External Actions Types
+##### 3.6.1.3 Export External Actions Types
 
 We will also want to export those external actions types (`in src/RandomGif/index.js`) for potential component users:
 
@@ -850,3 +850,107 @@ const exposedActions = {
 export { exposedActionTypes as actionTypes, exposedActions as actions };
 ```
 
+#### 3.6.2 Component Config Properties
+
+We will want to define the following React Component Properties to allow users to config our component's functionalities:
+
+```javascript
+RandomGif.propTypes = {
+    // --- User can set `showButton` to false to hide the button
+    showButton: PropTypes.bool,
+    // --- Allow component user to set their own Giphy.com API key
+    apiKey: PropTypes.string,
+    // --- Allow user replace component built stylesheet
+    styles: PropTypes.object,
+    /*
+    * Allow user specify the `AppContainer` for this component through component property
+    */
+    appContainer: PropTypes.instanceOf(AppContainer)
+};
+
+// --- set component properties default value
+RandomGif.defaultProps = {
+    showButton: true,
+    apiKey: "Y4P38sTJAgEBOHP1B3sVs0Jtk01tb6fA"
+};
+```
+
+> Component users generally don't need to set `appContainer` to explicitly provide `AppContainer` instance to the component as `AppContainerUtils` will auto-create an `appContainer` and reuse it if `AppContainerUtils` can't find a `appContainer` at [various places](/docs/api/AppContainerUtils.md#appcontainerutilsgetappcontainer)
+
+> Besides the component properties defined above, users can always set `namespacePrefix` property to set the `namespace prefix` of the component.
+
+##### 3.6.2.1 `showButton`
+
+To hide `Get Gif` button depends on `showButton` property, we can update `Get Gif` button JSX in `render()` to the followings:
+```javascript
+{this.props.showButton && (
+    <div className={`${classes.cell} `}>
+        <button
+            onClick={() => {
+                this.componentManager.dispatch(
+                    actions.requestNewGif()
+                );
+            }}
+            disabled={this.state.isLoading}
+        >
+            {this.state.isLoading
+                ? "Requesting API..."
+                : "Get Gif"}
+        </button>
+    </div>
+)}
+```
+
+##### 3.6.2.2 `apiKey`
+
+To allow users to update `apiKey`, we need to update `saga` to the followings:
+
+```javascript
+const mainSaga = function*(effects, apiKey) {
+    ...
+    const response = yield effects.call(fetchGif, apiKey);
+    ...
+};
+```
+
+And then, we need to `prefill` the last parameter of the `saga` when register the component:
+
+```javascript
+import partialRight from "lodash/partialRight";
+...
+this.componentManager = AppContainerUtils.registerComponent(this, {
+    ...
+    saga: partialRight(saga, props.apiKey),
+    ...
+});
+```
+
+##### 3.6.2.3 `styles`
+
+In order to allow users to override the component built-in stylesheet, we need to update the `namespaceInitCallback` & `namespaceDestroyCallback` to the followings:
+
+```javascript
+this.componentManager = AppContainerUtils.registerComponent(this, {
+    ...
+    namespaceInitCallback: componentManager => {
+        let jssRef;
+        if(!props.styles){
+            // --- if use built-in style, we want to make sure 
+            // --- that this component use its own jss setting
+            jssRef = jss.setup(jssDefaultPreset());
+        }else{
+            jssRef = jss
+        }
+        const styleSheet = jssRef
+            .createStyleSheet(props.styles ? props.styles : styles, {
+                // --- use componentManager's createClassNameGenerator
+                generateClassName: componentManager.createClassNameGenerator()
+            })
+            .attach();
+        return { styleSheet };
+    },
+    namespaceDestroyCallback: ({ styleSheet }) => {
+        styleSheet.detach();
+    }
+});
+```
