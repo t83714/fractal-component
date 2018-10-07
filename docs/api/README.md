@@ -2,5 +2,6 @@
 
 - [AppContainer](/docs/api/AppContainer.md)
 - [AppContainerUtils](AppContainerUtils.md)
-- ActionForwarder
+- [ComponentManager](/docs/api/ComponentManager.md)
+- [ActionForwarder](/docs/api/ActionForwarder.md)
 - utils

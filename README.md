@@ -36,17 +36,30 @@ or
 npm install --save fractal-component
 ```
 
-Alternatively, you may use the UMD builds from [unpkg](https://unpkg.com/fractal-component) directly in the <script> tag of an HTML page.
+Alternatively, you may use the UMD builds from [unpkg](https://unpkg.com/fractal-component) directly in the `<script>` tag of an HTML page.
 
 ## Documents
 
 ### Table of Contents
 
-- [Read Me](/README.md)
+- [Read Me](https://github.com/t83714/fractal-component/blob/master/README.md)
 - Introduction
-  - [Beginner Tutorial](/docs/Introduction/BeginnerTutorial.md)
+  - [Beginner Tutorial](https://github.com/t83714/fractal-component/blob/master/docs/Introduction/BeginnerTutorial.md)
+    - [1. Overview](https://github.com/t83714/fractal-component/blob/master/docs/Introduction/BeginnerTutorial/Overview.md)
+    - [2. InitialSetup](https://github.com/t83714/fractal-component/blob/master/docs/Introduction/BeginnerTutorial/InitialSetup.md)
+    - [3. RandomGif](https://github.com/t83714/fractal-component/blob/master/docs/Introduction/BeginnerTutorial/RandomGif)
+        - [3.1 Get Started](https://github.com/t83714/fractal-component/blob/master/docs/Introduction/BeginnerTutorial/RandomGif/GetStarted.md)
+        - [3.2 Namespace](https://github.com/t83714/fractal-component/blob/master/docs/Introduction/BeginnerTutorial/RandomGif/Namespace.md)
+        - [3.3 A simple Switch / Namespaced State](https://github.com/t83714/fractal-component/blob/master/docs/Introduction/BeginnerTutorial/RandomGif/NamespacedState.md)
+        - [3.4 Request GIF / Namespaced Saga](https://github.com/t83714/fractal-component/blob/master/docs/Introduction/BeginnerTutorial/RandomGif/NamespacedSaga.md)
+        - [3.5 Styling / Component Namespace Data](https://github.com/t83714/fractal-component/blob/master/docs/Introduction/BeginnerTutorial/RandomGif/ComponentNamespaceData.md)
+        - [3.6 Encapsulation & External Interfaces](https://github.com/t83714/fractal-component/blob/master/docs/Introduction/BeginnerTutorial/RandomGif/ExternalInterfaces.md)
+    - [4. RandomGifPair](https://github.com/t83714/fractal-component/blob/master/docs/Introduction/BeginnerTutorial/RandomGifPair)
+        - [4.1 Get Started](https://github.com/t83714/fractal-component/blob/master/docs/Introduction/BeginnerTutorial/RandomGifPair/GetStarted.md)
+        - [4.2 Incoming / Outgoing Actions](https://github.com/t83714/fractal-component/blob/master/docs/Introduction/BeginnerTutorial/RandomGifPair/IncomingOutgoingActions.md)
+    - [5. Conclusion](https://github.com/t83714/fractal-component/blob/master/docs/Introduction/BeginnerTutorial/Conclusion.md)
 - Basic Concepts
-  - [Recommended Component Structure](/docs/BasicConcepts/RecommendedStructure.md)
+  - [Recommended Component Structure](https://github.com/t83714/fractal-component/blob/master/docs/BasicConcepts/RecommendedStructure.md)
   - Component Namespace
   - Action Dispatch Tree
   - Symbol Action Type
@@ -57,11 +70,11 @@ Alternatively, you may use the UMD builds from [unpkg](https://unpkg.com/fractal
 - Advanced Concepts
   - ActionForwarder
   - SagaMonitor
-- [API Reference](/docs/api/README.md)
-  - [AppContainer](/docs/api/AppContainer.md)
-  - [AppContainerUtils](/docs/api/AppContainerUtils.md)
-  - [ComponentManager](/docs/api/ComponentManager.md)
-  - ActionForwarder
+- [API Reference](https://github.com/t83714/fractal-component/blob/master/docs/api/README.md)
+  - [AppContainer](https://github.com/t83714/fractal-component/blob/master/docs/api/AppContainer.md)
+  - [AppContainerUtils](https://github.com/t83714/fractal-component/blob/master/docs/api/AppContainerUtils.md)
+  - [ComponentManager](https://github.com/t83714/fractal-component/blob/master/docs/api/ComponentManager.md)
+  - [ActionForwarder](https://github.com/t83714/fractal-component/blob/master/docs/api/ActionForwarder.md)
   - utils
 
 
