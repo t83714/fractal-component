@@ -1,3 +1,7 @@
+## 3.4.2
+
+- effects.take will throw an error if pattern parameter is empty.
+
 ## 3.4.1
 
 - Fixed an incompatible issue with redux-saga version `v1.0.0-beta.3`

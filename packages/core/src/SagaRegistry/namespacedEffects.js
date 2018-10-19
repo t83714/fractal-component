@@ -23,11 +23,15 @@ import { PathContext } from "../PathRegistry";
 import { is, log, symbolToString } from "../utils";
 
 export function take(sagaItem, pattern) {
+    if (!pattern)
+        throw new Error("effects.take: pattern parameter cannot be empty!");
     const { chan } = sagaItem;
     return oTake(chan, pattern);
 }
 
 export function takeMaybe(sagaItem, pattern) {
+    if (!pattern)
+        throw new Error("effects.take: pattern parameter cannot be empty!");
     const { chan } = sagaItem;
     return oTakeMaybe(chan, pattern);
 }
