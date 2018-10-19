@@ -9,7 +9,9 @@ const createEffects = (thisObj, SagaItem) => {
     });
     Object.keys(rsEffects).forEach(idx => {
         if (is.undef(effectCreators[idx])) {
-            effectCreators[idx] = rsEffects[idx].bind(thisObj);
+            effectCreators[idx] = is.func(rsEffects[idx])
+                ? rsEffects[idx].bind(thisObj)
+                : rsEffects[idx];
         }
     });
     return effectCreators;

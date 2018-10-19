@@ -1,3 +1,7 @@
+## 3.4.1
+
+- Fixed an incompatible issue with redux-saga version `v1.0.0-beta.3`
+
 ## 3.4.0
 
 - Removed `toGlobal` & `absoluteDispatchPath` property from `ActionForwarder`
