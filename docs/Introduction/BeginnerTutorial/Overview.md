@@ -4,7 +4,7 @@ This tutorial attempts to lead you through the simple process of creating a reus
 
 ### 1.1 RandomGif Component
 
-![RandomGif](../assets/BeginnerTutorial/RandomGif.png)
+![RandomGif](../../assets/BeginnerTutorial/RandomGif.png)
 
 The `RandomGif` Component comes with a main display area that is for a Gif image and a `Get Gif` button. Once the button is clicked, this component will send a request to `https://giphy.com` to get a random gif image and display it in the display area. In the tutorial, we will try to create a highly decoupled component that doesn't make any assumptions on `outside world`. i.e.
 - State Structure Independent: It doesn't rely on any particular state structure. The component's state can be moved to anywhere on the application's state tree without impacting its functionality. 
@@ -13,6 +13,6 @@ The `RandomGif` Component comes with a main display area that is for a Gif image
 
 ### 1.2 RandomGifPair Component
 
-![RandomGifPair](../assets/BeginnerTutorial/RandomGifPair.png)
+![RandomGifPair](../../assets/BeginnerTutorial/RandomGifPair.png)
 
 The `RandomGifPair` Component will be built by reusing two `RandomGif` components. It comes with two image display areas and a `Get Gif Pair` button. Once the button is clicked, two gif images will be requested from `https://giphy.com` and displayed in the image display area. 

@@ -12,7 +12,7 @@
 
 ### Overview
 
-`AppContainerUtils` provides static methods that allows you to access the `AppContainer`'s fucntionality easily. You likely use `AppContainerUtils` more often rather than directly call any methods of an `AppContainer` instance. The reason is that all `AppContainerUtils` methods don't require the reference of an `AppContainer` instance. Instead, `AppContainerUtils` methods come with built-in logic locate the most appropriate `AppContainer` instance (that created at other part of application) at the time of calling --- this might not be critical for a single-`AppContainer` environment. However, it will be very important for `Server-Side Rendering` as you might want to keep different `AppContainer` instance to serve different requests. (see [example app](/examples/exampleAppSSR)). 
+`AppContainerUtils` provides static methods that allows you to access the `AppContainer`'s fucntionality easily. You likely use `AppContainerUtils` more often rather than directly call any methods of an `AppContainer` instance. The reason is that all `AppContainerUtils` methods don't require the reference of an `AppContainer` instance. Instead, `AppContainerUtils` methods come with built-in logic locate the most appropriate `AppContainer` instance (that created at other part of application) at the time of calling --- this might not be critical for a single-`AppContainer` environment. However, it will be very important for `Server-Side Rendering` as you might want to keep different `AppContainer` instance to serve different requests. (see [example app](https://github.com/t83714/fractal-component/tree/master/examples/exampleAppSSR)). 
 
 As such, it's recommend for a `Component` author to use `AppContainerUtils.registerComponent` to register `React Component` to an `AppContainer` to make sure the `Component` written can be re-used under different circumstances.
 
@@ -25,7 +25,7 @@ const appContainer = AppContainerUtils.createAppContainer({
     ...containerConfigOptions
 });
 ```
-Information of the `containerConfigOptions` can be found from the document for [`AppContainer`](/docs/api/AppContainer.md#initialisation-constructor)
+Information of the `containerConfigOptions` can be found from the document for [`AppContainer`](./AppContainer.md#initialisation-constructor)
 
 ### `AppContainerUtils.getAppContainer`
 
@@ -53,7 +53,7 @@ All other `AppContainerUtils` method will use this method to locate an `AppConta
 
 You can use register a [React Class Component](https://reactjs.org/docs/components-and-props.html#functional-and-class-components) to the `AppContainer`. Once register, a `Component Container` is created behind the scenes to maintain a more advanced component structure as illustrated by [this diagram](https://raw.githubusercontent.com/t83714/fractal-component/master/docs/assets/container-structure.png).
 
-More info can be found from the [AppContainer.registerComponent](/docs/api/AppContainer.md#registercomponent) document. 
+More info can be found from the [AppContainer.registerComponent](./AppContainer.md#registercomponent) document. 
 
 The method's type declaration is shown as below: 
 
@@ -66,7 +66,7 @@ export declare function registerComponent(
 
 Here `ManageableComponent` is a [React Class Component](https://reactjs.org/docs/components-and-props.html#functional-and-class-components).
 
-More information of the `ManageableComponentOptions` can be found from the [AppContainer.registerComponent](/docs/api/AppContainer.md#manageablecomponentoptions) document.
+More information of the `ManageableComponentOptions` can be found from the [AppContainer.registerComponent](./AppContainer.md#manageablecomponentoptions) document.
 
 Example:
 ```javascript

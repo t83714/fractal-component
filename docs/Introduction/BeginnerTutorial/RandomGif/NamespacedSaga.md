@@ -139,7 +139,7 @@ Next, we need to create a `saga` to:
 - Dispatch `RECEIVE_NEW_GIF` with API request result (the GIF url)
 - Dispatch `REQUEST_NEW_GIF_ERROR` with any possible error
 
-A `saga` is a [Generator Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*) run an event loop or managing side-effects. It is run by [redux-saga](https://redux-saga.js.org) internally. In the `saga`, you can use [yield operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/yield) to `yield` a `effect description object`. `redux-saga` will creata the effect, get result back to you via the return value of the `yield operator` and resume your `saga`'s execution. More info on this can be found from [ManageableComponentOptions.saga](/docs/api/AppContainer.md#manageablecomponentoptions)
+A `saga` is a [Generator Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*) run an event loop or managing side-effects. It is run by [redux-saga](https://redux-saga.js.org) internally. In the `saga`, you can use [yield operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/yield) to `yield` a `effect description object`. `redux-saga` will creata the effect, get result back to you via the return value of the `yield operator` and resume your `saga`'s execution. More info on this can be found from [ManageableComponentOptions.saga](../../../api/AppContainer.md#manageablecomponentoptions)
 
 When your `saga` is run, an `effects` parameter is passed to your `saga` contains a list of `effect creator functions`. You can use the provided `effect creator functions` to create effects.
 
@@ -206,7 +206,7 @@ const mainSaga = function*(effects) {
 
 
 
-In the end, you can add the `saga` into your `Component Container` via `AppContainerUtils.registerComponent` method's [ManageableComponentOptions.saga option](/docs/api/AppContainer.md#manageablecomponentoptions)
+In the end, you can add the `saga` into your `Component Container` via `AppContainerUtils.registerComponent` method's [ManageableComponentOptions.saga option](../../../api/AppContainer.md#manageablecomponentoptions)
 
 ```javascript
 import React from "react";
@@ -241,4 +241,4 @@ export default RandomGif;
 
 If you run the app via `npm start`, you will find that once click the `Get Gif` button, a GIF image is shown in the display area.
 
-![RandomGifSec3.4](/docs/assets/BeginnerTutorial/RandomGifSec3.4.png)
+![RandomGifSec3.4](../../../assets/BeginnerTutorial/RandomGifSec3.4.png)

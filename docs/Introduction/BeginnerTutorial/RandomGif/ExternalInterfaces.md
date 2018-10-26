@@ -33,7 +33,7 @@ this.componentManager = AppContainerUtils.registerComponent(this, {
 
 If you want your component to accept any actions, you can set `allowedIncomingMulticastActionTypes` to `"*"`.
 
-> You should avoid setting `allowedIncomingMulticastActionTypes` to `"*"` unless you tried to create a `forwarder` type component. One example is the [ToggleButton](/examples/ToggleButton)
+> You should avoid setting `allowedIncomingMulticastActionTypes` to `"*"` unless you tried to create a `forwarder` type component. One example is the [ToggleButton](https://github.com/t83714/fractal-component/tree/master/examples/ToggleButton)
 
 ##### 3.6.1.2 `Outgoing External Actions`
 
@@ -173,7 +173,7 @@ RandomGif.defaultProps = {
 };
 ```
 
-> Component users generally don't need to set `appContainer` to explicitly provide `AppContainer` instance to the component as `AppContainerUtils` will auto-create an `appContainer` and reuse it if `AppContainerUtils` can't find a `appContainer` at [various places](/docs/api/AppContainerUtils.md#appcontainerutilsgetappcontainer)
+> Component users generally don't need to set `appContainer` to explicitly provide `AppContainer` instance to the component as `AppContainerUtils` will auto-create an `appContainer` and reuse it if `AppContainerUtils` can't find a `appContainer` at [various places](../../../api/AppContainerUtils.md#appcontainerutilsgetappcontainer)
 
 > Besides the component properties defined above, users can always set `namespacePrefix` property to set the `namespace prefix` of the component.
 

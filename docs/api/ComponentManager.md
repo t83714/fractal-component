@@ -9,7 +9,7 @@
 
 ### Overview
 
-An instance of `ComponentManager` will be created when register a `React Class Component` to `AppContainer` via [AppContainerUtils.registerComponent](/docs/api/AppContainerUtils.md#appcontainerutilsregistercomponent) or [AppContainer.registerComponent](/docs/api/AppContainer.md#registercomponent). You will also get the ref to the newly created `ComponentManager` instance when calls any of the two `registerComponent` methods above.
+An instance of `ComponentManager` will be created when register a `React Class Component` to `AppContainer` via [AppContainerUtils.registerComponent](./AppContainerUtils.md#appcontainerutilsregistercomponent) or [AppContainer.registerComponent](./AppContainer.md#registercomponent). You will also get the ref to the newly created `ComponentManager` instance when calls any of the two `registerComponent` methods above.
 
 You can use this ref to access current namespace information (e.g. `Full Namespace Path` etc.) or dispatch namespaced actions.
 
@@ -62,7 +62,7 @@ class RandomGif extends React.Component {
 export default RandomGif;
 ```
 
-In `saga`, you should use provided `put` `effects` to dispatch namespaced actions. See [AppContainer / ManageableComponentOptions / saga](/docs/api/AppContainer.md#manageablecomponentoptions).
+In `saga`, you should use provided `put` `effects` to dispatch namespaced actions. See [AppContainer / ManageableComponentOptions / saga](./AppContainer.md#manageablecomponentoptions).
 
 ### `getNamespaceData()`
 
@@ -76,7 +76,7 @@ getNamespaceData(): any;
 
 One common use case of store `namespace` level data is to create / store JSS stylesheet only once and retrieve this stylesheet from all component instances.
 
-See [AppContainer / ManageableComponentOptions / namespaceInitCallback](/docs/api/AppContainer.md#manageablecomponentoptions).
+See [AppContainer / ManageableComponentOptions / namespaceInitCallback](./AppContainer.md#manageablecomponentoptions).
 
 ### `createClassNameGenerator()`
 

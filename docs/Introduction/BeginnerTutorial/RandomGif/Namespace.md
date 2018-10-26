@@ -24,7 +24,7 @@ The `namespace` system in `fractal-component` is similar to file system path. It
 
 All registered (in an `AppContainer`) components' `Full Namespace Paths`   forms a `Namespace Tree`. Below is an example of the `Namespace Tree` structure:
 
-![Namespace Tree structure diagram](/docs/assets/NamespaceTree.png)
+![Namespace Tree structure diagram](../../../assets/NamespaceTree.png)
 
 The `namespace` of the containers included in the diagram are:
 - Component Container A:
@@ -49,5 +49,5 @@ Then, the actual action dispatch namespace node would be `ExampleApp/GifPair` in
 If the `relativeDispatchPath` is specified as `../../../*`, the action is a `multicast` action. For `multicast` actions, all lower levels namespace nodes will receive the actions. i.e. `multicast` actions will always be sent `down` the `Namespace Tree`. In this case, Container A & Container B will receive the `multicast` action as they are lower level nodes of dispatch point `ExampleApp/GifPair`. Container C won't receive the actions.
 
 There are two ways to dispatch namespaced actions in component:
-- In component namespaced `saga`, you will need to `yield` a `take` `effect`. See [AppContainer / ManageableComponentOptions / saga / take](/docs/api/AppContainer.md#manageablecomponentoptions)
-- Outside `saga`, you can call [dispatch](/docs/api/ComponentManager.md#dispatch) method of `ComponentManager`. 
+- In component namespaced `saga`, you will need to `yield` a `take` `effect`. See [AppContainer / ManageableComponentOptions / saga / take](../../../api/AppContainer.md#manageablecomponentoptions)
+- Outside `saga`, you can call [dispatch](../../../api/ComponentManager.md#dispatch) method of `ComponentManager`. 

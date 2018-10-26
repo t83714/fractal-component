@@ -36,13 +36,13 @@ const appContainer = new AppContainer({
 ```
 
 The constructor accepts the configOptions objects with the following options:
-- `initState`: Optional; You can supply an object as the initial state data for the Redux store. This option is mainly used for `Server-Side Rendering` (SSR) --- when you want to restore the application state at client side from a Redux store snapshot (see [example app](/examples/exampleAppSSR)).
+- `initState`: Optional; You can supply an object as the initial state data for the Redux store. This option is mainly used for `Server-Side Rendering` (SSR) --- when you want to restore the application state at client side from a Redux store snapshot (see [example app](https://github.com/t83714/fractal-component/tree/master/examples/exampleAppSSR)).
 - `reducer`: Optional; You can opt to supply a global [reducer](https://redux.js.org/basics/reducers) function that will be called after all component reducers. You highly unlikely need this as you can share always pack your global level logic into a `container`.
 - `middlewares`: Optional; You can supply extra [Redux middlewares](https://redux.js.org/advanced/middleware) to be used by the `Redux store` created by `AppContainer`.
 - `reduxDevToolsDevOnly`: Optional; Boolean; Default: `true`. Indicate whether [Redux DevTools](https://github.com/zalmoxisus/redux-devtools-extension) is allowed to connect to your App under `development` mode only. Set to `false` will allow your App to be connected under `production` mode as well.
 - `devToolOptions`: Optional; You can further config the [Redux DevTools](https://github.com/zalmoxisus/redux-devtools-extension) that connects to your App via this option. More information of all available config options can be found from [here](https://github.com/zalmoxisus/redux-devtools-extension/blob/master/docs/API/Arguments.md)
 - `sagaMiddlewareOptions`: Optional; You can specify the options of the `Saga Middleware` that is created for connecting the `Sagas` to the `Redux Store`. More information of all available config options can be found from [here](https://redux-saga.js.org/docs/api/#createsagamiddlewareoptions)
-- `isServerSideRendering`: Optional; Boolean; Default: `false`. When run your app at server side for `Server-Side Rendering` (SSR), you will set this option to `true`(see [example app](/examples/exampleAppSSR)).
+- `isServerSideRendering`: Optional; Boolean; Default: `false`. When run your app at server side for `Server-Side Rendering` (SSR), you will set this option to `true`(see [example app](https://github.com/t83714/fractal-component/tree/master/examples/exampleAppSSR)).
 
 #### `AppContainerUtils.createAppContainer()`
 
@@ -73,7 +73,7 @@ You likely will not call this method directly. Instead, you may want to use stat
 
 - Current `React Component` `this.props.appContainer` (It's configurable via `AppContainerUtils.updateAppContainerRetrieveKey()`)
 - Current `React Component` `this.context.appContainer`
-- Previous created `AppContainer` via [`AppContainerUtils.createAppContainer()`](/docs/api/AppContainerUtils.md#appcontainerutilscreateappcontainer) call.
+- Previous created `AppContainer` via [`AppContainerUtils.createAppContainer()`](./AppContainerUtils.md#appcontainerutilscreateappcontainer) call.
 - If can't find, it will auto create (using `AppContainerUtils.createAppContainer()`) a new `AppContainer` with default options.
 
 
@@ -110,7 +110,7 @@ The `effect creator` functions provided by `effects` parameter provide the same 
   - `take(pattern)`
     - Take an action action with certain [pattern](https://github.com/redux-saga/redux-saga/tree/v1.0.0-beta.2/docs/api#takepattern).
   - `put(action: Action, relativeDispatchPath: string)`
-    - Dispatch an action. The action is, by default, considered as dispatched from the component `Full namespace path`. You can supply an optional `relativeDispatchPath` parameter to alter the default dispatch position on the [Namespace Tree](/docs/Introduction/BeginnerTutorial.md#321-namespace-tree-action-dispatch).
+    - Dispatch an action. The action is, by default, considered as dispatched from the component `Full namespace path`. You can supply an optional `relativeDispatchPath` parameter to alter the default dispatch position on the [Namespace Tree](../Introduction/BeginnerTutorial/RandomGif/Namespace.md#321-namespace-tree--action-dispatch).
   - `select(selector?: (state: any, ...args: any[]) => any, ...args: any[])`
     - Get current state in store and return it or return the result an optional selector function involved on it.
   - `takeEvery(pattern, childSaga, ...args: any[])`
@@ -217,7 +217,7 @@ waitForActionsUntil(
 ): Promise<void>;
 ```
 
-An utility mainly designed for Server-Side Rendering (SSR). see [example app](/examples/exampleAppSSR)
+An utility mainly designed for Server-Side Rendering (SSR). see [example app](https://github.com/t83714/fractal-component/tree/master/examples/exampleAppSSR)
 
 #### `dispatch`
 
@@ -227,4 +227,4 @@ The method's type declaration is shown as below:
 dispatch(action: Action, relativeDispatchPath?: string): Action;
 ```
 
-This method is mainly used for Server-Side Rendering (SSR). i.e. Send out actions (if necessary) to trigger initial data loading. You shouldn't need it for implmenting any logic. see [example app](/examples/exampleAppSSR)
+This method is mainly used for Server-Side Rendering (SSR). i.e. Send out actions (if necessary) to trigger initial data loading. You shouldn't need it for implmenting any logic. see [example app](https://github.com/t83714/fractal-component/tree/master/examples/exampleAppSSR)

@@ -64,9 +64,9 @@ We can't simply copy those into our component's `index.js` as we want to make su
     -  No matter how many component instances are mounted. Styles are only compile when the first instance are mounted.
 - Styles are removed from browser only after all instances of the component are unmounted.
 
-To achieve that, we can use the `Component Namespace Data` & `Component Namespace Life Cycle Callback` feature of `fractal-component`. When we register our React Component using [AppContainerUtils.registerComponent](/docs/api/AppContainerUtils.md#appcontainerutilsregistercomponent) method, we can opt to register `namespaceInitCallback` & `namespaceDestroyCallback` through [ManageableComponentOptions](/docs/api/AppContainer.md#manageablecomponentoptions).
+To achieve that, we can use the `Component Namespace Data` & `Component Namespace Life Cycle Callback` feature of `fractal-component`. When we register our React Component using [AppContainerUtils.registerComponent](../../../api/AppContainerUtils.md#appcontainerutilsregistercomponent) method, we can opt to register `namespaceInitCallback` & `namespaceDestroyCallback` through [ManageableComponentOptions](../../../api/AppContainer.md#manageablecomponentoptions).
 
-- `namespaceInitCallback`: this callback will only be called once when `Component Namespace` `io.github.t83714/RandomGif` has just been created (it's also the time when the first instance of the registered React Component is mounted). Moreover, any value you return from this callback will be kept as `Component Namespace Data` and can be retrieved anytime before the namespace is destroyed using [ComponentManager.getNamespaceData()](/docs/api/ComponentManager.md) method.
+- `namespaceInitCallback`: this callback will only be called once when `Component Namespace` `io.github.t83714/RandomGif` has just been created (it's also the time when the first instance of the registered React Component is mounted). Moreover, any value you return from this callback will be kept as `Component Namespace Data` and can be retrieved anytime before the namespace is destroyed using [ComponentManager.getNamespaceData()](../../../api/ComponentManager.md) method.
 - `namespaceDestroyCallback`: this callback will only be called once after `Component Namespace` `io.github.t83714/RandomGif` is destroyed (it's also the time when the last instance of the the registered React Component is unmounted). You will receive the `Component Namespace Data` as the only parameter of the callback function.
 
 To setup the stylesheet for our component, we can modify `src/RandomGif/index.js` to the followings:
@@ -174,4 +174,4 @@ render() {
 
 If you run the app via `npm start`, you will find that the component now comes with styles as shown below:
 
-![RandomGifSec3.5](/docs/assets/BeginnerTutorial/RandomGifSec3.5.png)
+![RandomGifSec3.5](../../../assets/BeginnerTutorial/RandomGifSec3.5.png)

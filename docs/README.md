@@ -1,23 +1,21 @@
 ## Table of Contents
 
-- [Read Me](/README.md)
-- Introduction
-  - [Beginner Tutorial](./Introduction/BeginnerTutorial/README.md)
+- [Beginner Tutorial](./Introduction/BeginnerTutorial/README.md)
     - [1. Overview](./Introduction/BeginnerTutorial/Overview.md)
-    - [2. InitialSetup](/docs/Introduction/BeginnerTutorial/InitialSetup.md)
-    - [3. RandomGif](/docs/Introduction/BeginnerTutorial/RandomGif)
-        - [3.1 Get Started](/docs/Introduction/BeginnerTutorial/RandomGif/GetStarted.md)
-        - [3.2 Namespace](/docs/Introduction/BeginnerTutorial/RandomGif/Namespace.md)
-        - [3.3 A simple Switch / Namespaced State](/docs/Introduction/BeginnerTutorial/RandomGif/NamespacedState.md)
-        - [3.4 Request GIF / Namespaced Saga](/docs/Introduction/BeginnerTutorial/RandomGif/NamespacedSaga.md)
-        - [3.5 Styling / Component Namespace Data](/docs/Introduction/BeginnerTutorial/RandomGif/ComponentNamespaceData.md)
-        - [3.6 Encapsulation & External Interfaces](/docs/Introduction/BeginnerTutorial/RandomGif/ExternalInterfaces.md)
-    - [4. RandomGifPair](/docs/Introduction/BeginnerTutorial/RandomGifPair)
-        - [4.1 Get Started](/docs/Introduction/BeginnerTutorial/RandomGifPair/GetStarted.md)
-        - [4.2 Incoming / Outgoing Actions](/docs/Introduction/BeginnerTutorial/RandomGifPair/IncomingOutgoingActions.md)
-    - [5. Conclusion](/docs/Introduction/BeginnerTutorial/Conclusion.md)
+    - [2. InitialSetup](./Introduction/BeginnerTutorial/InitialSetup.md)
+    - [3. RandomGif](./Introduction/BeginnerTutorial/RandomGif/README.md)
+        - [3.1 Get Started](./Introduction/BeginnerTutorial/RandomGif/GetStarted.md)
+        - [3.2 Namespace](./Introduction/BeginnerTutorial/RandomGif/Namespace.md)
+        - [3.3 A simple Switch / Namespaced State](./Introduction/BeginnerTutorial/RandomGif/NamespacedState.md)
+        - [3.4 Request GIF / Namespaced Saga](./Introduction/BeginnerTutorial/RandomGif/NamespacedSaga.md)
+        - [3.5 Styling / Component Namespace Data](./Introduction/BeginnerTutorial/RandomGif/ComponentNamespaceData.md)
+        - [3.6 Encapsulation & External Interfaces](./Introduction/BeginnerTutorial/RandomGif/ExternalInterfaces.md)
+    - [4. RandomGifPair](./Introduction/BeginnerTutorial/RandomGifPair/README.md)
+        - [4.1 Get Started](./Introduction/BeginnerTutorial/RandomGifPair/GetStarted.md)
+        - [4.2 Incoming / Outgoing Actions](./Introduction/BeginnerTutorial/RandomGifPair/IncomingOutgoingActions.md)
+    - [5. Conclusion](./Introduction/BeginnerTutorial/Conclusion.md)
 - Basic Concepts
-  - [Recommended Component Structure](/docs/BasicConcepts/RecommendedStructure.md)
+  - [Recommended Component Structure](./BasicConcepts/RecommendedStructure.md)
   - Component Namespace
   - Action Dispatch Tree
   - Symbol Action Type
@@ -28,9 +26,9 @@
 - Advanced Concepts
   - ActionForwarder
   - SagaMonitor
-- [API Reference](/docs/api/README.md)
-  - [AppContainer](/docs/api/AppContainer.md)
-  - [AppContainerUtils](/docs/api/AppContainerUtils.md)
-  - [ComponentManager](/docs/api/ComponentManager.md)
-  - [ActionForwarder](/docs/api/ActionForwarder.md)
+- [API Reference](./api/README.md)
+  - [AppContainer](./api/AppContainer.md)
+  - [AppContainerUtils](./api/AppContainerUtils.md)
+  - [ComponentManager](./api/ComponentManager.md)
+  - [ActionForwarder](./api/ActionForwarder.md)
   - utils

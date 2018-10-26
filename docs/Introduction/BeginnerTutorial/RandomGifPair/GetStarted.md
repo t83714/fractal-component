@@ -119,7 +119,7 @@ In `index.js`, we imported component `RandomGif` and configure it as:
 ```
 Here, we set `namespacePrefix` to `${this.componentManager.fullPath}/Gifs` so that the namespace path of `RandomGif` components included by our new `RandomGifPair` will be always under `RandomGifPair`'s namespace path. The actual `Namespace Tree` structure is shown as below:
 
-![NamespaceTreeRandomGifPair](../assets/BeginnerTutorial/NamespaceTreeRandomGifPair.png)
+![NamespaceTreeRandomGifPair](../../../assets/BeginnerTutorial/NamespaceTreeRandomGifPair.png)
 
 From the `Namespace Tree` structure, we can tell that to send multicast actions to both `RandomGif` components, we just need to dispatch to `relativeDispatchPath`: `./Gifs/*`. Thus, in `index.js`, we use the following code to dispatch `REQUEST_NEW_GIF` actions to `RandomGif` components when the button is clicked:
 ```javascript

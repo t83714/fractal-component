@@ -24,7 +24,7 @@ A typical structure of Container Components created by `fractal-component` is il
 
 ![Typical Container Container Component Structure Diagram](https://raw.githubusercontent.com/t83714/fractal-component/master/docs/assets/container-structure.png)
 
-To try it out, take a look at the [example apps](examples) and find out how `fractal-component` solves the classical [Scalable Architecture Problem](https://github.com/slorber/scalable-frontend-with-elm-or-redux).
+To try it out, take a look at the [example apps](https://github.com/t83714/fractal-component/tree/master/examples) and find out how `fractal-component` solves the classical [Scalable Architecture Problem](https://github.com/slorber/scalable-frontend-with-elm-or-redux).
 
 ## Install
 

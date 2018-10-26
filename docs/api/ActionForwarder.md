@@ -75,7 +75,7 @@ Here is an example of typical usage of `ActionForwarder`:
 </div>
 ```
 
-The full example can be found from [here](/examples/exampleApp).
+The full example can be found from [here](https://github.com/t83714/fractal-component/tree/master/examples/exampleApp).
 
 ### 2. Key Properties
 
@@ -83,7 +83,7 @@ The `ActionForwarder`'s functionalities can be configured by its React Component
 
 #### 2.1 `namespacePrefix`
 
-You can adjust `ActionForwarder`'s `Full Namespace Path` via this properties to make sure the interested actions can reach your `ActionForwarder`. More info on component namespace can be found from [here](/docs/Introduction/BeginnerTutorial/RandomGif/Namespace.md).
+You can adjust `ActionForwarder`'s `Full Namespace Path` via this properties to make sure the interested actions can reach your `ActionForwarder`. More info on component namespace can be found from [here](../Introduction/BeginnerTutorial/RandomGif/Namespace.md).
 
 #### 2.2 `pattern`
 
