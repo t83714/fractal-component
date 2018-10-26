@@ -1,0 +1,7 @@
+{
+    "root" : "./",
+    "structure" : {
+        "readme" : "intro.md",
+        "summary" : "README.md"
+    }
+}
