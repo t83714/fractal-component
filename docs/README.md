@@ -2,8 +2,8 @@
 
 - [Read Me](/README.md)
 - Introduction
-  - [Beginner Tutorial](/docs/Introduction/BeginnerTutorial)
-    - [1. Overview](/docs/Introduction/BeginnerTutorial/Overview.md)
+  - [Beginner Tutorial](./Introduction/BeginnerTutorial/README.md)
+    - [1. Overview](./Introduction/BeginnerTutorial/Overview.md)
     - [2. InitialSetup](/docs/Introduction/BeginnerTutorial/InitialSetup.md)
     - [3. RandomGif](/docs/Introduction/BeginnerTutorial/RandomGif)
         - [3.1 Get Started](/docs/Introduction/BeginnerTutorial/RandomGif/GetStarted.md)
