@@ -42,7 +42,7 @@
     "reducer hot loading",
     "saga hot loading"
   ],
-  "homepage": "https://github.com/t83714/fractal-component",
+  "homepage": "https://t83714.github.io/fractal-component/",
   "author": "Jacky Jiang <t83714@gmail.com>",
   "license": "MIT",
   "private": true,

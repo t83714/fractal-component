@@ -14,7 +14,7 @@
   "bugs": {
     "url": "https://github.com/t83714/fractal-component/issues"
   },
-  "homepage": "https://github.com/t83714/fractal-component",
+  "homepage": "https://t83714.github.io/fractal-component/",
   "dependencies": {
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
