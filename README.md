@@ -1,5 +1,6 @@
 # fractal-component
 
+[![GitHub stars](https://img.shields.io/github/stars/t83714/fractal-component.svg?style=social&label=Star&maxAge=2592000)](https://github.com/t83714/fractal-component)
 [![npm version](https://img.shields.io/npm/v/fractal-component.svg)](https://www.npmjs.com/package/fractal-component)
 [![unpkg](https://img.shields.io/badge/unpkg-latest-blue.svg)](https://unpkg.com/fractal-component)
 [![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/fractal-component.svg)](https://bundlephobia.com/result?p=fractal-component)
