@@ -1,0 +1,792 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>3.3 A simple Switch / Namespaced State · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="NamespacedSaga.html" />
+    
+    
+    <link rel="prev" href="Namespace.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">Table of Contents</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../../">
+            
+                <a href="../../../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Beginner Tutorial
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../Overview.html">
+            
+                <a href="../Overview.html">
+            
+                    
+                    1. Overview
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../InitialSetup.html">
+            
+                <a href="../InitialSetup.html">
+            
+                    
+                    2. InitialSetup
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    3. RandomGif
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.3.1" data-path="GetStarted.html">
+            
+                <a href="GetStarted.html">
+            
+                    
+                    3.1 Get Started
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.2" data-path="Namespace.html">
+            
+                <a href="Namespace.html">
+            
+                    
+                    3.2 Namespace
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.2.3.3" data-path="NamespacedState.html">
+            
+                <a href="NamespacedState.html">
+            
+                    
+                    3.3 A simple Switch / Namespaced State
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.4" data-path="NamespacedSaga.html">
+            
+                <a href="NamespacedSaga.html">
+            
+                    
+                    3.4 Request GIF / Namespaced Saga
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.5" data-path="ComponentNamespaceData.html">
+            
+                <a href="ComponentNamespaceData.html">
+            
+                    
+                    3.5 Styling / Component Namespace Data
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.6" data-path="ExternalInterfaces.html">
+            
+                <a href="ExternalInterfaces.html">
+            
+                    
+                    3.6 Encapsulation & External Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="../RandomGifPair/">
+            
+                <a href="../RandomGifPair/">
+            
+                    
+                    4. RandomGifPair
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.4.1" data-path="../RandomGifPair/GetStarted.html">
+            
+                <a href="../RandomGifPair/GetStarted.html">
+            
+                    
+                    4.1 Get Started
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.2" data-path="../RandomGifPair/IncomingOutgoingActions.html">
+            
+                <a href="../RandomGifPair/IncomingOutgoingActions.html">
+            
+                    
+                    4.2 Incoming / Outgoing Actions
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" data-path="../Conclusion.html">
+            
+                <a href="../Conclusion.html">
+            
+                    
+                    5. Conclusion
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" >
+            
+                <span>
+            
+                    
+                    Basic Concepts
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../../../BasicConcepts/RecommendedStructure.html">
+            
+                <a href="../../../BasicConcepts/RecommendedStructure.html">
+            
+                    
+                    Recommended Component Structure
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" >
+            
+                <span>
+            
+                    
+                    Component Namespace
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" >
+            
+                <span>
+            
+                    
+                    Action Dispatch Tree
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" >
+            
+                <span>
+            
+                    
+                    Symbol Action Type
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" >
+            
+                <span>
+            
+                    
+                    Component State
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" >
+            
+                <span>
+            
+                    
+                    Component Reducer
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" >
+            
+                <span>
+            
+                    
+                    Component Saga
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" >
+            
+                <span>
+            
+                    
+                    Component Styling
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" >
+            
+                <span>
+            
+                    
+                    Advanced Concepts
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" >
+            
+                <span>
+            
+                    
+                    ActionForwarder
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" >
+            
+                <span>
+            
+                    
+                    SagaMonitor
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../../../api/">
+            
+                <a href="../../../api/">
+            
+                    
+                    API Reference
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../../../api/AppContainer.html">
+            
+                <a href="../../../api/AppContainer.html">
+            
+                    
+                    AppContainer
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../../../api/AppContainerUtils.html">
+            
+                <a href="../../../api/AppContainerUtils.html">
+            
+                    
+                    AppContainerUtils
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../../../api/ComponentManager.html">
+            
+                <a href="../../../api/ComponentManager.html">
+            
+                    
+                    ComponentManager
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../../../api/ActionForwarder.html">
+            
+                <a href="../../../api/ActionForwarder.html">
+            
+                    
+                    ActionForwarder
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" >
+            
+                <span>
+            
+                    
+                    utils
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../../.." >3.3 A simple Switch / Namespaced State</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h3 id="33-a-simple-switch--namespaced-state">3.3 A simple Switch / Namespaced State</h3>
+<p>Next, let&apos;s add a simple switch function to our <code>RandomGif</code> component. It&apos;s not part of required functionalities of our <code>RandomGif</code> component. However, implemnt this simple function will help us to understand the some basics that <code>fractal-component</code> brought to the component state management area.</p>
+<p>Firstly, we want to modify <code>src/RandomGif/index.js</code> to add a <code>switch</code> button &amp; initialise component state:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;react&quot;</span>;
+<span class="hljs-keyword">import</span> { AppContainerUtils } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;fractal-component&quot;</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RandomGif</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+    <span class="hljs-keyword">constructor</span>(props) {
+        <span class="hljs-keyword">super</span>(props);
+        <span class="hljs-comment">// --- Component state need to be initialised</span>
+        <span class="hljs-comment">// --- before `registerComponent` method call</span>
+        <span class="hljs-keyword">this</span>.state = {
+            isSwitchOn: <span class="hljs-literal">false</span>
+        };
+        <span class="hljs-keyword">this</span>.componentManager = AppContainerUtils.registerComponent(<span class="hljs-keyword">this</span>, {
+            namespace: <span class="hljs-string">&quot;io.github.t83714/RandomGif&quot;</span>
+        });
+    }
+
+    render() {
+        <span class="hljs-keyword">return</span> (
+            <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =&gt;</span> {}}&gt;
+                {this.state.isSwitchOn ? &quot;Switch ON&quot; : &quot;Switch OFF&quot;}
+            <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span>
+        );
+    }
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> RandomGif;
+</code></pre>
+<p>To make the button clickable and display correct status (<code>Switch ON</code> or <code>Switch OFF</code>), we just need to mutate component state <code>this.state</code> and make sure <code>this.state.isSwitchOn</code> has been set correct value (<code>true</code> or <code>false</code>) when the button is clicked.</p>
+<p>In a React Component, to achieve that, we usually can mutate <code>this.state</code> by calling <code>this.setState</code> method. However, for a <code>ComponentManager</code> managed component, we cannot do that because <code>this.state</code> is actually managed by the <code>ComponentManager</code> and it&apos;s part of <a href="https://redux.js.org/basics/store" target="_blank">global application Redux state store</a>. In fact, if you try to call <code>this.setState</code> in a managed component, you will get an Error:</p>
+<blockquote>
+<p>Error: This component is managed by <code>fractal-component</code>. You should dispatch action to mutate component state.</p>
+</blockquote>
+<p>i.e. If you want to mutate the component state <code>this.state</code>, you should trigger an action and mutate the component state in a <code>namespaced</code> component <a href="https://redux.js.org/basics/reducers" target="_blank">reducer</a>. You can provide this reducer when call <a href="../../../api/AppContainerUtils.html#appcontainerutilsregistercomponent">AppContainerUtils.registerComponent</a> method.</p>
+<p>Next, you need to define the <a href="https://redux.js.org/basics/actions" target="_blank">Action</a> before we can dispatch the action in <code>onClick</code> event handler of our switch button. To do so, we need to create a file <code>src/RandomGif/actions/types.js</code> with the <code>Action Type</code> definition:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> CLICK = <span class="hljs-built_in">Symbol</span>(<span class="hljs-string">&quot;CLICK&quot;</span>);
+</code></pre>
+<p>Here, <code>fractal-component</code>&apos;s action dispatch system requires all action types are <a href="http://2ality.com/2014/12/es6-symbols.html" target="_blank">Symbols</a>. A Redux App usually won&apos;t define <code>Action Type</code> as <code>Symbols</code> as they are not serialisable and you will need to serialise <code>Actions</code> when you try to implement <a href="https://www.ibm.com/developerworks/library/wa-manage-state-with-redux-p4-david-geary/index.html#N10076" target="_blank">Time Travel</a> alike features in your app. However, <code>fractal-component</code> has sovled this by providing an <code>Action</code> serialisation / de-serialisation solution via its <code>ActionRegistry</code>. See <a href="../../../api/AppContainerUtils.html#appcontainerutilsserialiseaction">AppContainerUtils.serialiseAction</a> &amp; <a href="../../../api/AppContainerUtils.html#appcontainerutilsdeserialiseaction">AppContainerUtils.deserialiseAction</a> for more info.</p>
+<p>Next, create a file <code>src/RandomGif/actions/index.js</code> with all action creator function definitions for your component:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> actionTypes <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./types&quot;</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">click</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">return</span> {
+        type: actionTypes.CLICK
+    };
+}
+</code></pre>
+<p>Then, we will need to create our <code>reducer</code> in <code>src/RandomGif/reducers/index.js</code>:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> actionTypes <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../actions/types&quot;</span>;
+
+<span class="hljs-keyword">const</span> reducer = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">state, action</span>) </span>{
+    <span class="hljs-keyword">switch</span> (action.type) {
+        <span class="hljs-keyword">case</span> actionTypes.CLICK:
+            <span class="hljs-keyword">return</span> {
+                ...state,
+                isSwitchOn: state.isSwitchOn ? <span class="hljs-literal">false</span> : <span class="hljs-literal">true</span>
+            };
+        <span class="hljs-keyword">default</span>:
+            <span class="hljs-keyword">return</span> state;
+    }
+};
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> reducer;
+</code></pre>
+<p>You probably have noticed that the reducer is a <code>namespaced</code> reducer. i.e. </p>
+<ul>
+<li>It only receives the actions that the component receives.</li>
+<li>It only sees the component state <code>this.state</code>.</li>
+</ul>
+<p>We now can complete our <code>switch button</code> feature by importing everything above into <code>src/RandomGif/index.js</code>:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;react&quot;</span>;
+<span class="hljs-keyword">import</span> { AppContainerUtils } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;fractal-component&quot;</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> actionTypes <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./actions/types&quot;</span>;
+<span class="hljs-keyword">import</span> reducer <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./reducers&quot;</span>;
+<span class="hljs-keyword">import</span> { click } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./actions&quot;</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RandomGif</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+    <span class="hljs-keyword">constructor</span>(props) {
+        <span class="hljs-keyword">super</span>(props);
+        <span class="hljs-keyword">this</span>.state = {
+            isSwitchOn: <span class="hljs-literal">false</span>
+        };
+        <span class="hljs-keyword">this</span>.componentManager = AppContainerUtils.registerComponent(<span class="hljs-keyword">this</span>, {
+            namespace: <span class="hljs-string">&quot;io.github.t83714/RandomGif&quot;</span>,
+            <span class="hljs-comment">// --- register all action types so that actions are serialisable</span>
+            actionTypes,
+            reducer
+        });
+    }
+
+    render() {
+        <span class="hljs-keyword">return</span> (
+            <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =&gt;</span> {
+                this.componentManager.dispatch(click());
+            }}&gt;
+                {this.state.isSwitchOn ? &quot;Switch ON&quot; : &quot;Switch OFF&quot;}
+            <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span>
+        );
+    }
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> RandomGif;
+</code></pre>
+<blockquote>
+<p>Please note: In order to make your component actions serialisable, you need to register all your component action types via <code>AppContainerUtils.registerComponent</code> method&apos;s <a href="../../../api/AppContainer.html#manageablecomponentoptions">ManageableComponentOptions.actionTypes</a></p>
+</blockquote>
+<p>If you run the app via <code>npm start</code>, you will find the button text will reflects the <code>switch status</code> along your clicks. You can open the <a href="https://github.com/zalmoxisus/redux-devtools-extension" target="_blank">Redux Devtool</a> to observe the component state changes.</p>
+<p><img src="../../../assets/BeginnerTutorial/devtoolSec3.3.png" alt="Redux DevTool"></p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="Namespace.html" class="navigation navigation-prev " aria-label="Previous page: 3.2 Namespace">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="NamespacedSaga.html" class="navigation navigation-next " aria-label="Next page: 3.4 Request GIF / Namespaced Saga">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"3.3 A simple Switch / Namespaced State","level":"1.2.3.3","depth":3,"next":{"title":"3.4 Request GIF / Namespaced Saga","level":"1.2.3.4","depth":3,"path":"Introduction/BeginnerTutorial/RandomGif/NamespacedSaga.md","ref":"./Introduction/BeginnerTutorial/RandomGif/NamespacedSaga.md","articles":[]},"previous":{"title":"3.2 Namespace","level":"1.2.3.2","depth":3,"path":"Introduction/BeginnerTutorial/RandomGif/Namespace.md","ref":"./Introduction/BeginnerTutorial/RandomGif/Namespace.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"root":"./","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"intro.md","glossary":"GLOSSARY.md","summary":"README.md"},"variables":{},"gitbook":"*"},"file":{"path":"Introduction/BeginnerTutorial/RandomGif/NamespacedState.md","mtime":"2018-10-26T13:07:27.749Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-26T13:57:49.768Z"},"basePath":"../../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../../gitbook/gitbook.js"></script>
+    <script src="../../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

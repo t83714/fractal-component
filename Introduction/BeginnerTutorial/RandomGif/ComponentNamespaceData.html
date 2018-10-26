@@ -1,0 +1,848 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>3.5 Styling / Component Namespace Data · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="ExternalInterfaces.html" />
+    
+    
+    <link rel="prev" href="NamespacedSaga.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">Table of Contents</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../../">
+            
+                <a href="../../../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Beginner Tutorial
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../Overview.html">
+            
+                <a href="../Overview.html">
+            
+                    
+                    1. Overview
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../InitialSetup.html">
+            
+                <a href="../InitialSetup.html">
+            
+                    
+                    2. InitialSetup
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    3. RandomGif
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.3.1" data-path="GetStarted.html">
+            
+                <a href="GetStarted.html">
+            
+                    
+                    3.1 Get Started
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.2" data-path="Namespace.html">
+            
+                <a href="Namespace.html">
+            
+                    
+                    3.2 Namespace
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.3" data-path="NamespacedState.html">
+            
+                <a href="NamespacedState.html">
+            
+                    
+                    3.3 A simple Switch / Namespaced State
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.4" data-path="NamespacedSaga.html">
+            
+                <a href="NamespacedSaga.html">
+            
+                    
+                    3.4 Request GIF / Namespaced Saga
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.2.3.5" data-path="ComponentNamespaceData.html">
+            
+                <a href="ComponentNamespaceData.html">
+            
+                    
+                    3.5 Styling / Component Namespace Data
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.6" data-path="ExternalInterfaces.html">
+            
+                <a href="ExternalInterfaces.html">
+            
+                    
+                    3.6 Encapsulation & External Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="../RandomGifPair/">
+            
+                <a href="../RandomGifPair/">
+            
+                    
+                    4. RandomGifPair
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.4.1" data-path="../RandomGifPair/GetStarted.html">
+            
+                <a href="../RandomGifPair/GetStarted.html">
+            
+                    
+                    4.1 Get Started
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.2" data-path="../RandomGifPair/IncomingOutgoingActions.html">
+            
+                <a href="../RandomGifPair/IncomingOutgoingActions.html">
+            
+                    
+                    4.2 Incoming / Outgoing Actions
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" data-path="../Conclusion.html">
+            
+                <a href="../Conclusion.html">
+            
+                    
+                    5. Conclusion
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" >
+            
+                <span>
+            
+                    
+                    Basic Concepts
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../../../BasicConcepts/RecommendedStructure.html">
+            
+                <a href="../../../BasicConcepts/RecommendedStructure.html">
+            
+                    
+                    Recommended Component Structure
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" >
+            
+                <span>
+            
+                    
+                    Component Namespace
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" >
+            
+                <span>
+            
+                    
+                    Action Dispatch Tree
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" >
+            
+                <span>
+            
+                    
+                    Symbol Action Type
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" >
+            
+                <span>
+            
+                    
+                    Component State
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" >
+            
+                <span>
+            
+                    
+                    Component Reducer
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" >
+            
+                <span>
+            
+                    
+                    Component Saga
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" >
+            
+                <span>
+            
+                    
+                    Component Styling
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" >
+            
+                <span>
+            
+                    
+                    Advanced Concepts
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" >
+            
+                <span>
+            
+                    
+                    ActionForwarder
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" >
+            
+                <span>
+            
+                    
+                    SagaMonitor
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../../../api/">
+            
+                <a href="../../../api/">
+            
+                    
+                    API Reference
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../../../api/AppContainer.html">
+            
+                <a href="../../../api/AppContainer.html">
+            
+                    
+                    AppContainer
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../../../api/AppContainerUtils.html">
+            
+                <a href="../../../api/AppContainerUtils.html">
+            
+                    
+                    AppContainerUtils
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../../../api/ComponentManager.html">
+            
+                <a href="../../../api/ComponentManager.html">
+            
+                    
+                    ComponentManager
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../../../api/ActionForwarder.html">
+            
+                <a href="../../../api/ActionForwarder.html">
+            
+                    
+                    ActionForwarder
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" >
+            
+                <span>
+            
+                    
+                    utils
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../../.." >3.5 Styling / Component Namespace Data</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h3 id="35-styling--component-namespace-data">3.5 Styling / Component Namespace Data</h3>
+<p>So far, our <code>RandomGif</code> component doesn&apos;t come with any styles. Of course, we can style our component using traditional global CSS files. However, here, we recommended the <code>In-Component Styling</code> approach using <a href="http://cssinjs.org" target="_blank">JSS library</a>. Besides the benefits described <a href="http://cssinjs.org/benefits" target="_blank">here</a>, more importantly, this approach allows us to encapsulate our component UI without any impact to the global CSS space.</p>
+<p>To style our component, we firstly need to write our component style CSS in <a href="http://cssinjs.org/json-api" target="_blank">JSON format</a>(in file <code>src/RandomGif/styles/index.js</code>):</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> color <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;color&quot;</span>; <span class="hljs-comment">// --- use `color` lib for color caclulation</span>
+<span class="hljs-keyword">const</span> styles = {
+    table: {
+        display: <span class="hljs-string">&quot;flex&quot;</span>,
+        <span class="hljs-string">&quot;flex-wrap&quot;</span>: <span class="hljs-string">&quot;wrap&quot;</span>,
+        margin: <span class="hljs-string">&quot;0.2em 0.2em 0.2em 0.2em&quot;</span>,
+        padding: <span class="hljs-number">0</span>,
+        <span class="hljs-string">&quot;flex-direction&quot;</span>: <span class="hljs-string">&quot;column&quot;</span>,
+        width: <span class="hljs-string">&quot;20em&quot;</span>
+    },
+    cell: {
+        <span class="hljs-string">&quot;box-sizing&quot;</span>: <span class="hljs-string">&quot;border-box&quot;</span>,
+        <span class="hljs-string">&quot;flex-grow&quot;</span>: <span class="hljs-number">1</span>,
+        width: <span class="hljs-string">&quot;100%&quot;</span>,
+        overflow: <span class="hljs-string">&quot;hidden&quot;</span>,
+        padding: <span class="hljs-string">&quot;0.2em 0.2em&quot;</span>,
+        border: <span class="hljs-string">`solid 2px <span class="hljs-subst">${color(&quot;slategrey&quot;).fade(0.5)}</span>`</span>,
+        <span class="hljs-string">&quot;border-bottom&quot;</span>: <span class="hljs-string">&quot;none&quot;</span>,
+        <span class="hljs-string">&quot;background-color&quot;</span>: <span class="hljs-string">&quot;#f7f7f7&quot;</span>,
+        display: <span class="hljs-string">&quot;flex&quot;</span>,
+        <span class="hljs-string">&quot;align-items&quot;</span>: <span class="hljs-string">&quot;center&quot;</span>,
+        <span class="hljs-string">&quot;justify-content&quot;</span>: <span class="hljs-string">&quot;center&quot;</span>,
+        <span class="hljs-string">&quot;&amp;:last-child&quot;</span>: {
+            <span class="hljs-string">&quot;border-bottom&quot;</span>: <span class="hljs-string">`solid 2px <span class="hljs-subst">${color(&quot;slategrey&quot;).fade(
+                0.5
+            )}</span> !important`</span>
+        }
+    },
+    <span class="hljs-string">&quot;image-container&quot;</span>: {
+        height: <span class="hljs-string">&quot;15em&quot;</span>
+    },
+    image: {
+        width: <span class="hljs-string">&quot;100%&quot;</span>,
+        height: <span class="hljs-string">&quot;100%&quot;</span>
+    }
+};
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> styles;
+</code></pre>
+<p>To create CSS stylesheet from the <code>JSON format stylesheet declaration</code> and attach to browser global CSS space, we generally need the following code:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> jss <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;jss&quot;</span>;
+<span class="hljs-keyword">import</span> jssDefaultPreset <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;jss-preset-default&quot;</span>;
+<span class="hljs-keyword">import</span> styles <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./styles&quot;</span>;
+
+<span class="hljs-keyword">const</span> styleSheet = jss.setup(jssDefaultPreset()) <span class="hljs-comment">// --- setup a JSS instance with with default plugins</span>
+.createStyleSheet(styles)  <span class="hljs-comment">// --- Compile styles</span>
+.attach(); <span class="hljs-comment">// --- render to browser, insert it into DOM</span>
+</code></pre>
+<p>If we want to remove the compiled stylesheet from browser, we can:</p>
+<pre><code class="lang-javascript">styleSheet.detach();
+</code></pre>
+<p>We can&apos;t simply copy those into our component&apos;s <code>index.js</code> as we want to make sure:</p>
+<ul>
+<li>Styles are only compiled &amp; insert into DOM once. <ul>
+<li>No matter how many component instances are mounted. Styles are only compile when the first instance are mounted.</li>
+</ul>
+</li>
+<li>Styles are removed from browser only after all instances of the component are unmounted.</li>
+</ul>
+<p>To achieve that, we can use the <code>Component Namespace Data</code> &amp; <code>Component Namespace Life Cycle Callback</code> feature of <code>fractal-component</code>. When we register our React Component using <a href="../../../api/AppContainerUtils.html#appcontainerutilsregistercomponent">AppContainerUtils.registerComponent</a> method, we can opt to register <code>namespaceInitCallback</code> &amp; <code>namespaceDestroyCallback</code> through <a href="../../../api/AppContainer.html#manageablecomponentoptions">ManageableComponentOptions</a>.</p>
+<ul>
+<li><code>namespaceInitCallback</code>: this callback will only be called once when <code>Component Namespace</code> <code>io.github.t83714/RandomGif</code> has just been created (it&apos;s also the time when the first instance of the registered React Component is mounted). Moreover, any value you return from this callback will be kept as <code>Component Namespace Data</code> and can be retrieved anytime before the namespace is destroyed using <a href="../../../api/ComponentManager.html">ComponentManager.getNamespaceData()</a> method.</li>
+<li><code>namespaceDestroyCallback</code>: this callback will only be called once after <code>Component Namespace</code> <code>io.github.t83714/RandomGif</code> is destroyed (it&apos;s also the time when the last instance of the the registered React Component is unmounted). You will receive the <code>Component Namespace Data</code> as the only parameter of the callback function.</li>
+</ul>
+<p>To setup the stylesheet for our component, we can modify <code>src/RandomGif/index.js</code> to the followings:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;react&quot;</span>;
+<span class="hljs-keyword">import</span> { AppContainerUtils } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;fractal-component&quot;</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> actionTypes <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./actions/types&quot;</span>;
+<span class="hljs-keyword">import</span> reducer <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./reducers&quot;</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> actions <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./actions&quot;</span>;
+<span class="hljs-keyword">import</span> saga <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./sagas&quot;</span>;
+<span class="hljs-keyword">import</span> jss <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;jss&quot;</span>;
+<span class="hljs-keyword">import</span> jssDefaultPreset <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;jss-preset-default&quot;</span>;
+<span class="hljs-keyword">import</span> styles <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./styles&quot;</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RandomGif</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+    <span class="hljs-keyword">constructor</span>(props) {
+        <span class="hljs-keyword">super</span>(props);
+        <span class="hljs-comment">// --- initialise component state</span>
+        <span class="hljs-keyword">this</span>.state = {
+            isLoading: <span class="hljs-literal">false</span>,
+            imageUrl: <span class="hljs-literal">null</span>,
+            error: <span class="hljs-literal">null</span>
+        };
+        <span class="hljs-keyword">this</span>.componentManager = AppContainerUtils.registerComponent(<span class="hljs-keyword">this</span>, {
+            namespace: <span class="hljs-string">&quot;io.github.t83714/RandomGif&quot;</span>,
+            <span class="hljs-comment">// --- register all action types so that actions are serialisable</span>
+            actionTypes,
+            reducer,
+            saga,
+            namespaceInitCallback: componentManager =&gt; {
+                <span class="hljs-keyword">const</span> styleSheet = jss
+                    .setup(jssDefaultPreset())
+                    .createStyleSheet(styles, {
+                        generateClassName: componentManager.createClassNameGenerator()
+                    })
+                    .attach();
+                <span class="hljs-comment">// --- store `styleSheet` as `Component Namespace Data`</span>
+                <span class="hljs-keyword">return</span> { styleSheet }; 
+            },
+            namespaceDestroyCallback: ({ styleSheet }) =&gt; {
+                <span class="hljs-comment">// --- received previously returned `Component Namespace Data` as the only parameter</span>
+                <span class="hljs-comment">// --- remove stylesheet from browser</span>
+                styleSheet.detach();
+            }
+        });
+    }
+
+    render() { ... }
+}
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> RandomGif;
+</code></pre>
+<p>Next, we need to update <code>render()</code> method to use our stylesheet:</p>
+<pre><code class="lang-javascript">render() {
+    <span class="hljs-comment">// --- retrieve styleSheet from `Component Namespace Data`</span>
+    <span class="hljs-keyword">const</span> { styleSheet } = <span class="hljs-keyword">this</span>.componentManager.getNamespaceData();
+    <span class="hljs-comment">// --- get all class names included in this stylesheet</span>
+    <span class="hljs-keyword">const</span> { classes } = styleSheet;
+    <span class="hljs-keyword">return</span> (
+        <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">{classes.table}</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">{classes.cell}</span>&gt;</span>RandomGif<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span>
+                <span class="hljs-attr">className</span>=<span class="hljs-string">{`${classes.cell}</span> ${<span class="hljs-attr">classes</span>[&quot;<span class="hljs-attr">image-container</span>&quot;]}`}
+            &gt;</span>
+                {this.state.imageUrl &amp;&amp;
+                    !this.state.isLoading &amp;&amp;
+                    !this.state.error &amp;&amp; (
+                        <span class="hljs-tag">&lt;<span class="hljs-name">img</span>
+                            <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;Gif&quot;</span>
+                            <span class="hljs-attr">src</span>=<span class="hljs-string">{this.state.imageUrl}</span>
+                            <span class="hljs-attr">className</span>=<span class="hljs-string">{`${classes.image}`}</span>
+                        /&gt;</span>
+                    )}
+                {(!this.state.imageUrl || this.state.isLoading) &amp;&amp;
+                    !this.state.error &amp;&amp; (
+                        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>
+                            {this.state.isLoading
+                                ? &quot;Requesting API...&quot;
+                                : &quot;No GIF loaded yet!&quot;}
+                        <span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+                    )}
+                {this.state.error &amp;&amp; (
+                    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{`Failed to request API: ${this.state.error}`}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+                )}
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">{`${classes.cell}</span> `}&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">button</span>
+                    <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =&gt;</span> {
+                        this.componentManager.dispatch(
+                            actions.requestNewGif()
+                        );
+                    }}
+                    disabled={this.state.isLoading}
+                &gt;
+                    {this.state.isLoading ? &quot;Requesting API...&quot; : &quot;Get Gif&quot;}
+                <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    );
+}
+</span></code></pre>
+<p>If you run the app via <code>npm start</code>, you will find that the component now comes with styles as shown below:</p>
+<p><img src="../../../assets/BeginnerTutorial/RandomGifSec3.5.png" alt="RandomGifSec3.5"></p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="NamespacedSaga.html" class="navigation navigation-prev " aria-label="Previous page: 3.4 Request GIF / Namespaced Saga">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="ExternalInterfaces.html" class="navigation navigation-next " aria-label="Next page: 3.6 Encapsulation & External Interfaces">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"3.5 Styling / Component Namespace Data","level":"1.2.3.5","depth":3,"next":{"title":"3.6 Encapsulation & External Interfaces","level":"1.2.3.6","depth":3,"path":"Introduction/BeginnerTutorial/RandomGif/ExternalInterfaces.md","ref":"./Introduction/BeginnerTutorial/RandomGif/ExternalInterfaces.md","articles":[]},"previous":{"title":"3.4 Request GIF / Namespaced Saga","level":"1.2.3.4","depth":3,"path":"Introduction/BeginnerTutorial/RandomGif/NamespacedSaga.md","ref":"./Introduction/BeginnerTutorial/RandomGif/NamespacedSaga.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"root":"./","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"intro.md","glossary":"GLOSSARY.md","summary":"README.md"},"variables":{},"gitbook":"*"},"file":{"path":"Introduction/BeginnerTutorial/RandomGif/ComponentNamespaceData.md","mtime":"2018-10-26T13:13:19.474Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-26T13:57:49.768Z"},"basePath":"../../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../../gitbook/gitbook.js"></script>
+    <script src="../../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

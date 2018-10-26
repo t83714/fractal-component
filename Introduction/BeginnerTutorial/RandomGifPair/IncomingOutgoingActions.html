@@ -1,0 +1,903 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>4.2 Incoming / Outgoing Actions · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../Conclusion.html" />
+    
+    
+    <link rel="prev" href="GetStarted.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">Table of Contents</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../../">
+            
+                <a href="../../../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Beginner Tutorial
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../Overview.html">
+            
+                <a href="../Overview.html">
+            
+                    
+                    1. Overview
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../InitialSetup.html">
+            
+                <a href="../InitialSetup.html">
+            
+                    
+                    2. InitialSetup
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../RandomGif/">
+            
+                <a href="../RandomGif/">
+            
+                    
+                    3. RandomGif
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.3.1" data-path="../RandomGif/GetStarted.html">
+            
+                <a href="../RandomGif/GetStarted.html">
+            
+                    
+                    3.1 Get Started
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.2" data-path="../RandomGif/Namespace.html">
+            
+                <a href="../RandomGif/Namespace.html">
+            
+                    
+                    3.2 Namespace
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.3" data-path="../RandomGif/NamespacedState.html">
+            
+                <a href="../RandomGif/NamespacedState.html">
+            
+                    
+                    3.3 A simple Switch / Namespaced State
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.4" data-path="../RandomGif/NamespacedSaga.html">
+            
+                <a href="../RandomGif/NamespacedSaga.html">
+            
+                    
+                    3.4 Request GIF / Namespaced Saga
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.5" data-path="../RandomGif/ComponentNamespaceData.html">
+            
+                <a href="../RandomGif/ComponentNamespaceData.html">
+            
+                    
+                    3.5 Styling / Component Namespace Data
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.6" data-path="../RandomGif/ExternalInterfaces.html">
+            
+                <a href="../RandomGif/ExternalInterfaces.html">
+            
+                    
+                    3.6 Encapsulation & External Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    4. RandomGifPair
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.4.1" data-path="GetStarted.html">
+            
+                <a href="GetStarted.html">
+            
+                    
+                    4.1 Get Started
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.2.4.2" data-path="IncomingOutgoingActions.html">
+            
+                <a href="IncomingOutgoingActions.html">
+            
+                    
+                    4.2 Incoming / Outgoing Actions
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" data-path="../Conclusion.html">
+            
+                <a href="../Conclusion.html">
+            
+                    
+                    5. Conclusion
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" >
+            
+                <span>
+            
+                    
+                    Basic Concepts
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../../../BasicConcepts/RecommendedStructure.html">
+            
+                <a href="../../../BasicConcepts/RecommendedStructure.html">
+            
+                    
+                    Recommended Component Structure
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" >
+            
+                <span>
+            
+                    
+                    Component Namespace
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" >
+            
+                <span>
+            
+                    
+                    Action Dispatch Tree
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" >
+            
+                <span>
+            
+                    
+                    Symbol Action Type
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" >
+            
+                <span>
+            
+                    
+                    Component State
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" >
+            
+                <span>
+            
+                    
+                    Component Reducer
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" >
+            
+                <span>
+            
+                    
+                    Component Saga
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" >
+            
+                <span>
+            
+                    
+                    Component Styling
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" >
+            
+                <span>
+            
+                    
+                    Advanced Concepts
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" >
+            
+                <span>
+            
+                    
+                    ActionForwarder
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" >
+            
+                <span>
+            
+                    
+                    SagaMonitor
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../../../api/">
+            
+                <a href="../../../api/">
+            
+                    
+                    API Reference
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../../../api/AppContainer.html">
+            
+                <a href="../../../api/AppContainer.html">
+            
+                    
+                    AppContainer
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../../../api/AppContainerUtils.html">
+            
+                <a href="../../../api/AppContainerUtils.html">
+            
+                    
+                    AppContainerUtils
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../../../api/ComponentManager.html">
+            
+                <a href="../../../api/ComponentManager.html">
+            
+                    
+                    ComponentManager
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../../../api/ActionForwarder.html">
+            
+                <a href="../../../api/ActionForwarder.html">
+            
+                    
+                    ActionForwarder
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" >
+            
+                <span>
+            
+                    
+                    utils
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../../.." >4.2 Incoming / Outgoing Actions</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h3 id="42-incoming--outgoing-actions">4.2 Incoming / Outgoing Actions</h3>
+<p>Similar to <code>RandomGif</code>, we need to define Incoming / Outgoing Actions as external programming interfaces so that component users can interact with the component programmingly easily (in <code>src/RandomGifPair/actions/types.js</code>):</p>
+<pre><code class="lang-javascript"><span class="hljs-comment">// --- Incoming Action. External user can send this action to trigger Gif Pair loading</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> REQUEST_NEW_PAIR = <span class="hljs-built_in">Symbol</span>(<span class="hljs-string">&quot;REQUEST_NEW_PAIR&quot;</span>);
+<span class="hljs-comment">// --- Out-going actions.</span>
+<span class="hljs-comment">// --- Dispatch when loading starts</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> LOADING_START = <span class="hljs-built_in">Symbol</span>(<span class="hljs-string">&quot;LOADING_START&quot;</span>);
+<span class="hljs-comment">// --- Dispatch when loading complete</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> LOADING_COMPLETE = <span class="hljs-built_in">Symbol</span>(<span class="hljs-string">&quot;LOADING_COMPLETE&quot;</span>);
+</code></pre>
+<p>And, we can define the following action creator functions accordingly (in <code>src/RandomGifPair/actions/index.js</code>):</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> actionTypes <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./types&quot;</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">requestNewPair</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">return</span> {
+        type: actionTypes.REQUEST_NEW_PAIR
+    };
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">loadingStart</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">return</span> {
+        type: actionTypes.LOADING_START
+    };
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">loadingComplete</span>(<span class="hljs-params">error = null</span>) </span>{
+    <span class="hljs-keyword">return</span> {
+        type: actionTypes.LOADING_COMPLETE,
+        payload: {
+            isSuccess: error ? <span class="hljs-literal">false</span> : <span class="hljs-literal">true</span>,
+            error
+        }
+    };
+}
+</code></pre>
+<h4 id="421-requestnewpair-action">4.2.1 <code>REQUEST_NEW_PAIR</code> action</h4>
+<p>To support <code>REQUEST_NEW_PAIR</code>, we firstly need to modify the <code>onClick</code> handler of the <code>Get Gif Pair</code> button to the following:</p>
+<pre><code class="lang-jsx">&lt;button
+    onClick={() =&gt; {
+        <span class="hljs-keyword">this</span>.componentManager.dispatch(
+            actions.requestNewPair()
+        );
+    }}
+    disabled={<span class="hljs-keyword">this</span>.state.isLoading}
+&gt;
+</code></pre>
+<p>Then, we need to create <code>saga</code> (in <code>src/RandomGifPair/sagas/index.js</code>) as the followings:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> actions <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../actions&quot;</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> actionTypes <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../actions/types&quot;</span>;
+<span class="hljs-keyword">import</span> {
+    actions <span class="hljs-keyword">as</span> RandomGifActions,
+    actionTypes <span class="hljs-keyword">as</span> RandomGifActionTypes
+} <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../../RandomGif&quot;</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span>* <span class="hljs-title">mainSaga</span>(<span class="hljs-params">effects</span>) </span>{
+    <span class="hljs-comment">// --- monitor `REQUEST_NEW_PAIR` and send multicast actions to RandomGifs</span>
+    <span class="hljs-keyword">yield</span> effects.takeEvery(
+        actionTypes.REQUEST_NEW_PAIR,
+        <span class="hljs-function"><span class="hljs-keyword">function</span>*(<span class="hljs-params"></span>) </span>{
+            <span class="hljs-keyword">yield</span> effects.put(
+                RandomGifActions.requestNewGif(),
+                <span class="hljs-string">&quot;./Gifs/*&quot;</span>
+            );
+        }
+    );
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> mainSaga;
+</code></pre>
+<p>At last, modify <code>src/RandomGifPair/index.js</code> to register the saga accordingly (when calls <code>AppContainerUtils.registerComponent()</code>).</p>
+<h4 id="422-loadingstart--loadingcomplete-actions">4.2.2 <code>LOADING_START</code> &amp; <code>LOADING_COMPLETE</code> actions</h4>
+<p>To support, we need to find a way to capture the <code>LOADING_START</code> &amp; <code>LOADING_COMPLETE</code> actions emitted from <code>RandomGif</code> component. From section 3.6.1.2, you can tell <code>LOADING_START</code> &amp; <code>LOADING_COMPLETE</code> will be thrown just out of <code>RandomGif</code> Container (i.e. the first namespace part above <code>RandomGif</code> in the <code>Namespace Tree</code>). Thus, both actions will be dispatched to namespace path: <code>${this.componentManager.fullPath}/Gifs</code>. Because multicast actions are always flow-down along the <code>Namespace Tree</code>, our <code>RandomGifPair</code> won&apos;t receive them.</p>
+<p>To capture those actions, we can use a helper component: <code>ActionForwarder</code>. We can import it frpm <code>fractal-component</code>:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> { AppContainerUtils, AppContainer, ActionForwarder } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;fractal-component&quot;</span>;
+</code></pre>
+<p>And add the followings to <code>render()</code> method (as <code>ActionForwarder</code> doesn&apos;t render anything, you can put it anywhere in React Component Tree):</p>
+<pre><code class="lang-jsx">{<span class="hljs-comment">/**
+    * Use ActionForwarder to forward LOADING_START &amp; LOADING_COMPLETE actions from `RandomGif`
+    * to current component (`RandomGifPair`)&apos;s namespace.
+    * i.e. from `${this.componentManager.fullPath}/Gifs` to `${this.componentManager.fullPath}`
+    * Thus, `relativeDispatchPath` should be &quot;..&quot;
+    */</span>}
+&lt;ActionForwarder
+    namespacePrefix={<span class="hljs-string">`<span class="hljs-subst">${this.componentManager.fullPath}</span>/Gifs`</span>}
+    pattern={action =&gt;
+        action.type === RandomGifActionTypes.LOADING_START ||
+        action.type === RandomGifActionTypes.LOADING_COMPLETE
+    }
+    relativeDispatchPath=<span class="hljs-string">&quot;..&quot;</span>
+/&gt;
+</code></pre>
+<p>Now, our <code>RandomGifPair</code> component can receive both <code>LOADING_START</code> &amp; <code>LOADING_COMPLETE</code> actions from <code>RandomGif</code> component (either in a <code>reducer</code> or <code>saga</code>). Before we move on to <code>reducer</code> or <code>saga</code>. We need to define the component initial state as followings:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">this</span>.state = {
+    <span class="hljs-comment">// --- record each `RandomGif` loading progress</span>
+    itemsLoading: {},
+    <span class="hljs-comment">// --- if `RandomGifPair` starts to load</span>
+    isLoading: <span class="hljs-literal">false</span>,
+    <span class="hljs-comment">// --- if any error received from any of the `RandomGif` component</span>
+    error: <span class="hljs-literal">null</span>
+};
+</code></pre>
+<p>Next, we can create the <code>reducer</code> in <code>src/RandomGifPair/reducers/index.js</code>:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> { actionTypes <span class="hljs-keyword">as</span> RandomGifActionTypes } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;../../RandomGif&quot;</span>;
+
+<span class="hljs-keyword">const</span> reducer = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">state, action</span>) </span>{
+    <span class="hljs-keyword">switch</span> (action.type) {
+        <span class="hljs-keyword">case</span> RandomGifActionTypes.LOADING_START:
+            <span class="hljs-keyword">return</span> {
+                ...state,
+                isLoading: <span class="hljs-literal">true</span>,
+                itemsLoading: {
+                    ...state.itemsLoading,
+                    [action.componentId]: <span class="hljs-literal">true</span>
+                }
+            };
+        <span class="hljs-keyword">case</span> RandomGifActionTypes.LOADING_COMPLETE: {
+            <span class="hljs-keyword">const</span> { isSuccess, payloadError } = action.payload;
+            <span class="hljs-keyword">let</span> { itemsLoading, error } = state;
+            itemsLoading = {
+                ...itemsLoading,
+                [action.componentId]: <span class="hljs-literal">false</span>
+            };
+            <span class="hljs-keyword">let</span> isLoading = <span class="hljs-literal">false</span>;
+            <span class="hljs-built_in">Object</span>.keys(itemsLoading).forEach(componentId =&gt; {
+                <span class="hljs-keyword">if</span> (itemsLoading[componentId]) isLoading = <span class="hljs-literal">true</span>;
+            });
+            <span class="hljs-keyword">return</span> {
+                ...state,
+                isLoading,
+                error: error ? error : isSuccess ? <span class="hljs-literal">null</span> : payloadError,
+                itemsLoading
+            };
+        }
+        <span class="hljs-keyword">default</span>:
+            <span class="hljs-keyword">return</span> state;
+    }
+};
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> reducer;
+</code></pre>
+<p>At last, we can added the following to <code>saga</code> to dispatch <code>RandomGifPair</code> out-going actions:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">yield</span> effects.takeEvery(
+    RandomGifActionTypes.LOADING_START,
+    <span class="hljs-function"><span class="hljs-keyword">function</span>*(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-comment">// --- we use component class property `this.isLoadingStartActionDispatched`</span>
+        <span class="hljs-comment">// --- to make sure only dispatch one `LOADING_START` action</span>
+        <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.isLoadingStartActionDispatched) {
+            <span class="hljs-keyword">yield</span> effects.put(
+                actions.loadingStart(),
+                <span class="hljs-string">&quot;../../../*&quot;</span>
+            );
+        }
+    }.bind(<span class="hljs-keyword">this</span>)
+);
+<span class="hljs-keyword">yield</span> effects.takeEvery(
+    RandomGifActionTypes.LOADING_COMPLETE,
+    <span class="hljs-function"><span class="hljs-keyword">function</span>*(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-comment">/**
+         * throw exposed action out of box
+         * It&apos;s guaranteed all reducers are run before saga.
+         * Therefore, if you get state in a saga via `select` effect,
+         * it&apos;ll always be applied state.
+         */</span>
+        <span class="hljs-keyword">const</span> { isLoading, error } = <span class="hljs-keyword">yield</span> effects.select();
+        <span class="hljs-keyword">if</span> (!isLoading) {
+            <span class="hljs-keyword">yield</span> effects.put(
+                actions.loadingComplete(error),
+                <span class="hljs-string">&quot;../../../*&quot;</span>
+            );
+            <span class="hljs-keyword">this</span>.isLoadingStartActionDispatched = <span class="hljs-literal">false</span>;
+        }
+    }.bind(<span class="hljs-keyword">this</span>)
+);
+</code></pre>
+<h4 id="423-newgif">4.2.3 <code>NEW_GIF</code></h4>
+<p>We will also want to forward <code>NEW_GIF</code> from <code>RandomGif</code> components. Therefore, component users will know how many new gifs has been loaded in total by couting no. of <code>NEW_GIF</code> actions. </p>
+<p>To do so, we need to add a new <code>ActionForwarder</code> to <code>render()</code> method:</p>
+<pre><code class="lang-jsx">{<span class="hljs-comment">/**
+    * Use ActionForwarder to throw NEW_GIF out of RandomGifPair container
+    * Set namespace to `${this.componentManager.fullPath}/Gifs` in order to listen to
+    * all `out of box` actions from two `RandomGif` components
+    */</span>}
+&lt;ActionForwarder
+    namespacePrefix={<span class="hljs-string">`<span class="hljs-subst">${this.componentManager.fullPath}</span>/Gifs`</span>}
+    pattern={RandomGifActionTypes.NEW_GIF}
+    relativeDispatchPath=<span class="hljs-string">&quot;../../../../*&quot;</span>
+/&gt;
+</code></pre>
+<h4 id="424-setup-out-going--incoming-actions">4.2.4 Setup Out-Going / Incoming Actions</h4>
+<p>Firstly, we update the component registration code to register action types &amp; set allowed incoming actions:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">this</span>.componentManager = AppContainerUtils.registerComponent(<span class="hljs-keyword">this</span>, {
+    namespace: <span class="hljs-string">&quot;io.github.t83714/RandomGif&quot;</span>,
+    reducer,
+    saga,
+    <span class="hljs-comment">// --- register all action types so that actions are serialisable</span>
+    actionTypes,
+    allowedIncomingMulticastActionTypes: [actionTypes.REQUEST_NEW_PAIR],
+    namespaceInitCallback: componentManager =&gt; { ... },
+    namespaceDestroyCallback: ({ styleSheet }) =&gt; { ... }
+});
+</code></pre>
+<p>We also need to export the following actions from <code>RandomGifPair</code> entry point <code>src/RandomGifPair/index.js</code>:</p>
+<pre><code class="lang-javascript"><span class="hljs-comment">//--- actions component may send out</span>
+<span class="hljs-keyword">const</span> exposedActionTypes = {
+    <span class="hljs-comment">// --- export NEW_GIF action type as well just</span>
+    <span class="hljs-comment">// --- so people can use `RandomGifPair` without knowing `RandomGif`</span>
+    NEW_GIF: RandomGifActionTypes.NEW_GIF,
+    LOADING_START: actionTypes.LOADING_START,
+    LOADING_COMPLETE: actionTypes.LOADING_COMPLETE,
+    REQUEST_NEW_PAIR: actionTypes.REQUEST_NEW_PAIR
+};
+<span class="hljs-comment">//--- action component will accept</span>
+<span class="hljs-keyword">const</span> exposedActions = {
+    requestNewPair: actions.requestNewPair
+};
+
+<span class="hljs-comment">/**
+ * expose actions for component users
+ */</span>
+<span class="hljs-keyword">export</span> { exposedActionTypes <span class="hljs-keyword">as</span> actionTypes, exposedActions <span class="hljs-keyword">as</span> actions };
+</code></pre>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="GetStarted.html" class="navigation navigation-prev " aria-label="Previous page: 4.1 Get Started">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../Conclusion.html" class="navigation navigation-next " aria-label="Next page: 5. Conclusion">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"4.2 Incoming / Outgoing Actions","level":"1.2.4.2","depth":3,"next":{"title":"5. Conclusion","level":"1.2.5","depth":2,"path":"Introduction/BeginnerTutorial/Conclusion.md","ref":"./Introduction/BeginnerTutorial/Conclusion.md","articles":[]},"previous":{"title":"4.1 Get Started","level":"1.2.4.1","depth":3,"path":"Introduction/BeginnerTutorial/RandomGifPair/GetStarted.md","ref":"./Introduction/BeginnerTutorial/RandomGifPair/GetStarted.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"root":"./","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"intro.md","glossary":"GLOSSARY.md","summary":"README.md"},"variables":{},"gitbook":"*"},"file":{"path":"Introduction/BeginnerTutorial/RandomGifPair/IncomingOutgoingActions.md","mtime":"2018-10-07T13:31:17.609Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-26T13:57:49.768Z"},"basePath":"../../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../../gitbook/gitbook.js"></script>
+    <script src="../../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

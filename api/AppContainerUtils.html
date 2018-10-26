@@ -1,0 +1,781 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>AppContainerUtils · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="ComponentManager.html" />
+    
+    
+    <link rel="prev" href="AppContainer.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">Table of Contents</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../Introduction/BeginnerTutorial/">
+            
+                <a href="../Introduction/BeginnerTutorial/">
+            
+                    
+                    Beginner Tutorial
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../Introduction/BeginnerTutorial/Overview.html">
+            
+                <a href="../Introduction/BeginnerTutorial/Overview.html">
+            
+                    
+                    1. Overview
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../Introduction/BeginnerTutorial/InitialSetup.html">
+            
+                <a href="../Introduction/BeginnerTutorial/InitialSetup.html">
+            
+                    
+                    2. InitialSetup
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../Introduction/BeginnerTutorial/RandomGif/">
+            
+                <a href="../Introduction/BeginnerTutorial/RandomGif/">
+            
+                    
+                    3. RandomGif
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.3.1" data-path="../Introduction/BeginnerTutorial/RandomGif/GetStarted.html">
+            
+                <a href="../Introduction/BeginnerTutorial/RandomGif/GetStarted.html">
+            
+                    
+                    3.1 Get Started
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.2" data-path="../Introduction/BeginnerTutorial/RandomGif/Namespace.html">
+            
+                <a href="../Introduction/BeginnerTutorial/RandomGif/Namespace.html">
+            
+                    
+                    3.2 Namespace
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.3" data-path="../Introduction/BeginnerTutorial/RandomGif/NamespacedState.html">
+            
+                <a href="../Introduction/BeginnerTutorial/RandomGif/NamespacedState.html">
+            
+                    
+                    3.3 A simple Switch / Namespaced State
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.4" data-path="../Introduction/BeginnerTutorial/RandomGif/NamespacedSaga.html">
+            
+                <a href="../Introduction/BeginnerTutorial/RandomGif/NamespacedSaga.html">
+            
+                    
+                    3.4 Request GIF / Namespaced Saga
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.5" data-path="../Introduction/BeginnerTutorial/RandomGif/ComponentNamespaceData.html">
+            
+                <a href="../Introduction/BeginnerTutorial/RandomGif/ComponentNamespaceData.html">
+            
+                    
+                    3.5 Styling / Component Namespace Data
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.6" data-path="../Introduction/BeginnerTutorial/RandomGif/ExternalInterfaces.html">
+            
+                <a href="../Introduction/BeginnerTutorial/RandomGif/ExternalInterfaces.html">
+            
+                    
+                    3.6 Encapsulation & External Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="../Introduction/BeginnerTutorial/RandomGifPair/">
+            
+                <a href="../Introduction/BeginnerTutorial/RandomGifPair/">
+            
+                    
+                    4. RandomGifPair
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.4.1" data-path="../Introduction/BeginnerTutorial/RandomGifPair/GetStarted.html">
+            
+                <a href="../Introduction/BeginnerTutorial/RandomGifPair/GetStarted.html">
+            
+                    
+                    4.1 Get Started
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.2" data-path="../Introduction/BeginnerTutorial/RandomGifPair/IncomingOutgoingActions.html">
+            
+                <a href="../Introduction/BeginnerTutorial/RandomGifPair/IncomingOutgoingActions.html">
+            
+                    
+                    4.2 Incoming / Outgoing Actions
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" data-path="../Introduction/BeginnerTutorial/Conclusion.html">
+            
+                <a href="../Introduction/BeginnerTutorial/Conclusion.html">
+            
+                    
+                    5. Conclusion
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" >
+            
+                <span>
+            
+                    
+                    Basic Concepts
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../BasicConcepts/RecommendedStructure.html">
+            
+                <a href="../BasicConcepts/RecommendedStructure.html">
+            
+                    
+                    Recommended Component Structure
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" >
+            
+                <span>
+            
+                    
+                    Component Namespace
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" >
+            
+                <span>
+            
+                    
+                    Action Dispatch Tree
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" >
+            
+                <span>
+            
+                    
+                    Symbol Action Type
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" >
+            
+                <span>
+            
+                    
+                    Component State
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" >
+            
+                <span>
+            
+                    
+                    Component Reducer
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" >
+            
+                <span>
+            
+                    
+                    Component Saga
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" >
+            
+                <span>
+            
+                    
+                    Component Styling
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" >
+            
+                <span>
+            
+                    
+                    Advanced Concepts
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" >
+            
+                <span>
+            
+                    
+                    ActionForwarder
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" >
+            
+                <span>
+            
+                    
+                    SagaMonitor
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    API Reference
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="AppContainer.html">
+            
+                <a href="AppContainer.html">
+            
+                    
+                    AppContainer
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.5.2" data-path="AppContainerUtils.html">
+            
+                <a href="AppContainerUtils.html">
+            
+                    
+                    AppContainerUtils
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="ComponentManager.html">
+            
+                <a href="ComponentManager.html">
+            
+                    
+                    ComponentManager
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="ActionForwarder.html">
+            
+                <a href="ActionForwarder.html">
+            
+                    
+                    ActionForwarder
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" >
+            
+                <span>
+            
+                    
+                    utils
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >AppContainerUtils</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h2 id="appcontainerutils">AppContainerUtils</h2>
+<ul>
+<li><a href="#overview"><code>Overview</code></a></li>
+<li><a href="#appcontainerutilscreateappcontainer"><code>AppContainerUtils.createAppContainer</code></a></li>
+<li><a href="#appcontainerutilsgetappcontainer"><code>AppContainerUtils.getAppContainer</code></a></li>
+<li><a href="#appcontainerutilsregistercomponent"><code>AppContainerUtils.registerComponent</code></a></li>
+<li><a href="#appcontainerutilsderegistercomponent"><code>AppContainerUtils.deregisterComponent</code></a></li>
+<li><a href="#appcontainerutilsserialiseaction"><code>AppContainerUtils.serialiseAction</code></a></li>
+<li><a href="#appcontainerutilsdeserialiseaction"><code>AppContainerUtils.deserialiseAction</code></a></li>
+<li><a href="#appcontainerutilsupdateappcontainerretrievekey"><code>AppContainerUtils.updateAppContainerRetrieveKey</code></a></li>
+</ul>
+<h3 id="overview">Overview</h3>
+<p><code>AppContainerUtils</code> provides static methods that allows you to access the <code>AppContainer</code>&apos;s fucntionality easily. You likely use <code>AppContainerUtils</code> more often rather than directly call any methods of an <code>AppContainer</code> instance. The reason is that all <code>AppContainerUtils</code> methods don&apos;t require the reference of an <code>AppContainer</code> instance. Instead, <code>AppContainerUtils</code> methods come with built-in logic locate the most appropriate <code>AppContainer</code> instance (that created at other part of application) at the time of calling --- this might not be critical for a single-<code>AppContainer</code> environment. However, it will be very important for <code>Server-Side Rendering</code> as you might want to keep different <code>AppContainer</code> instance to serve different requests. (see <a href="https://github.com/t83714/fractal-component/tree/master/examples/exampleAppSSR" target="_blank">example app</a>). </p>
+<p>As such, it&apos;s recommend for a <code>Component</code> author to use <code>AppContainerUtils.registerComponent</code> to register <code>React Component</code> to an <code>AppContainer</code> to make sure the <code>Component</code> written can be re-used under different circumstances.</p>
+<h3 id="appcontainerutilscreateappcontainer"><code>AppContainerUtils.createAppContainer</code></h3>
+<p>You can use <code>AppContainerUtils.createAppContainer</code> to create an <code>AppContainer</code>:</p>
+<pre><code>import { AppContainerUtils } from &quot;fractal-component&quot;;
+const appContainer = AppContainerUtils.createAppContainer({
+    ...containerConfigOptions
+});
+</code></pre><p>Information of the <code>containerConfigOptions</code> can be found from the document for <a href="AppContainer.html#initialisation-constructor"><code>AppContainer</code></a></p>
+<h3 id="appcontainerutilsgetappcontainer"><code>AppContainerUtils.getAppContainer</code></h3>
+<p>The method&apos;s type declaration is shown as below: </p>
+<pre><code class="lang-typescript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">declare</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getAppContainer</span>(<span class="hljs-params">
+    componentInstance?: ManageableComponent
+</span>): <span class="hljs-title">AppContainer</span></span>;
+</code></pre>
+<p>Here <code>ManageableComponent</code> is a <a href="https://reactjs.org/docs/components-and-props.html#functional-and-class-components" target="_blank">React Class Component</a>.</p>
+<p><code>AppContainerUtils.getAppContainer</code> method accepts one optional <code>componentInstance</code> parameter and will try to locate an <code>AppContainer</code> instane in the following way:</p>
+<ul>
+<li><code>componentInstance</code>&apos;s <code>appContainer</code> property (i.e. <code>componentInstance.props.appContainer</code>) .It&apos;s configurable via <code>AppContainerUtils.updateAppContainerRetrieveKey()</code></li>
+<li>Or <code>componentInstance.context.appContainer</code></li>
+<li>Or Previous created <code>AppContainer</code> via <a href="#appcontainerutilscreateappcontainer"><code>AppContainerUtils.createAppContainer()</code></a> call.</li>
+<li>If can&apos;t find, it will auto create (using <code>AppContainerUtils.createAppContainer()</code>) a new <code>AppContainer</code> with default options. And return it.</li>
+</ul>
+<p>All other <code>AppContainerUtils</code> method will use this method to locate an <code>AppContainer</code> instance if they need one.</p>
+<h3 id="appcontainerutilsregistercomponent"><code>AppContainerUtils.registerComponent</code></h3>
+<p>You can use register a <a href="https://reactjs.org/docs/components-and-props.html#functional-and-class-components" target="_blank">React Class Component</a> to the <code>AppContainer</code>. Once register, a <code>Component Container</code> is created behind the scenes to maintain a more advanced component structure as illustrated by <a href="https://raw.githubusercontent.com/t83714/fractal-component/master/docs/assets/container-structure.png" target="_blank">this diagram</a>.</p>
+<p>More info can be found from the <a href="AppContainer.html#registercomponent">AppContainer.registerComponent</a> document. </p>
+<p>The method&apos;s type declaration is shown as below: </p>
+<pre><code class="lang-typescript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">declare</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">registerComponent</span>(<span class="hljs-params">
+    componentInstance: ManageableComponent,
+    options: ManageableComponentOptions
+</span>): <span class="hljs-title">void</span></span>;
+</code></pre>
+<p>Here <code>ManageableComponent</code> is a <a href="https://reactjs.org/docs/components-and-props.html#functional-and-class-components" target="_blank">React Class Component</a>.</p>
+<p>More information of the <code>ManageableComponentOptions</code> can be found from the <a href="AppContainer.html#manageablecomponentoptions">AppContainer.registerComponent</a> document.</p>
+<p>Example:</p>
+<pre><code class="lang-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Counter</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+    <span class="hljs-keyword">constructor</span>(props) {
+        <span class="hljs-keyword">super</span>(props);
+        <span class="hljs-keyword">this</span>.state = {
+            count: <span class="hljs-number">0</span>
+            ...
+        };
+        <span class="hljs-keyword">this</span>.componentManager = AppContainerUtils.registerComponent(<span class="hljs-keyword">this</span>, {
+            namespace: <span class="hljs-string">&quot;io.github.t83714/Counter&quot;</span>,
+            ...
+        });
+    }
+    render() {
+        <span class="hljs-keyword">return</span> &lt;div&gt;{this.state.count}&lt;div&gt;
+    }
+}
+</code></pre>
+<h3 id="appcontainerutilsderegistercomponent"><code>AppContainerUtils.deregisterComponent</code></h3>
+<p>Deregister the <code>React Component</code> from the <code>AppContainer</code>. This method is automatically called when the React Component is unmounted.</p>
+<p>The method&apos;s type declaration is shown as below: </p>
+<pre><code class="lang-typescript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">declare</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">deregisterComponent</span>(<span class="hljs-params">
+    componentInstance: ManageableComponent
+</span>): <span class="hljs-title">void</span></span>;
+</code></pre>
+<p>Internally, <code>AppContainerUtils.deregisterComponent</code> calls <code>AppContainer.deregisterComponent</code>.</p>
+<h3 id="appcontainerutilsserialiseaction"><code>AppContainerUtils.serialiseAction</code></h3>
+<p>This method will call <code>AppContainer</code>&apos;s <code>ActionRegistry</code> to serialise an <code>Action</code>. <code>fractal-component</code> requires all action type is an <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol" target="_blank">Symbol</a> to avoid action type collision between different component. However, <code>Symbol</code> generally cannot be serialise directly via <code>JSON.stringify</code>. This may cause some troubles if you want to store actions and reply later to implment <code>time travel</code> or <code>undo</code> feature.</p>
+<p>To overcome this issue, <code>fractal-component</code> provides an <code>ActionRegistry</code> facility to serialise an <code>Action</code>. </p>
+<p>The method&apos;s type declaration is shown as below:</p>
+<pre><code class="lang-typescript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">declare</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">serialiseAction</span>(<span class="hljs-params">
+    action: Action,
+    componentInstance?: ManageableComponent
+</span>): <span class="hljs-title">string</span></span>;
+</code></pre>
+<p>It use <code>componentInstance</code> parameter to call <code>AppContainerUtils.getAppContainer()</code> to get an <code>AppContainer</code> instance. And then, call the <code>serialiseAction</code> method of the <code>ActionRegistry</code> owned by the <code>AppContainer</code> instance to serialise an <code>Action</code>.</p>
+<p>You also can call <code>ActionRegistry.serialiseAction</code> directly if you have access to an <code>AppContainer</code> instance.</p>
+<h3 id="appcontainerutilsdeserialiseaction"><code>AppContainerUtils.deserialiseAction</code></h3>
+<p>Deserialis an <code>Action</code>.</p>
+<p>The method&apos;s type declaration is shown as below:</p>
+<pre><code class="lang-typescript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">declare</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">deserialiseAction</span>(<span class="hljs-params">
+    actionJson: <span class="hljs-built_in">string</span>,
+    componentInstance?: ManageableComponent
+</span>): <span class="hljs-title">Action</span></span>;
+</code></pre>
+<h3 id="appcontainerutilsupdateappcontainerretrievekey"><code>AppContainerUtils.updateAppContainerRetrieveKey</code></h3>
+<p><code>AppContainerUtils.getAppContainer()</code> by default will use key <code>appContainer</code> to look for an <code>AppContainer</code> instance from the <code>React Component</code>&apos;s <code>properties</code> or <code>context</code>. </p>
+<p>You can, however, use this method to change the key to be used to look for a <code>appContainer</code> instance.</p>
+<p>The method&apos;s type declaration is shown as below: </p>
+<pre><code class="lang-typescript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">declare</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">updateAppContainerRetrieveKey</span>(<span class="hljs-params">newKey: <span class="hljs-built_in">string</span></span>): <span class="hljs-title">string</span></span>;
+</code></pre>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="AppContainer.html" class="navigation navigation-prev " aria-label="Previous page: AppContainer">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="ComponentManager.html" class="navigation navigation-next " aria-label="Next page: ComponentManager">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"AppContainerUtils","level":"1.5.2","depth":2,"next":{"title":"ComponentManager","level":"1.5.3","depth":2,"path":"api/ComponentManager.md","ref":"./api/ComponentManager.md","articles":[]},"previous":{"title":"AppContainer","level":"1.5.1","depth":2,"path":"api/AppContainer.md","ref":"./api/AppContainer.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"root":"./","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"intro.md","glossary":"GLOSSARY.md","summary":"README.md"},"variables":{},"gitbook":"*"},"file":{"path":"api/AppContainerUtils.md","mtime":"2018-10-26T13:33:53.918Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-26T13:57:49.768Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
