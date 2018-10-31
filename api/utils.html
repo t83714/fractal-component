@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>API Reference · GitBook</title>
+        <title>utils · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -57,8 +57,8 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="AppContainer.html" />
     
+    <link rel="prev" href="ActionForwarder.html" />
     
 
     </head>
@@ -470,7 +470,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.5" data-path="./">
+        <li class="chapter " data-level="1.5" data-path="./">
             
                 <a href="./">
             
@@ -536,7 +536,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.5.5" data-path="utils.html">
+        <li class="chapter active" data-level="1.5.5" data-path="utils.html">
             
                 <a href="utils.html">
             
@@ -584,7 +584,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >API Reference</a>
+        <a href=".." >utils</a>
     </h1>
 </div>
 
@@ -599,14 +599,69 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h2 id="api-reference">API Reference</h2>
+                                <h2 id="utils">utils</h2>
 <ul>
-<li><a href="AppContainer.html">AppContainer</a></li>
-<li><a href="AppContainerUtils.html">AppContainerUtils</a></li>
-<li><a href="ComponentManager.html">ComponentManager</a></li>
-<li><a href="ActionForwarder.html">ActionForwarder</a></li>
-<li><a href="utils.html">utils</a></li>
+<li><a href="#overview"><code>Overview</code></a></li>
+<li><a href="#utilsis"><code>utils.is</code></a></li>
+<li><a href="#utilsisinnode"><code>utils.isInNode</code></a></li>
+<li><a href="#utilsisdevmode"><code>utils.isDevMode</code></a></li>
+<li><a href="#utilsgetpackageversion"><code>utils.getPackageVersion</code></a></li>
+<li><a href="#utilssymboltostring"><code>utils.symbolToString</code></a></li>
 </ul>
+<h3 id="overview">Overview</h3>
+<p><code>utils</code> module provides a list of useful utility functions. </p>
+<h3 id="utilsis"><code>utils.is</code></h3>
+<p><code>utils.is</code> provides a list of useful data type checking functions:</p>
+<ul>
+<li><code>action</code>: test whether a value is an valid action object. <code>fractal-component</code> requires action type must be a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol" target="_blank">Symbol</a></li>
+<li><code>symbol</code>: test whether a value is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol" target="_blank">Symbol</a>. </li>
+</ul>
+<p>You should use this function to test whether a value is a <code>Symbol</code> rather than using <code>typeof</code> operator for better performance &amp; compatibility. Since <a href="https://babeljs.io/docs/en/v7-migration#babel-preset-env" target="_blank">babel 7</a>, <code>loose</code> mode of <code>@babel/preset-env</code> will now automatically exclude the typeof-symbol transform. </p>
+<ul>
+<li><code>pattern</code>: test whether a value is an action <a href="https://github.com/redux-saga/redux-saga/tree/v1.0.0-beta.2/docs/api#takepattern" target="_blank">pattern</a></li>
+<li><code>channel</code>: test whether a value is a <a href="https://redux-saga.js.org/docs/api/#channel" target="_blank">channel</a></li>
+<li><code>buffer</code>: test whether a value is a <a href="https://redux-saga.js.org/docs/api/#buffer" target="_blank">Buffer</a></li>
+<li><code>iterator</code>: test whether a value is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators#Iterators" target="_blank">iterator</a></li>
+<li><code>iterable</code>: test whether a value is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators#Iterables" target="_blank">iterable</a></li>
+<li><code>promise</code>: test whether a value is <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise" target="_blank">promise</a></li>
+<li><code>object</code>: test whether a value is an <code>object</code></li>
+<li><code>array</code>: test whether a value is an <code>array</code></li>
+<li><code>string</code>: test whether a value is a <code>string</code></li>
+<li><code>number</code>: test whether a value is a <code>number</code></li>
+<li><code>bool</code>: test whether a value is a <code>bool</code></li>
+<li><code>func</code>: test whether a value is a <code>function</code></li>
+<li><code>undef</code>: test whether a value is <code>null</code> or <code>undefined</code></li>
+<li><code>notUndef</code>: test whether a value is NOT <code>null</code> and <code>undefined</code></li>
+</ul>
+<h4 id="example">Example:</h4>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> { utils } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;fractal-component&quot;</span>;
+<span class="hljs-keyword">const</span> actionValid = {
+    type : <span class="hljs-built_in">Symbol</span>(<span class="hljs-string">&quot;ACTION_TYPE_ONE&quot;</span>)
+};
+<span class="hljs-keyword">const</span> actionInvalid = {
+    type : <span class="hljs-string">&quot;ACTION_TYPE_TWO&quot;</span>
+};
+<span class="hljs-built_in">console</span>.log(utils.is.action(actionValid)); <span class="hljs-comment">// --- true</span>
+<span class="hljs-built_in">console</span>.log(utils.is.action(actionInvalid)); <span class="hljs-comment">// --- false</span>
+</code></pre>
+<h3 id="utilsisinnode"><code>utils.isInNode</code></h3>
+<p>Whether code is running in <a href="https://nodejs.org/en/" target="_blank">nodejs</a> environment.</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> { utils } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;fractal-component&quot;</span>;
+utils.isInNode(); <span class="hljs-comment">//--- return true if running in nodejs otherwise return false</span>
+</code></pre>
+<h3 id="utilsisdevmode"><code>utils.isDevMode</code></h3>
+<p>Whether code is running under <code>development</code> mode. If you use <code>webpack</code>, You can use the <a href="https://webpack.js.org/concepts/mode/" target="_blank">mode</a> option to set <code>development</code> mode when create code bundle. e.g.</p>
+<pre><code class="lang-bash">webpack --mode=development
+</code></pre>
+<p>By default, <code>Redux DevTools</code> is only allowed to connect to your App if you bundle your code under <code>development</code> mode. You can change this behivour by <code>reduxDevToolsDevOnly</code> option when creates the <a href="AppContainer.html#initialisation-constructor">AppContainer</a>.</p>
+<h3 id="utilsgetpackageversion"><code>utils.getPackageVersion</code></h3>
+<p>Return <code>fractal-component</code> version number.</p>
+<h3 id="utilssymboltostring"><code>utils.symbolToString</code></h3>
+<p>Get string representation of a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol" target="_blank">Symbol</a>.</p>
+<p>While you can call toString() on Symbols, you can&apos;t use string concatenation with them (see <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/toString#No_string_concatenation" target="_blank">here</a>):</p>
+<pre><code class="lang-javascript"><span class="hljs-built_in">Symbol</span>(<span class="hljs-string">&apos;foo&apos;</span>) + <span class="hljs-string">&apos;bar&apos;</span>;       <span class="hljs-comment">// TypeError: Can&apos;t convert symbol to string</span>
+</code></pre>
+<p>You want to use this function to get the string representation of a <code>Symbol</code> rather than using <code>bar.toString()</code> as most minifier (e.g. <a href="https://github.com/webpack-contrib/uglifyjs-webpack-plugin" target="_blank">UglifyJS</a>) will replace <code>bar.toString()</code> with <code>&apos;&apos;+bar</code> in order to reduce code size when bundle your code. This will, however, produce an error when <code>bar</code> is a <code>Symbol</code>.</p>
 
                                 
                                 </section>
@@ -634,10 +689,10 @@
 
             
                 
-                
-                <a href="AppContainer.html" class="navigation navigation-next navigation-unique" aria-label="Next page: AppContainer">
-                    <i class="fa fa-angle-right"></i>
+                <a href="ActionForwarder.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: ActionForwarder">
+                    <i class="fa fa-angle-left"></i>
                 </a>
+                
                 
             
         
@@ -646,7 +701,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"API Reference","level":"1.5","depth":1,"next":{"title":"AppContainer","level":"1.5.1","depth":2,"path":"api/AppContainer.md","ref":"./api/AppContainer.md","articles":[]},"previous":{"title":"SagaMonitor","level":"1.4.2","depth":2,"ref":"","articles":[]},"dir":"ltr"},"config":{"plugins":[],"root":"./","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"intro.md","glossary":"GLOSSARY.md","summary":"README.md"},"variables":{},"gitbook":"*"},"file":{"path":"api/README.md","mtime":"2018-10-30T11:46:26.472Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-31T11:18:24.730Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"utils","level":"1.5.5","depth":2,"previous":{"title":"ActionForwarder","level":"1.5.4","depth":2,"path":"api/ActionForwarder.md","ref":"./api/ActionForwarder.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"root":"./","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"intro.md","glossary":"GLOSSARY.md","summary":"README.md"},"variables":{},"gitbook":"*"},"file":{"path":"api/utils.md","mtime":"2018-10-31T11:09:07.033Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-31T11:18:24.730Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
