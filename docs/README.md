@@ -31,4 +31,4 @@
   - [AppContainerUtils](./api/AppContainerUtils.md)
   - [ComponentManager](./api/ComponentManager.md)
   - [ActionForwarder](./api/ActionForwarder.md)
-  - utils
+  - [utils](./api/utils.md)

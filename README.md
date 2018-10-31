@@ -75,7 +75,7 @@ Alternatively, you may use the UMD builds from [unpkg](https://unpkg.com/fractal
   - [AppContainerUtils](https://t83714.github.io/fractal-component/api/AppContainerUtils.html)
   - [ComponentManager](https://t83714.github.io/fractal-component/api/ComponentManager.html)
   - [ActionForwarder](https://t83714.github.io/fractal-component/api/ActionForwarder.html)
-  - utils
+  - [utils](https://t83714.github.io/fractal-component/api/utils.html)
 
 
 ## Quick Start
