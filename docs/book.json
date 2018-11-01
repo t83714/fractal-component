@@ -1,4 +1,7 @@
 {
+    "title": "fractal-component",
+    "description": "`fractal-component` is a javascript library that can help you to encapsulate decoupled UI component easily. It aims to provide a one-stop solution that allows state store (redux) management, actions (messages, events) processing & routing, side-effect management and component styling to be encapsulated into one single software module.",
+    "author": "Jacky Jiang (https://github.com/t83714)",
     "root" : "./",
     "structure" : {
         "readme" : "intro.md",
