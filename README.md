@@ -6,7 +6,7 @@
 [![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/fractal-component.svg)](https://bundlephobia.com/result?p=fractal-component)
 [![Build Status](https://travis-ci.org/t83714/fractal-component.svg?branch=master)](https://travis-ci.org/t83714/fractal-component)
 
-`fractal-component` is a javascript library that can help you to encapsulate decoupled UI component easily. It aims to provide a one-stop solution that allows state store (redux) management, actions (messages, events) processing & routing, side-effect management and component styling to be encapsulated into one single software module. You can then reuse your component to create new components (composition), use in a different project or publish it as [a NPM module](https://www.npmjs.com/package/@fractal-components/random-gif). You can not only use those components in web browsers but also can render them at server-side (SSR) & create redux store snapshot easily ([see example](https://github.com/t83714/fractal-component/tree/master/examples/exampleAppSSR)).
+`fractal-component` is a javascript library that can help you to encapsulate decoupled UI component easily. It aims to provide a one-stop solution that allows state store (redux) management, actions (messages, events) processing & routing, side-effect management and component styling to be encapsulated into one single software module. You can then reuse your component to create new components (composition), use in a different project or publish it as [a NPM module](https://www.npmjs.com/package/@fractal-components/random-gif) (See the [live demo](https://codepen.io/t83714/pen/yxjgWr) on CodePen). You can not only use those components in web browsers but also can render them at server-side (SSR) & create redux store snapshot easily ([see example](https://github.com/t83714/fractal-component/tree/master/examples/exampleAppSSR)).
 
 In order to achieve that, `fractal-component` introduce the following features to react / redux ecosystem:
 
@@ -80,139 +80,146 @@ Alternatively, you may use the UMD builds from [unpkg](https://unpkg.com/fractal
 
 ## Quick Start
 
-A Reusable RandomGif Component. You can also find complete source code [here](https://github.com/t83714/fractal-component/tree/master/examples/exampleApp/src/components/RandomGif).
+You don't have to use [Webpack](https://webpack.js.org/) / [Babel](https://babeljs.io/) to compile / bundle any code before you can play with components built with `fractal-component`. Simply create a HTML file with the content below, open it with your web browser and you are good to go. The single HTML file will pull the UMD version of published components from CDN and run in your browser. Components included by this demo are:
+- RandomGif: [Source code](https://github.com/t83714/fractal-component/tree/master/examples/RandomGif)
+- RandomGifPair: built by reusing `RandomGif`. [Source code](https://github.com/t83714/fractal-component/tree/master/examples/RandomGifPair)
+- RandomGifPairPair: built by reusing `RandomGifPair`. [Source code](https://github.com/t83714/fractal-component/tree/master/examples/RandomGifPairPair)
+- ToggleButton: [Source code](https://github.com/t83714/fractal-component/tree/master/examples/ToggleButton)
+- Counter: [Source code](https://github.com/t83714/fractal-component/tree/master/examples/Counter)
 
-```javascript
-import React from "react";
-import PropTypes from "prop-types";
-import { AppContainerUtils } from "fractal-component";
+Bundled version of the complete exampleApp can be found from [here](https://github.com/t83714/fractal-component/tree/master/examples/exampleApp).
 
-import reducer from "./reducers";
-import saga from "./sagas";
-import * as actions from "./actions";
-import * as actionTypes from "./actions/types";
-import partialRight from "lodash/partialRight";
+```html
+<!doctype html>
+<html>
 
-import jss from "jss";
-import styles from "./styles";
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExampleApp Demo</title>
+    <!--
+        Load `babel-standalone` to support JSX in script tag
+    -->
+    <script src="https://unpkg.com/babel-standalone@7.0.0-beta.3/babel.min.js"></script>
+    <script src="https://unpkg.com/react@16.5.0/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/prop-types@15.6.2/prop-types.min.js"></script>
+    <script src="https://unpkg.com/react-dom@16.5.0/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/redux-saga@1.0.0-beta.2/dist/redux-saga.min.umd.js"></script>
+    <script src="https://unpkg.com/fractal-component@latest/dist/fractal-component.min.umd.js"></script>
+    <script src="https://unpkg.com/jss@9.8.7/dist/jss.min.js"></script>
+    <script src="https://unpkg.com/jss-preset-default@4.5.0/dist/jss-preset-default.min.js"></script>
+    <script src="https://unpkg.com/lodash@4.17.10/lodash.min.js"></script>
+    <script src="https://unpkg.com/@fractal-components/random-gif@latest/dist/@fractal-components/random-gif.min.umd.js"></script>
+    <script src="https://unpkg.com/@fractal-components/random-gif-pair@latest/dist/@fractal-components/random-gif-pair.umd.js"></script>
+    <script src="https://unpkg.com/@fractal-components/random-gif-pair-pair@latest/dist/@fractal-components/random-gif-pair-pair.min.umd.js"></script>
+    <script src="https://unpkg.com/@fractal-components/counter@latest/dist/@fractal-components/counter.min.umd.js"></script>
+    <script src="https://unpkg.com/@fractal-components/toggle-button@latest/dist/@fractal-components/toggle-button.min.umd.js"></script>
+</head>
 
-class RandomGif extends React.Component {
-    constructor(props) {
-        super(props);
-        /**
-         * You can set component initState via AppContainerUtils.registerComponent options as well.
-         * this.state gets higher priority
-         */
-        this.state = {
-            isLoading: false,
-            imageUrl: null,
-            error: null
-        };
-        this.componentManager = AppContainerUtils.registerComponent(this, {
-            namespace: "io.github.t83714/RandomGif",
-            reducer: reducer,
-            saga: partialRight(saga, props.apiKey),
-            /**
-             * Register actions for action serialisation / deserialisation.
-             */
-            actionTypes,
-            // --- only accept one type of external multicast action
-            // --- By default, component will not accept any incoming multicast action.
-            // --- No limit to actions that are sent out
-            allowedIncomingMulticastActionTypes: [actionTypes.REQUEST_NEW_GIF],
-            /**
-             * Namespace callbacks make sure style sheet only create once 
-             * for all component instances
-            */
-            namespaceInitCallback: componentManager => {
-                const styleSheet = jss
-                    .createStyleSheet(styles, {
-                        generateClassName: componentManager.createClassNameGenerator()
-                    })
-                    .attach();
-                return { styleSheet };// --- stored as namespace data
-            },
-            namespaceDestroyCallback: ({ styleSheet }) => {
-                styleSheet.detach();
-            }
-        });
-    }
+<body>
 
-    render() {
-        const { styleSheet } = this.componentManager.getNamespaceData();
-        const { classes } = styleSheet;
+    <div id="app_root"></div>
+    <script type="text/babel">
+    FractalComponent.AppContainerUtils.createAppContainer({
+        reduxDevToolsDevOnly: false
+    });
+
+    const styles = {
+        table: {
+            display: "flex",
+            "flex-wrap": "wrap",
+            margin: "0.2em 0.2em 0.2em 0.2em",
+            padding: 0,
+            "flex-direction": "rows"
+        },
+        cell: {
+            "box-sizing": "border-box",
+            "flex-grow": 0,
+            overflow: "hidden",
+            padding: "0.2em 0.2em",
+            "border-bottom": "none",
+            display: "flex",
+            "align-items": "center",
+            "justify-content": "flex-start"
+        }
+    };
+
+    const createStyleSheet = _.once(() => {
+        return jss
+            .create()
+            .createStyleSheet(styles, {
+                generateClassName: FractalComponent.utils.createClassNameGenerator("exampleApp")
+            })
+            .attach();
+    });
+
+    function App() {
+        const { classes } = createStyleSheet();
+        const ActionForwarder = FractalComponent.ActionForwarder;
         return (
-            <div className={classes.table}>
-                <div className={classes.cell}>RandomGif</div>
-                <div
-                    className={`${classes.cell} ${classes["image-container"]}`}
-                >
-                    {this.state.imageUrl &&
-                        !this.state.isLoading &&
-                        !this.state.error && (
-                            <img
-                                alt="Gif"
-                                src={this.state.imageUrl}
-                                className={`${classes.image}`}
-                            />
-                        )}
-                    {(!this.state.imageUrl || this.state.isLoading) &&
-                        !this.state.error && (
-                            <p>
-                                {this.state.isLoading
-                                    ? "Requesting API..."
-                                    : "No GIF loaded yet!"}
-                            </p>
-                        )}
-                    {this.state.error && (
-                        <p>{`Failed to request API: ${this.state.error}`}</p>
-                    )}
-                </div>
-                {this.props.showButton && (
-                    <div className={`${classes.cell} `}>
-                        <button
-                            onClick={() => {
-                                this.componentManager.dispatch(
-                                    actions.requestNewGif()
-                                );
-                            }}
-                            disabled={this.state.isLoading}
-                        >
-                            {this.state.isLoading
-                                ? "Requesting API..."
-                                : "Get Gif"}
-                        </button>
+            <div>
+                <div className={classes.table}>
+                    <div className={classes.cell}>
+                        {/*
+                            RandomGif / RandomGifPair / RandomGifPairPair support apiKey property as well
+                            You can supply your giphy API key as component property
+                        */}
+                        <RandomGif.default namespacePrefix="exampleApp/RandomGif" />
+                        {/*Forward `NEW_GIF` actions (and convert to `INCREASE_COUNT`) to ToggleButton for processing*/}
+                        <ActionForwarder
+                            namespacePrefix="exampleApp/RandomGif"
+                            pattern={RandomGif.actionTypes.NEW_GIF}
+                            relativeDispatchPath="../ToggleButton/*"
+                            transformer={Counter.actionTypes.INCREASE_COUNT}
+                        />
                     </div>
-                )}
+                    <div className={classes.cell}>
+                        <Counter.default namespacePrefix="exampleApp/Counter" />
+                    </div>
+                </div>
+                <div className={classes.table}>
+                    <div className={classes.cell}>
+                        <RandomGifPair.default namespacePrefix="exampleApp/RandomGifPair" />
+                        {/*Forward `NEW_GIF` actions (and convert to `INCREASE_COUNT`) to ToggleButton for processing*/}
+                        <ActionForwarder
+                            namespacePrefix="exampleApp/RandomGifPair"
+                            pattern={RandomGif.actionTypes.NEW_GIF}
+                            relativeDispatchPath="../ToggleButton/*"
+                            transformer={Counter.actionTypes.INCREASE_COUNT}
+                        />
+                    </div>
+                    <div className={classes.cell}>
+                        {/*
+                            ToggleButton acts as a proxy --- depends on its status
+                            add an `toggleButtonActive`= true / false field to all actions
+                            and then forward actions to Counter
+                        */}
+                        <ToggleButton.default
+                            namespacePrefix="exampleApp/ToggleButton"
+                            pattern={Counter.actionTypes.INCREASE_COUNT}
+                            relativeDispatchPath="../Counter/*"
+                            transformer={Counter.actionTypes.INCREASE_COUNT}
+                        />
+                    </div>
+                </div>
+                <div>
+                    <RandomGifPairPair.default namespacePrefix="exampleApp/RandomGifPairPair" />
+                    {/*Forward `NEW_GIF` actions (and convert to `INCREASE_COUNT`) to ToggleButton for processing*/}
+                    <ActionForwarder
+                        namespacePrefix="exampleApp/RandomGifPairPair"
+                        pattern={RandomGif.actionTypes.NEW_GIF}
+                        relativeDispatchPath="../ToggleButton/*"
+                        transformer={Counter.actionTypes.INCREASE_COUNT}
+                    />
+                </div>
             </div>
         );
     }
-}
 
-RandomGif.propTypes = {
-    showButton: PropTypes.bool,
-    apiKey: PropTypes.string
-};
 
-RandomGif.defaultProps = {
-    showButton: true,
-    apiKey: "xxxxxxxxxxxxxxx"
-};
+    ReactDOM.render(<App />, document.getElementById("app_root"));
+    </script>
+</body>
 
-export default RandomGif;
-
-//--- actions component may send out
-const exposedActionTypes = {
-    NEW_GIF : actionTypes.NEW_GIF,
-    LOADING_START: actionTypes.LOADING_START,
-    LOADING_COMPLETE: actionTypes.LOADING_COMPLETE
-};
-//--- action component will accept
-const exposedActions = {
-    requestNewGif: actions.requestNewGif
-};
-/**
- * expose actions for component users
- */
-export { exposedActionTypes as actionTypes, exposedActions as actions };
+</html>
 ```
