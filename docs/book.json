@@ -6,5 +6,11 @@
     "structure" : {
         "readme" : "intro.md",
         "summary" : "README.md"
+    },
+    "plugins": ["ga"],
+    "pluginsConfig": {
+        "ga": {
+            "token": "UA-128574696-2"
+        }
     }
 }
