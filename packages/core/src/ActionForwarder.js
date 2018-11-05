@@ -29,9 +29,14 @@ ActionForwarder.propTypes = {
     namespacePrefix: PropTypes.string.isRequired,
     pattern: PropTypes.oneOfType([
         PropTypes.symbol,
+        PropTypes.oneOf(["*"]),
         PropTypes.func,
         PropTypes.arrayOf(
-            PropTypes.oneOfType([PropTypes.string, PropTypes.func])
+            PropTypes.oneOfType([
+                PropTypes.symbol,
+                PropTypes.oneOf(["*"]),
+                PropTypes.func
+            ])
         )
     ]),
     relativeDispatchPath: PropTypes.string,

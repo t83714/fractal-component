@@ -1,3 +1,7 @@
+## 3.4.1
+
+- fixed incorrect ActionForwarder prop.types definition
+
 ## 3.4.2
 
 - effects.take will throw an error if pattern parameter is empty.
