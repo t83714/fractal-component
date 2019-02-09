@@ -11,7 +11,7 @@ const reducer = function(state, action) {
                     [action.componentId]: true
                 }
             };
-        case RandomGifPairActionTypes.LOADING_COMPLETE:
+        case RandomGifPairActionTypes.LOADING_COMPLETE: {
             const { isSuccess, payloadError } = action.payload;
             let { itemsLoading, error } = state;
             itemsLoading = {
@@ -25,13 +25,10 @@ const reducer = function(state, action) {
             return {
                 ...state,
                 isLoading,
-                error: error
-                    ? error
-                    : isSuccess
-                        ? null
-                        : payloadError,
+                error: error ? error : isSuccess ? null : payloadError,
                 itemsLoading
             };
+        }
         default:
             return state;
     }

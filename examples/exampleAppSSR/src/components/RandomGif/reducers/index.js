@@ -8,7 +8,7 @@ const reducer = function(state, action) {
                 isLoading: true,
                 error: null
             };
-        case actionTypes.RECEIVE_NEW_GIF:
+        case actionTypes.RECEIVE_NEW_GIF: {
             const imageUrl = action.payload;
             return {
                 ...state,
@@ -16,13 +16,15 @@ const reducer = function(state, action) {
                 error: null,
                 imageUrl
             };
+        }
         case actionTypes.REQUEST_NEW_GIF_ERROR:
             return {
                 ...state,
                 isLoading: false,
                 error: action.payload
             };
-        default: return state;
+        default:
+            return state;
     }
 };
 export default reducer;
