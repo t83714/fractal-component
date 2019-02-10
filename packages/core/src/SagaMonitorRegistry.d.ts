@@ -1,10 +1,10 @@
-import { Monitor } from "redux-saga";
+import { SagaMonitor } from "redux-saga";
 
 declare class SagaMonitorRegistry {
     constructor();
-    register(moniter: Monitor): void;
-    deregister(moniter: Monitor): void;
-    getCombinedMonitor(): Monitor;
+    register(moniter: SagaMonitor): void;
+    deregister(moniter: SagaMonitor): void;
+    getCombinedMonitor(): SagaMonitor;
     destroy(): void;
 }
 

@@ -1,6 +1,12 @@
 import objectPath from "object-path";
 import { PathContext, normalize } from "./PathRegistry";
-import { noop, getPackageName, log, createClassNameGenerator, symbolToString } from "./utils";
+import {
+    noop,
+    getPackageName,
+    log,
+    createClassNameGenerator,
+    symbolToString
+} from "./utils";
 
 const defaultOptions = {
     saga: null,
@@ -145,7 +151,11 @@ class ComponentManager {
         );
         if (!namespace) {
             log(
-                `Cannot locate namespace for Action \`${symbolToString(namespacedAction.type)}\`: \`${symbolToString(namespacedAction.type)}\` needs to be registered otherwise the action won't be serializable.`
+                `Cannot locate namespace for Action \`${symbolToString(
+                    namespacedAction.type
+                )}\`: \`${symbolToString(
+                    namespacedAction.type
+                )}\` needs to be registered otherwise the action won't be serializable.`
             );
         } else {
             namespacedAction.namespace = namespace;
