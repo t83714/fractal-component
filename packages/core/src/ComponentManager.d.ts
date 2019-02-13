@@ -2,13 +2,15 @@ import * as React from "react";
 import ComponentRegistry from "./ComponentRegistry";
 import AppContainer from "./AppContainer";
 import { Store, Action, Reducer } from "redux";
+import { Emitter, Handler } from "mitt";
 
 declare class ComponentManager {
     constructor(
         componentInstance: ManageableComponent,
         options: ManageableComponentOptions,
-        appContrainer: AppContainer
+        appContrainer?: AppContainer
     );
+    emitter: Emitter;
     appContrainer: AppContainer;
     store: Store;
     options: ManageableComponentOptions;
@@ -18,30 +20,19 @@ declare class ComponentManager {
     componentId: boolean;
     fullNamespace: string;
     fullPath: string;
-    isServerSideRendering: boolean;
     persistState: boolean;
     allowedIncomingMulticastActionTypes: symbol[] | symbol | string;
 
-    initCallback: InitCallback;
-    destroyCallback: DestroyCallback;
+    on(type: string, handler: Handler): void;
+    off(type: string, handler: Handler): void;
 
-    enhanceComponentInstance(
-        initCallback?: InitCallback,
-        destroyCallback?: DestroyCallback
-    ): void;
     dispatch(action: Action, relativeDispatchPath?: string): Action;
     getNamespaceData(): any;
     createClassNameGenerator(): () => string;
-    init(): void;
     destroy(): void;
 }
 
 export default ComponentManager;
-
-export type InitCallback = (cm: ComponentManager) => void;
-export type DestroyCallback = (cm: ComponentManager) => void;
-
-export declare const COMPONENT_MANAGER_LOCAL_KEY: Symbol;
 
 export type ManageableComponent = React.Component | React.PureComponent;
 

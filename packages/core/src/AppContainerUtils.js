@@ -1,5 +1,5 @@
 import AppContainer from "./AppContainer";
-import { log } from "./utils";
+import { log, is } from "./utils";
 
 let APP_CONTAINER_KEY = "appContainer";
 let defaultAppContainer = null;
@@ -26,11 +26,16 @@ export function getAppContainer(componentInstance = null) {
             componentInstance.props[APP_CONTAINER_KEY]
         )
             return componentInstance.props[APP_CONTAINER_KEY];
-        if (
-            componentInstance.context &&
-            componentInstance.context[APP_CONTAINER_KEY]
-        )
-            return componentInstance.context[APP_CONTAINER_KEY];
+        if (componentInstance.context) {
+            if (is.appContainer(componentInstance.context)) {
+                return is.appContainer(componentInstance.context);
+            } else if (
+                componentInstance.context[APP_CONTAINER_KEY] &&
+                is.appContainer(componentInstance.context[APP_CONTAINER_KEY])
+            ) {
+                return componentInstance.context[APP_CONTAINER_KEY];
+            }
+        }
     }
     if (!defaultAppContainer) {
         defaultAppContainer = createAppContainer();

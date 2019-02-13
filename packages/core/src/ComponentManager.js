@@ -1,4 +1,7 @@
 import objectPath from "object-path";
+import mitt from "mitt";
+import { is } from "./utils";
+import { getAppContainer } from "./AppContainerUtils";
 import { PathContext, normalize } from "./PathRegistry";
 import {
     noop,
@@ -24,29 +27,23 @@ const defaultOptions = {
 
 const pkgName = getPackageName();
 
-export const COMPONENT_MANAGER_LOCAL_KEY = Symbol(
-    "COMPONENT_MANAGER_LOCAL_KEY"
-);
-
 class ComponentManager {
-    constructor(componentInstance, options, appContainer) {
+    constructor(componentInstance, options, appContainer = null) {
+        this.emitter = mitt();
+
         this.createClassNameGenerator = createClassNameGenerator.bind(this);
         this.componentInstance = componentInstance;
         this.options = { ...defaultOptions, ...options };
-        this.appContainer = appContainer;
-        this.store = appContainer.store;
+        this.appContainer = null;
+        this.store = null;
 
         this.isInitialized = false;
         this.isDestroyed = false;
 
-        this.initCallback = noop;
-        this.destroyCallback = noop;
-
         this.storeListener = bindStoreListener.bind(this);
         this.storeListenerUnsubscribe = null;
 
-        this.managingInstance = componentInstance;
-        this.displayName = getComponentName(this.managingInstance);
+        this.displayName = getComponentName(this.componentInstance);
 
         const settleStringSettingFunc = settleStringSetting.bind(this);
 
@@ -95,47 +92,56 @@ class ComponentManager {
             );
         }
 
-        this.isServerSideRendering = this.options.isServerSideRendering;
         this.persistState = this.options.persistState;
         this.fullNamespace = fullNamespace.bind(this)();
         this.fullPath = fullPath.bind(this)();
         this.fullLocalPath = fullLocalPath.bind(this)();
         this.allowedIncomingMulticastActionTypes = this.options.allowedIncomingMulticastActionTypes;
 
-        determineInitState.apply(this);
-    }
-
-    enhanceComponentInstance(initCallback = null, destroyCallback = null) {
-        if (initCallback) {
-            this.initCallback = initCallback;
-        }
-        if (destroyCallback) {
-            this.destroyCallback = destroyCallback;
-        }
-        //--- should NOT shallow copy to avoid unnecessary render
-        this.componentInstance.state = this.initState;
-        if (this.isServerSideRendering) {
-            this.setState = noop;
-        } else {
-            this.setState = this.componentInstance.setState.bind(
-                this.componentInstance
-            );
-        }
-
-        this.componentInstance.setState = function() {
+        // --- take over component's setState method
+        this.setState = this.componentInstance.setState.bind(
+            this.componentInstance
+        );
+        this.componentInstance.setState = () => {
             throw new Error(
                 `This component is managed by \`${pkgName}\`. You should dispatch action to mutate component state.`
             );
         };
-        this.storeListenerUnsubscribe = this.store.subscribe(
-            this.storeListener
-        );
-        this.componentInstance[COMPONENT_MANAGER_LOCAL_KEY] = this;
-        if (this.isServerSideRendering) {
-            this.init();
-        } else {
-            injectLifeHookers.apply(this);
-        }
+
+        setComponentInitState.apply(this);
+
+        injectLifeHookers.apply(this);
+
+        this.on("init", () => {
+            if (is.appContainer(appContainer)) {
+                this.appContainer = appContainer;
+            } else {
+                this.appContainer = getAppContainer(this.componentInstance);
+            }
+            this.store = this.appContainer.store;
+
+            this.storeListenerUnsubscribe = this.store.subscribe(
+                this.storeListener
+            );
+
+            if (this.isInitialized || this.isDestroyed) return;
+
+            this.isInitialized = true;
+
+            this.emitter.emit("mount");
+        });
+
+        this.on("destroy", () => {
+            this.destroy();
+        });
+    }
+
+    on(type, handler) {
+        this.emitter.on(type, handler);
+    }
+
+    off(type) {
+        this.emitter.off(type);
     }
 
     dispatch(action, relativeDispatchPath = "") {
@@ -164,12 +170,6 @@ class ComponentManager {
         return this.store.dispatch(namespacedAction);
     }
 
-    init() {
-        if (this.isInitialized || this.isDestroyed) return;
-        this.initCallback(this);
-        this.isInitialized = true;
-    }
-
     getNamespaceData() {
         return this.appContainer.namespaceRegistry.getData(this.namespace);
     }
@@ -185,6 +185,9 @@ class ComponentManager {
         this.appContainer = null;
         this.store = null;
         this.isInitialized = false;
+        if (this.appContainer && this.appContainer.componentRegistry) {
+            this.appContainer.componentRegistry.deregister(this);
+        }
     }
 }
 
@@ -197,8 +200,8 @@ function bindStoreListener() {
     this.setState(state);
 }
 
-function determineInitState() {
-    let initState = this.managingInstance.state;
+function setComponentInitState() {
+    let initState = this.componentInstance.state;
     if (!initState) {
         initState = this.options.initState;
     }
@@ -206,37 +209,29 @@ function determineInitState() {
         initState = {};
     }
     this.initState = { ...initState };
+    this.componentInstance.state = this.initState;
 }
 
 function injectLifeHookers() {
-    const origComponentDidMount = this.managingInstance.componentDidMount
-        ? this.managingInstance.componentDidMount
+    const originalRender = this.componentInstance.render
+        ? this.componentInstance.render
         : noop;
-    const origComponentWillUnmount = this.managingInstance.componentWillUnmount
-        ? this.managingInstance.componentWillUnmount
+    const originalComponentWillUnmount = this.componentInstance
+        .componentWillUnmount
+        ? this.componentInstance.componentWillUnmount
         : noop;
-    this.managingInstance.componentDidMount = handlerComponentDidMount.bind(
-        this,
-        origComponentDidMount
-    );
-    this.managingInstance.componentWillUnmount = handlerComponentWillUnmount.bind(
-        this,
-        origComponentWillUnmount
-    );
-}
 
-function handlerComponentDidMount(originalHandler) {
-    this.init();
-    if (originalHandler && typeof originalHandler === "function") {
-        originalHandler.apply(this.managingInstance);
-    }
-}
-
-function handlerComponentWillUnmount(originalHandler) {
-    if (originalHandler && typeof originalHandler === "function") {
-        originalHandler.apply(this.managingInstance);
-    }
-    this.destroy();
+    const componentManagerEmitter = this.emitter;
+    this.componentInstance.render = () => {
+        this.componentInstance.render = originalRender;
+        componentManagerEmitter.emit("init");
+        originalRender.apply(this.componentInstance);
+    };
+    this.componentInstance.componentWillUnmount = () => {
+        this.componentInstance.componentWillUnmount = originalComponentWillUnmount;
+        componentManagerEmitter.emit("destroy");
+        originalComponentWillUnmount.apply(this.componentInstance);
+    };
 }
 
 function fullNamespace() {
@@ -279,7 +274,7 @@ function settleStringSetting(setting) {
             const value = setting.bind(
                 this,
                 this.displayName,
-                this.managingInstance
+                this.componentInstance
             )();
             if (!value) return "";
             return value;

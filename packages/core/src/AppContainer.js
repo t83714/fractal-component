@@ -10,6 +10,7 @@ import NamespaceRegistry from "./NamespaceRegistry";
 import * as ReducerRegistryActionTypes from "./ReducerRegistry/actionTypes";
 import * as SagaRegistryActionTypes from "./SagaRegistry/actionTypes";
 import { isDevMode, log, is, symbolToString } from "./utils";
+import ComponentManager from "./ComponentManager";
 
 const actionBlackList = Object.keys(ReducerRegistryActionTypes)
     .map(idx => ReducerRegistryActionTypes[idx])
@@ -55,8 +56,11 @@ const getComposeEnhancers = function(devOnly, options) {
     return window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(devToolOptions);
 };
 
+export const APP_CONTAINER_SYMBOL = Symbol("APP_CONTAINER_SYMBOL");
+
 class AppContainer {
     constructor(options = {}) {
+        this.__APP_CONTAINER_SYMBOL = APP_CONTAINER_SYMBOL;
         this.store = null;
         this.sagaMonitorRegistry = new SagaMonitorRegistry();
         this.actionRegistry = new ActionRegistry();
@@ -108,11 +112,12 @@ class AppContainer {
     }
 
     registerComponent(componentInstance, options) {
-        return this.componentRegistry.register(componentInstance, options);
+        return new ComponentManager(componentInstance, options, this);
     }
 
     deregisterComponent(componentInstance) {
-        this.componentRegistry.deregister(componentInstance);
+        const cm = this.componentRegistry.retrieveComponentManager(componentInstance);
+        cm.deregister();
     }
 
     /**

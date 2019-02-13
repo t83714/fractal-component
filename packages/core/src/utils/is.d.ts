@@ -1,6 +1,7 @@
 import { Action } from "redux";
 import { Buffer, Channel } from "redux-saga";
 import { Pattern, ActionPattern } from "redux-saga/effects";
+import AppContainer from "../AppContainer";
 export type GuardPredicate<G extends T, T = any> = (arg: T) => arg is G;
 
 export const undef: GuardPredicate<undefined>;
@@ -22,3 +23,4 @@ export const symbol: GuardPredicate<symbol>;
 export const bool: GuardPredicate<boolean>;
 export const action: GuardPredicate<Action<symbol>>;
 export const namespacedAction: GuardPredicate<Action<symbol>>;
+export const appContainer: GuardPredicate<AppContainer>;

@@ -6,19 +6,12 @@ import ComponentManager from "./ComponentManager";
 import AppContainer from "./AppContainer";
 
 declare class ComponentRegistry {
-    constructor(appContainer: AppContainer, options: ComponentRegistryOptions);
+    constructor(appContainer: AppContainer);
     appContainer: AppContainer;
-    register(
-        componentInstance: ManageableComponent,
-        options?: ManageableComponentOptions
-    ): ComponentManager;
-    deregister(componentInstance: ManageableComponent): void;
+    register(manager: ComponentManager): void;
+    deregister(manager: ComponentManager): void;
     createComponentId(...pathItems: string[]): string;
     destroy(): void;
 }
 
 export default ComponentRegistry;
-
-export interface ComponentRegistryOptions {
-    isServerSideRendering?: boolean;
-}

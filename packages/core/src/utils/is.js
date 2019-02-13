@@ -3,6 +3,7 @@
  * @redux-saga/is module
  */
 import { NAMESPACED } from "../PathRegistry/symbols";
+import { APP_CONTAINER_SYMBOL } from "../AppContainer";
 
 export const undef = v => v === null || v === undefined;
 export const notUndef = v => v !== null && v !== undefined;
@@ -24,3 +25,4 @@ export const symbol = sym =>
 export const bool = typeof v === "boolean";
 export const action = v => object(v) && symbol(v.type);
 export const namespacedAction = v => action(v) && v[NAMESPACED];
+export const appContainer = v => v.__APP_CONTAINER_SYMBOL && v.__APP_CONTAINER_SYMBO === APP_CONTAINER_SYMBOL;
