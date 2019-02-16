@@ -1,6 +1,3 @@
-import * as actionTypes from "./ComponentManager/actionTypes";
-import * as actions from "./ComponentManager/actions";
-import namespace from "./ComponentManager/namespace";
 import objectPath from "object-path";
 import mitt from "mitt";
 import { is } from "./utils";
@@ -135,13 +132,6 @@ class ComponentManager {
 
             this.appContainer.componentRegistry.register(this);
 
-            if (!this.appContainer.actionRegistry.isNamespaceExist(namespace)) {
-                this.appContainer.actionRegistry.register(
-                    namespace,
-                    actionTypes
-                );
-            }
-
             if (!this.isInitialized && !this.isDestroyed) {
                 this.isInitialized = true;
             }
@@ -150,6 +140,7 @@ class ComponentManager {
         });
 
         this.on("mount", () => {
+            // --- Attach start listener & resync component state
             this.storeListenerUnsubscribe = this.store.subscribe(
                 this.storeListener
             );
@@ -159,12 +150,7 @@ class ComponentManager {
             }
         });
 
-        this.on("initd", () => {
-            this.dispatch(actions.initd());
-        });
-
         this.on("destroy", () => {
-            this.dispatch(actions.destroy());
             this.destroy();
         });
     }
@@ -229,8 +215,6 @@ class ComponentManager {
         this.isInitialized = false;
     }
 }
-
-ComponentManager.actionTypes = actionTypes;
 
 function bindStoreListener() {
     const state = objectPath.get(
@@ -347,5 +331,3 @@ function settleStringSetting(setting) {
 }
 
 export default ComponentManager;
-
-export { actionTypes, actions };
