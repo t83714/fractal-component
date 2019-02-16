@@ -1,5 +1,6 @@
 import AppContainer from "./AppContainer";
 import { log, is } from "./utils";
+import ComponentManager from "fractal-component/src/ComponentManager";
 
 let APP_CONTAINER_KEY = "appContainer";
 let defaultAppContainer = null;
@@ -44,8 +45,7 @@ export function getAppContainer(componentInstance = null) {
 }
 
 export function registerComponent(componentInstance, options) {
-    const appContainer = getAppContainer(componentInstance);
-    return appContainer.registerComponent(componentInstance, options);
+    return new ComponentManager(componentInstance, options);
 }
 
 export function deregisterComponent(componentInstance) {

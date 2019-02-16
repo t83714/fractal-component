@@ -30,7 +30,6 @@ const createConfig = ({
     ...props
 }) => ({
     input,
-    experimentalCodeSplitting: typeof input !== "string",
     output: ensureArray(output).map(format =>
         Object.assign({}, format, {
             name: "ToggleButton",

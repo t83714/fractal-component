@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "prettier": "yarn wsrun prettier",
-    "build": "yarn wsrun build --stages",
+    "build": "yarn wsrun --stages build",
     "test": "npm run test --prefix packages/core",
     "gitbook": "gitbook build ./docs",
     "gitbook-dev": "gitbook serve ./docs"

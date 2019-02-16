@@ -1,3 +1,6 @@
+import * as actionTypes from "./ComponentManager/actionTypes";
+import * as actions from "./ComponentManager/actions";
+import namespace from "./ComponentManager/namespace";
 import objectPath from "object-path";
 import mitt from "mitt";
 import { is } from "./utils";
@@ -27,6 +30,11 @@ const defaultOptions = {
 
 const pkgName = getPackageName();
 
+const initialisationErrorMsg =
+    "Component Manager is not initialized yet.\n" +
+    "It will be initialized just before first render() call to support new React context API since 16.3.0." +
+    "You should monitor `ComponentManager.actionTypes.INITD` action to start logic after the initialisation.";
+
 class ComponentManager {
     constructor(componentInstance, options, appContainer = null) {
         this.emitter = mitt();
@@ -36,6 +44,7 @@ class ComponentManager {
         this.options = { ...defaultOptions, ...options };
         this.appContainer = null;
         this.store = null;
+        this.receivedStateUpdateFromStore = false;
 
         this.isInitialized = false;
         this.isDestroyed = false;
@@ -74,13 +83,7 @@ class ComponentManager {
             this.componentId.indexOf("*") !== -1
         )
             throw new Error("`Component ID` cannot contain `/` or `*`.");
-        if (!this.componentId) {
-            this.isAutoComponentId = true;
-            this.componentId = this.appContainer.componentRegistry.createComponentId(
-                this.namespacePrefix,
-                this.namespace
-            );
-        }
+
         if (
             this.componentInstance.props &&
             this.componentInstance.props.namespacePrefix
@@ -93,9 +96,8 @@ class ComponentManager {
         }
 
         this.persistState = this.options.persistState;
+
         this.fullNamespace = fullNamespace.bind(this)();
-        this.fullPath = fullPath.bind(this)();
-        this.fullLocalPath = fullLocalPath.bind(this)();
         this.allowedIncomingMulticastActionTypes = this.options.allowedIncomingMulticastActionTypes;
 
         // --- take over component's setState method
@@ -120,18 +122,49 @@ class ComponentManager {
             }
             this.store = this.appContainer.store;
 
+            if (!this.componentId) {
+                this.isAutoComponentId = true;
+                this.componentId = this.appContainer.componentRegistry.createComponentId(
+                    this.namespacePrefix,
+                    this.namespace
+                );
+            }
+
+            this.fullPath = fullPath.bind(this)();
+            this.fullLocalPath = fullLocalPath.bind(this)();
+
+            this.appContainer.componentRegistry.register(this);
+
+            if (!this.appContainer.actionRegistry.isNamespaceExist(namespace)) {
+                this.appContainer.actionRegistry.register(
+                    namespace,
+                    actionTypes
+                );
+            }
+
+            if (!this.isInitialized && !this.isDestroyed) {
+                this.isInitialized = true;
+            }
+
+            this.emitter.emit("initd");
+        });
+
+        this.on("mount", () => {
             this.storeListenerUnsubscribe = this.store.subscribe(
                 this.storeListener
             );
 
-            if (this.isInitialized || this.isDestroyed) return;
+            if (this.receivedStateUpdateFromStore) {
+                this.storeListener();
+            }
+        });
 
-            this.isInitialized = true;
-
-            this.emitter.emit("mount");
+        this.on("initd", () => {
+            this.dispatch(actions.initd());
         });
 
         this.on("destroy", () => {
+            this.dispatch(actions.destroy());
             this.destroy();
         });
     }
@@ -145,6 +178,9 @@ class ComponentManager {
     }
 
     dispatch(action, relativeDispatchPath = "") {
+        if (!this.isInitialized) {
+            throw new Error(initialisationErrorMsg);
+        }
         const pc = new PathContext(this.fullPath);
         const namespacedAction = pc.convertNamespacedAction(
             action,
@@ -171,25 +207,30 @@ class ComponentManager {
     }
 
     getNamespaceData() {
+        if (!this.isInitialized) {
+            throw new Error(initialisationErrorMsg);
+        }
         return this.appContainer.namespaceRegistry.getData(this.namespace);
     }
 
     destroy() {
         this.isDestroyed = true;
         if (!this.isInitialized) return;
-        this.destroyCallback(this);
+        this.off("*");
         if (this.storeListenerUnsubscribe) {
             this.storeListenerUnsubscribe();
             this.storeListenerUnsubscribe = null;
         }
-        this.appContainer = null;
-        this.store = null;
-        this.isInitialized = false;
         if (this.appContainer && this.appContainer.componentRegistry) {
             this.appContainer.componentRegistry.deregister(this);
         }
+        this.appContainer = null;
+        this.store = null;
+        this.isInitialized = false;
     }
 }
+
+ComponentManager.actionTypes = actionTypes;
 
 function bindStoreListener() {
     const state = objectPath.get(
@@ -197,7 +238,13 @@ function bindStoreListener() {
         this.fullPath.split("/")
     );
     if (state === this.componentInstance.state) return;
-    this.setState(state);
+    // --- no state update before `isInitialized`
+    // --- once `isInitialized`,
+    // --- check this field to decide whether an initial this.setState call is needed
+    this.receivedStateUpdateFromStore = true;
+    if (this.isInitialized) {
+        this.setState(state);
+    }
 }
 
 function setComponentInitState() {
@@ -216,6 +263,9 @@ function injectLifeHookers() {
     const originalRender = this.componentInstance.render
         ? this.componentInstance.render
         : noop;
+    const originalComponentDidMount = this.componentInstance.componentDidMount
+        ? this.componentInstance.componentDidMount
+        : noop;
     const originalComponentWillUnmount = this.componentInstance
         .componentWillUnmount
         ? this.componentInstance.componentWillUnmount
@@ -225,12 +275,17 @@ function injectLifeHookers() {
     this.componentInstance.render = () => {
         this.componentInstance.render = originalRender;
         componentManagerEmitter.emit("init");
-        originalRender.apply(this.componentInstance);
+        return originalRender.apply(this.componentInstance);
+    };
+    this.componentInstance.componentDidMount = () => {
+        this.componentInstance.componentDidMount = originalComponentDidMount;
+        componentManagerEmitter.emit("mount");
+        originalComponentDidMount.apply(this.componentInstance);
     };
     this.componentInstance.componentWillUnmount = () => {
         this.componentInstance.componentWillUnmount = originalComponentWillUnmount;
-        componentManagerEmitter.emit("destroy");
         originalComponentWillUnmount.apply(this.componentInstance);
+        componentManagerEmitter.emit("destroy");
     };
 }
 
@@ -292,3 +347,5 @@ function settleStringSetting(setting) {
 }
 
 export default ComponentManager;
+
+export { actionTypes, actions };

@@ -23,7 +23,6 @@ const peerDeps = Object.keys(pkg.peerDependencies || {});
 
 const createConfig = ({ input, output, external, env, min = false, ...props }) => ({
     input,
-    experimentalCodeSplitting: typeof input !== "string",
     output: ensureArray(output).map(format =>
         Object.assign({}, format, {
             name: "FractalComponent",

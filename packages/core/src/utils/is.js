@@ -25,4 +25,4 @@ export const symbol = sym =>
 export const bool = typeof v === "boolean";
 export const action = v => object(v) && symbol(v.type);
 export const namespacedAction = v => action(v) && v[NAMESPACED];
-export const appContainer = v => v.__APP_CONTAINER_SYMBOL && v.__APP_CONTAINER_SYMBO === APP_CONTAINER_SYMBOL;
+export const appContainer = v => v && v.__APP_CONTAINER_SYMBOL && v.__APP_CONTAINER_SYMBO === APP_CONTAINER_SYMBOL;

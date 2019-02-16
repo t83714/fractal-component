@@ -7,6 +7,7 @@ declare class ActionRegistry {
     deserialiseAction(actionJson: string): Action;
     findNamespaceByActionType(actionType: symbol): string;
     destroy(): void;
+    isNamespaceExist(namespace: string): boolean;
 }
 
 export default ActionRegistry;

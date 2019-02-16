@@ -40,6 +40,11 @@ export default class ActionRegistry {
         this.pathRegistry.destroy();
     }
 
+    isNamespaceExist(namespace) {
+        namespace = normalize(namespace);
+        return this.pathRegistry.exist(namespace);
+    }
+
     register(namespace, actionTypes) {
         namespace = normalize(namespace);
 

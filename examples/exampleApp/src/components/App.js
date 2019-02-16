@@ -1,11 +1,11 @@
 import React from "react";
 //-- import fractal-component lib from src entry point
 import { ActionForwarder } from "fractal-component";
-import RandomGif, { actionTypes as randomGifActionTypes } from "./RandomGif";
-import RandomGifPair from "./RandomGifPair";
-import RandomGifPairPair from "./RandomGifPairPair";
-import Counter, { actionTypes as counterActionTypes } from "./Counter";
-import ToggleButton from "./ToggleButton";
+import RandomGif, { actionTypes as randomGifActionTypes } from "@fractal-components/random-gif";
+import RandomGifPair from "@fractal-components/random-gif-pair";
+import RandomGifPairPair from "@fractal-components/random-gif-pair-pair";
+import Counter, { actionTypes as counterActionTypes } from "@fractal-components/counter";
+import ToggleButton from "@fractal-components/toggle-button";
 import once from "lodash/once";
 import jss from "jss";
 import styles from "./App.style";
