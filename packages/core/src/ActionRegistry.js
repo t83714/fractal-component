@@ -1,4 +1,5 @@
-import PathRegistry, { normalize, NAMESPACED } from "./PathRegistry";
+import PathRegistry, { normalize } from "./PathRegistry";
+import { NAMESPACED } from "./symbols";
 import { is, symbolToString } from "./utils";
 
 const standardliseActionTypesParameter = function(actionTypes) {

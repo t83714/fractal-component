@@ -1,7 +1,6 @@
 import { is, trim } from "./utils";
-import { NAMESPACED } from "./PathRegistry/symbols";
+import { NAMESPACED } from "./symbols";
 
-export { NAMESPACED };
 export class PathContext {
     constructor(cwd) {
         this.cwd = normalize(cwd);

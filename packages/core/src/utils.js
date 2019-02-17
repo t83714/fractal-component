@@ -1,6 +1,7 @@
+import { getPackageName, getPackageVersion } from "./utils/pkgUtils";
 import * as is from "./utils/is";
-import pkg from "../package.json";
 
+export { is, getPackageName, getPackageVersion };
 
 let devMode = false;
 if (
@@ -60,9 +61,11 @@ export const getMachineInfo = function() {
             if (macAddr !== "") break;
         }
         pid = process && process.pid ? process.pid : null;
-        macAddrInt = macAddr ? parseInt(macAddr.replace(/\:|\D+/gi, "")) : null;
+        macAddrInt = macAddr ? parseInt(macAddr.replace(/:|\D+/gi, "")) : null;
         if (isNaN(macAddrInt)) macAddrInt = null;
-    } catch (e) {}
+    } catch (e) {
+        // --- do nothing just mute the error
+    }
 
     machineInfo = {
         pid,
@@ -90,14 +93,6 @@ export const uniqid = function(prefix) {
     const last = lastTimeStamp || now;
     lastTimeStamp = now > last ? now : last + 1;
     return (prefix || "") + mac + pid + lastTimeStamp.toString(36);
-};
-
-export const getPackageName = function() {
-    return pkg.name;
-};
-
-export const getPackageVersion = function() {
-    return pkg.version;
 };
 
 export const isDevMode = function() {
@@ -128,8 +123,6 @@ export const kTrue = konst(true);
 export const kFalse = konst(false);
 export const noop = () => {};
 export const identity = v => v;
-
-export { is };
 
 export const createClassNameGenerator = function(namespace) {
     let ruleCounter = 0;

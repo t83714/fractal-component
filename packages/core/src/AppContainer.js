@@ -1,3 +1,4 @@
+import { APP_CONTAINER_SYMBOL } from "./symbols";
 import { createStore, applyMiddleware, compose } from "redux";
 import createSagaMiddleware from "redux-saga";
 import ComponentRegistry from "./ComponentRegistry";
@@ -55,8 +56,6 @@ const getComposeEnhancers = function(devOnly, options) {
     /* eslint-disable-next-line no-underscore-dangle */
     return window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(devToolOptions);
 };
-
-export const APP_CONTAINER_SYMBOL = Symbol("APP_CONTAINER_SYMBOL");
 
 class AppContainer {
     constructor(options = {}) {
