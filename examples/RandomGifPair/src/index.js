@@ -1,8 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { AppContainerUtils, ActionForwarder, AppContainer } from "fractal-component";
+import {
+    AppContainerUtils,
+    ActionForwarder,
+    AppContainer
+} from "fractal-component";
 
-import RandomGif, { actionTypes as RandomGifActionTypes } from "@fractal-components/random-gif";
+import RandomGif, {
+    actionTypes as RandomGifActionTypes
+} from "@fractal-components/random-gif";
 
 import * as actions from "./actions";
 import * as actionTypes from "./actions/types";
@@ -45,11 +51,11 @@ class RandomGifPair extends React.Component {
             allowedIncomingMulticastActionTypes: [actionTypes.REQUEST_NEW_PAIR],
             namespaceInitCallback: componentManager => {
                 let jssRef;
-                if(!props.styles){
+                if (!props.styles) {
                     // --- if use built-in style, we want to make sure this component use its own jss setting
                     jssRef = jss.setup(jssDefaultPreset());
-                }else{
-                    jssRef = jss
+                } else {
+                    jssRef = jss;
                 }
                 const styleSheet = jssRef
                     .createStyleSheet(props.styles ? props.styles : styles, {
@@ -173,7 +179,4 @@ const exposedActions = {
 /**
  * expose actions for component users
  */
-export {
-    exposedActionTypes as actionTypes,
-    exposedActions as actions
-};
+export { exposedActionTypes as actionTypes, exposedActions as actions };

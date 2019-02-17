@@ -20,32 +20,34 @@ export class PathContext {
     compressPath(paths, ignoreExcessDoubleDot = true) {
         if (is.string(paths)) paths = [paths];
         const calculatedParts = [];
-        paths.map(p => p.trim()).forEach(p => {
-            if (p.indexOf("*") !== -1)
-                throw new Error(
-                    "Failed to resolve path: path segments cannot contain `*`"
-                );
-            p.split("/").forEach(item => {
-                item = trim(item);
-                switch (item) {
-                    case "":
-                        break;
-                    case ".":
-                        break;
-                    case "..":
-                        if (calculatedParts.length) {
-                            calculatedParts.pop();
-                        } else {
-                            if (!ignoreExcessDoubleDot) {
-                                calculatedParts.push("..");
+        paths
+            .map(p => p.trim())
+            .forEach(p => {
+                if (p.indexOf("*") !== -1)
+                    throw new Error(
+                        "Failed to resolve path: path segments cannot contain `*`"
+                    );
+                p.split("/").forEach(item => {
+                    item = trim(item);
+                    switch (item) {
+                        case "":
+                            break;
+                        case ".":
+                            break;
+                        case "..":
+                            if (calculatedParts.length) {
+                                calculatedParts.pop();
+                            } else {
+                                if (!ignoreExcessDoubleDot) {
+                                    calculatedParts.push("..");
+                                }
                             }
-                        }
-                        break;
-                    default:
-                        calculatedParts.push(item);
-                }
+                            break;
+                        default:
+                            calculatedParts.push(item);
+                    }
+                });
             });
-        });
         return calculatedParts.join("/");
     }
 

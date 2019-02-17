@@ -42,11 +42,11 @@ class ToggleButton extends React.Component {
             allowedIncomingMulticastActionTypes: "*",
             namespaceInitCallback: componentManager => {
                 let jssRef;
-                if(!props.styles){
+                if (!props.styles) {
                     // --- if use built-in style, we want to make sure this component use its own jss setting
                     jssRef = jss.setup(jssDefaultPreset());
-                }else{
-                    jssRef = jss
+                } else {
+                    jssRef = jss;
                 }
                 const styleSheet = jssRef
                     .createStyleSheet(props.styles ? props.styles : styles, {

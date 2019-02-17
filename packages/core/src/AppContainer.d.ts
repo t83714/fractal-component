@@ -68,4 +68,4 @@ export interface AppContainerOptions {
     isServerSideRendering?: boolean;
 }
 
-export const APP_CONTAINER_SYMBOL:Symbol;
+export const APP_CONTAINER_SYMBOL: Symbol;

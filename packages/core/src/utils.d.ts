@@ -22,10 +22,10 @@ export const log: (message: string, level?: string, error?: any) => void;
 
 export const trim: (v: string) => void;
 
-export const konst: (v: any) => (() => any);
-export const kTrue: (v: any) => (() => boolean);
-export const kFalse: (v: any) => (() => boolean);
+export const konst: (v: any) => () => any;
+export const kTrue: (v: any) => () => boolean;
+export const kFalse: (v: any) => () => boolean;
 export const noop: () => void;
 export const identity: (v: any) => any;
 export const createClassNameGenerator: () => string;
-export const symbolToString: (s:Symbol) => string;
+export const symbolToString: (s: Symbol) => string;

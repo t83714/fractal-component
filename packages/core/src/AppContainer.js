@@ -115,7 +115,9 @@ class AppContainer {
     }
 
     deregisterComponent(componentInstance) {
-        const cm = this.componentRegistry.retrieveComponentManager(componentInstance);
+        const cm = this.componentRegistry.retrieveComponentManager(
+            componentInstance
+        );
         cm.deregister();
     }
 
@@ -170,7 +172,11 @@ class AppContainer {
         );
         if (!namespace) {
             log(
-                `Cannot locate namespace for Action \`${symbolToString(namespacedAction.type)}\`: \`${symbolToString(namespacedAction.type)}\` needs to be registered otherwise the action won't be serializable.`
+                `Cannot locate namespace for Action \`${symbolToString(
+                    namespacedAction.type
+                )}\`: \`${symbolToString(
+                    namespacedAction.type
+                )}\` needs to be registered otherwise the action won't be serializable.`
             );
         } else {
             namespacedAction.namespace = namespace;

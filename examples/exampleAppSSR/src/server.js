@@ -134,9 +134,8 @@ app.get(["/", "/index.html*"], (req, res) => {
              * Loop through all namespace data to generate CSS
              */
             const cssContent = appContainer.namespaceRegistry
-                .map(
-                    ({ styleSheet }) =>
-                        styleSheet ? styleSheet.toString() : ""
+                .map(({ styleSheet }) =>
+                    styleSheet ? styleSheet.toString() : ""
                 )
                 .join("");
             // --- Destroy appContainer
