@@ -121,7 +121,7 @@ class ComponentManager {
 
             if (!this.componentId) {
                 this.isAutoComponentId = true;
-                this.componentId = this.appContainer.componentRegistry.createComponentId(
+                this.componentId = this.appContainer.componentManagerRegistry.createComponentId(
                     this.namespacePrefix,
                     this.namespace
                 );
@@ -130,7 +130,7 @@ class ComponentManager {
             this.fullPath = fullPath.bind(this)();
             this.fullLocalPath = fullLocalPath.bind(this)();
 
-            this.appContainer.componentRegistry.register(this);
+            this.appContainer.componentManagerRegistry.register(this);
 
             if (!this.isInitialized && !this.isDestroyed) {
                 this.isInitialized = true;
@@ -207,8 +207,8 @@ class ComponentManager {
             this.storeListenerUnsubscribe();
             this.storeListenerUnsubscribe = null;
         }
-        if (this.appContainer && this.appContainer.componentRegistry) {
-            this.appContainer.componentRegistry.deregister(this);
+        if (this.appContainer && this.appContainer.componentManagerRegistry) {
+            this.appContainer.componentManagerRegistry.deregister(this);
         }
         this.appContainer = null;
         this.store = null;

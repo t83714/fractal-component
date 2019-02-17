@@ -1,7 +1,7 @@
 import PathRegistry from "./PathRegistry";
 import { is } from "./utils";
 
-class ComponentRegistry {
+class ComponentManagerRegistry {
     constructor(appContainer) {
         this.appContainer = appContainer;
         this.pathRegistry = new PathRegistry();
@@ -77,4 +77,4 @@ class ComponentRegistry {
     }
 }
 
-export default ComponentRegistry;
+export default ComponentManagerRegistry;

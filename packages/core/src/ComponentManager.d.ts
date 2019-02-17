@@ -1,5 +1,5 @@
 import * as React from "react";
-import ComponentRegistry from "./ComponentRegistry";
+import ComponentManagerRegistry from "./ComponentManagerRegistry";
 import AppContainer from "./AppContainer";
 import { Store, Action, Reducer } from "redux";
 import { Emitter, Handler } from "mitt";

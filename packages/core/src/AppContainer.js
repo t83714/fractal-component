@@ -1,7 +1,7 @@
 import { APP_CONTAINER_SYMBOL } from "./symbols";
 import { createStore, applyMiddleware, compose } from "redux";
 import createSagaMiddleware from "redux-saga";
-import ComponentRegistry from "./ComponentRegistry";
+import ComponentManagerRegistry from "./ComponentManagerRegistry";
 import ReducerRegistry from "./ReducerRegistry";
 import SagaRegistry from "./SagaRegistry";
 import SagaMonitorRegistry from "./SagaMonitorRegistry";
@@ -91,7 +91,7 @@ class AppContainer {
             sagaMiddleware
         ];
         this.eventEmitters = [];
-        this.componentRegistry = new ComponentRegistry(this, {
+        this.componentManagerRegistry = new ComponentManagerRegistry(this, {
             isServerSideRendering:
                 containerCreationOptions.isServerSideRendering
         });
@@ -115,7 +115,7 @@ class AppContainer {
     }
 
     deregisterComponent(componentInstance) {
-        const cm = this.componentRegistry.retrieveComponentManager(
+        const cm = this.componentManagerRegistry.retrieveComponentManager(
             componentInstance
         );
         cm.deregister();
@@ -186,7 +186,7 @@ class AppContainer {
     }
 
     destroy() {
-        this.componentRegistry.destroy();
+        this.componentManagerRegistry.destroy();
         if (this.hostSagaTask) {
             this.hostSagaTask.cancel();
             this.hostSagaTask = null;

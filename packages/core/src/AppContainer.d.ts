@@ -1,7 +1,7 @@
 import { EnhancerOptions } from "redux-devtools-extension";
 import { SagaMiddlewareOptions } from "redux-saga";
 import { Store, Middleware, Action } from "redux";
-import ComponentRegistry from "./ComponentRegistry";
+import ComponentManagerRegistry from "./ComponentManagerRegistry";
 import ReducerRegistry from "./ReducerRegistry";
 import PathRegistry from "./PathRegistry";
 import SagaRegistry from "./SagaRegistry";
@@ -17,7 +17,7 @@ declare class AppContainer {
     constructor(options?: AppContainerOptions);
 
     store: Store;
-    componentRegistry: ComponentRegistry;
+    componentManagerRegistry: ComponentManagerRegistry;
     reducerRegistry: ReducerRegistry;
     sagaRegistry: SagaRegistry;
     actionRegistry: ActionRegistry;

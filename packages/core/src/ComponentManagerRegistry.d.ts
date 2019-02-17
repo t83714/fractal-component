@@ -5,7 +5,7 @@ import {
 import ComponentManager from "./ComponentManager";
 import AppContainer from "./AppContainer";
 
-declare class ComponentRegistry {
+declare class ComponentManagerRegistry {
     constructor(appContainer: AppContainer);
     appContainer: AppContainer;
     register(manager: ComponentManager): void;
@@ -14,4 +14,4 @@ declare class ComponentRegistry {
     destroy(): void;
 }
 
-export default ComponentRegistry;
+export default ComponentManagerRegistry;

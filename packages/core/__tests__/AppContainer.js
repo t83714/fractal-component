@@ -16,11 +16,11 @@ test("Should create appContainer with no error", () => {
 });
 
 test("Should destroy appContainer with no error", () => {
-    const ComponentRegistry = require("../src/ComponentRegistry").default;
+    const ComponentManagerRegistry = require("../src/ComponentManagerRegistry").default;
     const mockDestroy = jest.fn();
-    jest.doMock("../src/ComponentRegistry", () => {
+    jest.doMock("../src/ComponentManagerRegistry", () => {
         return jest.fn().mockImplementation((appContainer, options = {}) => {
-            const cr = new ComponentRegistry(appContainer, options);
+            const cr = new ComponentManagerRegistry(appContainer, options);
             cr.destroy = mockDestroy;
             return cr;
         });
