@@ -23,7 +23,8 @@ const reducer = function(state, action) {
                 isLoading: false,
                 error: action.payload
             };
-        default: return state;
+        default:
+            return state;
     }
 };
 export default reducer;

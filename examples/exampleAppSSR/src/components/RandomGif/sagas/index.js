@@ -2,11 +2,13 @@ import * as actionTypes from "../actions/types";
 import * as actions from "../actions";
 
 function fetchGif(apiKey) {
-    return fetch(
-        `https://api.giphy.com/v1/gifs/random?api_key=${apiKey}`
-    ).then(response => response.json()).catch(error=>{
-        throw new Error("Giphy API key is invalid or exceeded its daily / hourly limit.");
-    });
+    return fetch(`https://api.giphy.com/v1/gifs/random?api_key=${apiKey}`)
+        .then(response => response.json())
+        .catch(() => {
+            throw new Error(
+                "Giphy API key is invalid or exceeded its daily / hourly limit."
+            );
+        });
 }
 
 /**
@@ -20,12 +22,12 @@ function fetchGif(apiKey) {
  * @param {function} effects.takeLeading
  * @param {function} effects.throttle
  * @param {function} effects.actionChannel
- * 
+ *
  * Those effects are provide the same functionality as the `effects` provided by `redux-saga` (https://redux-saga.js.org/docs/api/)
  * except any action related effects are namespaced. i.e. You only see actions are sent to your namespace.
  * You can, however, opt to receive at global level (i.e. receive all actions) by using `effects` import from `redux-saga`.
- * e.g. 
- *  import { take } from "redux-saga/effects"; 
+ * e.g.
+ *  import { take } from "redux-saga/effects";
  *  const action = yield take("*"); //--- take an `any` action from global level
  */
 const mainSaga = function*(effects, apiKey) {
@@ -49,7 +51,7 @@ const mainSaga = function*(effects, apiKey) {
              * e.g. `exampleApp/Gifs/io.github.t83714/RandomGif/c0`
              * If `relativeDispatchPath` is `../../../*`, the effective dispatch path is `exampleApp/Gifs/*`.
              * Although, theoretically, you could use `relativeDispatchPath` & ".." to dispatch the action
-             * into any namespace, you should throw the action just out of the your component 
+             * into any namespace, you should throw the action just out of the your component
              * as you are supposed to know nothing about outside world as a component author.
              */
             //--- optional second `relativeDispatchPath` parameter

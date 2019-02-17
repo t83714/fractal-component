@@ -25,11 +25,7 @@ const reducer = function(state, action) {
             return {
                 ...state,
                 isLoading,
-                error: error
-                    ? error
-                    : isSuccess
-                        ? null
-                        : payloadError,
+                error: error ? error : isSuccess ? null : payloadError,
                 itemsLoading
             };
         }

@@ -9,6 +9,7 @@
     "build-dev": "webpack --mode=development",
     "clean": "rimraf dist",
     "prettier": "prettier --write 'src/*.js'",
+    "eslint": "eslint src/",
     "profile": "webpack --mode=production --profile --json > dist/stats.json"
   },
   "dependencies": {

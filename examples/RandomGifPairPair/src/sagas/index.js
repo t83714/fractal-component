@@ -24,25 +24,19 @@ function* mainSaga(effects) {
              * it'll always be applied state.
              */
             const { isLoading, error } = yield effects.select();
-            if(!isLoading){
-                yield effects.put(
-                    actions.loadingComplete(error),
-                    "../../../*"
-                );
+            if (!isLoading) {
+                yield effects.put(actions.loadingComplete(error), "../../../*");
                 this.isLoadingStartActionDispatched = false;
             }
         }.bind(this)
     );
     // --- monitor `REQUEST_NEW_PAIR_PAIR` and send multicast actions to RandomGifPairs
-    yield effects.takeEvery(
-        actionTypes.REQUEST_NEW_PAIR_PAIR,
-        function*() {
-            yield effects.put(
-                RandomGifPairActions.requestNewPair(),
-                "./GifPairs/*"
-            );
-        }
-    );
+    yield effects.takeEvery(actionTypes.REQUEST_NEW_PAIR_PAIR, function*() {
+        yield effects.put(
+            RandomGifPairActions.requestNewPair(),
+            "./GifPairs/*"
+        );
+    });
 }
 
 export default mainSaga;

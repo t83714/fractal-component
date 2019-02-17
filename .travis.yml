@@ -4,9 +4,14 @@ node_js:
   - "10"
   - "11"
 
+cache:
+  directories:
+    - .yarn
+
 script:
   - yarn build
   - yarn test 
+  - yarn eslint 
 
 #after_script:
 #  - npm run bundlesize

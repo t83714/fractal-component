@@ -1,6 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { AppContainerUtils, ActionForwarder, AppContainer } from "fractal-component";
+import {
+    AppContainerUtils,
+    ActionForwarder,
+    AppContainer
+} from "fractal-component";
 
 import RandomGif, { actionTypes as RandomGifActionTypes } from "../RandomGif";
 
@@ -164,7 +168,4 @@ const exposedActions = {
 /**
  * expose actions for component users
  */
-export {
-    exposedActionTypes as actionTypes,
-    exposedActions as actions
-};
+export { exposedActionTypes as actionTypes, exposedActions as actions };

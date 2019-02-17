@@ -26,7 +26,7 @@ const styles = {
                 0.5
             )} !important`
         },
-        "&$counter-container":{
+        "&$counter-container": {
             height: "16.5em",
             "& span": {
                 "font-size": "40px"

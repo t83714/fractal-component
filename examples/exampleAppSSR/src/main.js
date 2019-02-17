@@ -24,6 +24,7 @@ ReactDOM.hydrate(<App />, document.getElementById("root"), () => {
         const ssStyles = document.getElementById("server-side-styles");
         ssStyles.parentNode.removeChild(ssStyles);
     } catch (e) {
+        // eslint-disable-next-line no-console
         console.log(e);
     }
 });

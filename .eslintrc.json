@@ -1,33 +1,41 @@
 {
     "extends": ["eslint:recommended", "plugin:react/recommended"],
     "env": {
-      "browser": true,
-      "node": true,
-      "es6": true
+        "browser": true,
+        "node": true,
+        "es6": true
     },
     "parser": "babel-eslint",
     "rules": {
-      "comma-dangle": "off",
-      "no-extra-semi": "off"
+        "comma-dangle": "off",
+        "no-extra-semi": "off",
+        "prettier/prettier": "error"
     },
     "parserOptions": {
-      "ecmaFeatures": {
-        "jsx": true
-      }
+        "ecmaVersion": 2018,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
     },
-    "plugins": ["react"],
+    "plugins": ["react", "prettier"],
     "overrides": [
-      {
-        "files": ["**/__tests__/**/*.js"],
-        "rules": {
-          "require-yield": 0
+        {
+            "files": ["**/__tests__/**/*.js"],
+            "rules": {
+                "require-yield": 0
+            }
+        },
+        {
+            "files": ["**/__tests__/**/*.js"],
+            "env": {
+                "jest": true
+            }
         }
-      },
-      {
-        "files": ["**/__tests__/**/*.js"],
-        "env": {
-          "jest": true
+    ],
+    "settings": {
+        "react": {
+            "version": "detect"
         }
-      }
-    ]
-  }
+    }
+}

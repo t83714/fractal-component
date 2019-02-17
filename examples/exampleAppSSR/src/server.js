@@ -150,4 +150,5 @@ app.use(express.static(path.resolve(__dirname, "../dist")));
 const port = 3001;
 app.listen(port);
 
+// eslint-disable-next-line no-console
 console.log(`Project is running at http://localhost:${port}/`);

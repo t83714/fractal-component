@@ -10,10 +10,7 @@ function* mainSaga(effects) {
         RandomGifActionTypes.LOADING_START,
         function*() {
             if (!this.isLoadingStartActionDispatched) {
-                yield effects.put(
-                    actions.loadingStart(),
-                    "../../../*"
-                );
+                yield effects.put(actions.loadingStart(), "../../../*");
             }
         }.bind(this)
     );
@@ -28,24 +25,15 @@ function* mainSaga(effects) {
              */
             const { isLoading, error } = yield effects.select();
             if (!isLoading) {
-                yield effects.put(
-                    actions.loadingComplete(error),
-                    "../../../*"
-                );
+                yield effects.put(actions.loadingComplete(error), "../../../*");
                 this.isLoadingStartActionDispatched = false;
             }
         }.bind(this)
     );
     // --- monitor `REQUEST_NEW_PAIR` and send multicast actions to RandomGifs
-    yield effects.takeEvery(
-        actionTypes.REQUEST_NEW_PAIR,
-        function*() {
-            yield effects.put(
-                RandomGifActions.requestNewGif(),
-                "./Gifs/*"
-            );
-        }
-    );
+    yield effects.takeEvery(actionTypes.REQUEST_NEW_PAIR, function*() {
+        yield effects.put(RandomGifActions.requestNewGif(), "./Gifs/*");
+    });
 }
 
 export default mainSaga;
