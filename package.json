@@ -2,7 +2,8 @@
   "private": true,
   "scripts": {
     "prettier": "yarn wsrun prettier",
-    "build": "yarn wsrun -p '*core' --stages build && yarn wsrun -p '!(*exampleApp*)' --stages build && yarn wsrun -p '*exampleApp*' --stages build",
+    "eslint": "yarn wsrun eslint",
+    "build": "wsrun -p 'fractal-component' --stages build && wsrun -p '@fractal-components/*' --stages build && wsrun -p 'fractal-component-*' --stages build",
     "test": "npm run test --prefix packages/core",
     "gitbook": "gitbook build ./docs",
     "gitbook-dev": "gitbook serve ./docs"
