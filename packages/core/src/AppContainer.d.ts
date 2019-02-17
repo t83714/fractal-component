@@ -67,5 +67,3 @@ export interface AppContainerOptions {
     sagaMiddlewareOptions?: SagaMiddlewareOptions;
     isServerSideRendering?: boolean;
 }
-
-export const APP_CONTAINER_SYMBOL: Symbol;

@@ -2,7 +2,9 @@
  * The code of file is modified from [redux-saga](https://github.com/redux-saga/redux-saga) project
  * @redux-saga/is module
  */
-import { NAMESPACED, APP_CONTAINER_SYMBOL } from "../symbols";
+import { NAMESPACED } from "../symbols";
+import AppContainer from "../AppContainer";
+import ComponentManager from "../ComponentManager";
 
 export const undef = v => v === null || v === undefined;
 export const notUndef = v => v !== null && v !== undefined;
@@ -30,7 +32,5 @@ export const symbol = sym =>
 export const bool = typeof v === "boolean";
 export const action = v => object(v) && symbol(v.type);
 export const namespacedAction = v => action(v) && v[NAMESPACED];
-export const appContainer = v =>
-    v &&
-    v.__APP_CONTAINER_SYMBOL &&
-    v.__APP_CONTAINER_SYMBO === APP_CONTAINER_SYMBOL;
+export const appContainer = v => v && v instanceof AppContainer;
+export const isManaged = c => c && c instanceof ComponentManager;

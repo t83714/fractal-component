@@ -1,6 +1,6 @@
 import objectPath from "object-path";
 import mitt from "mitt";
-import { is } from "./utils";
+import { COMPONENT_MANAGER_ACCESS_KEY } from "./symbols";
 import { getAppContainer } from "./AppContainerUtils";
 import { PathContext, normalize } from "./PathRegistry";
 import {
@@ -10,6 +10,7 @@ import {
     createClassNameGenerator,
     symbolToString
 } from "./utils";
+import * as is from "./utils/is";
 
 const defaultOptions = {
     saga: null,
@@ -34,6 +35,18 @@ const initialisationErrorMsg =
 
 class ComponentManager {
     constructor(componentInstance, options, appContainer = null) {
+        if (!componentInstance) {
+            throw new Error("componentInstance can't be empty!");
+        }
+
+        if (is.isManaged(componentInstance)) {
+            throw new Error(
+                "Unable to create a ComponentManager for a component instance that is managed already."
+            );
+        }
+
+        componentInstance[COMPONENT_MANAGER_ACCESS_KEY] = this;
+
         this.emitter = mitt();
 
         this.createClassNameGenerator = createClassNameGenerator.bind(this);
@@ -213,8 +226,15 @@ class ComponentManager {
         this.appContainer = null;
         this.store = null;
         this.isInitialized = false;
+        this.setState = null;
+        this.componentInstance[COMPONENT_MANAGER_ACCESS_KEY] = null;
+        this.componentInstance = null;
     }
 }
+
+ComponentManager.getManager = componentInstance => {
+    return componentInstance[COMPONENT_MANAGER_ACCESS_KEY];
+};
 
 function bindStoreListener() {
     const state = objectPath.get(

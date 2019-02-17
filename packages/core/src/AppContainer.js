@@ -1,4 +1,3 @@
-import { APP_CONTAINER_SYMBOL } from "./symbols";
 import { createStore, applyMiddleware, compose } from "redux";
 import createSagaMiddleware from "redux-saga";
 import ComponentManagerRegistry from "./ComponentManagerRegistry";
@@ -59,7 +58,6 @@ const getComposeEnhancers = function(devOnly, options) {
 
 class AppContainer {
     constructor(options = {}) {
-        this.__APP_CONTAINER_SYMBOL = APP_CONTAINER_SYMBOL;
         this.store = null;
         this.sagaMonitorRegistry = new SagaMonitorRegistry();
         this.actionRegistry = new ActionRegistry();
