@@ -21,7 +21,14 @@ const makeExternalPredicate = externalArr => {
 const deps = Object.keys(pkg.dependencies || {});
 const peerDeps = Object.keys(pkg.peerDependencies || {});
 
-const createConfig = ({ input, output, external, env, min = false, ...props }) => ({
+const createConfig = ({
+    input,
+    output,
+    external,
+    env,
+    min = false,
+    ...props
+}) => ({
     input,
     output: ensureArray(output).map(format =>
         Object.assign({}, format, {
@@ -32,7 +39,7 @@ const createConfig = ({ input, output, external, env, min = false, ...props }) =
     external: makeExternalPredicate(
         external === "peers" ? peerDeps : deps.concat(peerDeps)
     ),
-    onwarn (warning, warn) {
+    onwarn(warning, warn) {
         if (warning.code === "CIRCULAR_DEPENDENCY") return;
         warn(warning);
     },
@@ -68,7 +75,6 @@ const createConfig = ({ input, output, external, env, min = false, ...props }) =
     ...props
 });
 
-
 export default [
     createConfig({
         input: "src/index.js",
@@ -90,11 +96,11 @@ export default [
             file: "dist/" + pkg.name + ".umd.js",
             format: "umd",
             globals: {
-                react : "React",
-                "prop-types" : "PropTypes",
-                "redux-saga" : "ReduxSaga",
-                "redux-saga/utils" : "ReduxSaga.utils",
-                "redux-saga/effects" : "ReduxSaga.effects"
+                react: "React",
+                "prop-types": "PropTypes",
+                "redux-saga": "ReduxSaga",
+                "redux-saga/utils": "ReduxSaga.utils",
+                "redux-saga/effects": "ReduxSaga.effects"
             }
         },
         external: "peers",
@@ -106,11 +112,11 @@ export default [
             file: "dist/" + pkg.name + ".min.umd.js",
             format: "umd",
             globals: {
-                react : "React",
-                "prop-types" : "PropTypes",
-                "redux-saga" : "ReduxSaga",
-                "redux-saga/utils" : "ReduxSaga.utils",
-                "redux-saga/effects" : "ReduxSaga.effects"
+                react: "React",
+                "prop-types": "PropTypes",
+                "redux-saga": "ReduxSaga",
+                "redux-saga/utils": "ReduxSaga.utils",
+                "redux-saga/effects": "ReduxSaga.effects"
             }
         },
         external: "peers",

@@ -16,7 +16,8 @@ test("Should create appContainer with no error", () => {
 });
 
 test("Should destroy appContainer with no error", () => {
-    const ComponentManagerRegistry = require("../src/ComponentManagerRegistry").default;
+    const ComponentManagerRegistry = require("../src/ComponentManagerRegistry")
+        .default;
     const mockDestroy = jest.fn();
     jest.doMock("../src/ComponentManagerRegistry", () => {
         return jest.fn().mockImplementation((appContainer, options = {}) => {

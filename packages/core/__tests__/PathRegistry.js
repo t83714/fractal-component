@@ -5,7 +5,7 @@ const actionTypes = {
     "Symbol(REQUEST_NEW_GIF)": Symbol("REQUEST_NEW_GIF"),
     "Symbol(REQUEST_NEW_PAIR)": Symbol("REQUEST_NEW_PAIR"),
     "Symbol(REQUEST_NEW_PAIR_PAIR)": Symbol("REQUEST_NEW_PAIR_PAIR"),
-    "Symbol(NEW_GIF)": Symbol("NEW_GIF"),
+    "Symbol(NEW_GIF)": Symbol("NEW_GIF")
 };
 
 test("`map` method should travel through all paths & pathData and relevant result in an array", () => {
@@ -180,7 +180,6 @@ describe("Verify `RandomGifPair` component related logic", () => {
         expect(dispatchResult).toEqual(expect.arrayContaining(expectedPath));
         expect(expectedPath).toEqual(expect.arrayContaining(dispatchResult));
     });
-    
 });
 
 function initPathRegistryWithSampleData(

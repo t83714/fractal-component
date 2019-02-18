@@ -22,7 +22,7 @@ test("Empty registry should return with all callable combined monitors", () => {
     monitorKeys.forEach(key => combinedMonitor[key]());
 });
 
-function testSingleMonitor(monitorType, ...args){
+function testSingleMonitor(monitorType, ...args) {
     test(`Combined monitor Should pass required parameters to all registered \`${monitorType}\` monitors`, () => {
         const sagaMoniterRegistry = new SagaMonitorRegistry();
         const mockFunc1 = jest.fn();
