@@ -2,30 +2,30 @@ import * as is from "./utils/is";
 
 export { is };
 
-export const getPackageName: () => string;
+export function getPackageName(): string;
 
-export const getPackageVersion: () => string;
+export function getPackageVersion(): string;
 
-export const isDevMode: () => boolean;
+export function isDevMode(): boolean;
 
-export const isInNode: () => boolean;
+export function isInNode(): boolean;
 
-export const getMachineInfo: () => {
+export function getMachineInfo(): {
     pid?: number;
     macAddr?: string;
     macAddrInt?: number;
 };
 
-export const uniqid: (prefix?: string) => string;
+export function uniqid(prefix?: string): string;
 
-export const log: (message: string, level?: string, error?: any) => void;
+export function log(message: string, level?: string, error?: any): void;
 
-export const trim: (v: string) => void;
+export function trim(v: string): void;
 
-export const konst: (v: any) => () => any;
-export const kTrue: (v: any) => () => boolean;
-export const kFalse: (v: any) => () => boolean;
-export const noop: () => void;
-export const identity: (v: any) => any;
-export const createClassNameGenerator: () => string;
-export const symbolToString: (s: Symbol) => string;
+export function konst(v: any): () => any;
+export function kTrue(v: any): () => boolean;
+export function kFalse(v: any): () => boolean;
+export function noop(): void;
+export function identity(v: any): any;
+export function createClassNameGenerator(): string;
+export function symbolToString(s: symbol): string;

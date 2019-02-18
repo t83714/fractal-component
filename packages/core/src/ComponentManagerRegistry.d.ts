@@ -1,8 +1,7 @@
-import {
+import ComponentManager, {
     ManageableComponent,
     ManageableComponentOptions
 } from "./ComponentManager";
-import ComponentManager from "./ComponentManager";
 import AppContainer from "./AppContainer";
 
 declare class ComponentManagerRegistry {

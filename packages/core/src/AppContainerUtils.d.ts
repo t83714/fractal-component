@@ -8,55 +8,55 @@ import { ReducerOptions } from "./ReducerRegistry";
 import { Reducer, Action } from "redux";
 import { Task } from "redux-saga";
 
-export declare function createAppContainer(
+export function createAppContainer(
     options: AppContainerOptions
 ): AppContainer;
-export declare function getAppContainer(
+export function getAppContainer(
     componentInstance?: ManageableComponent
 ): AppContainer;
-export declare function registerComponent(
+export function registerComponent(
     componentInstance: ManageableComponent,
     options: ManageableComponentOptions
 ): void;
-export declare function deregisterComponent(
+export function deregisterComponent(
     componentInstance: ManageableComponent
 ): void;
-export declare function registerSaga(
+export function registerSaga(
     saga: GeneratorFunction,
     sagaOptions: SagaOptions,
     componentInstance?: ManageableComponent
 ): void;
-export declare function deregisterSaga(
+export function deregisterSaga(
     pathOrTask: string | Task,
     componentInstance?: ManageableComponent
 ): void;
-export declare function registerReducer(
+export function registerReducer(
     reducer: Reducer,
     reducerOptions: ReducerOptions,
     componentInstance?: ManageableComponent
 ): void;
-export declare function deregisterReducer(
+export function deregisterReducer(
     path: string,
     componentInstance?: ManageableComponent
 ): void;
-export declare function registerActions(
+export function registerActions(
     namespace: string,
     actions: symbol | symbol[] | object,
     componentInstance?: ManageableComponent
 ): void;
-export declare function serialiseAction(
+export function serialiseAction(
     action: Action,
     componentInstance?: ManageableComponent
 ): string;
-export declare function deserialiseAction(
+export function deserialiseAction(
     actionJson: string,
     componentInstance?: ManageableComponent
 ): Action;
-export declare function findNamespaceByActionType(
+export function findNamespaceByActionType(
     actionType: symbol,
     componentInstance?: ManageableComponent
 ): string;
-export declare function destroyAppContainer(
+export function destroyAppContainer(
     componentInstance?: ManageableComponent
 ): void;
-export declare function updateAppContainerRetrieveKey(newKey: string): string;
+export function updateAppContainerRetrieveKey(newKey: string): string;

@@ -22,7 +22,6 @@ declare class PathRegistry {
     remove(path: string): void;
     exist(path: string): boolean;
     searchSubPath(path: string): string[];
-    remove(path: string): void;
     getPathData(path: string): object;
     setPathData(path: string, data: object): void;
     mergePathData(path: string, data: object): void;

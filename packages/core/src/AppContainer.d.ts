@@ -7,11 +7,10 @@ import PathRegistry from "./PathRegistry";
 import SagaRegistry from "./SagaRegistry";
 import ActionRegistry from "./ActionRegistry";
 import NamespaceRegistry from "./NamespaceRegistry";
-import {
+import ComponentManager, {
     ManageableComponent,
     ManageableComponentOptions
 } from "./ComponentManager";
-import ComponentManager from "./ComponentManager";
 
 declare class AppContainer {
     constructor(options?: AppContainerOptions);
