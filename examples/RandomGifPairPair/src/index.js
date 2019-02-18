@@ -1,9 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
-    AppContainerUtils,
+    ComponentManager,
     ActionForwarder,
-    AppContainer
+    AppContainer,
+    AppContainerContext
 } from "fractal-component";
 
 import RandomGifPair, {
@@ -35,7 +36,7 @@ class RandomGifPairPair extends React.Component {
         };
         this.isLoadingStartActionDispatched = false;
 
-        this.componentManager = AppContainerUtils.registerComponent(this, {
+        this.componentManager = new ComponentManager(this, {
             namespace: "io.github.t83714/RandomGifPairPair",
             reducer: reducer,
             saga: saga,
@@ -167,6 +168,8 @@ RandomGifPairPair.propTypes = {
 RandomGifPairPair.defaultProps = {
     showButton: true
 };
+
+RandomGifPairPair.contextType = AppContainerContext;
 
 export default RandomGifPairPair;
 

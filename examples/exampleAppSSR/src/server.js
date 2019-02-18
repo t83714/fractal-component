@@ -13,21 +13,21 @@ import { renderToString } from "react-dom/server";
 import jss from "jss";
 import jssDefaultPreset from "jss-preset-default";
 
-import { AppContainer } from "fractal-component";
+import { AppContainer, AppContainerContext } from "fractal-component";
 import App from "./components/App";
 import {
     actions as randomGifActions,
     actionTypes as randomGifActionTypes
-} from "./components/RandomGif";
+} from "@fractal-components/random-gif";
 import {
     actions as randomGifPairActions,
     actionTypes as randomGifPairActionTypes
-} from "./components/RandomGifPair";
+} from "@fractal-components/random-gif-pair";
 import {
     actions as randomGifPairPairActions,
     actionTypes as randomGifPairPairActionTypes
-} from "./components/RandomGifPairPair";
-import { actionTypes as counterActionTypes } from "./components/Counter";
+} from "@fractal-components/random-gif-pair-pair";
+import { actionTypes as counterActionTypes } from "@fractal-components/counter";
 
 // --- set JSS css lib default preset https://github.com/cssinjs/jss
 jss.setup(jssDefaultPreset());
@@ -58,7 +58,11 @@ app.get(["/", "/index.html*"], (req, res) => {
      * Render App & passing appContainer down
      * to avoid `AppContainerUtils.registerComponent` registering component to the same appContianer
      */
-    const reactDom = renderToString(<App appContainer={appContainer} />);
+    const reactDom = renderToString(
+        <AppContainerContext.Provider value={appContainer}>
+            <App />
+        </AppContainerContext.Provider>
+    );
     /**
      * Simply way of deciding when to create a redux store snapshot
      * You can have your own logic or make `<App/>` send out an action to indicate initial data loading complete.

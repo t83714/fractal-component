@@ -6,7 +6,7 @@ import ReactDOM from "react-dom";
 import jss from "jss";
 import jssDefaultPreset from "jss-preset-default";
 
-import { AppContainerUtils } from "fractal-component";
+import { AppContainer, AppContainerContext } from "fractal-component";
 import App from "./components/App";
 
 jss.setup(jssDefaultPreset());
@@ -17,14 +17,20 @@ if (window.appStoreData) {
     appContainerOptions.initState = window.appStoreData;
 }
 
-AppContainerUtils.createAppContainer(appContainerOptions);
+const appContainer = new AppContainer(appContainerOptions);
 
-ReactDOM.hydrate(<App />, document.getElementById("root"), () => {
-    try {
-        const ssStyles = document.getElementById("server-side-styles");
-        ssStyles.parentNode.removeChild(ssStyles);
-    } catch (e) {
-        // eslint-disable-next-line no-console
-        console.log(e);
+ReactDOM.hydrate(
+    <AppContainerContext.Provider value={appContainer}>
+        <App />
+    </AppContainerContext.Provider>,
+    document.getElementById("root"),
+    () => {
+        try {
+            const ssStyles = document.getElementById("server-side-styles");
+            ssStyles.parentNode.removeChild(ssStyles);
+        } catch (e) {
+            // eslint-disable-next-line no-console
+            console.log(e);
+        }
     }
-});
+);

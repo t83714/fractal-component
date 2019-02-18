@@ -1,6 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { AppContainerUtils, AppContainer } from "fractal-component";
+import {
+    ComponentManager,
+    AppContainerContext,
+    AppContainer
+} from "fractal-component";
 import * as actionTypes from "./actions/types";
 import * as actions from "./actions/index";
 import jss from "jss";
@@ -14,7 +18,7 @@ class Counter extends React.Component {
             count: 0
         };
         this.styleSheet = null;
-        this.componentManager = AppContainerUtils.registerComponent(this, {
+        this.componentManager = new ComponentManager(this, {
             namespace: "io.github.t83714/Counter",
             reducer: function(state, action) {
                 switch (action.type) {
@@ -82,6 +86,7 @@ Counter.propTypes = {
     styles: PropTypes.object,
     appContainer: PropTypes.instanceOf(AppContainer)
 };
+Counter.contextType = AppContainerContext;
 export default Counter;
 
 export { actionTypes, actions };

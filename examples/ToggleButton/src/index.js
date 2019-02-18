@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
-    AppContainerUtils,
+    ComponentManager,
     ActionForwarder,
     utils,
-    AppContainer
+    AppContainer,
+    AppContainerContext
 } from "fractal-component";
 import * as actionTypes from "./actions/types";
 import * as actions from "./actions/index";
@@ -20,7 +21,7 @@ class ToggleButton extends React.Component {
         this.state = {
             isActive: false
         };
-        this.componentManager = AppContainerUtils.registerComponent(this, {
+        this.componentManager = new ComponentManager(this, {
             namespace: "io.github.t83714/ToggleButton",
             reducer: function(state, action) {
                 switch (action.type) {
@@ -133,6 +134,8 @@ ToggleButton.propTypes = {
     styles: PropTypes.object,
     appContainer: PropTypes.instanceOf(AppContainer)
 };
+
+ToggleButton.contextType = AppContainerContext;
 
 export default ToggleButton;
 

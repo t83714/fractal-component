@@ -20,6 +20,26 @@ module.exports = (env, argv) => {
                 "fractal-component": path.resolve(
                     __dirname,
                     "../../packages/core/"
+                ),
+                "@fractal-components/random-gif": path.resolve(
+                    __dirname,
+                    "../../examples/RandomGif/"
+                ),
+                "@fractal-components/random-gif-pair": path.resolve(
+                    __dirname,
+                    "../../examples/RandomGifPair/"
+                ),
+                "@fractal-components/random-gif-pair-pair": path.resolve(
+                    __dirname,
+                    "../../examples/RandomGifPairPair/"
+                ),
+                "@fractal-components/counter": path.resolve(
+                    __dirname,
+                    "../../examples/Counter/"
+                ),
+                "@fractal-components/toggle-button": path.resolve(
+                    __dirname,
+                    "../../examples/ToggleButton/"
                 )
             }
         },

@@ -1,6 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { AppContainerUtils, AppContainer } from "fractal-component";
+import {
+    ComponentManager,
+    AppContainerContext,
+    AppContainer
+} from "fractal-component";
 
 import reducer from "./reducers";
 import saga from "./sagas";
@@ -23,7 +27,7 @@ class RandomGif extends React.Component {
             imageUrl: null,
             error: null
         };
-        this.componentManager = AppContainerUtils.registerComponent(this, {
+        this.componentManager = new ComponentManager(this, {
             namespace: "io.github.t83714/RandomGif",
             reducer: reducer,
             saga: partialRight(saga, props.apiKey),
@@ -120,6 +124,8 @@ RandomGif.defaultProps = {
     showButton: true,
     apiKey: "Y4P38sTJAgEBOHP1B3sVs0Jtk01tb6fA"
 };
+
+RandomGif.contextType = AppContainerContext;
 
 export default RandomGif;
 

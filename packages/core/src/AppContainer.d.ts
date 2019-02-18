@@ -11,6 +11,7 @@ import ComponentManager, {
     ManageableComponent,
     ManageableComponentOptions
 } from "./ComponentManager";
+import { Context } from "react";
 
 declare class AppContainer {
     constructor(options?: AppContainerOptions);
