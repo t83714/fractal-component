@@ -132,6 +132,12 @@ class ComponentManager {
             }
             this.store = this.appContainer.store;
 
+            // --- still not ready to setState but will set `receivedStateUpdateFromStore`
+            // --- to decide if an initial update is required
+            this.storeListenerUnsubscribe = this.store.subscribe(() => {
+                this.receivedStateUpdateFromStore = true;
+            });
+
             if (!this.componentId) {
                 this.isAutoComponentId = true;
                 this.componentId = this.appContainer.componentManagerRegistry.createComponentId(
@@ -153,6 +159,7 @@ class ComponentManager {
         });
 
         this.on("mount", () => {
+            unsubscribeStoreListener.apply(this);
             // --- Attach start listener & resync component state
             this.storeListenerUnsubscribe = this.store.subscribe(
                 this.storeListener
@@ -216,10 +223,7 @@ class ComponentManager {
         this.isDestroyed = true;
         if (!this.isInitialized) return;
         this.off("*");
-        if (this.storeListenerUnsubscribe) {
-            this.storeListenerUnsubscribe();
-            this.storeListenerUnsubscribe = null;
-        }
+        unsubscribeStoreListener.apply(this);
         if (this.appContainer && this.appContainer.componentManagerRegistry) {
             this.appContainer.componentManagerRegistry.deregister(this);
         }
@@ -235,6 +239,13 @@ class ComponentManager {
 ComponentManager.getManager = componentInstance => {
     return componentInstance[COMPONENT_MANAGER_ACCESS_KEY];
 };
+
+function unsubscribeStoreListener() {
+    if (this.storeListenerUnsubscribe) {
+        this.storeListenerUnsubscribe();
+        this.storeListenerUnsubscribe = null;
+    }
+}
 
 function bindStoreListener() {
     const state = objectPath.get(
