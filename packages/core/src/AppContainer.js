@@ -36,9 +36,7 @@ const defaultOptions = {
     //-- https://github.com/zalmoxisus/redux-devtools-extension/blob/master/docs/API/Arguments.md#windowdevtoolsextensionconfig
     devToolOptions: { ...defaultDevToolOptions },
     //-- https://redux-saga.js.org/docs/api/index.html#createsagamiddlewareoptions
-    sagaMiddlewareOptions: {},
-
-    isServerSideRendering: false
+    sagaMiddlewareOptions: {}
 };
 
 const getComposeEnhancers = function(devOnly, options) {

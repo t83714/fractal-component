@@ -59,7 +59,6 @@ export interface ManageableComponentOptions {
     namespacePrefix?: string | ComponentStringSettingFunc;
     componentId?: string | ComponentStringSettingFunc;
     persistState?: boolean;
-    isServerSideRendering?: boolean;
     /**
      * Provide all action types supported by your component
      * to make sure actions of those types are serializable

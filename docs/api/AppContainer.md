@@ -42,7 +42,6 @@ The constructor accepts the configOptions objects with the following options:
 - `reduxDevToolsDevOnly`: Optional; Boolean; Default: `true`. Indicate whether [Redux DevTools](https://github.com/zalmoxisus/redux-devtools-extension) is allowed to connect to your App under `development` mode only. Set to `false` will allow your App to be connected under `production` mode as well.
 - `devToolOptions`: Optional; You can further config the [Redux DevTools](https://github.com/zalmoxisus/redux-devtools-extension) that connects to your App via this option. More information of all available config options can be found from [here](https://github.com/zalmoxisus/redux-devtools-extension/blob/master/docs/API/Arguments.md)
 - `sagaMiddlewareOptions`: Optional; You can specify the options of the `Saga Middleware` that is created for connecting the `Sagas` to the `Redux Store`. More information of all available config options can be found from [here](https://redux-saga.js.org/docs/api/#createsagamiddlewareoptions)
-- `isServerSideRendering`: Optional; Boolean; Default: `false`. When run your app at server side for `Server-Side Rendering` (SSR), you will set this option to `true`(see [example app](https://github.com/t83714/fractal-component/tree/master/examples/exampleAppSSR)).
 
 #### `AppContainerUtils.createAppContainer()`
 
@@ -137,7 +136,6 @@ function*(effects) {
 - `namespacePrefix`: Optional; String; You normally will not set this option as a component author. It will be used by Componnent user to pass extra namepsace path to attach your component to a `namespace tree`. It will impact how multicast actions are dispatched.
 - `componentId`: Optional; String; You normally don't need to set this. And system will be auto create a componentId for every component. `namespacePrefix`, `namespace` plus `componentId` are made up of a component's full namespace path in a `namespace tree`.
 - `persistState`: Optional; Boolean; Default: `true`; whether reset the current state if it's not empty during the `Component Container` initialisation. 
-- `isServerSideRendering`: Optional; Boolean; You unlikely need to set this option. By default, it will inherit `AppContainer`'s value. 
 - `actionTypes`: Optional; Array; Provide all action types supported by your component;
 - `allowedIncomingMulticastActionTypes`: Optional; Specify which actionTypes are allowed to be dispatched to this component. By Default, the component will not accept any incoming multicast actions. (Direct address actions will still be delivered). when `allowedIncomingMulticastActionTypes` is string only "*" is accepted (means accepting any actionTypes).
 - `namespaceInitCallback`: Optional; `Function`; namespaceInitCallback & namespaceDestroyCallback will be called once (among all component instances of the same namespace). It's used for required one-off initlalisation job for all same type component (of the same namespace). e.g. create JSS style sheet for the component. `namespaceInitCallback` is called when Component namespace has just been created. i.e. at least one Component is created & mounted.

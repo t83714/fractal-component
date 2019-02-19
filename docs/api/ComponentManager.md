@@ -22,7 +22,6 @@ You may need to access the following public properties of a `ComponentManager` i
 - `namespacePrefix`: String. the `namespacePrefix` of the `Component Container`. e.g. `ExampleApp/RandomGifDemo`
 -  `fullPath`: String. `Full Namespace Path` of the `Component Container`. e.g. `ExampleApp/RandomGifDemo/io.github.t83714/RandomGif`
 - `localPath`: String: `namesapce` + `ComponentId`. e.g. `io.github.t83714/RandomGif/c0`
-- `isServerSideRendering`: Boolean; Whether the component is rendered at server-side.
 
 ### `dispatch()`
 

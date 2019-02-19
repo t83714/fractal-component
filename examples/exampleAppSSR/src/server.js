@@ -51,9 +51,7 @@ function htmlTemplate(reactDom, storeData, serverSideStyles) {
 
 app.get(["/", "/index.html*"], (req, res) => {
     // --- create a new appContainer for serving every request
-    const appContainer = new AppContainer({
-        isServerSideRendering: true
-    });
+    const appContainer = new AppContainer();
     /**
      * Render App & passing appContainer down
      * to avoid `AppContainerUtils.registerComponent` registering component to the same appContianer

@@ -22,8 +22,7 @@ const defaultOptions = {
     persistState: true,
     //--- when `allowedIncomingMulticastActionTypes` is string
     //--- only "*" is accepted (means accepting any actionTypes)
-    allowedIncomingMulticastActionTypes: null,
-    isServerSideRendering: false
+    allowedIncomingMulticastActionTypes: null
 };
 
 const pkgName = getPackageName();
