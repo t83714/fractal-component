@@ -6,11 +6,16 @@ import ReactDOM from "react-dom";
 import jss from "jss";
 import jssDefaultPreset from "jss-preset-default";
 
-import { AppContainerUtils } from "fractal-component";
+import { AppContainer, AppContainerContext } from "fractal-component";
 import App from "./components/App";
 
 jss.setup(jssDefaultPreset());
 
-AppContainerUtils.createAppContainer();
+const appContainer = new AppContainer();
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(
+    <AppContainerContext.Provider value={appContainer}>
+        <App />
+    </AppContainerContext.Provider>,
+    document.getElementById("root")
+);

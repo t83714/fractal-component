@@ -9,7 +9,7 @@ import ActionRegistry from "./ActionRegistry";
 import NamespaceRegistry from "./NamespaceRegistry";
 import * as ReducerRegistryActionTypes from "./ReducerRegistry/actionTypes";
 import * as SagaRegistryActionTypes from "./SagaRegistry/actionTypes";
-import { isDevMode, log, is, symbolToString } from "./utils";
+import { isDevMode, log, is, symbolToString, uniqid } from "./utils";
 import ComponentManager from "./ComponentManager";
 
 const actionBlackList = Object.keys(ReducerRegistryActionTypes)
@@ -58,6 +58,7 @@ const getComposeEnhancers = function(devOnly, options) {
 
 class AppContainer {
     constructor(options = {}) {
+        this.id = uniqid();
         this.store = null;
         this.sagaMonitorRegistry = new SagaMonitorRegistry();
         this.actionRegistry = new ActionRegistry();
@@ -89,10 +90,7 @@ class AppContainer {
             sagaMiddleware
         ];
         this.eventEmitters = [];
-        this.componentManagerRegistry = new ComponentManagerRegistry(this, {
-            isServerSideRendering:
-                containerCreationOptions.isServerSideRendering
-        });
+        this.componentManagerRegistry = new ComponentManagerRegistry(this);
         this.reducerRegistry = new ReducerRegistry(this);
         this.sagaRegistry = new SagaRegistry(this);
         this.store = createStore(

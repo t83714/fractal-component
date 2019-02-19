@@ -29,12 +29,12 @@ export function getAppContainer(componentInstance = null) {
             return componentInstance.props[APP_CONTAINER_KEY];
         if (componentInstance.context) {
             if (is.appContainer(componentInstance.context)) {
-                return is.appContainer(componentInstance.context);
+                return componentInstance.context;
             } else if (
-                componentInstance.context[APP_CONTAINER_KEY] &&
-                is.appContainer(componentInstance.context[APP_CONTAINER_KEY])
+                componentInstance.context &&
+                is.appContainer(componentInstance.context)
             ) {
-                return componentInstance.context[APP_CONTAINER_KEY];
+                return componentInstance.context;
             }
         }
     }

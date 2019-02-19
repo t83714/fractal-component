@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import * as AppContainerUtils from "./AppContainerUtils";
+import ComponentManager from "./ComponentManager";
+import AppContainerContext from "./AppContainerContext";
 import { is } from "./utils";
 
 /**
@@ -9,8 +10,7 @@ import { is } from "./utils";
 class ActionForwarder extends React.Component {
     constructor(props) {
         super(props);
-        this.appContainer = AppContainerUtils.getAppContainer();
-        this.componentManager = AppContainerUtils.registerComponent(this, {
+        this.componentManager = new ComponentManager(this, {
             namespace: "io.github.t83714/ActionForwarder",
             saga: forwarderSaga.bind(this),
             // --- By default, component will not accept any incoming multicast action.
@@ -24,6 +24,9 @@ class ActionForwarder extends React.Component {
         return null;
     }
 }
+
+// --- Define contentType allow `AppContainer` pass through React Content
+ActionForwarder.contextType = AppContainerContext;
 
 ActionForwarder.propTypes = {
     namespacePrefix: PropTypes.string.isRequired,
