@@ -16,6 +16,7 @@ import { Context } from "react";
 declare class AppContainer {
     constructor(options?: AppContainerOptions);
 
+    id: string;
     store: Store;
     componentManagerRegistry: ComponentManagerRegistry;
     reducerRegistry: ReducerRegistry;
