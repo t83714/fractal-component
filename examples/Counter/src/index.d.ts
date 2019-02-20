@@ -1,10 +1,10 @@
-import React from "react";
+import * as React from "react";
 import { Action } from "redux";
 declare class Counter extends React.Component {}
 export default Counter;
-export declare interface actionTypes {
-    INCREASE_COUNT: Symbol;
+export interface actionTypes {
+    INCREASE_COUNT: symbol;
 }
-export declare interface actions {
+export interface actions {
     increaseCount: () => Action;
 }

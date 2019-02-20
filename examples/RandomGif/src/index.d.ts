@@ -1,13 +1,13 @@
-import React from "react";
+import * as React from "react";
 import { Action } from "redux";
 declare class RandomGif extends React.Component {}
 export default RandomGif;
-export declare interface actionTypes {
-    NEW_GIF: Symbol;
-    LOADING_START: Symbol;
-    LOADING_COMPLETE: Symbol;
-    REQUEST_NEW_GIF: Symbol;
+export interface actionTypes {
+    NEW_GIF: symbol;
+    LOADING_START: symbol;
+    LOADING_COMPLETE: symbol;
+    REQUEST_NEW_GIF: symbol;
 }
-export declare interface actions {
+export interface actions {
     requestNewGif: () => Action;
 }
