@@ -1,3 +1,9 @@
+## 4.0.0
+
+- Added React New Context API Support (Require React 16.6.0 above)
+- Improved ComponentManager initialisation process
+- Improved SSR support: No need to set `isServerSideRendering` option
+
 ## 3.4.1
 
 - fixed incorrect ActionForwarder prop.types definition

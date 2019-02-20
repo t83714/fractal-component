@@ -77,6 +77,11 @@ Alternatively, you may use the UMD builds from [unpkg](https://unpkg.com/fractal
   - [ActionForwarder](https://t83714.github.io/fractal-component/api/ActionForwarder.html)
   - [utils](https://t83714.github.io/fractal-component/api/utils.html)
 
+## Changelog
+
+** New: Added React [New Context API support](https://reactjs.org/docs/context.html) (Requires React Version 16.6.0 and above)
+
+Please find the complete Changelog from [here](./CHANGES.md).
 
 ## Quick Start
 
@@ -234,7 +239,3 @@ Bundled version of the complete exampleApp can be found from [here](https://gith
     </body>
 </html>
 ```
-
-## Changelog
-
-Please find the Changelog from [here](./CHANGES.md)
