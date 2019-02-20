@@ -90,136 +90,151 @@ You don't have to use [Webpack](https://webpack.js.org/) / [Babel](https://babel
 Bundled version of the complete exampleApp can be found from [here](https://github.com/t83714/fractal-component/tree/master/examples/exampleApp).
 
 ```html
-<!doctype html>
+<!DOCTYPE html>
 <html>
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ExampleApp Demo</title>
-    <!--
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ExampleApp Demo</title>
+        <!--
         Load `babel-standalone` to support JSX in script tag
     -->
-    <script src="https://unpkg.com/babel-standalone@7.0.0-beta.3/babel.min.js"></script>
-    <script src="https://unpkg.com/react@16.5.0/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/prop-types@15.6.2/prop-types.min.js"></script>
-    <script src="https://unpkg.com/react-dom@16.5.0/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/redux-saga@1.0.0-beta.2/dist/redux-saga.min.umd.js"></script>
-    <script src="https://unpkg.com/fractal-component@latest/dist/fractal-component.min.umd.js"></script>
-    <script src="https://unpkg.com/jss@9.8.7/dist/jss.min.js"></script>
-    <script src="https://unpkg.com/jss-preset-default@4.5.0/dist/jss-preset-default.min.js"></script>
-    <script src="https://unpkg.com/lodash@4.17.10/lodash.min.js"></script>
-    <script src="https://unpkg.com/@fractal-components/random-gif@latest/dist/@fractal-components/random-gif.min.umd.js"></script>
-    <script src="https://unpkg.com/@fractal-components/random-gif-pair@latest/dist/@fractal-components/random-gif-pair.umd.js"></script>
-    <script src="https://unpkg.com/@fractal-components/random-gif-pair-pair@latest/dist/@fractal-components/random-gif-pair-pair.min.umd.js"></script>
-    <script src="https://unpkg.com/@fractal-components/counter@latest/dist/@fractal-components/counter.min.umd.js"></script>
-    <script src="https://unpkg.com/@fractal-components/toggle-button@latest/dist/@fractal-components/toggle-button.min.umd.js"></script>
-</head>
+        <script src="https://unpkg.com/babel-standalone@^7.0.0/babel.min.js"></script>
+        <script src="https://unpkg.com/react@~16.8.0/umd/react.production.min.js"></script>
+        <script src="https://unpkg.com/prop-types@~15.6.2/prop-types.min.js"></script>
+        <script src="https://unpkg.com/react-dom@~16.8.0/umd/react-dom.production.min.js"></script>
+        <script src="https://unpkg.com/redux-saga@~1.0.0/dist/redux-saga.min.umd.js"></script>
+        <script src="https://unpkg.com/fractal-component@latest/dist/fractal-component.min.umd.js"></script>
+        <script src="https://unpkg.com/jss@9.8.7/dist/jss.min.js"></script>
+        <script src="https://unpkg.com/jss-preset-default@4.5.0/dist/jss-preset-default.min.js"></script>
+        <script src="https://unpkg.com/lodash@4.17.10/lodash.min.js"></script>
+        <script src="https://unpkg.com/@fractal-components/random-gif@latest/dist/@fractal-components/random-gif.min.umd.js"></script>
+        <script src="https://unpkg.com/@fractal-components/random-gif-pair@latest/dist/@fractal-components/random-gif-pair.umd.js"></script>
+        <script src="https://unpkg.com/@fractal-components/random-gif-pair-pair@latest/dist/@fractal-components/random-gif-pair-pair.min.umd.js"></script>
+        <script src="https://unpkg.com/@fractal-components/counter@latest/dist/@fractal-components/counter.min.umd.js"></script>
+        <script src="https://unpkg.com/@fractal-components/toggle-button@latest/dist/@fractal-components/toggle-button.min.umd.js"></script>
+    </head>
 
-<body>
+    <body>
+        <div id="app_root"></div>
+        <script type="text/babel">
+            const appContainer = new FractalComponent.AppContainer({
+                reduxDevToolsDevOnly: false
+            });
 
-    <div id="app_root"></div>
-    <script type="text/babel">
-    FractalComponent.AppContainerUtils.createAppContainer({
-        reduxDevToolsDevOnly: false
-    });
+            const styles = {
+                table: {
+                    display: "flex",
+                    "flex-wrap": "wrap",
+                    margin: "0.2em 0.2em 0.2em 0.2em",
+                    padding: 0,
+                    "flex-direction": "rows"
+                },
+                cell: {
+                    "box-sizing": "border-box",
+                    "flex-grow": 0,
+                    overflow: "hidden",
+                    padding: "0.2em 0.2em",
+                    "border-bottom": "none",
+                    display: "flex",
+                    "align-items": "center",
+                    "justify-content": "flex-start"
+                }
+            };
 
-    const styles = {
-        table: {
-            display: "flex",
-            "flex-wrap": "wrap",
-            margin: "0.2em 0.2em 0.2em 0.2em",
-            padding: 0,
-            "flex-direction": "rows"
-        },
-        cell: {
-            "box-sizing": "border-box",
-            "flex-grow": 0,
-            overflow: "hidden",
-            padding: "0.2em 0.2em",
-            "border-bottom": "none",
-            display: "flex",
-            "align-items": "center",
-            "justify-content": "flex-start"
-        }
-    };
+            const createStyleSheet = _.once(() => {
+                return jss
+                    .create()
+                    .createStyleSheet(styles, {
+                        generateClassName: FractalComponent.utils.createClassNameGenerator(
+                            "exampleApp"
+                        )
+                    })
+                    .attach();
+            });
 
-    const createStyleSheet = _.once(() => {
-        return jss
-            .create()
-            .createStyleSheet(styles, {
-                generateClassName: FractalComponent.utils.createClassNameGenerator("exampleApp")
-            })
-            .attach();
-    });
-
-    function App() {
-        const { classes } = createStyleSheet();
-        const ActionForwarder = FractalComponent.ActionForwarder;
-        return (
-            <div>
-                <div className={classes.table}>
-                    <div className={classes.cell}>
-                        {/*
+            function App() {
+                const { classes } = createStyleSheet();
+                const ActionForwarder = FractalComponent.ActionForwarder;
+                return (
+                    <div>
+                        <div className={classes.table}>
+                            <div className={classes.cell}>
+                                {/*
                             RandomGif / RandomGifPair / RandomGifPairPair support apiKey property as well
                             You can supply your giphy API key as component property
                         */}
-                        <RandomGif.default namespacePrefix="exampleApp/RandomGif" />
-                        {/*Forward `NEW_GIF` actions (and convert to `INCREASE_COUNT`) to ToggleButton for processing*/}
-                        <ActionForwarder
-                            namespacePrefix="exampleApp/RandomGif"
-                            pattern={RandomGif.actionTypes.NEW_GIF}
-                            relativeDispatchPath="../ToggleButton/*"
-                            transformer={Counter.actionTypes.INCREASE_COUNT}
-                        />
-                    </div>
-                    <div className={classes.cell}>
-                        <Counter.default namespacePrefix="exampleApp/Counter" />
-                    </div>
-                </div>
-                <div className={classes.table}>
-                    <div className={classes.cell}>
-                        <RandomGifPair.default namespacePrefix="exampleApp/RandomGifPair" />
-                        {/*Forward `NEW_GIF` actions (and convert to `INCREASE_COUNT`) to ToggleButton for processing*/}
-                        <ActionForwarder
-                            namespacePrefix="exampleApp/RandomGifPair"
-                            pattern={RandomGif.actionTypes.NEW_GIF}
-                            relativeDispatchPath="../ToggleButton/*"
-                            transformer={Counter.actionTypes.INCREASE_COUNT}
-                        />
-                    </div>
-                    <div className={classes.cell}>
-                        {/*
+                                <RandomGif.default namespacePrefix="exampleApp/RandomGif" />
+                                {/*Forward `NEW_GIF` actions (and convert to `INCREASE_COUNT`) to ToggleButton for processing*/}
+                                <ActionForwarder
+                                    namespacePrefix="exampleApp/RandomGif"
+                                    pattern={RandomGif.actionTypes.NEW_GIF}
+                                    relativeDispatchPath="../ToggleButton/*"
+                                    transformer={
+                                        Counter.actionTypes.INCREASE_COUNT
+                                    }
+                                />
+                            </div>
+                            <div className={classes.cell}>
+                                <Counter.default namespacePrefix="exampleApp/Counter" />
+                            </div>
+                        </div>
+                        <div className={classes.table}>
+                            <div className={classes.cell}>
+                                <RandomGifPair.default namespacePrefix="exampleApp/RandomGifPair" />
+                                {/*Forward `NEW_GIF` actions (and convert to `INCREASE_COUNT`) to ToggleButton for processing*/}
+                                <ActionForwarder
+                                    namespacePrefix="exampleApp/RandomGifPair"
+                                    pattern={RandomGif.actionTypes.NEW_GIF}
+                                    relativeDispatchPath="../ToggleButton/*"
+                                    transformer={
+                                        Counter.actionTypes.INCREASE_COUNT
+                                    }
+                                />
+                            </div>
+                            <div className={classes.cell}>
+                                {/*
                             ToggleButton acts as a proxy --- depends on its status
                             add an `toggleButtonActive`= true / false field to all actions
                             and then forward actions to Counter
                         */}
-                        <ToggleButton.default
-                            namespacePrefix="exampleApp/ToggleButton"
-                            pattern={Counter.actionTypes.INCREASE_COUNT}
-                            relativeDispatchPath="../Counter/*"
-                            transformer={Counter.actionTypes.INCREASE_COUNT}
-                        />
+                                <ToggleButton.default
+                                    namespacePrefix="exampleApp/ToggleButton"
+                                    pattern={Counter.actionTypes.INCREASE_COUNT}
+                                    relativeDispatchPath="../Counter/*"
+                                    transformer={
+                                        Counter.actionTypes.INCREASE_COUNT
+                                    }
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <RandomGifPairPair.default namespacePrefix="exampleApp/RandomGifPairPair" />
+                            {/*Forward `NEW_GIF` actions (and convert to `INCREASE_COUNT`) to ToggleButton for processing*/}
+                            <ActionForwarder
+                                namespacePrefix="exampleApp/RandomGifPairPair"
+                                pattern={RandomGif.actionTypes.NEW_GIF}
+                                relativeDispatchPath="../ToggleButton/*"
+                                transformer={Counter.actionTypes.INCREASE_COUNT}
+                            />
+                        </div>
                     </div>
-                </div>
-                <div>
-                    <RandomGifPairPair.default namespacePrefix="exampleApp/RandomGifPairPair" />
-                    {/*Forward `NEW_GIF` actions (and convert to `INCREASE_COUNT`) to ToggleButton for processing*/}
-                    <ActionForwarder
-                        namespacePrefix="exampleApp/RandomGifPairPair"
-                        pattern={RandomGif.actionTypes.NEW_GIF}
-                        relativeDispatchPath="../ToggleButton/*"
-                        transformer={Counter.actionTypes.INCREASE_COUNT}
-                    />
-                </div>
-            </div>
-        );
-    }
+                );
+            }
 
-
-    ReactDOM.render(<App />, document.getElementById("app_root"));
-    </script>
-</body>
-
+            ReactDOM.render(
+                <FractalComponent.AppContainerContext.Provider
+                    value={appContainer}
+                >
+                    <App />
+                </FractalComponent.AppContainerContext.Provider>,
+                document.getElementById("app_root")
+            );
+        </script>
+    </body>
 </html>
 ```
+
+## Changelog
+
+Please find the Changelog from [here](./CHANGES.md)
