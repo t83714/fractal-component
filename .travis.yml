@@ -12,7 +12,7 @@ script:
   - yarn build
   - yarn test 
   - yarn eslint 
-  - yarn dstlint 
+  - yarn dtslint 
 
 #after_script:
 #  - npm run bundlesize
