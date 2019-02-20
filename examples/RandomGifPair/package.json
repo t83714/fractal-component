@@ -45,22 +45,22 @@
   "dependencies": {
     "@babel/runtime": "^7.0.0",
     "color": "^3.0.0",
-    "fractal-component": ">=3.2.2",
+    "fractal-component": "^4.0.0",
     "jss": "^9.8.7",
     "jss-preset-default": "^4.5.0",
-    "prop-types": "^15.6.0",
-    "react": "^16.8.0",
-    "redux-saga": "^1.0.0",
-    "@fractal-components/random-gif": "^1.0.5"
+    "prop-types": "~15.6.0",
+    "react": "~16.8.0",
+    "redux-saga": "~1.0.0",
+    "@fractal-components/random-gif": "^1.0.0"
   },
   "peerDependencies": {
-    "fractal-component": ">=3.2.2",
+    "fractal-component": "^4.0.0",
     "jss": "^9.8.7",
     "jss-preset-default": "^4.5.0",
-    "prop-types": "^15.6.0",
-    "react": "^16.8.0",
-    "redux-saga": "^1.0.0",
-    "@fractal-components/random-gif": "^1.0.5"
+    "prop-types": "~15.6.0",
+    "react": "~16.8.0",
+    "redux-saga": "~1.0.0",
+    "@fractal-components/random-gif": "^1.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",

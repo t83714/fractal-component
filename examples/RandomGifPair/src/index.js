@@ -161,6 +161,7 @@ RandomGifPair.defaultProps = {
     showButton: true
 };
 
+// --- Define contentType allow `AppContainer` pass through React Content
 RandomGifPair.contextType = AppContainerContext;
 
 export default RandomGifPair;

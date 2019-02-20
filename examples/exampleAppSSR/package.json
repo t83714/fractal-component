@@ -18,10 +18,10 @@
     "jss": "^9.8.7",
     "jss-preset-default": "^4.5.0",
     "prop-types": "^15.6.0",
-    "react": "^16.8.0",
-    "react-dom": "^16.8.0",
-    "redux-saga": "^1.0.0",
-    "fractal-component": "^3.0.2"
+    "react": "~16.8.0",
+    "react-dom": "~16.8.0",
+    "redux-saga": "~1.0.0",
+    "fractal-component": "^4.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",

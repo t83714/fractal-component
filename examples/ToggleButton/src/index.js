@@ -135,6 +135,7 @@ ToggleButton.propTypes = {
     appContainer: PropTypes.instanceOf(AppContainer)
 };
 
+// --- Define contentType allow `AppContainer` pass through React Content
 ToggleButton.contextType = AppContainerContext;
 
 export default ToggleButton;

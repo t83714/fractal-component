@@ -125,6 +125,7 @@ RandomGif.defaultProps = {
     apiKey: "Y4P38sTJAgEBOHP1B3sVs0Jtk01tb6fA"
 };
 
+// --- Define contentType allow `AppContainer` pass through React Content
 RandomGif.contextType = AppContainerContext;
 
 export default RandomGif;
