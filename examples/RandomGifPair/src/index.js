@@ -74,6 +74,7 @@ class RandomGifPair extends React.Component {
     render() {
         const { styleSheet } = this.componentManager.getNamespaceData();
         const { classes } = styleSheet;
+        const appContainer = this.componentManager.appContrainer;
         return (
             <div className={classes.table}>
                 <div className={classes.cell}>RandomGif Pair</div>
@@ -85,7 +86,7 @@ class RandomGifPair extends React.Component {
                             namespacePrefix={`${
                                 this.componentManager.fullPath
                             }/Gifs`}
-                            appContainer={this.props.appContainer}
+                            appContainer={appContainer}
                         />
                     </div>
                     <div>
@@ -95,7 +96,7 @@ class RandomGifPair extends React.Component {
                             namespacePrefix={`${
                                 this.componentManager.fullPath
                             }/Gifs`}
-                            appContainer={this.props.appContainer}
+                            appContainer={appContainer}
                         />
                     </div>
                 </div>
@@ -127,7 +128,7 @@ class RandomGifPair extends React.Component {
                     namespacePrefix={`${this.componentManager.fullPath}/Gifs`}
                     pattern={RandomGifActionTypes.NEW_GIF}
                     relativeDispatchPath="../../../../*"
-                    appContainer={this.props.appContainer}
+                    appContainer={appContainer}
                 />
 
                 {/**
@@ -143,7 +144,7 @@ class RandomGifPair extends React.Component {
                         action.type === RandomGifActionTypes.LOADING_COMPLETE
                     }
                     relativeDispatchPath=".."
-                    appContainer={this.props.appContainer}
+                    appContainer={appContainer}
                 />
             </div>
         );
