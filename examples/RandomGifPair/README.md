@@ -87,11 +87,11 @@ To try it out, simply create a HTML file with the following content (also availa
         <!--
             Load `babel-standalone` to support JSX in script tag
         -->
-        <script src="https://unpkg.com/babel-standalone@^7.0.0/babel.min.js"></script>
+        <script src="https://unpkg.com/@babel/standalone@^7.0.0/babel.min.js"></script>
         <script src="https://unpkg.com/react@~16.8.0/umd/react.production.min.js"></script>
         <script src="https://unpkg.com/prop-types@~15.6.2/prop-types.min.js"></script>
         <script src="https://unpkg.com/react-dom@~16.8.0/umd/react-dom.production.min.js"></script>
-        <script src="https://unpkg.com/redux-saga@~1.0.0/dist/redux-saga.min.umd.js"></script>
+        <script src="https://unpkg.com/redux-saga@~1.0.0/dist/redux-saga.umd.min.js"></script>
         <script src="https://unpkg.com/fractal-component@latest/dist/fractal-component.min.umd.js"></script>
         <script src="https://unpkg.com/jss@9.8.7/dist/jss.min.js"></script>
         <script src="https://unpkg.com/jss-preset-default@4.5.0/dist/jss-preset-default.min.js"></script>
