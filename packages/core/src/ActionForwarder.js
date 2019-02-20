@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import ComponentManager from "./ComponentManager";
 import AppContainerContext from "./AppContainerContext";
+import AppContainer from "./AppContainer";
 import { is } from "./utils";
 
 /**
@@ -43,7 +44,8 @@ ActionForwarder.propTypes = {
         )
     ]),
     relativeDispatchPath: PropTypes.string,
-    transformer: PropTypes.oneOfType([PropTypes.symbol, PropTypes.func])
+    transformer: PropTypes.oneOfType([PropTypes.symbol, PropTypes.func]),
+    appContainer: PropTypes.instanceOf(AppContainer)
 };
 
 function* forwarderSaga(effects) {

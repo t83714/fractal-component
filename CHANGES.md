@@ -1,3 +1,7 @@
+## 4.0.1
+
+- Added `appContainer` to `ActionForwarder`'s `propTypes`
+
 ## 4.0.0
 
 - Added React New Context API Support (Require React 16.6.0 above)
