@@ -3,6 +3,7 @@ import ComponentManagerRegistry from "./ComponentManagerRegistry";
 import AppContainer from "./AppContainer";
 import { Store, Action, Reducer } from "redux";
 import { Emitter, Handler } from "mitt";
+import { ComponentStub } from "./useComponentManager/getComponentStub";
 
 declare class ComponentManager {
     constructor(
@@ -10,6 +11,7 @@ declare class ComponentManager {
         options: ManageableComponentOptions,
         appContrainer?: AppContainer
     );
+    componentInstance: ManageableComponent;
     emitter: Emitter;
     appContrainer: AppContainer;
     store: Store;
@@ -34,7 +36,10 @@ declare class ComponentManager {
 
 export default ComponentManager;
 
-export type ManageableComponent = React.Component | React.PureComponent;
+export type ManageableComponent =
+    | React.Component
+    | React.PureComponent
+    | ComponentStub;
 
 export type ComponentStringSettingFunc = (
     cmRef: ComponentManager,
@@ -51,10 +56,12 @@ export type ComponentStringSettingFunc = (
 export type NamespaceInitCallback = () => object;
 export type NamespaceDestroyCallback = (namespaceData: object) => void;
 
+export const defaultOptions: ManageableComponentOptions;
 export interface ManageableComponentOptions {
     saga?: GeneratorFunction;
     initState?: object;
     reducer: Reducer;
+    name: string;
     namespace?: string | ComponentStringSettingFunc;
     namespacePrefix?: string | ComponentStringSettingFunc;
     componentId?: string | ComponentStringSettingFunc;

@@ -12,10 +12,11 @@ import {
 } from "./utils";
 import * as is from "./utils/is";
 
-const defaultOptions = {
+export const defaultOptions = {
     saga: null,
     initState: {},
     reducer: null,
+    name: "Component",
     namespace: null,
     namespacePrefix: null,
     componentId: null,
@@ -329,6 +330,7 @@ function getComponentName(componentInstance) {
         return (
             componentInstance.constructor.displayName ||
             componentInstance.constructor.name ||
+            this.options.name ||
             "Component"
         );
     } catch (e) {
