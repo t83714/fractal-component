@@ -1,3 +1,7 @@
+## 4.1.0
+
+- Support React [Function Components](https://reactjs.org/docs/components-and-props.html#function-and-class-components) via [React Hooks API](https://reactjs.org/docs/hooks-custom.html)
+
 ## 4.0.1
 
 - Added `appContainer` to `ActionForwarder`'s `propTypes`
