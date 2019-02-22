@@ -4,6 +4,7 @@ import ActionForwarder from "./ActionForwarder";
 import { is } from "./utils";
 import AppContainerContext from "./AppContainerContext";
 import ComponentManager from "./ComponentManager";
+import useComponentManager from "./useComponentManager";
 
 export {
     AppContainer,
@@ -12,5 +13,6 @@ export {
     AppContainerUtils,
     ActionForwarder,
     ComponentManager,
+    useComponentManager,
     is
 };

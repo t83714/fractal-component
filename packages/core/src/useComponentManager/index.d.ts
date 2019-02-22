@@ -4,7 +4,7 @@ import ComponentManager, {
     ManageableComponentOptions
 } from "../ComponentManager";
 
-export declare function useComponentManager(
+export default function useComponentManager(
     props: ObjectHash,
     options: ManageableComponentOptions
 ): [
