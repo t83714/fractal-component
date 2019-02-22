@@ -18,6 +18,7 @@ In order to achieve that, `fractal-component` introduce the following features t
 - Namespaced Redux Store
 - Auto Component State Management & Redux Store Mapping
 - Enhanced Server Side Rendering (SSR) Support
+- Support React [Function Components](https://reactjs.org/docs/components-and-props.html#function-and-class-components) via [React Hooks API](https://reactjs.org/docs/hooks-custom.html) (See [Example App](examples/exampleAppHooks))
 
 With `fractal-component`, you can create reusable [Container Components](https://redux.js.org/basics/usagewithreact#presentational-and-container-components) and construct scalable [fractal architecture](https://www.metropolismag.com/architecture/science-for-designers-scaling-and-fractals/) application while still enjoy the convenience of [Redux dev tool](https://github.com/zalmoxisus/redux-devtools-extension) & predictable single global store.
 
@@ -80,6 +81,7 @@ Alternatively, you may use the UMD builds from [unpkg](https://unpkg.com/fractal
 ## Changelog
 
 ** New: Added React [New Context API support](https://reactjs.org/docs/context.html) (Requires React Version 16.6.0 and above)
+** New: Support Function Component via [New Hooks API](https://reactjs.org/docs/hooks-custom.html) (Requires React Version 16.8.0 and above)
 
 Please find the complete Changelog from [here](./CHANGES.md).
 
