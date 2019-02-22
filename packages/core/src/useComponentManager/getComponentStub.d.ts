@@ -1,8 +1,8 @@
-interface ObjectHash {
+export interface ObjectHash {
     [k: string]: any;
 }
 
-type AnyFunc = (...args: any[]) => any;
+export type AnyFunc = (...args: any[]) => any;
 
 export interface ComponentStub {
     props: ObjectHash;

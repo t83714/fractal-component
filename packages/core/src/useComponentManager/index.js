@@ -9,7 +9,7 @@ export default function useComponentManager(props, options) {
     const context = useContext(AppContainerContext);
     const componentName = (options && options.name) || "Component";
 
-    const componentManager = useMemo(() => {
+    const [componentManager, dispatch] = useMemo(() => {
         // --- will only run once
         const componentStub = getComponentStub(
             props,
@@ -24,7 +24,7 @@ export default function useComponentManager(props, options) {
          * then run a noop func
          */
         componentStub.render();
-        return cm;
+        return [cm, cm.dispatch.bind(cm)];
     }, []);
 
     useEffect(() => {
@@ -35,5 +35,5 @@ export default function useComponentManager(props, options) {
         // --- [] make sure it will not run for componentDidUpdate
     }, []);
 
-    return [componentManager, state];
+    return [state, dispatch, componentManager];
 }
