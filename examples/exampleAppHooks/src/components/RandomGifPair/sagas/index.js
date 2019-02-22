@@ -3,7 +3,7 @@ import * as actionTypes from "../actions/types";
 import {
     actions as RandomGifActions,
     actionTypes as RandomGifActionTypes
-} from "@fractal-components/random-gif";
+} from "../../RandomGif";
 
 function* mainSaga(effects) {
     let isLoadingStartActionDispatched = false;
