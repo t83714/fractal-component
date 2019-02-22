@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect, useMemo } from "react";
-import AppContainerContext from "./AppContainerContext";
+import AppContainerContext from "../AppContainerContext";
 import getComponentStub from "./getComponentStub";
 import ComponetManager from "../ComponentManager";
 
