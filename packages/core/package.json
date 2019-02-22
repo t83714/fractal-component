@@ -53,7 +53,7 @@
   "bundlesize": [
     {
       "path": "./dist/fractal-component.min.umd.js",
-      "maxSize": "15 Kb"
+      "maxSize": "16 Kb"
     }
   ],
   "dependencies": {
