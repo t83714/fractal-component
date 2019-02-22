@@ -34,6 +34,16 @@ export default function useComponentManager(props, options) {
         };
         // --- [] make sure it will not run for componentDidUpdate
     }, []);
-
-    return [state, dispatch, componentManager];
+    /**
+     * Make sure `useComponentManager` hook return value can be used
+     * for either Object or Array destructuring assignment
+     * i.e. you can either:
+     * - `const [state, dispatch, componentManager] = useComponentManager(props, options)` OR
+     * - `const { state, dispatch, componentManager } = useComponentManager(props, options)`
+     */
+    const r = [state, dispatch, componentManager];
+    r.state = state;
+    r.dispatch = dispatch;
+    r.componentManager = componentManager;
+    return r;
 }

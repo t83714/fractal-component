@@ -4,11 +4,22 @@ import ComponentManager, {
     ManageableComponentOptions
 } from "../ComponentManager";
 
+type dispatchFuncType = (
+    action: Action,
+    relativeDispatchPath?: string
+) => Action;
+
+export type useComponentManagerResponse = [
+    any,
+    dispatchFuncType,
+    ComponentManager
+] & {
+    state: any;
+    dispatch: dispatchFuncType;
+    componentManager: ComponentManager;
+};
+
 export default function useComponentManager(
     props: ObjectHash,
     options: ManageableComponentOptions
-): [
-    any,
-    (action: Action, relativeDispatchPath?: string) => Action,
-    ComponentManager
-];
+): useComponentManagerResponse;
