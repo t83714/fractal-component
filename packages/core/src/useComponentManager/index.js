@@ -9,7 +9,7 @@ export default function useComponentManager(props, options) {
     const context = useContext(AppContainerContext);
     const componentName = (options && options.name) || "Component";
 
-    const [componentManager, dispatch] = useMemo(() => {
+    const [componentManager, dispatch, getNamespaceData] = useMemo(() => {
         // --- will only run once
         const componentStub = getComponentStub(
             props,
@@ -24,7 +24,7 @@ export default function useComponentManager(props, options) {
          * then run a noop func
          */
         componentStub.render();
-        return [cm, cm.dispatch.bind(cm)];
+        return [cm, cm.dispatch.bind(cm), cm.getNamespaceData.bind(cm)];
     }, []);
 
     useEffect(() => {
@@ -41,9 +41,10 @@ export default function useComponentManager(props, options) {
      * - `const [state, dispatch, componentManager] = useComponentManager(props, options)` OR
      * - `const { state, dispatch, componentManager } = useComponentManager(props, options)`
      */
-    const r = [state, dispatch, componentManager];
+    const r = [state, dispatch, getNamespaceData, componentManager];
     r.state = state;
     r.dispatch = dispatch;
+    r.getNamespaceData = getNamespaceData;
     r.componentManager = componentManager;
     return r;
 }

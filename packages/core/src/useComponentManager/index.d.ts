@@ -4,7 +4,7 @@ import ComponentManager, {
     ManageableComponentOptions
 } from "../ComponentManager";
 
-type dispatchFuncType = (
+export type dispatchFuncType = (
     action: Action,
     relativeDispatchPath?: string
 ) => Action;
@@ -12,10 +12,12 @@ type dispatchFuncType = (
 export type useComponentManagerResponse = [
     any,
     dispatchFuncType,
+    () => any,
     ComponentManager
 ] & {
     state: any;
     dispatch: dispatchFuncType;
+    getNamespaceData: () => any;
     componentManager: ComponentManager;
 };
 
