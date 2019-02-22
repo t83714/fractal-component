@@ -10,7 +10,7 @@
     "clean": "rimraf dist",
     "prettier": "prettier --write 'src/*.js'",
     "eslint": "eslint src/",
-    "profile": "webpack --mode=production --profile --json > dist/stats.json"
+    "profile": "webpack --mode=production --profile --json > dist/stats.json && webpack-bundle-analyzer dist/stats.json"
   },
   "dependencies": {
     "color": "^3.0.0",
