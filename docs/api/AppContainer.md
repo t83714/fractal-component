@@ -70,8 +70,8 @@ registerComponent(
 
 You likely will not call this method directly. Instead, you may want to use static method `AppContainerUtils.registerComponent()`. It calls `appContainer.registerComponent()` internally to provide similar function. Moreover, calling `AppContainerUtils.registerComponent()` doesn't require the reference of `AppContainer` instance. It will automatically look for `appContainer` from:
 
-- Current `React Component` `this.props.appContainer` (It's configurable via `AppContainerUtils.updateAppContainerRetrieveKey()`)
-- Current `React Component` `this.context.appContainer`
+- Current `React Component` `props.appContainer` (It's configurable via `AppContainerUtils.updateAppContainerRetrieveKey()`)
+- React context data.
 - Previous created `AppContainer` via [`AppContainerUtils.createAppContainer()`](./AppContainerUtils.md#appcontainerutilscreateappcontainer) call.
 - If can't find, it will auto create (using `AppContainerUtils.createAppContainer()`) a new `AppContainer` with default options.
 

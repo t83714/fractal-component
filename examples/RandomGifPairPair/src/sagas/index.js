@@ -6,13 +6,14 @@ import {
 } from "@fractal-components/random-gif-pair";
 
 function* mainSaga(effects) {
+    let isLoadingStartActionDispatched = false;
     yield effects.takeEvery(
         RandomGifPairActionTypes.LOADING_START,
         function*() {
-            if (!this.isLoadingStartActionDispatched) {
+            if (!isLoadingStartActionDispatched) {
                 yield effects.put(actions.loadingStart(), "../../../*");
             }
-        }.bind(this)
+        }
     );
     yield effects.takeEvery(
         RandomGifPairActionTypes.LOADING_COMPLETE,
@@ -26,9 +27,9 @@ function* mainSaga(effects) {
             const { isLoading, error } = yield effects.select();
             if (!isLoading) {
                 yield effects.put(actions.loadingComplete(error), "../../../*");
-                this.isLoadingStartActionDispatched = false;
+                isLoadingStartActionDispatched = false;
             }
-        }.bind(this)
+        }
     );
     // --- monitor `REQUEST_NEW_PAIR_PAIR` and send multicast actions to RandomGifPairs
     yield effects.takeEvery(actionTypes.REQUEST_NEW_PAIR_PAIR, function*() {

@@ -34,7 +34,6 @@ class RandomGifPair extends React.Component {
             isLoading: false,
             error: null
         };
-        this.isLoadingStartActionDispatched = false;
 
         this.componentManager = new ComponentManager(this, {
             namespace: "io.github.t83714/RandomGifPair",

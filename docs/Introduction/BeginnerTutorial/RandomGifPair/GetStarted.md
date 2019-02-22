@@ -51,7 +51,7 @@ class RandomGifPair extends React.Component {
                                 this.componentManager.fullPath
                             }/Gifs`}
                             // --- pass down appContainer in case users want to specify `appContainer`
-                            appContainer={this.props.appContainer}
+                            appContainer={this.componentManager.appContainer}
                         />
                     </div>
                     <div>
@@ -62,7 +62,7 @@ class RandomGifPair extends React.Component {
                                 this.componentManager.fullPath
                             }/Gifs`}
                             // --- pass down appContainer in case users want to specify `appContainer`
-                            appContainer={this.props.appContainer}
+                            appContainer={this.componentManager.appContainer}
                         />
                     </div>
                 </div>
@@ -114,7 +114,7 @@ In `index.js`, we imported component `RandomGif` and configure it as:
         this.componentManager.fullPath
     }/Gifs`}
     // --- pass down appContainer in case users want to specify `appContainer`
-    appContainer={this.props.appContainer}
+    appContainer={this.componentManager.appContainer}
 />
 ```
 Here, we set `namespacePrefix` to `${this.componentManager.fullPath}/Gifs` so that the namespace path of `RandomGif` components included by our new `RandomGifPair` will be always under `RandomGifPair`'s namespace path. The actual `Namespace Tree` structure is shown as below:

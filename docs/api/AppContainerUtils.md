@@ -41,7 +41,7 @@ Here `ManageableComponent` is a [React Class Component](https://reactjs.org/docs
 
 `AppContainerUtils.getAppContainer` method accepts one optional `componentInstance` parameter and will try to locate an `AppContainer` instane in the following way:
 
-- `componentInstance`'s `appContainer` property (i.e. `componentInstance.props.appContainer`) .It's configurable via `AppContainerUtils.updateAppContainerRetrieveKey()`
+- `componentInstance`'s `appContainer` property (i.e. `props.appContainer`) .It's configurable via `AppContainerUtils.updateAppContainerRetrieveKey()`
 - Or `componentInstance.context.appContainer`
 - Or Previous created `AppContainer` via [`AppContainerUtils.createAppContainer()`](#appcontainerutilscreateappcontainer) call.
 - If can't find, it will auto create (using `AppContainerUtils.createAppContainer()`) a new `AppContainer` with default options. And return it.

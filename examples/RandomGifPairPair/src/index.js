@@ -34,7 +34,6 @@ class RandomGifPairPair extends React.Component {
             isLoading: false,
             error: null
         };
-        this.isLoadingStartActionDispatched = false;
 
         this.componentManager = new ComponentManager(this, {
             namespace: "io.github.t83714/RandomGifPairPair",
@@ -87,7 +86,7 @@ class RandomGifPairPair extends React.Component {
                             namespacePrefix={`${
                                 this.componentManager.fullPath
                             }/GifPairs`}
-                            appContainer={this.props.appContainer}
+                            appContainer={this.componentManager.appContainer}
                         />
                     </div>
                     <div>
@@ -97,7 +96,7 @@ class RandomGifPairPair extends React.Component {
                             namespacePrefix={`${
                                 this.componentManager.fullPath
                             }/GifPairs`}
-                            appContainer={this.props.appContainer}
+                            appContainer={this.componentManager.appContainer}
                         />
                     </div>
                 </div>
@@ -131,7 +130,7 @@ class RandomGifPairPair extends React.Component {
                     }/GifPairs`}
                     pattern={RandomGifPairActionTypes.NEW_GIF}
                     relativeDispatchPath="../../../../*"
-                    appContainer={this.props.appContainer}
+                    appContainer={this.componentManager.appContainer}
                 />
 
                 {/**
@@ -151,7 +150,7 @@ class RandomGifPairPair extends React.Component {
                             RandomGifPairActionTypes.LOADING_COMPLETE
                     }
                     relativeDispatchPath=".."
-                    appContainer={this.props.appContainer}
+                    appContainer={this.componentManager.appContainer}
                 />
             </div>
         );

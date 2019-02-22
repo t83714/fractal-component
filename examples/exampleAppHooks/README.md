@@ -1,4 +1,4 @@
-# An example app built fractal-component
+# An example app built fractal-component (Use New React Hooks API)
 
 To run the example App:
 
@@ -19,7 +19,7 @@ yarn build
 3. Run the Example App
 
 ```
-cd examples/exampleApp
+cd examples/exampleAppHooks
 yarn start
 ```
 

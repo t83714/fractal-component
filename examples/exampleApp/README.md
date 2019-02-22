@@ -27,4 +27,4 @@ yarn start
 
 The exampleApp comes with a testing Giphy.com API key in order to retrieve random Gifs from https://giphy.com/. The api key is limted to **40 requests** per hour.
 
-You can create your own API key from https://developers.giphy.com/ and replace the API key in [Component RandomGif](src/components/RandomGif/index.js)
+You can create your own API key from https://developers.giphy.com/ and replace the API key in [Component RandomGif](../RandomGif/index.js)

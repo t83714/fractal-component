@@ -79,7 +79,7 @@ function RandomGifPairPair(props) {
                         namespacePrefix={`${
                             componentManager.fullPath
                         }/GifPairs`}
-                        appContainer={props.appContainer}
+                        appContainer={componentManager.appContainer}
                     />
                 </div>
                 <div>
