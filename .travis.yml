@@ -12,7 +12,8 @@ script:
   - yarn build
   - yarn test 
   - yarn eslint 
-  - yarn dtslint 
+  - yarn dtslint
+  - yarn wsrun -p 'fractal-component' --stages bundlesize
 
 #after_script:
 #  - npm run bundlesize
