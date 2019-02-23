@@ -27,8 +27,10 @@
   - ActionForwarder
   - SagaMonitor
 - [API Reference](./api/README.md)
-  - [AppContainer](./api/AppContainer.md)
-  - [AppContainerUtils](./api/AppContainerUtils.md)
   - [ComponentManager](./api/ComponentManager.md)
+  - [useComponentManager](./api/useComponentManager.md)
+  - [ManageableComponentOptions](./api/ManageableComponentOptions.md)
+  - [AppContainer](./api/AppContainer.md)
   - [ActionForwarder](./api/ActionForwarder.md)
   - [utils](./api/utils.md)
+  - [AppContainerUtils](./api/AppContainerUtils.md)

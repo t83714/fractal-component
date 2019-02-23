@@ -72,10 +72,12 @@ Alternatively, you may use the UMD builds from [unpkg](https://unpkg.com/fractal
   - ActionForwarder
   - SagaMonitor
 - [API Reference](https://t83714.github.io/fractal-component/api/)
-  - [AppContainer](https://t83714.github.io/fractal-component/api/AppContainer.html)
-  - [AppContainerUtils](https://t83714.github.io/fractal-component/api/AppContainerUtils.html)
   - [ComponentManager](https://t83714.github.io/fractal-component/api/ComponentManager.html)
+  - [useComponentManager Hook](https://t83714.github.io/fractal-component/api/useComponentManager.md)
+  - [ManageableComponentOptions](https://t83714.github.io/fractal-component/api/ManageableComponentOptions.md) 
+  - [AppContainer](https://t83714.github.io/fractal-component/api/AppContainer.html)
   - [ActionForwarder](https://t83714.github.io/fractal-component/api/ActionForwarder.html)
+  - [AppContainerUtils](https://t83714.github.io/fractal-component/api/AppContainerUtils.html)
   - [utils](https://t83714.github.io/fractal-component/api/utils.html)
 
 ## Changelog
@@ -84,6 +86,19 @@ Alternatively, you may use the UMD builds from [unpkg](https://unpkg.com/fractal
 ** New: Support Function Component via [New Hooks API](https://reactjs.org/docs/hooks-custom.html) (Requires React Version 16.8.0 and above)
 
 Please find the complete Changelog from [here](./CHANGES.md).
+
+## FAQ
+
+- Why I can't call `setState` method anymore / Why hook API doesn't offer `setState`?
+
+`fractal-component` manages your component state (either [Function or Class Component](https://reactjs.org/docs/components-and-props.html#function-and-class-components)) in a global [Redux Store](https://redux.js.org/api/store). You will need to `dispatch` an Action to trigger state changes in [Reducers](https://redux.js.org/basics/reducers) (either your component reducer or global reducer). Once the state in the global redux store is updated, `fractal-component` will update the React component state automatically in order to trigger re-rendering.
+
+- What's `Namespace Data`?
+
+When create re-usable component, we should keep in mind that the component could be reused multiple times on the same screen. There may be some initialization operation that should only perform once when the first component instance of the reuable component is rendered on screen and, consequently,some clean-up job that should be only perform once after the last component instance of the component is unmounted.
+
+React, currently, doesn't offer life cycle hooks for this purspose. `fractal-component` allows you achieve 
+
 
 ## Quick Start
 
@@ -95,6 +110,7 @@ You don't have to use [Webpack](https://webpack.js.org/) / [Babel](https://babel
 - Counter: [Source code](https://github.com/t83714/fractal-component/tree/master/examples/Counter)
 
 Bundled version of the complete exampleApp can be found from [here](https://github.com/t83714/fractal-component/tree/master/examples/exampleApp).
+Or [here](https://github.com/t83714/fractal-component/tree/master/examples/exampleApp) if you prefer React [Function Components](https://reactjs.org/docs/components-and-props.html#function-and-class-components).
 
 ```html
 <!DOCTYPE html>
