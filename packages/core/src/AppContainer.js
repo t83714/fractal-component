@@ -179,6 +179,14 @@ class AppContainer {
         return this.store.dispatch(namespacedAction);
     }
 
+    serialiseAction(action) {
+        return this.actionRegistry.serialiseAction(action);
+    }
+
+    deserialiseAction(actionJson) {
+        return this.actionRegistry.deserialiseAction(actionJson);
+    }
+
     destroy() {
         this.componentManagerRegistry.destroy();
         if (this.hostSagaTask) {

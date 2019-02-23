@@ -55,6 +55,9 @@ declare class AppContainer {
      *
      */
     dispatch(action: Action, relativeDispatchPath?: string): Action;
+
+    serialiseAction(action: Action): string;
+    deserialiseAction(actionJson: string): Action;
 }
 
 export default AppContainer;
