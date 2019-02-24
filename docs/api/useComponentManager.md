@@ -3,20 +3,27 @@
 `useComponentManager` is a [custom React Hook](https://reactjs.org/docs/hooks-custom.html) built with [React Hook APIs](https://reactjs.org/docs/hooks-reference.html) (available from React v16.8.0). It offers an easier way to package all logic and create an reusable component from a [React Function Component](https://reactjs.org/docs/components-and-props.html#function-and-class-components). `useComponentManager` is available from `fractal-component` v4.1.0
 
 ```
-const [state, dispatch, getNamespaceData, componentManager] = useComponentManager(props, options);
+const [
+    state, 
+    dispatch, 
+    getNamespaceData, 
+    componentManager
+] = useComponentManager(props, options);
 ```
 
 Once called in a `React Function Component`, it will return the followings:
 - state: return the reference of the component state.
 - dispatch: A dispatch function that can be used to dispatch namespaced actions. It is a bound version of [ComponentManager.dispatch](./ComponentManager.md#dispatch) with exactly same functionality.
 - getNamespaceData: A function that get be used to retrieve the namespace data that may created by [namespaceInitCallback](./ManageableComponentOptions.md#option-namespaceinitcallback). It is a bound version of [ComponentManager.getNamespaceData](./ComponentManager.md#getnamespacedata) with exactly same functionality.
-- componentManager: The reference of the created [ComponentManager](./ComponentManager.md) instance.
+- componentManager: The reference of the created [ComponentManager](./ComponentManager.md) instance. Like React's [useState](https://reactjs.org/docs/hooks-state.html) hook, `useComponentManager` hook will only create the `ComponentManager` once during the react function component lifecycle. Further calls untill the component is `unmounted` will return the same `ComponentManager` instance for the same component instance.
 
 
 In fact, `useComponentManager` hook's return value can be used for either Object or Array destructuring assignment. i.e. you can either:
 
 - `const [state, dispatch, getNamespaceData, componentManager] = useComponentManager(props, options)`
 - OR `const { state, dispatch, getNamespaceData, componentManager } = useComponentManager(props, options)`
+
+It might be convenient to use Object destructuring assignment when you want to omit one or more return values.
 
 ### Parameters
 

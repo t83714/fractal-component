@@ -1,7 +1,7 @@
 ## AppContainer
 
 - [`Overview`](#overview)
-- [`Initialisation / Constructor`](#initialisation-constructor)
+- [`Initialisation / Constructor`](#initialisation--constructor)
 - [`Other Methods`](#other-methods)
     - [`deregisterComponent(component)`](#deregistercomponentcomponent)
     - [`destroy()`](#destroy)
@@ -47,7 +47,7 @@ The constructor accepts the configOptions objects with the following options:
 
 #### `destroy()`
 
-Destroy `AppContainer`. Mainly for use cases when you need to create more than one `AppContainers`. e.g. Server-Side Rendering (SSR).
+Destroy `AppContainer`. Mainly for use cases when you need to create more than one `AppContainers`. e.g. Server-Side Rendering (SSR). `destroy()` allows you to clean-up all component resources & cancel all sagas manually.
 
 #### `subscribeActionDispatch`
 

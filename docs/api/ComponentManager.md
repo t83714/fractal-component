@@ -1,7 +1,7 @@
 ## ComponentManager
 
 - [`Overview`](#overview)
-- [`Key Properties`](#keyproperties)
+- [`Key Properties`](#key-properties)
 - [`dispatch()`](#dispatch)
 - [`getNamespaceData()`](#getnamespacedata)
 - [`createClassNameGenerator()`](#createclassnamegenerator)
@@ -10,7 +10,9 @@
 
 An instance of `ComponentManager` will be created when register a `React Class or Function Component` to the [AppContainer](./AppContainer.md) via `new ComponentManager()` (for React Class Components) or [useComponentManager Hook](./useComponentManager.md) (for React Function Components). 
 
-Once the `Component Manager` is created, a `Component Container` structure is created behind the scenes to maintain a more advanced component structure as illustrated by [this diagram](https://raw.githubusercontent.com/t83714/fractal-component/master/docs/assets/container-structure.png). After that, you no longer can call [`this.setState`](https://reactjs.org/docs/state-and-lifecycle.html) to update your react class component state. Instead, you should update your component state via `Component Reducer` (you can supply via [ManageableComponentOptions](./ManageableComponentOptions.md)) and system will auto sync between Redux store and your component state.
+Once the `Component Manager` is created, a `Component Container` structure is created behind the scenes to maintain a more advanced component structure as illustrated by `the diagram below`. After that, you no longer can call [`this.setState`](https://reactjs.org/docs/state-and-lifecycle.html) to update your react class component state. Instead, you should update your component state via `Component Reducer` (you can supply via [ManageableComponentOptions](./ManageableComponentOptions.md)) and system will auto sync between Redux store and your component state.
+
+![Typical Container Container Component Structure Diagram](https://raw.githubusercontent.com/t83714/fractal-component/master/docs/assets/container-structure.png)
 
 An instance of `ComponentManager` is responsible for:
 - Locate [AppContainer](./AppContainer.md) instance and register itself to the located [AppContainer](./AppContainer.md) instance
@@ -64,7 +66,7 @@ You may need to access the following public properties of a `ComponentManager` i
 
 - `namespace`: String. the `namespace` of the `Component Container`. e.g. `io.github.t83714/RandomGif`
 - `componentId`: String. the auto-genereated `componentId`. e.g. `c0`
-- `namespacePrefix`: String. the `namespacePrefix` of the `Component Container`. e.g. `ExampleApp/RandomGifDemo`
+- `namespacePrefix`: String. the `namespacePrefix` of the `Component Container`. e.g. `ExampleApp/RandomGifDemo`. All managed components will accept a `namespacePrefix` component `props`. The value of this `props` will overwrite the `namespacePrefix` option provided via [ManageableComponentOptions](./ManageableComponentOptions.md). This allows your component users to customise / config your component action dispatch behaviour.
 -  `fullPath`: String. `Full Namespace Path` of the `Component Container`. e.g. `ExampleApp/RandomGifDemo/io.github.t83714/RandomGif`
 - `localPath`: String: `namesapce` + `ComponentId`. e.g. `io.github.t83714/RandomGif/c0`
 

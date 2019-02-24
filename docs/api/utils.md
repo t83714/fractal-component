@@ -14,10 +14,14 @@
 ### `utils.is`
 
 `utils.is` provides a list of useful data type checking functions:
-- `action`: test whether a value is an valid action object. `fractal-component` requires action type must be a [Symbol](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol)
-- `symbol`: test whether a value is a [Symbol](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol). 
 
-You should use this function to test whether a value is a `Symbol` rather than using `typeof` operator for better performance & compatibility. Since [babel 7](https://babeljs.io/docs/en/v7-migration#babel-preset-env), `loose` mode of `@babel/preset-env` will now automatically exclude the typeof-symbol transform. 
+- `appContainer`: test whether a value is an `AppContainer` instance.
+- `managedComponentInstance`: test whether a value is a managed component instance.
+- `namespacedAction`: test whether a value is a namespacedAction.
+- `action`: test whether a value is an valid action object. `fractal-component` requires action type must be a [symbol](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol)
+- `symbol`: test whether a value is a [symbol](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol). 
+
+You should use this function to test whether a value is a `symbol` rather than using `typeof` operator for better performance & compatibility. Since [babel 7](https://babeljs.io/docs/en/v7-migration#babel-preset-env), `loose` mode of `@babel/preset-env` will now automatically exclude the typeof-symbol transform. 
 
 - `pattern`: test whether a value is an action [pattern](https://github.com/redux-saga/redux-saga/tree/v1.0.0-beta.2/docs/api#takepattern)
 - `channel`: test whether a value is a [channel](https://redux-saga.js.org/docs/api/#channel)
@@ -72,13 +76,13 @@ Return `fractal-component` version number.
 
 ### `utils.symbolToString`
 
-Get string representation of a [Symbol](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol).
+Get string representation of a [symbol](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol).
 
-While you can call toString() on Symbols, you can't use string concatenation with them (see [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/toString#No_string_concatenation)):
+While you can call toString() on symbols, you can't use string concatenation with them (see [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/toString#No_string_concatenation)):
 
 ```javascript
 Symbol('foo') + 'bar';       // TypeError: Can't convert symbol to string
 ```
 
-You want to use this function to get the string representation of a `Symbol` rather than using `bar.toString()` as most minifier (e.g. [UglifyJS](https://github.com/webpack-contrib/uglifyjs-webpack-plugin)) will replace `bar.toString()` with `''+bar` in order to reduce code size when bundle your code. This will, however, produce an error when `bar` is a `Symbol`.
+You want to use this function to get the string representation of a `symbol` rather than using `bar.toString()` as most minifier (e.g. [UglifyJS](https://github.com/webpack-contrib/uglifyjs-webpack-plugin)) will replace `bar.toString()` with `''+bar` in order to reduce code size when bundle your code. This will, however, produce an error when `bar` is a `symbol`.
 

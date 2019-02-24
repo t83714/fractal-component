@@ -28,4 +28,4 @@ export const bool: GuardPredicate<boolean>;
 export const action: GuardPredicate<Action<symbol>>;
 export const namespacedAction: GuardPredicate<Action<symbol>>;
 export const appContainer: GuardPredicate<AppContainer>;
-export const isManaged: GuardPredicate<ComponentManager>;
+export const managedComponentInstance: GuardPredicate<ComponentManager>;

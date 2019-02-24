@@ -14,7 +14,8 @@ Conceptually, a `Saga` is like a separate thread created for your component to r
 
 Your `saga` will be supplied one parameter `effects` which contains a list of `effect creator` functions. Those `effect creator` functions return an object `effect description` of what needs to be done rather than create the effect immediately. The `effect description` object will be sent to underlayer `saga` processor when you [yield](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/yield) the `effect description` object. The underlayer `saga` processor will then create the effect, monitor its process and resume your `saga` (the [Generator Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*)) with possible result (through the return value of `yield` operator) once it's completed. 
 
-The `effect creator` functions provided by `effects` parameter provide the same function as [redux-saga](https://redux-saga.js.org/docs/api/#saga-helpers). The only difference is that any action related `effect creators` are namespaced. i.e. you only have access to actions that are dispatched to your component `Full Namespace Path` and the actions dispatched (i.e. using `put` effect) are also namespaced. Here is a list of key `effect creators` and full list of available `effect creators` can refer to the [redux-saga API document](https://redux-saga.js.org/docs/api/takepattern):
+The `effect creator` functions provided by `effects` parameter provide the same functionality as [redux-saga](https://redux-saga.js.org/docs/api/#saga-helpers). The only difference is that any action related `effect creators` are namespaced. i.e. you only have access to actions that are dispatched to your component `Full Namespace Path` and the actions dispatched (i.e. using `put` effect) are also namespaced. Here is a list of key `effect creators`:
+
   - `take(pattern)`
     - Take an action action with certain [pattern](https://redux-saga.js.org/docs/api/#takepattern).
   - `put(action: Action, relativeDispatchPath?: string)`
@@ -28,6 +29,8 @@ The `effect creator` functions provided by `effects` parameter provide the same 
   - `debounce(mileseconds, pattern, childSaga, ...args: any[])`
   - `actionChannel(pattern, buffer)`
 
+The `effects` only offers namespaced version `effect creator` functions that are deal with actions or state as only action dispatch & store operations will be impacted by the namespace. Other `effect creator` functions (e.g. `fork`, `call` etc.) can be accessed directly through [redux-saga APIs](https://redux-saga.js.org/docs/api/).
+
 Here is a sample saga:
 ```javascript
 import { cancelled } from "redux-saga/effects"
@@ -39,6 +42,14 @@ function*(effects) {
          * You can also fork a new Saga to handle side effects / error concurrently
          * to avoid letting main saga exit.
         */
+
+        // --- while(true) won't freeze your UI as your saga will be blocked
+        // --- until the effect is resolved 
+        // --- (i.e. an `REQUEST_NEW_GIF` action is received). 
+        while(true){
+            const action = yield effects.take(actionTypes.REQUEST_NEW_GIF);
+            yield effects.put(actions.loadingStart(), "../../../*");
+        }
     } catch (e) {
         // --- optional handle any errors here
     } finally {
