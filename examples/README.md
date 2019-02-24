@@ -2,6 +2,7 @@
 - [exampleApp](exampleApp): a sample apps show case who `fractal-component` solve the well illustrated [scalable frontend problem](https://github.com/slorber/scalable-frontend-with-elm-or-redux). 
 - [exampleAppHooks](exampleAppHooks): A `Function Component` version of above sample app using [Hooks APIs](https://reactjs.org/docs/hooks-custom.html)
 - [exampleAppSSR](exampleAppSSR): A `server-side rendering` (SSR) version of above sample app
+- [exampleAppHooksSSR](exampleAppSSR): A `server-side rendering` (SSR) version of above sample app built using [useComponentManager](https://t83714.github.io/fractal-component/api/useComponentManager.html) hook
 - [exampleAppNPM](exampleAppNPM): The `exampleApp` demo implmented using NPM modules below.
 - [RandomGif](RandomGif): NPM published version of the sample `RandomGif` component
 - [RandomGifPair](RandomGifPair): NPM published version of the sample `RandomGifPair` component. Built using `RandomGif` component.

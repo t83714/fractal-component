@@ -18,16 +18,16 @@ import App from "./components/App";
 import {
     actions as randomGifActions,
     actionTypes as randomGifActionTypes
-} from "@fractal-components/random-gif";
+} from "./components/RandomGif";
 import {
     actions as randomGifPairActions,
     actionTypes as randomGifPairActionTypes
-} from "@fractal-components/random-gif-pair";
+} from "./components/RandomGifPair";
 import {
     actions as randomGifPairPairActions,
     actionTypes as randomGifPairPairActionTypes
-} from "@fractal-components/random-gif-pair-pair";
-import { actionTypes as counterActionTypes } from "@fractal-components/counter";
+} from "./components/RandomGifPairPair";
+import { actionTypes as counterActionTypes } from "./components/Counter";
 
 // --- set JSS css lib default preset https://github.com/cssinjs/jss
 jss.setup(jssDefaultPreset());
