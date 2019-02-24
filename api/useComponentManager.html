@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Recommended Component Structure · fractal-component</title>
+        <title>useComponentManager · fractal-component</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -57,6 +57,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
+    <link rel="next" href="ManageableComponentOptions.html" />
+    
+    
+    <link rel="prev" href="ComponentManager.html" />
     
 
     </head>
@@ -100,9 +104,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.2" data-path="../api/">
+        <li class="chapter " data-level="1.2" data-path="./">
             
-                <a href="../api/">
+                <a href="./">
             
                     
                     API Reference
@@ -114,9 +118,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.2.1" data-path="../api/ComponentManager.html">
+        <li class="chapter " data-level="1.2.1" data-path="ComponentManager.html">
             
-                <a href="../api/ComponentManager.html">
+                <a href="ComponentManager.html">
             
                     
                     ComponentManager
@@ -127,9 +131,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.2.2" data-path="../api/useComponentManager.html">
+        <li class="chapter active" data-level="1.2.2" data-path="useComponentManager.html">
             
-                <a href="../api/useComponentManager.html">
+                <a href="useComponentManager.html">
             
                     
                     useComponentManager
@@ -140,9 +144,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.2.3" data-path="../api/ManageableComponentOptions.html">
+        <li class="chapter " data-level="1.2.3" data-path="ManageableComponentOptions.html">
             
-                <a href="../api/ManageableComponentOptions.html">
+                <a href="ManageableComponentOptions.html">
             
                     
                     ManageableComponentOptions
@@ -153,9 +157,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.2.4" data-path="../api/AppContainer.html">
+        <li class="chapter " data-level="1.2.4" data-path="AppContainer.html">
             
-                <a href="../api/AppContainer.html">
+                <a href="AppContainer.html">
             
                     
                     AppContainer
@@ -166,9 +170,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.2.5" data-path="../api/ActionForwarder.html">
+        <li class="chapter " data-level="1.2.5" data-path="ActionForwarder.html">
             
-                <a href="../api/ActionForwarder.html">
+                <a href="ActionForwarder.html">
             
                     
                     ActionForwarder
@@ -179,9 +183,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.2.6" data-path="../api/utils.html">
+        <li class="chapter " data-level="1.2.6" data-path="utils.html">
             
-                <a href="../api/utils.html">
+                <a href="utils.html">
             
                     
                     utils
@@ -192,9 +196,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.2.7" data-path="../api/AppContainerUtils.html">
+        <li class="chapter " data-level="1.2.7" data-path="AppContainerUtils.html">
             
-                <a href="../api/AppContainerUtils.html">
+                <a href="AppContainerUtils.html">
             
                     
                     AppContainerUtils
@@ -424,9 +428,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="1.4.1" data-path="RecommendedStructure.html">
+        <li class="chapter " data-level="1.4.1" data-path="../BasicConcepts/RecommendedStructure.html">
             
-                <a href="RecommendedStructure.html">
+                <a href="../BasicConcepts/RecommendedStructure.html">
             
                     
                     Recommended Component Structure
@@ -608,7 +612,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Recommended Component Structure</a>
+        <a href=".." >useComponentManager</a>
     </h1>
 </div>
 
@@ -623,132 +627,111 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="recommended-component-structure">Recommended Component Structure</h1>
-<h2 id="file-structure">File Structure</h2>
-<p>Below is the recommended way of originsing your component files.</p>
-<pre><code>MyComponent/
-&#x251C;&#x2500;&#x2500; actions/
-&#x251C;&#x2500;&#x2500; reducers/
-&#x251C;&#x2500;&#x2500; sagas/
-|&#x2500;&#x2500; styles/
-&#x2514;-- index.js
-</code></pre><p>The <code>index.js</code> is the entry point of your component (it&apos;s also the <a href="https://docs.npmjs.com/files/package.json#main" target="_blank">main file</a> when we publish the component as a NPM module). We normaly define the React Component in <code>index.js</code> and it also includes all visual presentation in <a href="https://reactjs.org/docs/introducing-jsx.html" target="_blank">JSX</a> in this file (unless it&apos;s a component that comes with very complicated presentation. In which case, you probably want to seperate your JSX code into different files). All other folders will contians:</p>
+                                <h2 id="usecomponentmanager">useComponentManager</h2>
+<p><code>useComponentManager</code> is a <a href="https://reactjs.org/docs/hooks-custom.html" target="_blank">custom React Hook</a> built with <a href="https://reactjs.org/docs/hooks-reference.html" target="_blank">React Hook APIs</a> (available from React v16.8.0). It offers an easier way to package all logic and create an reusable component from a <a href="https://reactjs.org/docs/components-and-props.html#function-and-class-components" target="_blank">React Function Component</a>. <code>useComponentManager</code> is available from <code>fractal-component</code> v4.1.0</p>
+<pre><code>const [
+    state, 
+    dispatch, 
+    getNamespaceData, 
+    componentManager
+] = useComponentManager(props, options);
+</code></pre><p>Once called in a <code>React Function Component</code>, it will return the followings:</p>
 <ul>
-<li><code>actions</code> folder : contains action type definitions &amp; action creation functions</li>
-<li><code>reducers</code> folder: contains namespaced reducer functions.  A reducer function will transite component state to next state depends on the actions received.</li>
-<li><code>sagas</code> folder: contains namespaced sagas. A saga is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*" target="_blank">generator function</a> that yields <a href="https://redux-saga.js.org/docs/basics/DeclarativeEffects.html" target="_blank">redux-saga effects</a>. You can consider <code>redux-saga</code> effects as command desciptions that to be executed at later time by <code>redux-saga</code>. Sagas are used for managing component <a href="https://en.wikipedia.org/wiki/Event_loop" target="_blank">action / event loop</a> and managing effects (e.g. send network requests etc.)</li>
-<li><code>styles</code> folder: contains <a href="https://github.com/cssinjs/jss/blob/master/docs/json-api.md" target="_blank"><code>in-component</code> styls / CSS</a> that managed by lib <a href="https://github.com/cssinjs/jss" target="_blank">JSS</a>. You also can use traditional global CSS stylsheet to style your component. However, use the approach recommended here will make your component fully independent, plus you also get other <a href="http://cssinjs.org/benefits/" target="_blank">benefits</a></li>
+<li>state: return the reference of the component state.</li>
+<li>dispatch: A dispatch function that can be used to dispatch namespaced actions. It is a bound version of <a href="ComponentManager.html#dispatch">ComponentManager.dispatch</a> with exactly same functionality.</li>
+<li>getNamespaceData: A function that get be used to retrieve the namespace data that may created by <a href="ManageableComponentOptions.html#option-namespaceinitcallback">namespaceInitCallback</a>. It is a bound version of <a href="ComponentManager.html#getnamespacedata">ComponentManager.getNamespaceData</a> with exactly same functionality.</li>
+<li>componentManager: The reference of the created <a href="ComponentManager.html">ComponentManager</a> instance. Like React&apos;s <a href="https://reactjs.org/docs/hooks-state.html" target="_blank">useState</a> hook, <code>useComponentManager</code> hook will only create the <code>ComponentManager</code> once during the react function component lifecycle. Further calls untill the component is <code>unmounted</code> will return the same <code>ComponentManager</code> instance for the same component instance.</li>
 </ul>
-<h2 id="es6-module-export">ES6 Module Export</h2>
-<p>Your component entry point <code>index.js</code> should export the followings:</p>
+<p>In fact, <code>useComponentManager</code> hook&apos;s return value can be used for either Object or Array destructuring assignment. i.e. you can either:</p>
 <ul>
-<li>React Class / Function Component: <ul>
-<li>the Main React Component that is registered to <code>AppContainer</code> via <a href="../api/ComponentManager.html">new ComponentManager()</a> (for React Class Component) or <a href="../api/useComponentManager.html">useComponentManager Hook</a> (for React Function Component)</li>
+<li><code>const [state, dispatch, getNamespaceData, componentManager] = useComponentManager(props, options)</code></li>
+<li>OR <code>const { state, dispatch, getNamespaceData, componentManager } = useComponentManager(props, options)</code></li>
 </ul>
-</li>
-<li>Exposed Action Types: <ul>
-<li>the types of actions may be sent out by this component</li>
-</ul>
-</li>
-<li>Exposed Action Creation Functions:<ul>
-<li>the action creation functions that are used to create actions that are accepted by this component.</li>
-</ul>
-</li>
-</ul>
-<h2 id="examples">Examples</h2>
-<h3 id="react-class-component-example">React Class Component Example:</h3>
-<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> {
-    ComponentManager,
-    AppContainerContext,
-    AppContainer
-} <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;fractal-component&quot;</span>;
+<p>It might be convenient to use Object destructuring assignment when you want to omit one or more return values.</p>
+<h3 id="parameters">Parameters</h3>
+<p>The <code>props</code> is the component <code>props</code>.</p>
+<p>The <code>options</code> is a <code>ManageableComponentOptions</code>. More details can be found from <a href="ManageableComponentOptions.html">here</a>.</p>
+<h3 id="example">Example</h3>
+<p>Here is a exmaple component (A complete <a href="https://github.com/t83714/fractal-component/tree/master/examples/exampleAppHooks" target="_blank">example App</a> built with <code>useComponentManager</code> hook can be found <a href="https://github.com/t83714/fractal-component/tree/master/examples/exampleAppHooks" target="_blank">here</a>):</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;react&quot;</span>;
+<span class="hljs-keyword">import</span> PropTypes <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;prop-types&quot;</span>;
+<span class="hljs-keyword">import</span> { useComponentManager, AppContainer } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;fractal-component&quot;</span>;
 <span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> actionTypes <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./actions/types&quot;</span>;
 <span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> actions <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./actions/index&quot;</span>;
-
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Counter</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
-    <span class="hljs-keyword">constructor</span>(props) {
-        <span class="hljs-keyword">super</span>(props);
-        <span class="hljs-keyword">this</span>.state = { ... }; <span class="hljs-comment">// --- set init state here</span>
-        <span class="hljs-keyword">this</span>.componentManager = <span class="hljs-keyword">new</span> ComponentManager(<span class="hljs-keyword">this</span>, {
-            namespace: <span class="hljs-string">&quot;io.github.t83714/Counter&quot;</span>,
-            reducer: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">state, action</span>) </span>{
-                ...
-            },
-            actionTypes,
-            allowedIncomingMulticastActionTypes: [actionTypes.INCREASE_COUNT]
-        });
-    }
-
-    render() {
-        ...
-    }
-}
-
-<span class="hljs-comment">/**
- * Besides passing `AppContainer` through React Context, 
- * you can also allow people to pass `AppContainer` through Component Props
-*/</span>
-Counter.propTypes = {
-    appContainer: PropTypes.instanceOf(AppContainer)
-};
-
-<span class="hljs-comment">// --- Define contentType allow `AppContainer` pass through React Context</span>
-Counter.contextType = AppContainerContext;
-
-<span class="hljs-comment">// --- export `Main React Component`</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> Counter;
-
-<span class="hljs-comment">// --- export `Exposed Action Types` &amp; `Exposed Action Creation Functions`</span>
-<span class="hljs-keyword">export</span> { actionTypes, actions };
-</code></pre>
-<h3 id="react-class-function-example">React Class Function Example:</h3>
-<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> { useComponentManager, AppContainer } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;fractal-component&quot;</span>;
-<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> actionTypes <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./actions/types&quot;</span>;
-<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> actions <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./actions/index&quot;</span>;
+<span class="hljs-keyword">import</span> jss <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;jss&quot;</span>;
+<span class="hljs-keyword">import</span> jssDefaultPreset <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;jss-preset-default&quot;</span>;
+<span class="hljs-keyword">import</span> styles <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./styles&quot;</span>;
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Counter</span>(<span class="hljs-params">props</span>) </span>{
-    <span class="hljs-comment">/**
-     * `useComponentManager` hook return value can be used
-     * for either Object or Array destructuring assignment
-     * i.e. you can either:
-     * - `const [state, dispatch, getNamespaceData, componentManager] = useComponentManager(props, options)` OR
-     * - `const { state, dispatch, getNamespaceData, componentManager } = useComponentManager(props, options)`
-     */</span>
-    <span class="hljs-keyword">const</span> [ state, dispatch, getNamespaceData, componentManager ] = useComponentManager(props, {
+
+    <span class="hljs-keyword">const</span> { state, getNamespaceData } = useComponentManager(props, {
         initState: {
-            ... <span class="hljs-comment">// --- set init state here</span>
+            count: <span class="hljs-number">0</span>
         },
         namespace: <span class="hljs-string">&quot;io.github.t83714/Counter&quot;</span>,
         reducer: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">state, action</span>) </span>{
-            ...
+            <span class="hljs-keyword">switch</span> (action.type) {
+                <span class="hljs-keyword">case</span> actionTypes.INCREASE_COUNT: {
+                    <span class="hljs-keyword">const</span> { toggleButtonActive } = action;
+                    <span class="hljs-keyword">const</span> incresement =
+                        state.count &gt;= <span class="hljs-number">10</span> &amp;&amp; toggleButtonActive ? <span class="hljs-number">2</span> : <span class="hljs-number">1</span>;
+                    <span class="hljs-keyword">return</span> { ...state, count: state.count + incresement };
+                }
+                <span class="hljs-keyword">default</span>:
+                    <span class="hljs-keyword">return</span> state;
+            }
         },
+        <span class="hljs-comment">/**
+         * Register actions for action serialisation / deserialisation.
+         * It&apos;s much easier to use Symbol as action type to make sure no action type collision among different component.
+         * ( Considering we now use actions as primary way for inter-component communication, it&apos;s quite important in a multicaset action environment)
+         */</span>
         actionTypes,
-        allowedIncomingMulticastActionTypes: [actionTypes.INCREASE_COUNT]
+        <span class="hljs-comment">// --- specify accepted types of external multicast actions</span>
+        <span class="hljs-comment">// --- By default, component will not accept any incoming multicast action.</span>
+        <span class="hljs-comment">// --- No limit to actions that are sent out</span>
+        allowedIncomingMulticastActionTypes: [actionTypes.INCREASE_COUNT],
+        <span class="hljs-comment">// --- `namespaceInitCallback` is guaranteed only to be called once</span>
+        namespaceInitCallback: componentManager =&gt; {
+            <span class="hljs-keyword">let</span> jssRef;
+            <span class="hljs-keyword">if</span> (!props.styles) {
+                <span class="hljs-comment">// --- if use built-in style, we want to make sure this component use its own jss setting</span>
+                jssRef = jss.setup(jssDefaultPreset());
+            } <span class="hljs-keyword">else</span> {
+                jssRef = jss;
+            }
+            <span class="hljs-keyword">const</span> styleSheet = jssRef
+                .createStyleSheet(props.styles ? props.styles : styles, {
+                    generateClassName: componentManager.createClassNameGenerator()
+                })
+                .attach();
+            <span class="hljs-keyword">return</span> { styleSheet };
+        },
+        namespaceDestroyCallback: ({ styleSheet }) =&gt; {
+            styleSheet.detach();
+        }
     });
 
+    <span class="hljs-keyword">const</span> { styleSheet } = getNamespaceData();
+    <span class="hljs-keyword">const</span> { classes } = styleSheet;
+
     <span class="hljs-keyword">return</span> (
-        <span class="hljs-comment">// ... Any actual render code here:</span>
-        <span class="hljs-comment">// &lt;div&gt;</span>
-        <span class="hljs-comment">//     &lt;div&gt;Counter&lt;/div&gt;</span>
-        <span class="hljs-comment">//     &lt;div&gt;</span>
-        <span class="hljs-comment">//         &lt;span&gt;{state.count}&lt;/span&gt;</span>
-        <span class="hljs-comment">//     &lt;/div&gt;</span>
-        <span class="hljs-comment">// &lt;/div&gt;</span>
+        <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">{classes.table}</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">{classes.cell}</span>&gt;</span>Counter<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">{`${classes.cell}</span> ${<span class="hljs-attr">classes</span>[&quot;<span class="hljs-attr">counter-container</span>&quot;]}`}&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>{state.count}<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
     );
 }
 
 Counter.propTypes = {
+    styles: PropTypes.object,
     appContainer: PropTypes.instanceOf(AppContainer)
 };
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> Counter;
 
-<span class="hljs-keyword">export</span> { actionTypes, actions };
-
-<span class="hljs-comment">// --- export `Main React Component`</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> Counter;
-
-<span class="hljs-comment">// --- export `Exposed Action Types` &amp; `Exposed Action Creation Functions`</span>
 <span class="hljs-keyword">export</span> { actionTypes, actions };
 </code></pre>
 
@@ -778,6 +761,14 @@ Counter.propTypes = {
 
             
                 
+                <a href="ComponentManager.html" class="navigation navigation-prev " aria-label="Previous page: ComponentManager">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="ManageableComponentOptions.html" class="navigation navigation-next " aria-label="Next page: ManageableComponentOptions">
+                    <i class="fa fa-angle-right"></i>
+                </a>
                 
             
         
@@ -786,7 +777,7 @@ Counter.propTypes = {
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Recommended Component Structure","level":"1.4.1","depth":2,"next":{"title":"Component Namespace","level":"1.4.2","depth":2,"ref":"","articles":[]},"previous":{"title":"Basic Concepts","level":"1.4","depth":1,"ref":"","articles":[{"title":"Recommended Component Structure","level":"1.4.1","depth":2,"path":"BasicConcepts/RecommendedStructure.md","ref":"./BasicConcepts/RecommendedStructure.md","articles":[]},{"title":"Component Namespace","level":"1.4.2","depth":2,"ref":"","articles":[]},{"title":"Action Dispatch Tree","level":"1.4.3","depth":2,"ref":"","articles":[]},{"title":"Symbol Action Type","level":"1.4.4","depth":2,"ref":"","articles":[]},{"title":"Component State","level":"1.4.5","depth":2,"ref":"","articles":[]},{"title":"Component Reducer","level":"1.4.6","depth":2,"ref":"","articles":[]},{"title":"Component Saga","level":"1.4.7","depth":2,"ref":"","articles":[]},{"title":"Component Styling","level":"1.4.8","depth":2,"ref":"","articles":[]}]},"dir":"ltr"},"config":{"plugins":["ga"],"root":"./","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"ga":{"configuration":"auto","token":"UA-128574696-2"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Jacky Jiang (https://github.com/t83714)","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"intro.md","glossary":"GLOSSARY.md","summary":"README.md"},"variables":{},"title":"fractal-component","gitbook":"*","description":"`fractal-component` is a javascript library that can help you to encapsulate decoupled UI component easily. It aims to provide a one-stop solution that allows state store (redux) management, actions (messages, events) processing & routing, side-effect management and component styling to be encapsulated into one single software module."},"file":{"path":"BasicConcepts/RecommendedStructure.md","mtime":"2019-02-24T11:38:11.067Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-02-24T11:39:11.390Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"useComponentManager","level":"1.2.2","depth":2,"next":{"title":"ManageableComponentOptions","level":"1.2.3","depth":2,"path":"api/ManageableComponentOptions.md","ref":"./api/ManageableComponentOptions.md","articles":[]},"previous":{"title":"ComponentManager","level":"1.2.1","depth":2,"path":"api/ComponentManager.md","ref":"./api/ComponentManager.md","articles":[]},"dir":"ltr"},"config":{"plugins":["ga"],"root":"./","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"ga":{"configuration":"auto","token":"UA-128574696-2"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Jacky Jiang (https://github.com/t83714)","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"intro.md","glossary":"GLOSSARY.md","summary":"README.md"},"variables":{},"title":"fractal-component","gitbook":"*","description":"`fractal-component` is a javascript library that can help you to encapsulate decoupled UI component easily. It aims to provide a one-stop solution that allows state store (redux) management, actions (messages, events) processing & routing, side-effect management and component styling to be encapsulated into one single software module."},"file":{"path":"api/useComponentManager.md","mtime":"2019-02-24T11:38:11.075Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-02-24T11:39:11.390Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
