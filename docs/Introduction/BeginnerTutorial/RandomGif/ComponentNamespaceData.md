@@ -64,7 +64,7 @@ We can't simply copy those into our component's `index.js` as we want to make su
     -  No matter how many component instances are mounted. Styles are only compile when the first instance are mounted.
 - Styles are removed from browser only after all instances of the component are unmounted.
 
-To achieve that, we can use the `Component Namespace Data` & `Component Namespace Life Cycle Callback` feature of `fractal-component`. When we register our React Component using [AppContainerUtils.registerComponent](../../../api/AppContainerUtils.md#appcontainerutilsregistercomponent) method, we can opt to register `namespaceInitCallback` & `namespaceDestroyCallback` through [ManageableComponentOptions](../../../api/AppContainer.md#manageablecomponentoptions).
+To achieve that, we can use the `Component Namespace Data` & `Component Namespace Life Cycle Callback` feature of `fractal-component`. When we create the ComponentManager using [new ComponentManager()](../../../api/ComponentManager.md) method, we can opt to register `namespaceInitCallback` & `namespaceDestroyCallback` through [ManageableComponentOptions](../../../api/ManageableComponentOptions.md#option-namespaceinitcallback).
 
 - `namespaceInitCallback`: this callback will only be called once when `Component Namespace` `io.github.t83714/RandomGif` has just been created (it's also the time when the first instance of the registered React Component is mounted). Moreover, any value you return from this callback will be kept as `Component Namespace Data` and can be retrieved anytime before the namespace is destroyed using [ComponentManager.getNamespaceData()](../../../api/ComponentManager.md) method.
 - `namespaceDestroyCallback`: this callback will only be called once after `Component Namespace` `io.github.t83714/RandomGif` is destroyed (it's also the time when the last instance of the the registered React Component is unmounted). You will receive the `Component Namespace Data` as the only parameter of the callback function.
@@ -73,7 +73,7 @@ To setup the stylesheet for our component, we can modify `src/RandomGif/index.js
 
 ```javascript
 import React from "react";
-import { AppContainerUtils } from "fractal-component";
+import { ComponentManager } from "fractal-component";
 import * as actionTypes from "./actions/types";
 import reducer from "./reducers";
 import * as actions from "./actions";
@@ -91,7 +91,7 @@ class RandomGif extends React.Component {
             imageUrl: null,
             error: null
         };
-        this.componentManager = AppContainerUtils.registerComponent(this, {
+        this.componentManager = new ComponentManager(this, {
             namespace: "io.github.t83714/RandomGif",
             // --- register all action types so that actions are serialisable
             actionTypes,

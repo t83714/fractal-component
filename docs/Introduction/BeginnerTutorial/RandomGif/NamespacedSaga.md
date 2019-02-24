@@ -206,11 +206,11 @@ const mainSaga = function*(effects) {
 
 
 
-In the end, you can add the `saga` into your `Component Container` via `AppContainerUtils.registerComponent` method's [ManageableComponentOptions.saga option](../../../api/AppContainer.md#manageablecomponentoptions)
+In the end, you can add the `saga` into your `Component Container` via [ManageableComponentOptions.saga option](../../../api/ManageableComponentOptions.md)
 
 ```javascript
 import React from "react";
-import { AppContainerUtils } from "fractal-component";
+import { ComponentManager } from "fractal-component";
 import * as actionTypes from "./actions/types";
 import reducer from "./reducers";
 import * as actions from "./actions";
@@ -224,7 +224,7 @@ class RandomGif extends React.Component {
             imageUrl: null,
             error: null
         };
-        this.componentManager = AppContainerUtils.registerComponent(this, {
+        this.componentManager = new ComponentManager(this, {
             namespace: "io.github.t83714/RandomGif",
             actionTypes,
             reducer,

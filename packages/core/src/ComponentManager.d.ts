@@ -69,7 +69,7 @@ export interface ManageableComponentOptions {
     /**
      * Provide all action types supported by your component
      * to make sure actions of those types are serializable
-     * via: AppContainerUtils.serialiseAction / AppContainerUtils.deserialiseAction
+     * via: AppContainer.serialiseAction / AppContainer.deserialiseAction
      * Either provided as array (symbol[]) or object hash
      * (i.e.
      *  {

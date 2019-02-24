@@ -12,8 +12,8 @@ function Counter(props) {
      * `useComponentManager` hook return value can be used
      * for either Object or Array destructuring assignment
      * i.e. you can either:
-     * - `const [state, dispatch, componentManager] = useComponentManager(props, options)` OR
-     * - `const { state, dispatch, componentManager } = useComponentManager(props, options)`
+     * - `const [state, dispatch, getNamespaceData, componentManager] = useComponentManager(props, options)` OR
+     * - `const { state, dispatch, getNamespaceData, componentManager } = useComponentManager(props, options)`
      */
     const { state, getNamespaceData } = useComponentManager(props, {
         initState: {

@@ -9,7 +9,7 @@ Now, the required UI & functionalities of our `RandomGif` component have all bee
 By default, the `Component Container` won't accept any multicast actions (non-multicast & direct addressed actions will always be accepted though). To make sure the component users can send `REQUEST_NEW_GIF` actions to this component in order to programmingly trigger the image loading, we can set the incoming actions rulse using `allowedIncomingMulticastActionTypes` option when register our component:
 
 ```javascript
-this.componentManager = AppContainerUtils.registerComponent(this, {
+this.componentManager = new ComponentManager(this, {
     namespace: "io.github.t83714/RandomGif",
     actionTypes,
     reducer,
@@ -148,6 +148,37 @@ const exposedActions = {
 export { exposedActionTypes as actionTypes, exposedActions as actions };
 ```
 
+##### 3.6.1.4 Class.contextType
+
+> This section is only required for React Class Component. React Function Component use [Hook APIs](https://reactjs.org/docs/hooks-reference.html#usecontext) to retrieve context and doesn't require setting `Class.contextType`.
+
+The `contextType` property of the React Class Component needs to be assigned a Context object `AppContainerContext` in order to make the React Class Component to receive `AppContainer` instance from context.
+
+Here is an example:
+
+```javascript
+import React from "react";
+import { ComponentManager, AppContainerContext } from "fractal-component";
+
+class RandomGif extends React.Component {
+    constructor(props) {
+        super(props);
+        this.componentManager = new ComponentManager(this, {
+            namespace: "io.github.t83714/RandomGif"
+        });
+    }
+
+    render() {
+        return <div>Hello from RandomGif!</div>;
+    }
+}
+
+// --- Set contentType allow `AppContainer` pass through React Context
+RandomGif.contextType = AppContainerContext;
+
+export default RandomGif;
+```
+
 #### 3.6.2 Component Config Properties
 
 We will want to define the following React Component Properties to allow users to config our component's functionalities:
@@ -173,7 +204,7 @@ RandomGif.defaultProps = {
 };
 ```
 
-> Component users generally don't need to set `appContainer` to explicitly provide `AppContainer` instance to the component as `AppContainerUtils` will auto-create an `appContainer` and reuse it if `AppContainerUtils` can't find a `appContainer` at [various places](../../../api/AppContainerUtils.md#appcontainerutilsgetappcontainer)
+> Component users generally will not want to provide `AppContainer` instance explicitly through Component Props `appContainer`. Passing it through React Context will always be easier. Moreover, if you don't create an `AppContainer` instance, Component Manager will auto-create one during the initialisation and share among all components.
 
 > Besides the component properties defined above, users can always set `namespacePrefix` property to set the `namespace prefix` of the component.
 
@@ -216,7 +247,7 @@ And then, we need to `prefill` the last parameter of the `saga` when register th
 ```javascript
 import partialRight from "lodash/partialRight";
 ...
-this.componentManager = AppContainerUtils.registerComponent(this, {
+this.componentManager = new ComponentManager(this, {
     ...
     saga: partialRight(saga, props.apiKey),
     ...
@@ -228,7 +259,7 @@ this.componentManager = AppContainerUtils.registerComponent(this, {
 In order to allow users to override the component built-in stylesheet, we need to update the `namespaceInitCallback` & `namespaceDestroyCallback` to the followings:
 
 ```javascript
-this.componentManager = AppContainerUtils.registerComponent(this, {
+this.componentManager = new ComponentManager(this, {
     ...
     namespaceInitCallback: componentManager => {
         let jssRef;

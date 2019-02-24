@@ -127,7 +127,7 @@ class Counter extends React.Component {
         super(props);
         this.state = { ... };
         this.styleSheet = null;
-        this.componentManager = AppContainerUtils.registerComponent(this, {
+        this.componentManager = new ComponentManager(this, {
             namespace: "io.github.t83714/Counter",
             reducer: function(state, action) { ... },
             actionTypes,

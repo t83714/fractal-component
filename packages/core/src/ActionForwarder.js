@@ -26,7 +26,7 @@ class ActionForwarder extends React.Component {
     }
 }
 
-// --- Define contentType allow `AppContainer` pass through React Content
+// --- Define contentType allow `AppContainer` pass through React Context
 ActionForwarder.contextType = AppContainerContext;
 
 ActionForwarder.propTypes = {

@@ -19,7 +19,7 @@ class RandomGif extends React.Component {
     constructor(props) {
         super(props);
         /**
-         * You can set initState via AppContainerUtils.registerComponent options as well.
+         * You can set initState via ManageableComponentOptions.initState options as well.
          * this.state gets higher priority
          */
         this.state = {
@@ -125,7 +125,7 @@ RandomGif.defaultProps = {
     apiKey: "Y4P38sTJAgEBOHP1B3sVs0Jtk01tb6fA"
 };
 
-// --- Define contentType allow `AppContainer` pass through React Content
+// --- Define contentType allow `AppContainer` pass through React Context
 RandomGif.contextType = AppContainerContext;
 
 export default RandomGif;

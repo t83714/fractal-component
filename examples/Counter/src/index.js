@@ -86,7 +86,7 @@ Counter.propTypes = {
     styles: PropTypes.object,
     appContainer: PropTypes.instanceOf(AppContainer)
 };
-// --- Define contentType allow `AppContainer` pass through React Content
+// --- Define contentType allow `AppContainer` pass through React Context
 Counter.contextType = AppContainerContext;
 
 export default Counter;

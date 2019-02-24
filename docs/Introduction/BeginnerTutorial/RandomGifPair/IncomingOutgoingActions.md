@@ -78,7 +78,7 @@ function* mainSaga(effects) {
 export default mainSaga;
 ```
 
-At last, modify `src/RandomGifPair/index.js` to register the saga accordingly (when calls `AppContainerUtils.registerComponent()`).
+At last, modify `src/RandomGifPair/index.js` to register the saga accordingly (via [ManageableComponentOptions / saga](../../../api/ManageableComponentOptions.md#option-saga)).
 
 #### 4.2.2 `LOADING_START` & `LOADING_COMPLETE` actions
 
@@ -217,7 +217,7 @@ To do so, we need to add a new `ActionForwarder` to `render()` method:
 
 Firstly, we update the component registration code to register action types & set allowed incoming actions:
 ```javascript
-this.componentManager = AppContainerUtils.registerComponent(this, {
+this.componentManager = new ComponentManager(this, {
     namespace: "io.github.t83714/RandomGif",
     reducer,
     saga,

@@ -7,7 +7,7 @@ Next, we need to create the component entry point `index.js` in `RandomGifPair` 
 ```javascript
 import React from "react";
 import PropTypes from "prop-types";
-import { AppContainerUtils, AppContainer } from "fractal-component";
+import { ComponentManager, AppContainer, AppContainerContext } from "fractal-component";
 import RandomGif, { actions as randomGifActions, actionTypes as randomGifActionTypes } from "../RandomGif";
 
 import jss from "jss";
@@ -19,7 +19,7 @@ class RandomGifPair extends React.Component {
         super(props);
         this.state = {};
 
-        this.componentManager = AppContainerUtils.registerComponent(this, {
+        this.componentManager = new ComponentManager(this, {
             namespace: "io.github.t83714/RandomGifPair",
             namespaceInitCallback: componentManager => {
                 const styleSheet = jss
@@ -89,6 +89,8 @@ class RandomGifPair extends React.Component {
         );
     }
 }
+
+RandomGifPair.contextType = AppContainerContext;
 
 RandomGifPair.propTypes = {
     showButton: PropTypes.bool,
