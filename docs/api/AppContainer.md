@@ -83,13 +83,15 @@ This method is mainly used for Server-Side Rendering (SSR). i.e. Send out action
 
 #### `serialiseAction`
 
+This method will call `AppContainer`'s `ActionRegistry` to serialise an `Action`. `fractal-component` requires all action type is a [symbol](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol) to avoid action type collision between different component. However, a `symbol` generally cannot be serialise directly via `JSON.stringify`. This may cause some troubles if you want to store actions and reply later to implment `time travel` or `undo` feature.
+
+To overcome this issue, `fractal-component` provides an `ActionRegistry` facility to serialise an `Action`. 
+
 The method's type declaration is shown as below:
 
 ```typescript
 serialiseAction(action: Action): string;
 ```
-
-`fractal-component` requires `action type` to be [symbol](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol) type. `symbol` type data usually cannot be serialised. However, `fractal-component` comes with a `ActionRegistry` to it possible.
 
 This method can be used to serialise an action and return a JSON string.
 
@@ -101,4 +103,4 @@ The method's type declaration is shown as below:
 deserialiseAction(actionJson: string): Action;
 ```
 
-This method accept `JSON string` and return an Action object.
+This method accept `JSON string` that previously serialised by `serialiseAction` method and return an Action object.
