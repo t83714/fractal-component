@@ -141,6 +141,7 @@ app.get(["/", "/index.html*"], (req, res) => {
                 )
                 .join("");
             // --- Destroy appContainer
+            // --- All component resource will be released as well
             appContainer.destroy();
             res.writeHead(200, { "Content-Type": "text/html" });
             res.end(htmlTemplate(reactDom, storeData, cssContent));

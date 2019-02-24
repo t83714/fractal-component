@@ -34,19 +34,18 @@ import { cancelled } from "redux-saga/effects"
 function*(effects) {
     try {
         /**
-         * while(true) won't freeze your UI as your function will not continue to run
-         * until the effect is resolved. 
+         * Safe to perform any side effects, monitor any actions 
+         * or setup subscription here.
+         * You can also fork a new Saga to handle side effects / error concurrently
+         * to avoid letting main saga exit.
         */
-        while(true){
-            const action = yield effects.take(actionTypes.REQUEST_NEW_GIF);
-            yield effects.put(actions.loadingStart(), "../../../*");
-        }
     } catch (e) {
         // --- optional handle any errors here
     } finally {
         /**
          * When your component is unmonted, your saga will be cancelled.
-         * You can test whether the saga is cancelled by `yield cancelled()` effects
+         * Code will reach the finally block and you can test 
+         * whether the saga is cancelled by `yield cancelled()` effects
         */
         if (yield cancelled()) {
             // --- logic that should execute only on cancellation

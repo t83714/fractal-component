@@ -95,10 +95,49 @@ Please find the complete Changelog from [here](./CHANGES.md).
 
 - What's `Namespace Data`?
 
-When create re-usable component, we should keep in mind that the component could be reused multiple times on the same screen. There may be some initialization operation that should only perform once when the first component instance of the reuable component is rendered on screen and, consequently,some clean-up job that should be only perform once after the last component instance of the component is unmounted.
+When create re-usable component, we should keep in mind that the component could possible be reused multiple times on the same screen. There may be some initialization operation that should only perform once when the first component instance of the reuable component is rendered on screen and, consequently,some clean-up job that should be only perform once after the last component instance of the component is unmounted.
 
-React, currently, doesn't offer life cycle hooks for this purspose. `fractal-component` allows you achieve 
+React, currently, doesn't offer life cycle hooks for this purspose. `fractal-component` provides [namespaceInitCallback](https://t83714.github.io/fractal-component/api/ManageableComponentOptions.html#option-namespaceinitcallback) & [namespaceInitCallback](https://t83714.github.io/fractal-component/api/ManageableComponentOptions.html#option-namespacedestroycallback) for this purpose.
 
+Any return value from the `namespaceInitCallback` will be stored as `Namespace Data` and can be retrieved any time before all component instances of the reuable component are unmounted. More info can be found from [ComponentManager / getNamespaceData()](https://t83714.github.io/fractal-component/api/ComponentManager.html#getnamespacedata)
+
+- Why we don't need to use `React Lifecycle Methods` anymore?
+
+It's recommended to put any code produces side effects into the [Component Namespaced Saga](https://t83714.github.io/fractal-component/api/ManageableComponentOptions.html#option-sga). It covers most use cases of [React Lifecycle Methods](https://reactjs.org/docs/react-component.html#the-component-lifecycle) as shown below:
+
+```javascript
+import { cancelled } from "redux-saga/effects"
+function*(effects) {
+    try {
+        /**
+         * Safe to perform any side effects, monitor any actions 
+         * or setup subscription here.
+         * You can also fork a new Saga to handle side effects / error concurrently
+         * to avoid letting main saga exit.
+        */
+    } catch (e) {
+        // --- optional handle any errors here
+    } finally {
+        /**
+         * When your component is unmonted, your saga will be cancelled.
+         * Code will reach the finally block and you can test 
+         * whether the saga is cancelled by `yield cancelled()` effects
+        */
+        if (yield cancelled()) {
+            // --- logic that should execute only on cancellation
+        } else {
+            // --- logic that should execute in all situations
+        }
+    }
+};
+```
+This will work well even for server-side rendering. Saga will be started when `ReactDOMServer` try to render your components into string and you can call [AppContainer.destroy()](https://t83714.github.io/fractal-component/api/AppContainer.html#destroy) (after save a store snapshot) to clean up all resources and cancel all sagas.
+
+- Why use `symbol` as action type?
+
+`fractal-component` requires all action type is a [symbol](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol) to avoid action type collision between different components. However, a `symbol` generally cannot be serialise directly via `JSON.stringify`. This may cause some troubles if you want to store actions and reply later to implment `time travel` or `undo` feature.
+
+To overcome this issue, `fractal-component` provides an `ActionRegistry` facility to serialise an `Action`. More details can be found from [AppContainer / serialiseAction()](https://t83714.github.io/fractal-component/api/AppContainer.html#serialiseaction)
 
 ## Quick Start
 
