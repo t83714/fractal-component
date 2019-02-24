@@ -1,6 +1,6 @@
 ## useComponentManager
 
-`useComponentManager` is a [custom React Hook](https://reactjs.org/docs/hooks-custom.html) built with [React Hook APIs](https://reactjs.org/docs/hooks-reference.html) (available since React v16.8.0). It offers an easier way to package all logic and create an reusable component from a [React Function Component](https://reactjs.org/docs/components-and-props.html#function-and-class-components).
+`useComponentManager` is a [custom React Hook](https://reactjs.org/docs/hooks-custom.html) built with [React Hook APIs](https://reactjs.org/docs/hooks-reference.html) (available from React v16.8.0). It offers an easier way to package all logic and create an reusable component from a [React Function Component](https://reactjs.org/docs/components-and-props.html#function-and-class-components). `useComponentManager` is available from `fractal-component` v4.1.0
 
 ```
 const [state, dispatch, getNamespaceData, componentManager] = useComponentManager(props, options);
