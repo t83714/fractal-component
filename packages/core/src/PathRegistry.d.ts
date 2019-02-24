@@ -1,6 +1,6 @@
 import { Action } from "redux";
 
-export declare class PathContext {
+export class PathContext {
     constructor(cwd: string);
     cwd: string;
     getLastSegment(): string;
@@ -15,7 +15,7 @@ export declare class PathContext {
     resolve(...paths: string[]): string;
 }
 
-declare class PathRegistry {
+export default class PathRegistry {
     constructor();
     destroy(): void;
     add(path: string, data?: object): string;
@@ -32,8 +32,6 @@ declare class PathRegistry {
     searchDispatchPaths(action: Action): string[];
 }
 
-export default PathRegistry;
-
-export declare const NAMESPACED: symbol;
-export declare function validate(path: string): void;
-export declare function normalize(path: string): string;
+export const NAMESPACED: symbol;
+export function validate(path: string): void;
+export function normalize(path: string): string;
