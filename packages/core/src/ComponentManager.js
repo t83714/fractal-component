@@ -39,7 +39,7 @@ class ComponentManager {
             throw new Error("componentInstance can't be empty!");
         }
 
-        if (is.isManaged(componentInstance)) {
+        if (is.managedComponentInstance(componentInstance)) {
             throw new Error(
                 "Unable to create a ComponentManager for a component instance that is managed already."
             );

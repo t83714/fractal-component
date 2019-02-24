@@ -2,7 +2,7 @@
  * The code of file is modified from [redux-saga](https://github.com/redux-saga/redux-saga) project
  * @redux-saga/is module
  */
-import { NAMESPACED } from "../symbols";
+import { NAMESPACED, COMPONENT_MANAGER_ACCESS_KEY } from "../symbols";
 import AppContainer from "../AppContainer";
 import ComponentManager from "../ComponentManager";
 
@@ -33,4 +33,5 @@ export const bool = typeof v === "boolean";
 export const action = v => object(v) && symbol(v.type);
 export const namespacedAction = v => action(v) && v[NAMESPACED];
 export const appContainer = v => v && v instanceof AppContainer;
-export const isManaged = c => c && c instanceof ComponentManager;
+export const managedComponentInstance = c =>
+    c && c[COMPONENT_MANAGER_ACCESS_KEY] instanceof ComponentManager;

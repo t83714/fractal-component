@@ -1,6 +1,7 @@
 ## 4.1.1
 
 - Added `serialiseAction` & `deserialiseAction` function to `AppContainer`
+- Rename `is.managed` to `is.managedComponentInstance` & Logic fixed
 
 ## 4.1.0
 
