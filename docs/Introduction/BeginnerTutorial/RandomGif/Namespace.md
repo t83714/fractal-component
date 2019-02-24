@@ -49,5 +49,5 @@ Then, the actual action dispatch namespace node would be `ExampleApp/GifPair` in
 If the `relativeDispatchPath` is specified as `../../../*`, the action is a `multicast` action. For `multicast` actions, all lower levels namespace nodes will receive the actions. i.e. `multicast` actions will always be sent `down` the `Namespace Tree`. In this case, Container A & Container B will receive the `multicast` action as they are lower level nodes of dispatch point `ExampleApp/GifPair`. Container C won't receive the actions.
 
 There are two ways to dispatch namespaced actions in component:
-- In component namespaced `saga`, you will need to `yield` a `take` `effect`. See [AppContainer / ManageableComponentOptions / saga / take](../../../api/AppContainer.md#manageablecomponentoptions)
+- In component namespaced `saga`, you will need to `yield` a `take` `effect`. See [ManageableComponentOptions / saga / take](../../../api/ManageableComponentOptions.md#option-saga)
 - Outside `saga`, you can call [dispatch](../../../api/ComponentManager.md#dispatch) method of `ComponentManager`. 
