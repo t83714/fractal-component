@@ -1,5 +1,13 @@
 ## Table of Contents
 
+- [API Reference](./api/README.md)
+  - [ComponentManager](./api/ComponentManager.md)
+  - [useComponentManager](./api/useComponentManager.md)
+  - [ManageableComponentOptions](./api/ManageableComponentOptions.md)
+  - [AppContainer](./api/AppContainer.md)
+  - [ActionForwarder](./api/ActionForwarder.md)
+  - [utils](./api/utils.md)
+  - [AppContainerUtils](./api/AppContainerUtils.md)
 - [Beginner Tutorial](./Introduction/BeginnerTutorial/README.md)
     - [1. Overview](./Introduction/BeginnerTutorial/Overview.md)
     - [2. InitialSetup](./Introduction/BeginnerTutorial/InitialSetup.md)
@@ -26,11 +34,3 @@
 - Advanced Concepts
   - ActionForwarder
   - SagaMonitor
-- [API Reference](./api/README.md)
-  - [ComponentManager](./api/ComponentManager.md)
-  - [useComponentManager](./api/useComponentManager.md)
-  - [ManageableComponentOptions](./api/ManageableComponentOptions.md)
-  - [AppContainer](./api/AppContainer.md)
-  - [ActionForwarder](./api/ActionForwarder.md)
-  - [utils](./api/utils.md)
-  - [AppContainerUtils](./api/AppContainerUtils.md)

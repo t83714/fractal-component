@@ -45,6 +45,14 @@ Alternatively, you may use the UMD builds from [unpkg](https://unpkg.com/fractal
 ### Table of Contents
 
 - Introduction
+  - [API Reference](https://t83714.github.io/fractal-component/api/)
+    - [ComponentManager](https://t83714.github.io/fractal-component/api/ComponentManager.html)
+    - [useComponentManager Hook](https://t83714.github.io/fractal-component/api/useComponentManager.html)
+    - [ManageableComponentOptions](https://t83714.github.io/fractal-component/api/ManageableComponentOptions.html) 
+    - [AppContainer](https://t83714.github.io/fractal-component/api/AppContainer.html)
+    - [ActionForwarder](https://t83714.github.io/fractal-component/api/ActionForwarder.html)
+    - [AppContainerUtils](https://t83714.github.io/fractal-component/api/AppContainerUtils.html)
+    - [utils](https://t83714.github.io/fractal-component/api/utils.html)
   - [Beginner Tutorial](https://t83714.github.io/fractal-component/Introduction/BeginnerTutorial/)
     - [1. Overview](https://t83714.github.io/fractal-component/Introduction/BeginnerTutorial/Overview.html)
     - [2. InitialSetup](https://t83714.github.io/fractal-component/Introduction/BeginnerTutorial/InitialSetup.html)
@@ -71,14 +79,6 @@ Alternatively, you may use the UMD builds from [unpkg](https://unpkg.com/fractal
 - Advanced Concepts
   - ActionForwarder
   - SagaMonitor
-- [API Reference](https://t83714.github.io/fractal-component/api/)
-  - [ComponentManager](https://t83714.github.io/fractal-component/api/ComponentManager.html)
-  - [useComponentManager Hook](https://t83714.github.io/fractal-component/api/useComponentManager.md)
-  - [ManageableComponentOptions](https://t83714.github.io/fractal-component/api/ManageableComponentOptions.md) 
-  - [AppContainer](https://t83714.github.io/fractal-component/api/AppContainer.html)
-  - [ActionForwarder](https://t83714.github.io/fractal-component/api/ActionForwarder.html)
-  - [AppContainerUtils](https://t83714.github.io/fractal-component/api/AppContainerUtils.html)
-  - [utils](https://t83714.github.io/fractal-component/api/utils.html)
 
 ## Changelog
 
