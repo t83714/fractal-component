@@ -31,6 +31,8 @@ The `effect creator` functions provided by `effects` parameter provide the same 
 
 The `effects` only offers namespaced version `effect creator` functions that are deal with actions or state as only action dispatch & store operations will be impacted by the namespace. Other `effect creator` functions (e.g. `fork`, `call` etc.) can be accessed directly through [redux-saga APIs](https://redux-saga.js.org/docs/api/).
 
+> You can also access action/store related effect creator directly from redux-saga APIs. However, If you do so, you will be exposed to 'global scope'. e.g. receive all actions from any namespaces regardless action dispatch process. It's not recommended doing so in a component as it may hurt the component logic encapsulation. You should only access non-action/store related effect creators directly through redux-saga APIs. Any action/store related effect creators should be accessed through the 'effects' parameter of your saga (which are namespaced version).
+
 Here is a sample saga:
 ```javascript
 import { cancelled } from "redux-saga/effects"
