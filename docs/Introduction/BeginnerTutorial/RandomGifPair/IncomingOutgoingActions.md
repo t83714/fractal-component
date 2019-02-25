@@ -162,17 +162,18 @@ export default reducer;
 At last, we can added the following to `saga` to dispatch `RandomGifPair` out-going actions:
 ```javascript
 yield effects.takeEvery(
+    let isLoadingStartActionDispatched = false;
     RandomGifActionTypes.LOADING_START,
     function*() {
-        // --- we use component class property `this.isLoadingStartActionDispatched`
+        // --- we use local variable `isLoadingStartActionDispatched`
         // --- to make sure only dispatch one `LOADING_START` action
-        if (!this.isLoadingStartActionDispatched) {
+        if (!isLoadingStartActionDispatched) {
             yield effects.put(
                 actions.loadingStart(),
                 "../../../*"
             );
         }
-    }.bind(this)
+    }
 );
 yield effects.takeEvery(
     RandomGifActionTypes.LOADING_COMPLETE,
@@ -189,9 +190,9 @@ yield effects.takeEvery(
                 actions.loadingComplete(error),
                 "../../../*"
             );
-            this.isLoadingStartActionDispatched = false;
+            isLoadingStartActionDispatched = false;
         }
-    }.bind(this)
+    }
 );
 ```
 
