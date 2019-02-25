@@ -768,17 +768,18 @@
 </code></pre>
 <p>At last, we can added the following to <code>saga</code> to dispatch <code>RandomGifPair</code> out-going actions:</p>
 <pre><code class="lang-javascript"><span class="hljs-keyword">yield</span> effects.takeEvery(
+    <span class="hljs-keyword">let</span> isLoadingStartActionDispatched = <span class="hljs-literal">false</span>;
     RandomGifActionTypes.LOADING_START,
     <span class="hljs-function"><span class="hljs-keyword">function</span>*(<span class="hljs-params"></span>) </span>{
-        <span class="hljs-comment">// --- we use component class property `this.isLoadingStartActionDispatched`</span>
+        <span class="hljs-comment">// --- we use local variable `isLoadingStartActionDispatched`</span>
         <span class="hljs-comment">// --- to make sure only dispatch one `LOADING_START` action</span>
-        <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.isLoadingStartActionDispatched) {
+        <span class="hljs-keyword">if</span> (!isLoadingStartActionDispatched) {
             <span class="hljs-keyword">yield</span> effects.put(
                 actions.loadingStart(),
                 <span class="hljs-string">&quot;../../../*&quot;</span>
             );
         }
-    }.bind(<span class="hljs-keyword">this</span>)
+    }
 );
 <span class="hljs-keyword">yield</span> effects.takeEvery(
     RandomGifActionTypes.LOADING_COMPLETE,
@@ -795,9 +796,9 @@
                 actions.loadingComplete(error),
                 <span class="hljs-string">&quot;../../../*&quot;</span>
             );
-            <span class="hljs-keyword">this</span>.isLoadingStartActionDispatched = <span class="hljs-literal">false</span>;
+            isLoadingStartActionDispatched = <span class="hljs-literal">false</span>;
         }
-    }.bind(<span class="hljs-keyword">this</span>)
+    }
 );
 </code></pre>
 <h4 id="423-newgif">4.2.3 <code>NEW_GIF</code></h4>
@@ -890,7 +891,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"4.2 Incoming / Outgoing Actions","level":"1.3.4.2","depth":3,"next":{"title":"5. Conclusion","level":"1.3.5","depth":2,"path":"Introduction/BeginnerTutorial/Conclusion.md","ref":"./Introduction/BeginnerTutorial/Conclusion.md","articles":[]},"previous":{"title":"4.1 Get Started","level":"1.3.4.1","depth":3,"path":"Introduction/BeginnerTutorial/RandomGifPair/GetStarted.md","ref":"./Introduction/BeginnerTutorial/RandomGifPair/GetStarted.md","articles":[]},"dir":"ltr"},"config":{"plugins":["ga"],"root":"./","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"ga":{"configuration":"auto","token":"UA-128574696-2"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Jacky Jiang (https://github.com/t83714)","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"intro.md","glossary":"GLOSSARY.md","summary":"README.md"},"variables":{},"title":"fractal-component","gitbook":"*","description":"`fractal-component` is a javascript library that can help you to encapsulate decoupled UI component easily. It aims to provide a one-stop solution that allows state store (redux) management, actions (messages, events) processing & routing, side-effect management and component styling to be encapsulated into one single software module."},"file":{"path":"Introduction/BeginnerTutorial/RandomGifPair/IncomingOutgoingActions.md","mtime":"2019-02-24T11:40:41.367Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-02-25T10:46:51.351Z"},"basePath":"../../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"4.2 Incoming / Outgoing Actions","level":"1.3.4.2","depth":3,"next":{"title":"5. Conclusion","level":"1.3.5","depth":2,"path":"Introduction/BeginnerTutorial/Conclusion.md","ref":"./Introduction/BeginnerTutorial/Conclusion.md","articles":[]},"previous":{"title":"4.1 Get Started","level":"1.3.4.1","depth":3,"path":"Introduction/BeginnerTutorial/RandomGifPair/GetStarted.md","ref":"./Introduction/BeginnerTutorial/RandomGifPair/GetStarted.md","articles":[]},"dir":"ltr"},"config":{"plugins":["ga"],"root":"./","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"ga":{"configuration":"auto","token":"UA-128574696-2"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Jacky Jiang (https://github.com/t83714)","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"intro.md","glossary":"GLOSSARY.md","summary":"README.md"},"variables":{},"title":"fractal-component","gitbook":"*","description":"`fractal-component` is a javascript library that can help you to encapsulate decoupled UI component easily. It aims to provide a one-stop solution that allows state store (redux) management, actions (messages, events) processing & routing, side-effect management and component styling to be encapsulated into one single software module."},"file":{"path":"Introduction/BeginnerTutorial/RandomGifPair/IncomingOutgoingActions.md","mtime":"2019-02-25T11:25:00.605Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-02-25T11:34:10.373Z"},"basePath":"../../..","book":{"language":""}});
         });
     </script>
 </div>
