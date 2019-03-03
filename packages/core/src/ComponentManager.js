@@ -235,6 +235,7 @@ class ComponentManager {
         this.store = null;
         this.isInitialized = false;
         this.setState = null;
+        this.cachedState = null;
         this.componentInstance[COMPONENT_MANAGER_ACCESS_KEY] = null;
         this.componentInstance = null;
     }

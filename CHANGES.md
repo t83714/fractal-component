@@ -1,3 +1,7 @@
+## 4.1.3
+
+- Fixed: Cleaned up `cachedState` reference when component is unmonted
+
 ## 4.1.2 
 
 - Performance improvement: reduced unnecessary component state sync 
