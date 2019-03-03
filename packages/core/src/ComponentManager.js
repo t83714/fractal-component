@@ -55,6 +55,10 @@ class ComponentManager {
         this.appContainer = null;
         this.store = null;
         this.receivedStateUpdateFromStore = false;
+        // --- save a referece to component state only
+        // --- in order to determine whether the state is required to sync
+        // --- as React's setState will always save a copy
+        this.cachedState = null;
 
         this.isInitialized = false;
         this.isDestroyed = false;
@@ -252,12 +256,13 @@ function bindStoreListener() {
         this.store.getState(),
         this.fullPath.split("/")
     );
-    if (state === this.componentInstance.state) return;
+    if (state === this.cachedState) return;
     // --- no state update before `isInitialized`
     // --- once `isInitialized`,
     // --- check this field to decide whether an initial this.setState call is needed
     this.receivedStateUpdateFromStore = true;
     if (this.isInitialized) {
+        this.cachedState = state;
         this.setState(state);
     }
 }
@@ -272,6 +277,7 @@ function setComponentInitState() {
     }
     this.initState = { ...initState };
     this.componentInstance.state = this.initState;
+    this.cachedState = this.initState;
 }
 
 function injectLifeHookers() {

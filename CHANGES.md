@@ -1,3 +1,7 @@
+## 4.1.2 
+
+- Performance improvement: reduced unnecessary component state sync 
+
 ## 4.1.1
 
 - Added `serialiseAction` & `deserialiseAction` function to `AppContainer`
