@@ -1,6 +1,7 @@
 ## 4.1.3
 
 - Fixed: Cleaned up `cachedState` reference when component is unmonted
+- ManageableComponentOptions.`name` (undocumented option) renamed to `displayName`
 
 ## 4.1.2 
 

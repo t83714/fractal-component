@@ -7,7 +7,7 @@ export default function useComponentManager(props, options) {
     const initState = options && options.initState ? options.initState : {};
     const [state, setState] = useState(initState);
     const context = useContext(AppContainerContext);
-    const componentName = (options && options.name) || "Component";
+    const componentName = (options && options.displayName) || "Component";
 
     const [componentManager, dispatch, getNamespaceData] = useMemo(() => {
         // --- will only run once

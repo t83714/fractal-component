@@ -61,7 +61,7 @@ export interface ManageableComponentOptions {
     saga?: GeneratorFunction;
     initState?: object;
     reducer: Reducer;
-    name: string;
+    displayName?: string;
     namespace?: string | ComponentStringSettingFunc;
     namespacePrefix?: string | ComponentStringSettingFunc;
     componentId?: string | ComponentStringSettingFunc;
