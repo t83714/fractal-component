@@ -2,7 +2,8 @@ language: node_js
 node_js:
   - "8"
   - "10"
-  - "11"
+  # lock to 11.10.1 due to https://github.com/facebook/jest/issues/8069
+  - "11.10.1"
 
 cache:
   directories:
