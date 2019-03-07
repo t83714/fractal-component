@@ -30,55 +30,7 @@ Your component entry point `index.js` should export the followings:
 
 ## Examples 
 
-### React Class Component Example:
-
-```javascript
-import {
-    ComponentManager,
-    AppContainerContext,
-    AppContainer
-} from "fractal-component";
-import * as actionTypes from "./actions/types";
-import * as actions from "./actions/index";
-
-class Counter extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { ... }; // --- set init state here
-        this.componentManager = new ComponentManager(this, {
-            namespace: "io.github.t83714/Counter",
-            reducer: function(state, action) {
-                ...
-            },
-            actionTypes,
-            allowedIncomingMulticastActionTypes: [actionTypes.INCREASE_COUNT]
-        });
-    }
-
-    render() {
-        ...
-    }
-}
-
-/**
- * Besides passing `AppContainer` through React Context, 
- * you can also allow people to pass `AppContainer` through Component Props
-*/
-Counter.propTypes = {
-    appContainer: PropTypes.instanceOf(AppContainer)
-};
-
-// --- Define contentType allow `AppContainer` pass through React Context
-Counter.contextType = AppContainerContext;
-
-// --- export `Main React Component`
-export default Counter;
-
-// --- export `Exposed Action Types` & `Exposed Action Creation Functions`
-export { actionTypes, actions };
-```
-
-### React Class Function Example:
+### React Function Component Example:
 
 ```javascript
 import { useComponentManager, AppContainer } from "fractal-component";
@@ -123,6 +75,54 @@ Counter.propTypes = {
 export default Counter;
 
 export { actionTypes, actions };
+
+// --- export `Main React Component`
+export default Counter;
+
+// --- export `Exposed Action Types` & `Exposed Action Creation Functions`
+export { actionTypes, actions };
+```
+
+### React Class Component Example:
+
+```javascript
+import {
+    ComponentManager,
+    AppContainerContext,
+    AppContainer
+} from "fractal-component";
+import * as actionTypes from "./actions/types";
+import * as actions from "./actions/index";
+
+class Counter extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { ... }; // --- set init state here
+        this.componentManager = new ComponentManager(this, {
+            namespace: "io.github.t83714/Counter",
+            reducer: function(state, action) {
+                ...
+            },
+            actionTypes,
+            allowedIncomingMulticastActionTypes: [actionTypes.INCREASE_COUNT]
+        });
+    }
+
+    render() {
+        ...
+    }
+}
+
+/**
+ * Besides passing `AppContainer` through React Context, 
+ * you can also allow people to pass `AppContainer` through Component Props
+*/
+Counter.propTypes = {
+    appContainer: PropTypes.instanceOf(AppContainer)
+};
+
+// --- Define contentType allow `AppContainer` pass through React Context
+Counter.contextType = AppContainerContext;
 
 // --- export `Main React Component`
 export default Counter;
