@@ -32,7 +32,10 @@ export default function useComponentManager(props, options) {
         return () => {
             componentManager.componentInstance.componentWillUnmount();
         };
-        // --- [] make sure it will not run for componentDidUpdate
+        /**
+         * We will not support change namespace, update reducer etc. during the component lifecycle
+         * `[]` here make sure the effect won't be called again due to re-render during the component lifecycle
+         */
     }, []);
     /**
      * Make sure `useComponentManager` hook return value can be used
