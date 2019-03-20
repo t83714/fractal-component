@@ -6,13 +6,13 @@
 [![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/fractal-component.svg)](https://bundlephobia.com/result?p=fractal-component)
 [![Build Status](https://travis-ci.org/t83714/fractal-component.svg?branch=master)](https://travis-ci.org/t83714/fractal-component)
 
-`fractal-component` is a javascript library that can help you to encapsulate decoupled UI component easily. It aims to provide a one-stop solution that allows state store (redux) management, actions (messages, events) processing & routing, side-effect management and component styling to be encapsulated into one single software module. You can then reuse your component to create new components (composition), use in a different project or publish it as [a NPM module](https://www.npmjs.com/package/@fractal-components/random-gif) (See the [live demo](https://codepen.io/t83714/pen/yxjgWr) on CodePen). You can not only use those components in web browsers but also can render them at server-side (SSR) & create redux store snapshot easily ([see example](https://github.com/t83714/fractal-component/tree/master/examples/exampleAppSSR)).
+`fractal-component` is a javascript library that can help you to encapsulate decoupled UI component easily. It aims to provide a one-stop solution that allows state store (redux) management, actions (messages, events) processing & routing, side-effect management and component styling to be encapsulated into one single software module. You can then reuse your component to create new components (composition), use in a different project or publish it as [a NPM module](https://www.npmjs.com/package/@fractal-components/random-gif) (See the **[live demo](https://codepen.io/t83714/pen/yxjgWr)** on CodePen). You can not only use those components in web browsers but also can render them at server-side (SSR) & create redux store snapshot easily ([see example](https://github.com/t83714/fractal-component/tree/master/examples/exampleAppSSR)).
 
 In order to achieve that, `fractal-component` introduce the following features to react / redux ecosystem:
 
 - `Multicast` Actions
 - Namespaced Actions
-- Serializable [Symbol](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol) Action Type 
+- Serializable [symbol](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol) Action Type 
 - `Hot Plug` Redux Reducer & Auto mount / unmount
 - `Hot Plug` [Saga](https://redux-saga.js.org/) & Auto mount / unmount
 - Namespaced Redux Store
@@ -71,7 +71,7 @@ Alternatively, you may use the UMD builds from [unpkg](https://unpkg.com/fractal
   - [Recommended Component Structure](https://t83714.github.io/fractal-component/BasicConcepts/RecommendedStructure.html)
   - Component Namespace
   - Action Dispatch Tree
-  - Symbol Action Type
+  - symbol Action Type
   - Component State
   - Component Reducer
   - Component Saga
