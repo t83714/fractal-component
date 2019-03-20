@@ -656,52 +656,7 @@
 </li>
 </ul>
 <h2 id="examples">Examples</h2>
-<h3 id="react-class-component-example">React Class Component Example:</h3>
-<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> {
-    ComponentManager,
-    AppContainerContext,
-    AppContainer
-} <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;fractal-component&quot;</span>;
-<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> actionTypes <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./actions/types&quot;</span>;
-<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> actions <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./actions/index&quot;</span>;
-
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Counter</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
-    <span class="hljs-keyword">constructor</span>(props) {
-        <span class="hljs-keyword">super</span>(props);
-        <span class="hljs-keyword">this</span>.state = { ... }; <span class="hljs-comment">// --- set init state here</span>
-        <span class="hljs-keyword">this</span>.componentManager = <span class="hljs-keyword">new</span> ComponentManager(<span class="hljs-keyword">this</span>, {
-            namespace: <span class="hljs-string">&quot;io.github.t83714/Counter&quot;</span>,
-            reducer: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">state, action</span>) </span>{
-                ...
-            },
-            actionTypes,
-            allowedIncomingMulticastActionTypes: [actionTypes.INCREASE_COUNT]
-        });
-    }
-
-    render() {
-        ...
-    }
-}
-
-<span class="hljs-comment">/**
- * Besides passing `AppContainer` through React Context, 
- * you can also allow people to pass `AppContainer` through Component Props
-*/</span>
-Counter.propTypes = {
-    appContainer: PropTypes.instanceOf(AppContainer)
-};
-
-<span class="hljs-comment">// --- Define contentType allow `AppContainer` pass through React Context</span>
-Counter.contextType = AppContainerContext;
-
-<span class="hljs-comment">// --- export `Main React Component`</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> Counter;
-
-<span class="hljs-comment">// --- export `Exposed Action Types` &amp; `Exposed Action Creation Functions`</span>
-<span class="hljs-keyword">export</span> { actionTypes, actions };
-</code></pre>
-<h3 id="react-class-function-example">React Class Function Example:</h3>
+<h3 id="react-function-component-example">React Function Component Example:</h3>
 <pre><code class="lang-javascript"><span class="hljs-keyword">import</span> { useComponentManager, AppContainer } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;fractal-component&quot;</span>;
 <span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> actionTypes <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./actions/types&quot;</span>;
 <span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> actions <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./actions/index&quot;</span>;
@@ -751,6 +706,51 @@ Counter.propTypes = {
 <span class="hljs-comment">// --- export `Exposed Action Types` &amp; `Exposed Action Creation Functions`</span>
 <span class="hljs-keyword">export</span> { actionTypes, actions };
 </code></pre>
+<h3 id="react-class-component-example">React Class Component Example:</h3>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> {
+    ComponentManager,
+    AppContainerContext,
+    AppContainer
+} <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;fractal-component&quot;</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> actionTypes <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./actions/types&quot;</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> actions <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./actions/index&quot;</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Counter</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+    <span class="hljs-keyword">constructor</span>(props) {
+        <span class="hljs-keyword">super</span>(props);
+        <span class="hljs-keyword">this</span>.state = { ... }; <span class="hljs-comment">// --- set init state here</span>
+        <span class="hljs-keyword">this</span>.componentManager = <span class="hljs-keyword">new</span> ComponentManager(<span class="hljs-keyword">this</span>, {
+            namespace: <span class="hljs-string">&quot;io.github.t83714/Counter&quot;</span>,
+            reducer: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">state, action</span>) </span>{
+                ...
+            },
+            actionTypes,
+            allowedIncomingMulticastActionTypes: [actionTypes.INCREASE_COUNT]
+        });
+    }
+
+    render() {
+        ...
+    }
+}
+
+<span class="hljs-comment">/**
+ * Besides passing `AppContainer` through React Context, 
+ * you can also allow people to pass `AppContainer` through Component Props
+*/</span>
+Counter.propTypes = {
+    appContainer: PropTypes.instanceOf(AppContainer)
+};
+
+<span class="hljs-comment">// --- Define contentType allow `AppContainer` pass through React Context</span>
+Counter.contextType = AppContainerContext;
+
+<span class="hljs-comment">// --- export `Main React Component`</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> Counter;
+
+<span class="hljs-comment">// --- export `Exposed Action Types` &amp; `Exposed Action Creation Functions`</span>
+<span class="hljs-keyword">export</span> { actionTypes, actions };
+</code></pre>
 
                                 
                                 </section>
@@ -786,7 +786,7 @@ Counter.propTypes = {
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Recommended Component Structure","level":"1.4.1","depth":2,"next":{"title":"Component Namespace","level":"1.4.2","depth":2,"ref":"","articles":[]},"previous":{"title":"Basic Concepts","level":"1.4","depth":1,"ref":"","articles":[{"title":"Recommended Component Structure","level":"1.4.1","depth":2,"path":"BasicConcepts/RecommendedStructure.md","ref":"./BasicConcepts/RecommendedStructure.md","articles":[]},{"title":"Component Namespace","level":"1.4.2","depth":2,"ref":"","articles":[]},{"title":"Action Dispatch Tree","level":"1.4.3","depth":2,"ref":"","articles":[]},{"title":"Symbol Action Type","level":"1.4.4","depth":2,"ref":"","articles":[]},{"title":"Component State","level":"1.4.5","depth":2,"ref":"","articles":[]},{"title":"Component Reducer","level":"1.4.6","depth":2,"ref":"","articles":[]},{"title":"Component Saga","level":"1.4.7","depth":2,"ref":"","articles":[]},{"title":"Component Styling","level":"1.4.8","depth":2,"ref":"","articles":[]}]},"dir":"ltr"},"config":{"plugins":["ga"],"root":"./","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"ga":{"configuration":"auto","token":"UA-128574696-2"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Jacky Jiang (https://github.com/t83714)","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"intro.md","glossary":"GLOSSARY.md","summary":"README.md"},"variables":{},"title":"fractal-component","gitbook":"*","description":"`fractal-component` is a javascript library that can help you to encapsulate decoupled UI component easily. It aims to provide a one-stop solution that allows state store (redux) management, actions (messages, events) processing & routing, side-effect management and component styling to be encapsulated into one single software module."},"file":{"path":"BasicConcepts/RecommendedStructure.md","mtime":"2019-02-24T11:40:41.362Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-02-25T11:39:48.240Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Recommended Component Structure","level":"1.4.1","depth":2,"next":{"title":"Component Namespace","level":"1.4.2","depth":2,"ref":"","articles":[]},"previous":{"title":"Basic Concepts","level":"1.4","depth":1,"ref":"","articles":[{"title":"Recommended Component Structure","level":"1.4.1","depth":2,"path":"BasicConcepts/RecommendedStructure.md","ref":"./BasicConcepts/RecommendedStructure.md","articles":[]},{"title":"Component Namespace","level":"1.4.2","depth":2,"ref":"","articles":[]},{"title":"Action Dispatch Tree","level":"1.4.3","depth":2,"ref":"","articles":[]},{"title":"Symbol Action Type","level":"1.4.4","depth":2,"ref":"","articles":[]},{"title":"Component State","level":"1.4.5","depth":2,"ref":"","articles":[]},{"title":"Component Reducer","level":"1.4.6","depth":2,"ref":"","articles":[]},{"title":"Component Saga","level":"1.4.7","depth":2,"ref":"","articles":[]},{"title":"Component Styling","level":"1.4.8","depth":2,"ref":"","articles":[]}]},"dir":"ltr"},"config":{"plugins":["ga"],"root":"./","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"ga":{"configuration":"auto","token":"UA-128574696-2"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Jacky Jiang (https://github.com/t83714)","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"intro.md","glossary":"GLOSSARY.md","summary":"README.md"},"variables":{},"title":"fractal-component","gitbook":"*","description":"`fractal-component` is a javascript library that can help you to encapsulate decoupled UI component easily. It aims to provide a one-stop solution that allows state store (redux) management, actions (messages, events) processing & routing, side-effect management and component styling to be encapsulated into one single software module."},"file":{"path":"BasicConcepts/RecommendedStructure.md","mtime":"2019-03-07T10:47:58.485Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-03-20T09:45:16.712Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
