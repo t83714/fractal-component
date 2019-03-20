@@ -2,6 +2,7 @@
 
 - Fixed: Cleaned up `cachedState` reference when component is unmonted
 - ManageableComponentOptions.`name` (undocumented option) renamed to `displayName`
+- Will log a warning under development mode ONLY if can't locate an appContainer from context or component \`props\` and a default appContainer is used 
 
 ## 4.1.2 
 

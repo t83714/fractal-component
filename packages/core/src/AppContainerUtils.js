@@ -1,5 +1,5 @@
 import AppContainer from "./AppContainer";
-import { log, is } from "./utils";
+import { log, is, isDevMode, getPackageName } from "./utils";
 import ComponentManager from "fractal-component/src/ComponentManager";
 
 let APP_CONTAINER_KEY = "appContainer";
@@ -40,6 +40,13 @@ export function getAppContainer(componentInstance = null) {
     }
     if (!defaultAppContainer) {
         defaultAppContainer = createAppContainer();
+        if (isDevMode()) {
+            log(
+                `${getPackageName()}: Can't locate an appContainer from context or component \`props\`. ` +
+                    "A default appContainer has been created for the `getAppContainer` request.",
+                "warn"
+            );
+        }
     }
     return defaultAppContainer;
 }
