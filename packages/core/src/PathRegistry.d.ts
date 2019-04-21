@@ -19,6 +19,7 @@ export default class PathRegistry {
     constructor();
     destroy(): void;
     add(path: string, data?: object): string;
+    isEmpty(): boolean;
     remove(path: string): void;
     exist(path: string): boolean;
     searchSubPath(path: string): string[];

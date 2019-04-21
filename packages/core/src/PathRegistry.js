@@ -121,6 +121,11 @@ export default class PathRegistry {
         return path;
     }
 
+    isEmpty() {
+        if (this.paths.length) return false;
+        return true;
+    }
+
     getPathData(path) {
         const data = this.dataStore[path];
         return data ? data : {};

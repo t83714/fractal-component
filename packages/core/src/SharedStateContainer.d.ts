@@ -15,6 +15,7 @@ declare class SharedStateContainer {
     appContainer: AppContainer;
 
     state: any;
+    
     isInitialized: boolean;
     fullPath: string;
 
@@ -24,7 +25,7 @@ declare class SharedStateContainer {
 
     storeListenerUnsubscribe: () => void;
 
-    getState(): any;
+    getStoreState(): any;
     registerConsumer(
         localKey: string,
         componentManager: ComponentManager

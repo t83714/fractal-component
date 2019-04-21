@@ -1,5 +1,6 @@
 import objectPath from "object-path";
 import { is } from "./utils";
+import PathRegistry from "./PathRegistry";
 
 export const defaultOptions = {
     initState: {},
@@ -26,40 +27,36 @@ class SharedStateContainer {
         this.namespace = namespace;
         this.reducer = reducer;
         this.appContainer = null;
-        this.state = initState;
-        this.cachedState = initState;
+        this.initState = initState;
         this.isInitialized = false;
         this.fullPath = `@SharedState/${namespace}/c0`;
-        this.componentListeners = {};
-        this.storeListenerUnsubscribe = null;
+        this.pathRegistry = new PathRegistry();
     }
 
-    getState() {
-        return this.state;
+    getStoreState() {
+        if (!this.appContainer) return this.initState;
+        return objectPath.get(
+            this.appContainer.store.getState(),
+            this.fullPath.split("/")
+        );
     }
 
-    registerConsumer(localKey, componentManager) {
-        this.componentListeners[componentManager.fullPath] = state => {
-            componentManager.emit("sharedStateChanged", {
-                localKey,
-                state
-            });
-        };
+    registerConsumer(componentManager) {
+        this.pathRegistry.add(componentManager.fullPath);
         componentManager.on("init", appContainer => {
-            init.bind(this)(appContainer);
+            init.call(this, appContainer);
         });
     }
 
     deregisterConsumer(componentManager) {
         const { fullPath } = componentManager;
-        delete this.componentListeners[fullPath];
-        if (Object.keys(this.componentListeners).length) return;
+        this.pathRegistry.remove(fullPath);
+        if (!this.pathRegistry.isEmpty()) return;
         this.destroy();
     }
 
     destroy() {
         if (!this.isInitialized) return;
-        unsubscribeStoreListener.apply(this);
         if (this.appContainer && this.appContainer.namespaceRegistry) {
             this.appContainer.namespaceRegistry.deregisterComponentManager(
                 this
@@ -73,11 +70,9 @@ class SharedStateContainer {
         ) {
             this.appContainer.reducerRegistry.deregister(this.fullPath);
         }
-        this.componentListeners = {};
+        this.pathRegistry.destroy();
         this.appContainer = null;
         this.isInitialized = false;
-        this.state = this.options.initState;
-        this.cachedState = this.options.initState;
     }
 }
 
@@ -85,33 +80,14 @@ function init(appContainer) {
     if (this.isInitialized) return;
     this.isInitialized = true;
     this.appContainer = appContainer;
-    this.storeListenerUnsubscribe = appContainer.store.subscribe(() => {
-        const state = objectPath.get(
-            appContainer.store.getState(),
-            this.fullPath.split("/")
-        );
-        if (state === this.cachedState) return;
-        this.cachedState = state;
-        this.state = state;
-        Object.values(this.componentListeners).forEach(handler =>
-            handler(state)
-        );
-    });
     appContainer.namespaceRegistry.registerComponentManager(this);
     if (this.options.reducer && is.func(this.options.reducer)) {
         appContainer.reducerRegistry.register(this.reducer.bind(this), {
-            initState: this.options.initState,
+            initState: this.initState,
             path: this.fullPath,
             namespace: this.namespace,
             allowedIncomingMulticastActionTypes: Object.values(this.actionTypes)
         });
-    }
-}
-
-function unsubscribeStoreListener() {
-    if (this.storeListenerUnsubscribe) {
-        this.storeListenerUnsubscribe();
-        this.storeListenerUnsubscribe = null;
     }
 }
 

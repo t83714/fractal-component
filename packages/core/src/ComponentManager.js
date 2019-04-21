@@ -23,7 +23,8 @@ export const defaultOptions = {
     persistState: true,
     //--- when `allowedIncomingMulticastActionTypes` is string
     //--- only "*" is accepted (means accepting any actionTypes)
-    allowedIncomingMulticastActionTypes: null
+    allowedIncomingMulticastActionTypes: null,
+    sharedStates: {}
 };
 
 const pkgName = getPackageName();
@@ -60,12 +61,15 @@ class ComponentManager {
         // --- in order to determine whether the state is required to sync
         // --- as React's setState will always save a copy
         this.cachedState = null;
+        this.cachedSharedState = {};
 
         this.isInitialized = false;
         this.isDestroyed = false;
 
         this.storeListener = bindStoreListener.bind(this);
         this.storeListenerUnsubscribe = null;
+
+        this.sharedStateContainerActionTypes = [];
 
         this.displayName = getComponentName(this.componentInstance);
 
@@ -112,11 +116,11 @@ class ComponentManager {
 
         this.persistState = this.options.persistState;
 
-        this.fullNamespace = fullNamespace.bind(this)();
+        this.fullNamespace = fullNamespace.apply(this);
         this.allowedIncomingMulticastActionTypes = this.options.allowedIncomingMulticastActionTypes;
 
-        this.fullPath = fullPath.bind(this)();
-        this.fullLocalPath = fullLocalPath.bind(this)();
+        this.fullPath = fullPath.apply(this);
+        this.fullLocalPath = fullLocalPath.apply(this);
 
         // --- take over component's setState method
         this.setState = this.componentInstance.setState.bind(
@@ -175,6 +179,10 @@ class ComponentManager {
                 this.storeListener();
             }
         });
+
+        this.on("sharedStateChanged", ({ localKey, state }) =>
+            onSharedStateChanged.call(this, localKey, state)
+        );
 
         this.on("destroy", () => {
             this.destroy();
@@ -245,8 +253,13 @@ class ComponentManager {
         this.isInitialized = false;
         this.setState = null;
         this.cachedState = null;
+        this.cachedSharedState = {};
         this.componentInstance[COMPONENT_MANAGER_ACCESS_KEY] = null;
         this.componentInstance = null;
+        this.sharedStateContainerActionTypes = [];
+        Object.keys(this.options.sharedStates).forEach(localKey =>
+            this.options.sharedStates[localKey].deregisterConsumer(this)
+        );
     }
 }
 
@@ -262,18 +275,55 @@ function unsubscribeStoreListener() {
 }
 
 function bindStoreListener() {
-    const state = objectPath.get(
-        this.store.getState(),
-        this.fullPath.split("/")
-    );
-    if (state === this.cachedState) return;
+    let requireUpdate = false;
+
+    let state = objectPath.get(this.store.getState(), this.fullPath.split("/"));
+    if (state !== this.cachedState) {
+        requireUpdate = true;
+    }
+    state = { ...state };
+    const cachedSharedStateUpdateList = [];
+    Object.keys(this.options.sharedStates).forEach(localKey => {
+        const sharedStateContainer = this.options.sharedStates[localKey];
+        const sharedState = sharedStateContainer.getStoreState();
+        if (this.cachedSharedState[localKey] !== sharedState) {
+            requireUpdate = true;
+            objectPath.set(state, localKey, sharedState);
+            cachedSharedStateUpdateList.push({
+                localKey,
+                sharedState
+            });
+        }
+    });
+
+    if (!requireUpdate) return;
+
     // --- no state update before `isInitialized`
     // --- once `isInitialized`,
     // --- check this field to decide whether an initial this.setState call is needed
     this.receivedStateUpdateFromStore = true;
     if (this.isInitialized) {
         this.cachedState = state;
+        this.cachedSharedStateUpdateList.forEach(
+            ({ localKey, sharedState }) => {
+                this.cachedSharedState[localKey] = sharedState;
+            }
+        );
         this.setState(state);
+    }
+}
+
+function onSharedStateChanged(localKey, sharedStateData) {
+    const state = objectPath.get(
+        this.store.getState(),
+        this.fullPath.split("/")
+    );
+    const newState = { ...state };
+    objectPath.set(newState, localKey, sharedStateData);
+    this.receivedStateUpdateFromStore = true;
+    if (this.isInitialized) {
+        this.cachedState = newState;
+        this.setState(newState);
     }
 }
 
@@ -288,6 +338,40 @@ function setComponentInitState() {
     this.initState = { ...initState };
     this.componentInstance.state = this.initState;
     this.cachedState = this.initState;
+
+    processSharedStates.apply(this);
+}
+
+function processSharedStates() {
+    const localKeys = Object.keys(this.options.sharedStates);
+    if (!localKeys.length) return;
+    localKeys.forEach(localKey => {
+        const sharedStateContainer = this.options.sharedStates[localKey];
+        const actionTypes = sharedStateContainer.actionTypes;
+
+        sharedStateContainer.registerConsumer(this);
+
+        objectPath.set(
+            this.initState,
+            localKey,
+            sharedStateContainer.initState
+        );
+
+        this.componentInstance.state = this.initState;
+        this.cachedState = this.initState;
+
+        this.cachedSharedState[localKey] = sharedStateContainer.initState;
+
+        if (is.array(actionTypes) && actionTypes.length) {
+            this.sharedStateContainerActionTypes = this.sharedStateContainerActionTypes.concat(
+                actionTypes
+            );
+        } else if (actionTypes && is.object(actionTypes)) {
+            Object.keys(actionTypes).forEach(key =>
+                this.sharedStateContainerActionTypes.push(actionTypes[key])
+            );
+        }
+    });
 }
 
 function injectLifeHookers() {
@@ -358,11 +442,11 @@ function settleStringSetting(setting) {
     if (!setting) return "";
     if (typeof setting === "function") {
         try {
-            const value = setting.bind(
+            const value = setting.call(
                 this,
                 this.displayName,
                 this.componentInstance
-            )();
+            );
             if (!value) return "";
             return value;
         } catch (e) {

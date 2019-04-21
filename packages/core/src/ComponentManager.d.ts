@@ -4,6 +4,7 @@ import AppContainer from "./AppContainer";
 import { Store, Action, Reducer } from "redux";
 import { Emitter, Handler } from "mitt";
 import { ComponentStub } from "./useComponentManager/getComponentStub";
+import SharedStateContainer from "./SharedStateContainer";
 
 declare class ComponentManager {
     constructor(
@@ -24,6 +25,7 @@ declare class ComponentManager {
     fullPath: string;
     persistState: boolean;
     allowedIncomingMulticastActionTypes: symbol[] | symbol | string;
+    sharedStateContainerActionTypes: symbol[];
 
     on(type: string, handler: Handler): void;
     off(type?: string): void;
@@ -104,4 +106,10 @@ export interface ManageableComponentOptions {
      */
     namespaceInitCallback?: NamespaceInitCallback;
     namespaceDestroyCallback?: NamespaceDestroyCallback;
+    /**
+     * Specify a list of SharedStateContainers to map those shared state data into component local state
+     */
+    sharedStates?: {
+        [localDataPath:string]: SharedStateContainer
+    }
 }
