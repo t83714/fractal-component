@@ -58,10 +58,10 @@ class ComponentManagerRegistry {
 
     deregister(manager) {
         if (manager.options.reducer && is.func(manager.options.reducer)) {
-            this.appContainer.sagaRegistry.deregister(manager.fullPath);
+            this.appContainer.reducerRegistry.deregister(manager.fullPath);
         }
         if (manager.options.saga && is.func(manager.options.saga)) {
-            this.appContainer.reducerRegistry.deregister(manager.fullPath);
+            this.appContainer.sagaRegistry.deregister(manager.fullPath);
         }
         this.appContainer.namespaceRegistry.deregisterComponentManager(manager);
     }

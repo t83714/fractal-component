@@ -26,7 +26,8 @@ declare class ComponentManager {
     allowedIncomingMulticastActionTypes: symbol[] | symbol | string;
 
     on(type: string, handler: Handler): void;
-    off(type: string, handler: Handler): void;
+    off(type?: string): void;
+    emit(type: string, evt: any): void;
 
     dispatch(action: Action, relativeDispatchPath?: string): Action;
     getNamespaceData(): any;

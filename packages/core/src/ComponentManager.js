@@ -47,7 +47,8 @@ class ComponentManager {
 
         componentInstance[COMPONENT_MANAGER_ACCESS_KEY] = this;
 
-        this.emitter = mitt();
+        this.all = Object.create(null);
+        this.emitter = mitt(this.all);
 
         this.createClassNameGenerator = createClassNameGenerator.bind(this);
         this.componentInstance = componentInstance;
@@ -114,6 +115,9 @@ class ComponentManager {
         this.fullNamespace = fullNamespace.bind(this)();
         this.allowedIncomingMulticastActionTypes = this.options.allowedIncomingMulticastActionTypes;
 
+        this.fullPath = fullPath.bind(this)();
+        this.fullLocalPath = fullLocalPath.bind(this)();
+
         // --- take over component's setState method
         this.setState = this.componentInstance.setState.bind(
             this.componentInstance
@@ -124,16 +128,17 @@ class ComponentManager {
             );
         };
 
+        this.getAppContainer = () => {
+            if (is.appContainer(appContainer)) return appContainer;
+            else return getAppContainer(this.componentInstance);
+        };
+
         setComponentInitState.apply(this);
 
         injectLifeHookers.apply(this);
 
-        this.on("init", () => {
-            if (is.appContainer(appContainer)) {
-                this.appContainer = appContainer;
-            } else {
-                this.appContainer = getAppContainer(this.componentInstance);
-            }
+        this.on("init", appContainer => {
+            this.appContainer = appContainer;
             this.store = this.appContainer.store;
 
             // --- still not ready to setState but will set `receivedStateUpdateFromStore`
@@ -149,9 +154,6 @@ class ComponentManager {
                     this.namespace
                 );
             }
-
-            this.fullPath = fullPath.bind(this)();
-            this.fullLocalPath = fullLocalPath.bind(this)();
 
             this.appContainer.componentManagerRegistry.register(this);
 
@@ -184,7 +186,14 @@ class ComponentManager {
     }
 
     off(type) {
-        this.emitter.off(type);
+        if (typeof type === "undefined") {
+            this.all = Object.create(null);
+        }
+        delete this.all[type];
+    }
+
+    emit(type, evt) {
+        this.emitter.emit(type, evt);
     }
 
     dispatch(action, relativeDispatchPath = "") {
@@ -226,7 +235,7 @@ class ComponentManager {
     destroy() {
         this.isDestroyed = true;
         if (!this.isInitialized) return;
-        this.off("*");
+        this.off();
         unsubscribeStoreListener.apply(this);
         if (this.appContainer && this.appContainer.componentManagerRegistry) {
             this.appContainer.componentManagerRegistry.deregister(this);
@@ -296,7 +305,7 @@ function injectLifeHookers() {
     const componentManagerEmitter = this.emitter;
     this.componentInstance.render = () => {
         this.componentInstance.render = originalRender;
-        componentManagerEmitter.emit("init");
+        componentManagerEmitter.emit("init", this.getAppContainer());
         return originalRender.apply(this.componentInstance);
     };
     this.componentInstance.componentDidMount = () => {
