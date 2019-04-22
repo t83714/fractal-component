@@ -25,10 +25,10 @@ declare class ComponentManager {
     fullPath: string;
     persistState: boolean;
     allowedIncomingMulticastActionTypes: symbol[] | symbol | string;
-    sharedStates: {
+    sharedStates: Array<{
         localKey: string;
         container: SharedStateContainer;
-    }[];
+    }>;
 
     on(type: string, handler: Handler): void;
     off(type?: string): void;

@@ -21,12 +21,11 @@ export default SagaRegistry;
 export interface SagaOptions {
     path?: string;
     namespace: string;
-    sharedStates?: {
+    sharedStates?: Array<{
         localKey: string;
         container: SharedStateContainer;
-    }[];
+    }>;
     allowedIncomingMulticastActionTypes?: symbol[] | symbol | string;
-
 }
 
 export interface SagaItem extends SagaOptions {
