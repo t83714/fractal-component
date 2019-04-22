@@ -23,7 +23,11 @@ class SharedStateContainer {
             throw new Error("Shared State Container reducer cannot be empty!");
         }
         this.options = options;
-        this.actionTypes = actionTypes;
+        this.actionTypes = actionTypes
+            ? is.array(actionTypes)
+                ? actionTypes
+                : Object.keys(actionTypes).map(key => this.actionTypes[key])
+            : [];
         this.namespace = namespace;
         this.reducer = reducer;
         this.appContainer = null;
@@ -53,6 +57,14 @@ class SharedStateContainer {
         this.pathRegistry.remove(fullPath);
         if (!this.pathRegistry.isEmpty()) return;
         this.destroy();
+    }
+
+    supportActionType(actionType) {
+        return this.actionTypes.indexOf(actionType) !== -1;
+    }
+
+    supportAction(action) {
+        return this.supportActionType(action.type);
     }
 
     destroy() {
@@ -86,7 +98,7 @@ function init(appContainer) {
             initState: this.initState,
             path: this.fullPath,
             namespace: this.namespace,
-            allowedIncomingMulticastActionTypes: Object.values(this.actionTypes)
+            allowedIncomingMulticastActionTypes: this.actionTypes
         });
     }
 }

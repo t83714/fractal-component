@@ -36,12 +36,35 @@ export function takeMaybe(sagaItem, pattern) {
     return oTakeMaybe(chan, pattern);
 }
 
+function getSharedStateIndexByActionType(actionType, sagaItem) {
+    let { sharedStates } = sagaItem;
+    if (!sharedStates) sharedStates = [];
+    for (let i = 0; i < sharedStates.length; i++) {
+        if (sharedStates.container.supportActionType(actionType) === true)
+            return i;
+    }
+    return -1;
+}
+
 export function put(sagaItem, action, relativeDispatchPath = "") {
-    const { path } = sagaItem;
+    const { path, sharedStates } = sagaItem;
+
     const pc = new PathContext(path);
+    let isAbsolutePath = false;
+
+    if (relativeDispatchPath === "") {
+        const idx = getSharedStateIndexByActionType(action.type);
+        if (idx !== -1 && sharedStates) {
+            // --- send shared states related actions to shared states container directly
+            isAbsolutePath = true;
+            relativeDispatchPath = sharedStates[idx].container.fullPath;
+        }
+    }
+
     const namespacedAction = pc.convertNamespacedAction(
         action,
-        relativeDispatchPath
+        relativeDispatchPath,
+        isAbsolutePath
     );
 
     // --- query action Type's original namespace so that it can be serialised correctly if needed
@@ -63,14 +86,33 @@ export function put(sagaItem, action, relativeDispatchPath = "") {
     return oPut(namespacedAction);
 }
 
+function getStateDataByFullPath(state, fullPath) {
+    const pathItems = fullPath.split("/");
+    return objectPath.get(state, pathItems);
+}
+
 export function select(sagaItem, selector, ...args) {
-    const { path } = sagaItem;
-    const pathItems = path.split("/");
-    return oSelect(state => {
-        const namespacedState = objectPath.get(state, pathItems);
+    return call(function*() {
+        const { path } = sagaItem;
+        const { sharedStates } = sagaItem;
+
+        const state = yield oSelect();
+        const namespacedState = { ...getStateDataByFullPath(state, path) };
+
+        if (is.array(sharedStates) && sharedStates.length) {
+            // --- auto included shared state for namespacedState
+            sharedStates.forEach(({ localKey, container }) => {
+                const sharedStateData = {
+                    ...getStateDataByFullPath(state, container.fullPath)
+                };
+                objectPath.set(namespacedState, localKey, sharedStateData);
+            });
+        }
+
         if (selector && is.func(selector)) {
             return selector(namespacedState, ...args);
         }
+
         return namespacedState;
     });
 }

@@ -25,7 +25,10 @@ declare class ComponentManager {
     fullPath: string;
     persistState: boolean;
     allowedIncomingMulticastActionTypes: symbol[] | symbol | string;
-    sharedStateContainerActionTypes: symbol[];
+    sharedStates: {
+        localKey: string;
+        container: SharedStateContainer;
+    }[];
 
     on(type: string, handler: Handler): void;
     off(type?: string): void;
@@ -34,6 +37,8 @@ declare class ComponentManager {
     dispatch(action: Action, relativeDispatchPath?: string): Action;
     getNamespaceData(): any;
     createClassNameGenerator(): () => string;
+    isSharedStateAction(action: Action): boolean;
+    getSharedStateIndexByActionType(actionType: symbol): number;
     destroy(): void;
 }
 
@@ -110,6 +115,6 @@ export interface ManageableComponentOptions {
      * Specify a list of SharedStateContainers to map those shared state data into component local state
      */
     sharedStates?: {
-        [localDataPath:string]: SharedStateContainer
-    }
+        [localDataPath: string]: SharedStateContainer;
+    };
 }

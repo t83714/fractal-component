@@ -61,6 +61,12 @@ class ComponentManager {
         // --- in order to determine whether the state is required to sync
         // --- as React's setState will always save a copy
         this.cachedState = null;
+        this.sharedStates = this.options.sharedState
+            ? Object.keys(this.options.sharedState).map(localKey => ({
+                  localKey,
+                  container: this.options.sharedState[localKey]
+              }))
+            : [];
         this.cachedSharedState = {};
 
         this.isInitialized = false;
@@ -68,8 +74,6 @@ class ComponentManager {
 
         this.storeListener = bindStoreListener.bind(this);
         this.storeListenerUnsubscribe = null;
-
-        this.sharedStateContainerActionTypes = [];
 
         this.displayName = getComponentName(this.componentInstance);
 
@@ -208,10 +212,24 @@ class ComponentManager {
         if (!this.isInitialized) {
             throw new Error(initialisationErrorMsg);
         }
+
         const pc = new PathContext(this.fullPath);
+        let isAbsolutePath = false;
+
+        if (relativeDispatchPath === "") {
+            const idx = this.getSharedStateIndexByActionType(action.type);
+            if (idx !== -1) {
+                // --- send shared states related actions to shared states container directly
+                isAbsolutePath = true;
+                relativeDispatchPath = this.sharedStates[idx].container
+                    .fullPath;
+            }
+        }
+
         const namespacedAction = pc.convertNamespacedAction(
             action,
-            relativeDispatchPath
+            relativeDispatchPath,
+            isAbsolutePath
         );
 
         // --- query action Type's original namespace so that it can be serialised correctly if needed
@@ -240,6 +258,25 @@ class ComponentManager {
         return this.appContainer.namespaceRegistry.getData(this.namespace);
     }
 
+    isSharedStateAction(action) {
+        for (let i = 0; i < this.sharedStates.length; i++) {
+            if (this.sharedStates.container.supportAction(action) === true)
+                return true;
+        }
+        return false;
+    }
+
+    getSharedStateIndexByActionType(actionType) {
+        for (let i = 0; i < this.sharedStates.length; i++) {
+            if (
+                this.sharedStates.container.supportActionType(actionType) ===
+                true
+            )
+                return i;
+        }
+        return -1;
+    }
+
     destroy() {
         this.isDestroyed = true;
         if (!this.isInitialized) return;
@@ -256,9 +293,9 @@ class ComponentManager {
         this.cachedSharedState = {};
         this.componentInstance[COMPONENT_MANAGER_ACCESS_KEY] = null;
         this.componentInstance = null;
-        this.sharedStateContainerActionTypes = [];
-        Object.keys(this.options.sharedStates).forEach(localKey =>
-            this.options.sharedStates[localKey].deregisterConsumer(this)
+        this.sharedStateContainersList = {};
+        this.sharedStates.forEach(({ container }) =>
+            container.deRegisterConsumer(this)
         );
     }
 }
@@ -281,14 +318,13 @@ function bindStoreListener() {
     if (state !== this.cachedState) {
         requireUpdate = true;
     }
-    state = { ...state };
+    const newState = { ...state };
     const cachedSharedStateUpdateList = [];
-    Object.keys(this.options.sharedStates).forEach(localKey => {
-        const sharedStateContainer = this.options.sharedStates[localKey];
-        const sharedState = sharedStateContainer.getStoreState();
+    this.sharedStates.forEach(({ localKey, container }) => {
+        const sharedState = container.getStoreState();
         if (this.cachedSharedState[localKey] !== sharedState) {
             requireUpdate = true;
-            objectPath.set(state, localKey, sharedState);
+            objectPath.set(newState, localKey, sharedState);
             cachedSharedStateUpdateList.push({
                 localKey,
                 sharedState
@@ -309,7 +345,7 @@ function bindStoreListener() {
                 this.cachedSharedState[localKey] = sharedState;
             }
         );
-        this.setState(state);
+        this.setState(newState);
     }
 }
 
@@ -363,13 +399,17 @@ function processSharedStates() {
         this.cachedSharedState[localKey] = sharedStateContainer.initState;
 
         if (is.array(actionTypes) && actionTypes.length) {
-            this.sharedStateContainerActionTypes = this.sharedStateContainerActionTypes.concat(
-                actionTypes
-            );
+            actionTypes.forEach(actionType => {
+                this.sharedStateContainersList[
+                    actionType
+                ] = sharedStateContainer;
+            });
         } else if (actionTypes && is.object(actionTypes)) {
-            Object.keys(actionTypes).forEach(key =>
-                this.sharedStateContainerActionTypes.push(actionTypes[key])
-            );
+            Object.keys(actionTypes).forEach(key => {
+                this.sharedStateContainersList[
+                    actionTypes[key]
+                ] = sharedStateContainer;
+            });
         }
     });
 }

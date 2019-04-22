@@ -1,21 +1,20 @@
 import AppContainer from "./AppContainer";
 import { Reducer } from "./ReducerRegistry";
 import ComponentManager from "./ComponentManager";
+import { Action } from "redux";
 
 declare class SharedStateContainer {
     constructor(options: SharedStateContainerOptions);
 
     options: SharedStateContainerOptions;
-    actionTypes: {
-        [k: string]: symbol;
-    };
+    actionTypes: symbol[];
     namespace: string;
     reducer: Reducer;
 
     appContainer: AppContainer;
 
     state: any;
-    
+
     isInitialized: boolean;
     fullPath: string;
 
@@ -31,6 +30,8 @@ declare class SharedStateContainer {
         componentManager: ComponentManager
     ): void;
     deregisterConsumer(componentManager: ComponentManager): void;
+    supportActionType(actionType: symbol): boolean;
+    supportAction(action: Action): boolean;
     destroy(): void;
 }
 

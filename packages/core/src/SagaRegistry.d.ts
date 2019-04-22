@@ -1,6 +1,7 @@
 import AppContainer from "./AppContainer";
 import { Store, Action } from "redux";
 import { Channel, Task } from "redux-saga";
+import SharedStateContainer from "./SharedStateContainer";
 
 declare class SagaRegistry {
     constructor(appContainer: AppContainer);
@@ -20,7 +21,12 @@ export default SagaRegistry;
 export interface SagaOptions {
     path?: string;
     namespace: string;
+    sharedStates?: {
+        localKey: string;
+        container: SharedStateContainer;
+    }[];
     allowedIncomingMulticastActionTypes?: symbol[] | symbol | string;
+
 }
 
 export interface SagaItem extends SagaOptions {

@@ -49,6 +49,7 @@ class ComponentManagerRegistry {
                 {
                     path: manager.fullPath,
                     namespace: manager.namespace,
+                    sharedStates: manager.sharedStates,
                     allowedIncomingMulticastActionTypes:
                         manager.allowedIncomingMulticastActionTypes
                 }

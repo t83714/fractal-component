@@ -23,7 +23,7 @@ export function select(
     sagaItem: SagaItem,
     selector?: (state: any, ...args: any[]) => any,
     ...args: any[]
-): SelectEffect;
+): CallEffect;
 export function takeEvery(
     sagaItem: SagaItem,
     pattern: Pattern<Action>,
