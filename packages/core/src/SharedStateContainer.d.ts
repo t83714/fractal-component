@@ -2,6 +2,7 @@ import AppContainer from "./AppContainer";
 import { Reducer } from "./ReducerRegistry";
 import ComponentManager from "./ComponentManager";
 import { Action } from "redux";
+import PathRegistry from "./PathRegistry";
 
 declare class SharedStateContainer {
     constructor(options: SharedStateContainerOptions);
@@ -13,16 +14,11 @@ declare class SharedStateContainer {
 
     appContainer: AppContainer;
 
-    state: any;
+    initState: any;
 
     isInitialized: boolean;
     fullPath: string;
-
-    componentListeners: {
-        [k: string]: Reducer;
-    };
-
-    storeListenerUnsubscribe: () => void;
+    pathRegistry: PathRegistry;
 
     getStoreState(): any;
     registerConsumer(
