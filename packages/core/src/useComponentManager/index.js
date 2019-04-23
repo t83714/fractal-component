@@ -42,6 +42,7 @@ export default function useComponentManager(props, options) {
          * then run a noop func
          */
         componentStub.render();
+        return null;
     }, []);
 
     useEffect(() => {
