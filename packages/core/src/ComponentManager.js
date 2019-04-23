@@ -61,10 +61,10 @@ class ComponentManager {
         // --- in order to determine whether the state is required to sync
         // --- as React's setState will always save a copy
         this.cachedState = null;
-        this.sharedStates = this.options.sharedState
-            ? Object.keys(this.options.sharedState).map(localKey => ({
+        this.sharedStates = this.options.sharedStates
+            ? Object.keys(this.options.sharedStates).map(localKey => ({
                   localKey,
-                  container: this.options.sharedState[localKey]
+                  container: this.options.sharedStates[localKey]
               }))
             : [];
         this.cachedSharedState = {};
@@ -123,9 +123,6 @@ class ComponentManager {
         this.fullNamespace = fullNamespace.apply(this);
         this.allowedIncomingMulticastActionTypes = this.options.allowedIncomingMulticastActionTypes;
 
-        this.fullPath = fullPath.apply(this);
-        this.fullLocalPath = fullLocalPath.apply(this);
-
         // --- take over component's setState method
         this.setState = this.componentInstance.setState.bind(
             this.componentInstance
@@ -141,13 +138,26 @@ class ComponentManager {
             else return getAppContainer(this.componentInstance);
         };
 
-        setComponentInitState.apply(this);
+        this.on("init", appContainer => {
+            // --- we should establish component Id as early as possible
+            if (!this.componentId) {
+                this.isAutoComponentId = true;
+                this.componentId = appContainer.componentManagerRegistry.createComponentId(
+                    this.namespacePrefix,
+                    this.namespace
+                );
+            }
 
+            this.fullPath = fullPath.apply(this);
+            this.fullLocalPath = fullLocalPath.apply(this);
+        });
+
+        setComponentInitState.apply(this);
         injectLifeHookers.apply(this);
 
         this.on("init", appContainer => {
             this.appContainer = appContainer;
-            this.store = this.appContainer.store;
+            this.store = appContainer.store;
 
             // --- still not ready to setState but will set `receivedStateUpdateFromStore`
             // --- to decide if an initial update is required
@@ -155,15 +165,7 @@ class ComponentManager {
                 this.receivedStateUpdateFromStore = true;
             });
 
-            if (!this.componentId) {
-                this.isAutoComponentId = true;
-                this.componentId = this.appContainer.componentManagerRegistry.createComponentId(
-                    this.namespacePrefix,
-                    this.namespace
-                );
-            }
-
-            this.appContainer.componentManagerRegistry.register(this);
+            appContainer.componentManagerRegistry.register(this);
 
             if (!this.isInitialized && !this.isDestroyed) {
                 this.isInitialized = true;
@@ -183,10 +185,6 @@ class ComponentManager {
                 this.storeListener();
             }
         });
-
-        this.on("sharedStateChanged", ({ localKey, state }) =>
-            onSharedStateChanged.call(this, localKey, state)
-        );
 
         this.on("destroy", () => {
             this.destroy();
@@ -260,7 +258,7 @@ class ComponentManager {
 
     isSharedStateAction(action) {
         for (let i = 0; i < this.sharedStates.length; i++) {
-            if (this.sharedStates.container.supportAction(action) === true)
+            if (this.sharedStates[i].container.supportAction(action) === true)
                 return true;
         }
         return false;
@@ -269,7 +267,7 @@ class ComponentManager {
     getSharedStateIndexByActionType(actionType) {
         for (let i = 0; i < this.sharedStates.length; i++) {
             if (
-                this.sharedStates.container.supportActionType(actionType) ===
+                this.sharedStates[i].container.supportActionType(actionType) ===
                 true
             )
                 return i;
@@ -293,7 +291,6 @@ class ComponentManager {
         this.cachedSharedState = {};
         this.componentInstance[COMPONENT_MANAGER_ACCESS_KEY] = null;
         this.componentInstance = null;
-        this.sharedStateContainersList = {};
         this.sharedStates.forEach(({ container }) =>
             container.deRegisterConsumer(this)
         );
@@ -340,25 +337,9 @@ function bindStoreListener() {
     this.receivedStateUpdateFromStore = true;
     if (this.isInitialized) {
         this.cachedState = state;
-        this.cachedSharedStateUpdateList.forEach(
-            ({ localKey, sharedState }) => {
-                this.cachedSharedState[localKey] = sharedState;
-            }
-        );
-        this.setState(newState);
-    }
-}
-
-function onSharedStateChanged(localKey, sharedStateData) {
-    const state = objectPath.get(
-        this.store.getState(),
-        this.fullPath.split("/")
-    );
-    const newState = { ...state };
-    objectPath.set(newState, localKey, sharedStateData);
-    this.receivedStateUpdateFromStore = true;
-    if (this.isInitialized) {
-        this.cachedState = newState;
+        cachedSharedStateUpdateList.forEach(({ localKey, sharedState }) => {
+            this.cachedSharedState[localKey] = sharedState;
+        });
         this.setState(newState);
     }
 }
@@ -379,38 +360,16 @@ function setComponentInitState() {
 }
 
 function processSharedStates() {
-    const localKeys = Object.keys(this.options.sharedStates);
-    if (!localKeys.length) return;
-    localKeys.forEach(localKey => {
-        const sharedStateContainer = this.options.sharedStates[localKey];
-        const actionTypes = sharedStateContainer.actionTypes;
+    if (!is.array(this.sharedStates) || !this.sharedStates.length) return;
+    this.sharedStates.forEach(({ localKey, container }) => {
+        container.registerConsumer(this);
 
-        sharedStateContainer.registerConsumer(this);
-
-        objectPath.set(
-            this.initState,
-            localKey,
-            sharedStateContainer.initState
-        );
+        objectPath.set(this.initState, localKey, container.initState);
 
         this.componentInstance.state = this.initState;
         this.cachedState = this.initState;
 
-        this.cachedSharedState[localKey] = sharedStateContainer.initState;
-
-        if (is.array(actionTypes) && actionTypes.length) {
-            actionTypes.forEach(actionType => {
-                this.sharedStateContainersList[
-                    actionType
-                ] = sharedStateContainer;
-            });
-        } else if (actionTypes && is.object(actionTypes)) {
-            Object.keys(actionTypes).forEach(key => {
-                this.sharedStateContainersList[
-                    actionTypes[key]
-                ] = sharedStateContainer;
-            });
-        }
+        this.cachedSharedState[localKey] = container.initState;
     });
 }
 

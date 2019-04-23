@@ -26,7 +26,7 @@ class SharedStateContainer {
         this.actionTypes = actionTypes
             ? is.array(actionTypes)
                 ? actionTypes
-                : Object.keys(actionTypes).map(key => this.actionTypes[key])
+                : Object.keys(actionTypes).map(key => actionTypes[key])
             : [];
         this.namespace = namespace;
         this.reducer = reducer;
@@ -46,8 +46,8 @@ class SharedStateContainer {
     }
 
     registerConsumer(componentManager) {
-        this.pathRegistry.add(componentManager.fullPath);
         componentManager.on("init", appContainer => {
+            this.pathRegistry.add(componentManager.fullPath);
             init.call(this, appContainer);
         });
     }

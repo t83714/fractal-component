@@ -53,7 +53,7 @@ export function put(sagaItem, action, relativeDispatchPath = "") {
     let isAbsolutePath = false;
 
     if (relativeDispatchPath === "") {
-        const idx = getSharedStateIndexByActionType(action.type);
+        const idx = getSharedStateIndexByActionType(action.type, sagaItem);
         if (idx !== -1 && sharedStates) {
             // --- send shared states related actions to shared states container directly
             isAbsolutePath = true;
