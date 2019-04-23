@@ -1,5 +1,5 @@
 {
-  "name": "fractal-component-exampleapp",
+  "name": "fractal-component-exampleapp-sharedstate",
   "private": true,
   "version": "1.0.0",
   "scripts": {
@@ -14,9 +14,6 @@
     "profile": "webpack --mode=production --profile --json > dist/stats.json && webpack-bundle-analyzer dist/stats.json"
   },
   "dependencies": {
-    "color": "^3.0.0",
-    "jss": "^9.8.7",
-    "jss-preset-default": "^4.5.0",
     "prop-types": "~15.6.0",
     "react": "~16.8.0",
     "react-dom": "~16.8.0",
