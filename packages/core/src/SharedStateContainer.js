@@ -5,6 +5,7 @@ import PathRegistry from "./PathRegistry";
 export const defaultOptions = {
     initState: {},
     reducer: null,
+    saga: null,
     actionTypes: {},
     namespace: "",
     persistState: true
@@ -29,7 +30,6 @@ class SharedStateContainer {
                 : Object.keys(actionTypes).map(key => actionTypes[key])
             : [];
         this.namespace = namespace;
-        this.reducer = reducer;
         this.appContainer = null;
         this.initState = initState;
         this.isInitialized = false;
@@ -77,10 +77,18 @@ class SharedStateContainer {
         if (
             this.appContainer &&
             this.appContainer.reducerRegistry &&
-            this.reducer &&
-            is.func(this.reducer)
+            this.options.reducer &&
+            is.func(this.options.reducer)
         ) {
             this.appContainer.reducerRegistry.deregister(this.fullPath);
+        }
+        if (
+            this.appContainer &&
+            this.appContainer.sagaRegistry &&
+            this.options.saga &&
+            is.func(this.options.saga)
+        ) {
+            this.appContainer.sagaRegistry.deregister(this.fullPath);
         }
         this.pathRegistry.destroy();
         this.appContainer = null;
@@ -94,11 +102,16 @@ function init(appContainer) {
     this.appContainer = appContainer;
     appContainer.namespaceRegistry.registerComponentManager(this);
     if (this.options.reducer && is.func(this.options.reducer)) {
-        appContainer.reducerRegistry.register(this.reducer.bind(this), {
+        appContainer.reducerRegistry.register(this.options.reducer.bind(this), {
             initState: this.initState,
             path: this.fullPath,
-            namespace: this.namespace,
-            allowedIncomingMulticastActionTypes: this.actionTypes
+            namespace: this.namespace
+        });
+    }
+    if (this.options.saga && is.func(this.options.saga)) {
+        appContainer.sagaRegistry.register(this.options.saga.bind(this), {
+            path: this.fullPath,
+            namespace: this.namespace
         });
     }
 }

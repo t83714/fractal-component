@@ -53,6 +53,7 @@ export interface SharedStateContainerOptions {
      */
     actionTypes?: symbol[] | object;
     reducer: Reducer;
+    saga?: GeneratorFunction;
     persistState?: boolean;
 }
 
