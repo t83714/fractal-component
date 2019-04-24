@@ -96,7 +96,8 @@ function init(appContainer) {
         appContainer.reducerRegistry.register(this.options.reducer.bind(this), {
             initState: this.initState,
             path: this.fullPath,
-            namespace: this.namespace
+            namespace: this.namespace,
+            allowedIncomingMulticastActionTypes: this.actionTypes
         });
     }
 }
