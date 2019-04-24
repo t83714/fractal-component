@@ -10,7 +10,6 @@ declare class SharedStateContainer {
     options: SharedStateContainerOptions;
     actionTypes: symbol[];
     namespace: string;
-    reducer: Reducer;
 
     appContainer: AppContainer;
 
@@ -53,7 +52,6 @@ export interface SharedStateContainerOptions {
      */
     actionTypes?: symbol[] | object;
     reducer: Reducer;
-    saga?: GeneratorFunction;
     persistState?: boolean;
 }
 

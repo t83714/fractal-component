@@ -5,7 +5,6 @@ import PathRegistry from "./PathRegistry";
 export const defaultOptions = {
     initState: {},
     reducer: null,
-    saga: null,
     actionTypes: {},
     namespace: "",
     persistState: true
@@ -82,14 +81,6 @@ class SharedStateContainer {
         ) {
             this.appContainer.reducerRegistry.deregister(this.fullPath);
         }
-        if (
-            this.appContainer &&
-            this.appContainer.sagaRegistry &&
-            this.options.saga &&
-            is.func(this.options.saga)
-        ) {
-            this.appContainer.sagaRegistry.deregister(this.fullPath);
-        }
         this.pathRegistry.destroy();
         this.appContainer = null;
         this.isInitialized = false;
@@ -104,12 +95,6 @@ function init(appContainer) {
     if (this.options.reducer && is.func(this.options.reducer)) {
         appContainer.reducerRegistry.register(this.options.reducer.bind(this), {
             initState: this.initState,
-            path: this.fullPath,
-            namespace: this.namespace
-        });
-    }
-    if (this.options.saga && is.func(this.options.saga)) {
-        appContainer.sagaRegistry.register(this.options.saga.bind(this), {
             path: this.fullPath,
             namespace: this.namespace
         });
