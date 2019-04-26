@@ -97,7 +97,7 @@ function init(appContainer) {
             initState: this.initState,
             path: this.fullPath,
             namespace: this.namespace,
-            allowedIncomingMulticastActionTypes: this.actionTypes
+            allowedIncomingMulticastActionTypes: null
         });
     }
 }
