@@ -4,14 +4,10 @@ import * as is from "./utils/is";
 export { is, getPackageName, getPackageVersion };
 
 let devMode = false;
-if (
-    typeof process === "object" &&
-    is.notUndef(process.env) &&
-    is.notUndef(process.env.NODE_ENV) &&
-    process.env.NODE_ENV === "development"
-) {
-    devMode = true;
-}
+try {
+    devMode = process.env.NODE_ENV === "development";
+    // eslint-disable-next-line no-empty
+} catch (e) {}
 
 let IS_NODE = null;
 
