@@ -1,9 +1,9 @@
-import pkg from "../../package.json";
-
 export const getPackageName = function() {
-    return pkg.name;
+    // eslint-disable-next-line no-undef
+    return __PACKAGE_NAME__;
 };
 
 export const getPackageVersion = function() {
-    return pkg.version;
+    // eslint-disable-next-line no-undef
+    return __PACKAGE_VERSION__;
 };
