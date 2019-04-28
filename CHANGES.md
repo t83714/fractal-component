@@ -1,3 +1,17 @@
+## 4.2.0
+
+- Optimise bundle size
+- Fixed the `cannot locate os module` issue with React Native's Metro bundler
+- Expose `is` utils directly
+- Added utils.isInReactNative function
+- Build browser ES module import compitible mjs bundle. 
+
+e.g.:
+```html
+<script type="module" src="https://unpkg.com/fractal-component@latest/dist/fractal-component.esm.mjs"></script>
+```
+see: https://developers.google.com/web/fundamentals/primers/modules
+
 ## 4.1.3
 
 - Fixed: Cleaned up `cachedState` reference when component is unmonted

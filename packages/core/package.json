@@ -1,6 +1,6 @@
 {
   "name": "fractal-component",
-  "version": "4.1.3",
+  "version": "4.2.0",
   "description": "`fractal-component` is a javascript library that can help you to encapsulate decoupled resuable UI component easily",
   "main": "dist/fractal-component.cjs.js",
   "module": "dist/fractal-component.esm.js",
