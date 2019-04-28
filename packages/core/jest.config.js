@@ -1,6 +1,8 @@
 // For a detailed explanation regarding each configuration property, visit:
 // https://jestjs.io/docs/en/configuration.html
 
+const pkg = require("./package.json");
+
 module.exports = {
     // All imported modules in your tests should be mocked automatically
     // automock: false,
@@ -59,6 +61,12 @@ module.exports = {
 
     // A set of global variables that need to be available in all test environments
     // globals: {},
+
+    globals: {
+        __PACKAGE_NAME__: pkg.name,
+        __PACKAGE_VERSION__: pkg.version,
+        __REACT_NATIVE_BUNDLE__: false
+    },
 
     // An array of directory names to be searched recursively up from the requiring module's location
     // moduleDirectories: [
