@@ -10,6 +10,8 @@ export function isDevMode(): boolean;
 
 export function isInNode(): boolean;
 
+export function isInReactNative(): boolean;
+
 export function getMachineInfo(): {
     pid?: number;
     macAddr?: string;
