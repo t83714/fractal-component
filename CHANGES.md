@@ -1,3 +1,10 @@
+## 4.2.0
+
+- Optimise bundle size
+- Fixed the `cannot locate os module` issue with React Native's Metro bundler
+- Expose `is` utils directly
+- Added utils.isInReactNative function
+
 ## 4.1.3
 
 - Fixed: Cleaned up `cachedState` reference when component is unmonted

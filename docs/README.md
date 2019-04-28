@@ -8,6 +8,7 @@
   - [ActionForwarder](./api/ActionForwarder.md)
   - [utils](./api/utils.md)
   - [AppContainerUtils](./api/AppContainerUtils.md)
+- [Changelog](../CHANGES.md)
 - [Beginner Tutorial](./Introduction/BeginnerTutorial/README.md)
     - [1. Overview](./Introduction/BeginnerTutorial/Overview.md)
     - [2. InitialSetup](./Introduction/BeginnerTutorial/InitialSetup.md)
