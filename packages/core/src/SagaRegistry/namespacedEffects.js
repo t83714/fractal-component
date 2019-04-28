@@ -40,7 +40,7 @@ function getSharedStateIndexByActionType(actionType, sagaItem) {
     let { sharedStates } = sagaItem;
     if (!sharedStates) sharedStates = [];
     for (let i = 0; i < sharedStates.length; i++) {
-        if (sharedStates.container.supportActionType(actionType) === true)
+        if (sharedStates[i].container.supportActionType(actionType) === true)
             return i;
     }
     return -1;
