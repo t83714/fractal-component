@@ -64,7 +64,8 @@ module.exports = {
 
     globals: {
         __PACKAGE_NAME__: pkg.name,
-        __PACKAGE_VERSION__: pkg.version
+        __PACKAGE_VERSION__: pkg.version,
+        __REACT_NATIVE_BUNDLE__: false
     },
 
     // An array of directory names to be searched recursively up from the requiring module's location
