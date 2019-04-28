@@ -1,3 +1,7 @@
+## 4.2.1
+
+- Will not fix React Native Bundle to `production` mode (React Native Metro Bundler will set env probably).
+
 ## 4.2.0
 
 - Optimise bundle size

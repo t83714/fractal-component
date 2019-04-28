@@ -136,7 +136,6 @@ export default [
             format: "cjs",
             file: "dist/" + pkg.name + ".react-native.js"
         },
-        env: "production",
         reactNative: true
     }),
     // --- UMD Development
