@@ -20,6 +20,11 @@ export const isInNode = function() {
     return IS_NODE;
 };
 
+export const isInReactNative = function() {
+    // eslint-disable-next-line no-undef
+    return __REACT_NATIVE_BUNDLE__;
+};
+
 /**
  * Modified from https://github.com/adamhalasz/uniqid
  */

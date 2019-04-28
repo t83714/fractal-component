@@ -55,6 +55,16 @@ const createConfig = ({
             reactNative &&
                 replace({
                     include: "./**",
+                    __REACT_NATIVE_BUNDLE__: "true"
+                }),
+            !reactNative &&
+                replace({
+                    include: "./**",
+                    __REACT_NATIVE_BUNDLE__: "false"
+                }),
+            reactNative &&
+                replace({
+                    include: "./**",
                     'require("os").networkInterfaces()': "({})",
                     delimiters: ["", ""]
                 }),
