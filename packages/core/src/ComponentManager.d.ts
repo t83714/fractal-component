@@ -15,6 +15,7 @@ declare class ComponentManager {
     componentInstance: ManageableComponent;
     emitter: Emitter;
     appContrainer: AppContainer;
+    initState?: object;
     store: Store;
     options: ManageableComponentOptions;
     namespace: string;

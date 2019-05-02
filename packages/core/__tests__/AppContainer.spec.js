@@ -37,9 +37,8 @@ test("Use devtool compose func by default in development mode", () => {
     const { compose } = require("redux");
     utils.isDevMode.mockImplementation(() => true);
     const devtoolComposer = jest.fn(compose);
-    global.window = {
-        __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: () => devtoolComposer
-    };
+    global.window["__REDUX_DEVTOOLS_EXTENSION_COMPOSE__"] = () =>
+        devtoolComposer;
     new AppContainer();
     expect(devtoolComposer).toHaveBeenCalledTimes(1);
 });
@@ -61,9 +60,8 @@ test("Use devtool compose func in production mode if `reduxDevToolsDevOnly` is f
     const { compose } = require("redux");
     utils.isDevMode.mockImplementation(() => false);
     const devtoolComposer = jest.fn(compose);
-    global.window = {
-        __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: () => devtoolComposer
-    };
+    global.window["__REDUX_DEVTOOLS_EXTENSION_COMPOSE__"] = () =>
+        devtoolComposer;
     new AppContainer({
         reduxDevToolsDevOnly: false
     });
@@ -75,9 +73,7 @@ test("Default devTool `actionSanitizer` & `predicate` option should be used if u
     const { compose } = require("redux");
     utils.isDevMode.mockImplementation(() => true);
     const devComposeCreator = jest.fn(() => compose);
-    global.window = {
-        __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: devComposeCreator
-    };
+    global.window["__REDUX_DEVTOOLS_EXTENSION_COMPOSE__"] = devComposeCreator;
     new AppContainer({
         devToolOptions: {}
     });
@@ -91,9 +87,7 @@ test("Default devTool `actionSanitizer` & `predicate` option can be replaced if 
     const { compose } = require("redux");
     utils.isDevMode.mockImplementation(() => true);
     const devComposeCreator = jest.fn(() => compose);
-    global.window = {
-        __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: devComposeCreator
-    };
+    global.window["__REDUX_DEVTOOLS_EXTENSION_COMPOSE__"] = devComposeCreator;
     const actionSanitizer = Symbol("userActionSanitizer");
     const predicate = Symbol("userPredicate");
     new AppContainer({

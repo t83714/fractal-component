@@ -1,6 +1,6 @@
 import AppContainer from "./AppContainer";
 import { log, is, isDevMode, getPackageName } from "./utils";
-import ComponentManager from "fractal-component/src/ComponentManager";
+import ComponentManager from "./ComponentManager";
 
 let APP_CONTAINER_KEY = "appContainer";
 let defaultAppContainer = null;

@@ -24,10 +24,10 @@ function processInitState(state, action) {
             // --- has initialised
             // --- force component.state to refresh
             const existingData = objectPath.get(state, pathItems);
-            return objectPathImmutable.assign(state, pathItems, existingData);
+            return objectPathImmutable.merge(state, pathItems, existingData);
         }
     }
-    return objectPathImmutable.assign(state, pathItems, data);
+    return objectPathImmutable.merge(state, pathItems, data);
 }
 
 /**

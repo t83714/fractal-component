@@ -20,7 +20,7 @@ import {
 } from "redux-saga";
 import objectPath from "object-path";
 import { PathContext } from "../PathRegistry";
-import { is, log, symbolToString } from "../utils";
+import { is, log, symbolToString, shallowCopy } from "../utils";
 
 export function take(sagaItem, pattern) {
     if (!pattern)
@@ -86,9 +86,11 @@ export function put(sagaItem, action, relativeDispatchPath = "") {
     return oPut(namespacedAction);
 }
 
-function getStateDataByFullPath(state, fullPath) {
+function getStateDataByFullPath(state, fullPath, makeACopy = false) {
     const pathItems = fullPath.split("/");
-    return objectPath.get(state, pathItems);
+    const data = objectPath.get(state, pathItems);
+    if (!makeACopy) return data;
+    return shallowCopy(data);
 }
 
 export function select(sagaItem, selector, ...args) {
@@ -97,14 +99,16 @@ export function select(sagaItem, selector, ...args) {
         const { sharedStates } = sagaItem;
 
         const state = yield oSelect();
-        const namespacedState = { ...getStateDataByFullPath(state, path) };
+        const namespacedState = getStateDataByFullPath(state, path, true);
 
         if (is.array(sharedStates) && sharedStates.length) {
             // --- auto included shared state for namespacedState
             sharedStates.forEach(({ localKey, container }) => {
-                const sharedStateData = {
-                    ...getStateDataByFullPath(state, container.fullPath)
-                };
+                const sharedStateData = getStateDataByFullPath(
+                    state,
+                    container.fullPath,
+                    true
+                );
                 objectPath.set(namespacedState, localKey, sharedStateData);
             });
         }

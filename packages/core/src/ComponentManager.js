@@ -8,7 +8,8 @@ import {
     getPackageName,
     log,
     createClassNameGenerator,
-    symbolToString
+    symbolToString,
+    shallowCopy
 } from "./utils";
 import * as is from "./utils/is";
 
@@ -57,6 +58,7 @@ class ComponentManager {
         this.appContainer = null;
         this.store = null;
         this.receivedStateUpdateFromStore = false;
+        this.initState = this.options.initState;
         // --- save a referece to component state only
         // --- in order to determine whether the state is required to sync
         // --- as React's setState will always save a copy
@@ -292,7 +294,7 @@ class ComponentManager {
         this.componentInstance[COMPONENT_MANAGER_ACCESS_KEY] = null;
         this.componentInstance = null;
         this.sharedStates.forEach(({ container }) =>
-            container.deRegisterConsumer(this)
+            container.deregisterConsumer(this)
         );
     }
 }
@@ -315,13 +317,13 @@ function bindStoreListener() {
     if (state !== this.cachedState) {
         requireUpdate = true;
     }
-    const newState = { ...state };
+    const newState = shallowCopy(state);
     const cachedSharedStateUpdateList = [];
     this.sharedStates.forEach(({ localKey, container }) => {
         const sharedState = container.getStoreState();
+        objectPath.set(newState, localKey, sharedState);
         if (this.cachedSharedState[localKey] !== sharedState) {
             requireUpdate = true;
-            objectPath.set(newState, localKey, sharedState);
             cachedSharedStateUpdateList.push({
                 localKey,
                 sharedState
@@ -352,9 +354,9 @@ function setComponentInitState() {
     if (!initState) {
         initState = {};
     }
-    this.initState = { ...initState };
-    this.componentInstance.state = this.initState;
-    this.cachedState = this.initState;
+    this.initState = shallowCopy(initState);
+    this.componentInstance.state = shallowCopy(initState);
+    this.cachedState = this.componentInstance.state;
 
     processSharedStates.apply(this);
 }
@@ -364,10 +366,11 @@ function processSharedStates() {
     this.sharedStates.forEach(({ localKey, container }) => {
         container.registerConsumer(this);
 
-        objectPath.set(this.initState, localKey, container.initState);
-
-        this.componentInstance.state = this.initState;
-        this.cachedState = this.initState;
+        objectPath.set(
+            this.componentInstance.state,
+            localKey,
+            container.initState
+        );
 
         this.cachedSharedState[localKey] = container.initState;
     });
