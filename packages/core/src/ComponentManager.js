@@ -191,6 +191,8 @@ class ComponentManager {
         this.on("destroy", () => {
             this.destroy();
         });
+
+        this.dispatch = this.dispatch.bind(this);
     }
 
     on(type, handler) {
