@@ -99,9 +99,14 @@ export function select(sagaItem, selector, ...args) {
         const { sharedStates } = sagaItem;
 
         const state = yield oSelect();
-        const namespacedState = getStateDataByFullPath(state, path, true);
+        let namespacedState = getStateDataByFullPath(state, path, true);
 
         if (is.array(sharedStates) && sharedStates.length) {
+            /**
+             * When a component is created without a reducer, the state will be `undefined`.
+             * We need to set it to `{}` if at least one Shared State is available
+             */
+            if (is.undef(namespacedState)) namespacedState = {};
             // --- auto included shared state for namespacedState
             sharedStates.forEach(({ localKey, container }) => {
                 const sharedStateData = getStateDataByFullPath(

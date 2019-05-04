@@ -316,9 +316,20 @@ function bindStoreListener() {
     let requireUpdate = false;
 
     let state = objectPath.get(this.store.getState(), this.fullPath.split("/"));
-    if (state !== this.cachedState) {
-        requireUpdate = true;
+    /**
+     * When a component is created without a reducer, the state will be `undefined`.
+     * We need to set it to `{}` in case any Shared States are available
+     */
+    if (is.undef(state)) {
+        state = {};
+    } else {
+        if (state !== this.cachedState) {
+            requireUpdate = true;
+        }
     }
+
+    if (!requireUpdate && !this.sharedStates.length) return;
+
     const newState = shallowCopy(state);
     const cachedSharedStateUpdateList = [];
     this.sharedStates.forEach(({ localKey, container }) => {
@@ -358,7 +369,7 @@ function setComponentInitState() {
     }
     this.initState = shallowCopy(initState);
     this.componentInstance.state = shallowCopy(initState);
-    this.cachedState = this.componentInstance.state;
+    this.cachedState = this.initState;
 
     processSharedStates.apply(this);
 }
