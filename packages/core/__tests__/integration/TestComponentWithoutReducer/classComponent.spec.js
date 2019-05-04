@@ -4,7 +4,7 @@ import { act } from "react-dom/test-utils";
 import delay from "../../utils/delay";
 import {
     AppContainer,
-    useComponentManager,
+    ComponentManager,
     AppContainerContext
 } from "fractal-component";
 import * as actionTypes from "./actions/types";
@@ -21,26 +21,31 @@ let sagaRetrievedStateData = null;
 let componentLocalStateData = null;
 let componentDispatchFunc = null;
 
-const TestComponent = props => {
-    const [state, dispatch] = useComponentManager(props, {
-        namespace: "io.github.t83714/TestComponent",
-        sharedStates: {
-            TestSharedState
-        },
-        actionTypes,
-        saga
-    });
-    componentLocalStateData = state;
-    componentDispatchFunc = dispatch;
-    return <div>test!</div>;
-};
+class TestComponent extends React.Component {
+    constructor(props) {
+        super(props);
+        this.componentManager = new ComponentManager(this, {
+            namespace: "io.github.t83714/TestComponent",
+            sharedStates: {
+                TestSharedState
+            },
+            actionTypes,
+            saga
+        });
+    }
+
+    render() {
+        componentLocalStateData = this.state;
+        componentDispatchFunc = this.componentManager.dispatch;
+        return <div>test!</div>;
+    }
+}
+
+TestComponent.contextType = AppContainerContext;
 
 function* saga(effects) {
     yield effects.takeEvery(actionTypes.TAKE_STATE_SNAPSHOT, function*() {
-        const a = 1 + 1;
-        const x = yield effects.select();
         sagaRetrievedStateData = yield effects.select();
-        const b = 1 + 1;
     });
 }
 
