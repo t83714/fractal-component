@@ -8,7 +8,8 @@ import {
     getPackageName,
     log,
     createClassNameGenerator,
-    symbolToString
+    symbolToString,
+    shallowCopy
 } from "./utils";
 import * as is from "./utils/is";
 
@@ -23,7 +24,8 @@ export const defaultOptions = {
     persistState: true,
     //--- when `allowedIncomingMulticastActionTypes` is string
     //--- only "*" is accepted (means accepting any actionTypes)
-    allowedIncomingMulticastActionTypes: null
+    allowedIncomingMulticastActionTypes: null,
+    sharedStates: {}
 };
 
 const pkgName = getPackageName();
@@ -47,7 +49,8 @@ class ComponentManager {
 
         componentInstance[COMPONENT_MANAGER_ACCESS_KEY] = this;
 
-        this.emitter = mitt();
+        this.all = Object.create(null);
+        this.emitter = mitt(this.all);
 
         this.createClassNameGenerator = createClassNameGenerator.bind(this);
         this.componentInstance = componentInstance;
@@ -55,10 +58,18 @@ class ComponentManager {
         this.appContainer = null;
         this.store = null;
         this.receivedStateUpdateFromStore = false;
+        this.initState = this.options.initState;
         // --- save a referece to component state only
         // --- in order to determine whether the state is required to sync
         // --- as React's setState will always save a copy
         this.cachedState = null;
+        this.sharedStates = this.options.sharedStates
+            ? Object.keys(this.options.sharedStates).map(localKey => ({
+                  localKey,
+                  container: this.options.sharedStates[localKey]
+              }))
+            : [];
+        this.cachedSharedState = {};
 
         this.isInitialized = false;
         this.isDestroyed = false;
@@ -111,7 +122,7 @@ class ComponentManager {
 
         this.persistState = this.options.persistState;
 
-        this.fullNamespace = fullNamespace.bind(this)();
+        this.fullNamespace = fullNamespace.apply(this);
         this.allowedIncomingMulticastActionTypes = this.options.allowedIncomingMulticastActionTypes;
 
         // --- take over component's setState method
@@ -124,17 +135,31 @@ class ComponentManager {
             );
         };
 
-        setComponentInitState.apply(this);
+        this.getAppContainer = () => {
+            if (is.appContainer(appContainer)) return appContainer;
+            else return getAppContainer(this.componentInstance);
+        };
 
+        this.on("init", appContainer => {
+            // --- we should establish component Id as early as possible
+            if (!this.componentId) {
+                this.isAutoComponentId = true;
+                this.componentId = appContainer.componentManagerRegistry.createComponentId(
+                    this.namespacePrefix,
+                    this.namespace
+                );
+            }
+
+            this.fullPath = fullPath.apply(this);
+            this.fullLocalPath = fullLocalPath.apply(this);
+        });
+
+        setComponentInitState.apply(this);
         injectLifeHookers.apply(this);
 
-        this.on("init", () => {
-            if (is.appContainer(appContainer)) {
-                this.appContainer = appContainer;
-            } else {
-                this.appContainer = getAppContainer(this.componentInstance);
-            }
-            this.store = this.appContainer.store;
+        this.on("init", appContainer => {
+            this.appContainer = appContainer;
+            this.store = appContainer.store;
 
             // --- still not ready to setState but will set `receivedStateUpdateFromStore`
             // --- to decide if an initial update is required
@@ -142,18 +167,7 @@ class ComponentManager {
                 this.receivedStateUpdateFromStore = true;
             });
 
-            if (!this.componentId) {
-                this.isAutoComponentId = true;
-                this.componentId = this.appContainer.componentManagerRegistry.createComponentId(
-                    this.namespacePrefix,
-                    this.namespace
-                );
-            }
-
-            this.fullPath = fullPath.bind(this)();
-            this.fullLocalPath = fullLocalPath.bind(this)();
-
-            this.appContainer.componentManagerRegistry.register(this);
+            appContainer.componentManagerRegistry.register(this);
 
             if (!this.isInitialized && !this.isDestroyed) {
                 this.isInitialized = true;
@@ -177,6 +191,8 @@ class ComponentManager {
         this.on("destroy", () => {
             this.destroy();
         });
+
+        this.dispatch = this.dispatch.bind(this);
     }
 
     on(type, handler) {
@@ -184,17 +200,38 @@ class ComponentManager {
     }
 
     off(type) {
-        this.emitter.off(type);
+        if (typeof type === "undefined") {
+            this.all = Object.create(null);
+        }
+        delete this.all[type];
+    }
+
+    emit(type, evt) {
+        this.emitter.emit(type, evt);
     }
 
     dispatch(action, relativeDispatchPath = "") {
         if (!this.isInitialized) {
             throw new Error(initialisationErrorMsg);
         }
+
         const pc = new PathContext(this.fullPath);
+        let isAbsolutePath = false;
+
+        if (relativeDispatchPath === "") {
+            const idx = this.getSharedStateIndexByActionType(action.type);
+            if (idx !== -1) {
+                // --- send shared states related actions to shared states container directly
+                isAbsolutePath = true;
+                relativeDispatchPath = this.sharedStates[idx].container
+                    .fullPath;
+            }
+        }
+
         const namespacedAction = pc.convertNamespacedAction(
             action,
-            relativeDispatchPath
+            relativeDispatchPath,
+            isAbsolutePath
         );
 
         // --- query action Type's original namespace so that it can be serialised correctly if needed
@@ -223,10 +260,29 @@ class ComponentManager {
         return this.appContainer.namespaceRegistry.getData(this.namespace);
     }
 
+    isSharedStateAction(action) {
+        for (let i = 0; i < this.sharedStates.length; i++) {
+            if (this.sharedStates[i].container.supportAction(action) === true)
+                return true;
+        }
+        return false;
+    }
+
+    getSharedStateIndexByActionType(actionType) {
+        for (let i = 0; i < this.sharedStates.length; i++) {
+            if (
+                this.sharedStates[i].container.supportActionType(actionType) ===
+                true
+            )
+                return i;
+        }
+        return -1;
+    }
+
     destroy() {
         this.isDestroyed = true;
         if (!this.isInitialized) return;
-        this.off("*");
+        this.off();
         unsubscribeStoreListener.apply(this);
         if (this.appContainer && this.appContainer.componentManagerRegistry) {
             this.appContainer.componentManagerRegistry.deregister(this);
@@ -236,8 +292,12 @@ class ComponentManager {
         this.isInitialized = false;
         this.setState = null;
         this.cachedState = null;
+        this.cachedSharedState = {};
         this.componentInstance[COMPONENT_MANAGER_ACCESS_KEY] = null;
         this.componentInstance = null;
+        this.sharedStates.forEach(({ container }) =>
+            container.deregisterConsumer(this)
+        );
     }
 }
 
@@ -253,18 +313,49 @@ function unsubscribeStoreListener() {
 }
 
 function bindStoreListener() {
-    const state = objectPath.get(
-        this.store.getState(),
-        this.fullPath.split("/")
-    );
-    if (state === this.cachedState) return;
+    let requireUpdate = false;
+
+    let state = objectPath.get(this.store.getState(), this.fullPath.split("/"));
+    /**
+     * When a component is created without a reducer, the state will be `undefined`.
+     * We need to set it to `{}` in case any Shared States are available
+     */
+    if (is.undef(state)) {
+        state = {};
+    } else {
+        if (state !== this.cachedState) {
+            requireUpdate = true;
+        }
+    }
+
+    if (!requireUpdate && !this.sharedStates.length) return;
+
+    const newState = shallowCopy(state);
+    const cachedSharedStateUpdateList = [];
+    this.sharedStates.forEach(({ localKey, container }) => {
+        const sharedState = container.getStoreState();
+        objectPath.set(newState, localKey, sharedState);
+        if (this.cachedSharedState[localKey] !== sharedState) {
+            requireUpdate = true;
+            cachedSharedStateUpdateList.push({
+                localKey,
+                sharedState
+            });
+        }
+    });
+
+    if (!requireUpdate) return;
+
     // --- no state update before `isInitialized`
     // --- once `isInitialized`,
     // --- check this field to decide whether an initial this.setState call is needed
     this.receivedStateUpdateFromStore = true;
     if (this.isInitialized) {
         this.cachedState = state;
-        this.setState(state);
+        cachedSharedStateUpdateList.forEach(({ localKey, sharedState }) => {
+            this.cachedSharedState[localKey] = sharedState;
+        });
+        this.setState(newState);
     }
 }
 
@@ -276,9 +367,26 @@ function setComponentInitState() {
     if (!initState) {
         initState = {};
     }
-    this.initState = { ...initState };
-    this.componentInstance.state = this.initState;
+    this.initState = shallowCopy(initState);
+    this.componentInstance.state = shallowCopy(initState);
     this.cachedState = this.initState;
+
+    processSharedStates.apply(this);
+}
+
+function processSharedStates() {
+    if (!is.array(this.sharedStates) || !this.sharedStates.length) return;
+    this.sharedStates.forEach(({ localKey, container }) => {
+        container.registerConsumer(this);
+
+        objectPath.set(
+            this.componentInstance.state,
+            localKey,
+            container.initState
+        );
+
+        this.cachedSharedState[localKey] = container.initState;
+    });
 }
 
 function injectLifeHookers() {
@@ -296,7 +404,7 @@ function injectLifeHookers() {
     const componentManagerEmitter = this.emitter;
     this.componentInstance.render = () => {
         this.componentInstance.render = originalRender;
-        componentManagerEmitter.emit("init");
+        componentManagerEmitter.emit("init", this.getAppContainer());
         return originalRender.apply(this.componentInstance);
     };
     this.componentInstance.componentDidMount = () => {
@@ -349,11 +457,11 @@ function settleStringSetting(setting) {
     if (!setting) return "";
     if (typeof setting === "function") {
         try {
-            const value = setting.bind(
+            const value = setting.call(
                 this,
                 this.displayName,
                 this.componentInstance
-            )();
+            );
             if (!value) return "";
             return value;
         } catch (e) {

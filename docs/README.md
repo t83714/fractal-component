@@ -4,6 +4,7 @@
   - [ComponentManager](./api/ComponentManager.md)
   - [useComponentManager](./api/useComponentManager.md)
   - [ManageableComponentOptions](./api/ManageableComponentOptions.md)
+  - [SharedState](./api/SharedState.md)
   - [AppContainer](./api/AppContainer.md)
   - [ActionForwarder](./api/ActionForwarder.md)
   - [utils](./api/utils.md)

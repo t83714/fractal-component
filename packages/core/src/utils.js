@@ -140,3 +140,9 @@ export const createClassNameGenerator = function(namespace) {
 
 // --- avoid toString to be converted to ""+ by minifier
 export const symbolToString = s => Symbol.prototype.toString.apply(s);
+
+export const shallowCopy = data => {
+    if (is.array(data)) return data.slice();
+    if (is.object(data)) return { ...data };
+    return data;
+};

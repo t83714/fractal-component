@@ -5,26 +5,44 @@ import ComponetManager from "../ComponentManager";
 
 export default function useComponentManager(props, options) {
     const initState = options && options.initState ? options.initState : {};
-    const [state, setState] = useState(initState);
     const context = useContext(AppContainerContext);
     const componentName = (options && options.displayName) || "Component";
 
-    const [componentManager, dispatch, getNamespaceData] = useMemo(() => {
+    const [
+        componentManager,
+        dispatch,
+        getNamespaceData,
+        componentStub
+    ] = useMemo(() => {
         // --- will only run once
         const componentStub = getComponentStub(
+            initState,
             props,
             context,
-            setState,
+            () => {},
             componentName
         );
         const cm = new ComponetManager(componentStub, options);
+
+        return [
+            cm,
+            cm.dispatch.bind(cm),
+            cm.getNamespaceData.bind(cm),
+            componentStub
+        ];
+    }, []);
+
+    const [state, setState] = useState(componentStub.state);
+
+    useMemo(() => {
+        componentManager.setState = setState;
         /**
          * This is not the actual render function.
          * this render only trigger `ComponetManager` first stage init
          * then run a noop func
          */
         componentStub.render();
-        return [cm, cm.dispatch.bind(cm), cm.getNamespaceData.bind(cm)];
+        return null;
     }, []);
 
     useEffect(() => {

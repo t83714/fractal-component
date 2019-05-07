@@ -31,3 +31,4 @@ export function noop(): void;
 export function identity(v: any): any;
 export function createClassNameGenerator(): string;
 export function symbolToString(s: symbol): string;
+export function shallowCopy<T>(data: T): T;

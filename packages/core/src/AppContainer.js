@@ -9,7 +9,14 @@ import ActionRegistry from "./ActionRegistry";
 import NamespaceRegistry from "./NamespaceRegistry";
 import * as ReducerRegistryActionTypes from "./ReducerRegistry/actionTypes";
 import * as SagaRegistryActionTypes from "./SagaRegistry/actionTypes";
-import { isDevMode, log, is, symbolToString, uniqid } from "./utils";
+import {
+    isDevMode,
+    log,
+    is,
+    symbolToString,
+    uniqid,
+    shallowCopy
+} from "./utils";
 import ComponentManager from "./ComponentManager";
 
 const actionBlackList = Object.keys(ReducerRegistryActionTypes)
@@ -95,7 +102,7 @@ class AppContainer {
             this.reducerRegistry.createGlobalReducer(
                 containerCreationOptions.reducer
             ),
-            { ...containerCreationOptions.initState },
+            shallowCopy(containerCreationOptions.initState),
             composeEnhancers(applyMiddleware(...middlewares))
         );
 

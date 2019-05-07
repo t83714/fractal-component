@@ -121,6 +121,13 @@ Optional;
 
 Specify which actionTypes are allowed to be dispatched to this component. By Default, the component will not accept any incoming multicast actions. (Direct address actions will still be delivered). when `allowedIncomingMulticastActionTypes` is string only "*" is accepted (means accepting any actionTypes).
 
+### Option `sharedStates`
+
+Optional; `Object`;
+
+You can specify all [SharedState](./SharedState.md) that you want to be mapped into your component.
+
+
 ### Option `namespaceInitCallback`
 
 Optional; `Function`; 

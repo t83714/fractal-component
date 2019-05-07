@@ -5,6 +5,8 @@ import { is } from "./utils";
 import AppContainerContext from "./AppContainerContext";
 import ComponentManager from "./ComponentManager";
 import useComponentManager from "./useComponentManager";
+import SharedStateContainer from "./SharedStateContainer";
+import createSharedState from "./createSharedState";
 
 export {
     AppContainer,
@@ -14,5 +16,7 @@ export {
     ActionForwarder,
     ComponentManager,
     useComponentManager,
+    SharedStateContainer,
+    createSharedState,
     is
 };

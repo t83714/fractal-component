@@ -1,3 +1,7 @@
+## 4.3.0
+
+- Introduced `SharedState` that allows to share state data among components via [SharedState](https://t83714.github.io/fractal-component/api/SharedState.html)
+
 ## 4.2.1
 
 - Will not fix React Native Bundle to `production` mode (React Native Metro Bundler will set env probably).

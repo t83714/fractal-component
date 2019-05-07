@@ -5,7 +5,8 @@
     "eslint": "yarn wsrun eslint",
     "dtslint": "wsrun -p 'fractal-component' -p '@fractal-components/*' --stages dtslint",
     "build": "wsrun -p 'fractal-component' --stages build && wsrun -p '@fractal-components/*' --stages build && wsrun -p 'fractal-component-*' --stages build",
-    "test": "npm run test --prefix packages/core",
+    "test": "jest",
+    "test-ci": "jest --coverage --coverageReporters=text-lcov | coveralls",
     "gitbook": "rimraf ./docs/_book && gitbook build ./docs",
     "gitbook-dev": "rimraf ./docs/_book && gitbook serve ./docs"
   },
@@ -51,7 +52,8 @@
     "rollup-plugin-json": "^4.0.0",
     "rollup-plugin-node-resolve": "^4.2.3",
     "rollup-plugin-replace": "^2.2.0",
-    "wsrun": "^3.6.2"
+    "wsrun": "^3.6.2",
+    "coveralls": "^3.0.3"
   },
   "workspaces": [
     "examples/*",

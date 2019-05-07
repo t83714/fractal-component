@@ -56,7 +56,11 @@ export class PathContext {
         return this.compressPath(pathItems);
     }
 
-    convertNamespacedAction(action, relativeDispatchPath) {
+    convertNamespacedAction(
+        action,
+        relativeOrAbsoluteDispatchPath,
+        isAbsolute = false
+    ) {
         if (!is.object(action)) {
             throw new Error(
                 `Tried to dispatch action in invalid type: ${typeof action}`
@@ -64,17 +68,17 @@ export class PathContext {
         }
         if (!is.symbol(action.type)) {
             throw new Error(
-                `action.type cannot be ${typeof action.type} and must be a Symbol`
+                `action.type cannot be ${typeof action.type} and must be a symbol`
             );
         }
 
-        let path = normalize(relativeDispatchPath);
+        let path = normalize(relativeOrAbsoluteDispatchPath);
         let isMulticast = false;
         if (path.length && path[path.length - 1] === "*") {
             isMulticast = true;
             path = normalize(path.substring(0, path.length - 1));
         }
-        const absolutePath = this.resolve(path);
+        const absolutePath = isAbsolute ? path : this.resolve(path);
         const newAction = {
             ...action,
             [NAMESPACED]: true,
@@ -119,6 +123,11 @@ export default class PathRegistry {
         }
         if (is.notUndef(data)) this.dataStore[path] = data;
         return path;
+    }
+
+    isEmpty() {
+        if (this.paths.length) return false;
+        return true;
     }
 
     getPathData(path) {
