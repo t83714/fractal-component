@@ -1,4 +1,4 @@
-# An example app built fractal-component (Demonstrate)
+# An example app built fractal-component (Demonstrate SharedState)
 
 To run the example App:
 
