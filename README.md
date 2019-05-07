@@ -49,6 +49,7 @@ Alternatively, you may use the UMD builds from [unpkg](https://unpkg.com/fractal
     - [ComponentManager](https://t83714.github.io/fractal-component/api/ComponentManager.html)
     - [useComponentManager Hook](https://t83714.github.io/fractal-component/api/useComponentManager.html)
     - [ManageableComponentOptions](https://t83714.github.io/fractal-component/api/ManageableComponentOptions.html) 
+    - [SharedState](https://t83714.github.io/fractal-component/api/SharedState.html)
     - [AppContainer](https://t83714.github.io/fractal-component/api/AppContainer.html)
     - [ActionForwarder](https://t83714.github.io/fractal-component/api/ActionForwarder.html)
     - [AppContainerUtils](https://t83714.github.io/fractal-component/api/AppContainerUtils.html)
@@ -84,6 +85,7 @@ Alternatively, you may use the UMD builds from [unpkg](https://unpkg.com/fractal
 
 ** New: Added React [New Context API support](https://reactjs.org/docs/context.html) (Requires React Version 16.6.0 and above)
 ** New: Support Function Component via [New Hooks API](https://reactjs.org/docs/hooks-custom.html) (Requires React Version 16.8.0 and above)
+** New: Allows to share state data among components via [SharedState](https://t83714.github.io/fractal-component/api/SharedState.html)
 
 Please find the complete Changelog from [here](https://github.com/t83714/fractal-component/blob/master/CHANGES.md).
 
