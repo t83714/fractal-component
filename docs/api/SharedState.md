@@ -1,7 +1,7 @@
 ## SharedState
 
 - [`Overview`](#overview)
-- [`Define Shared State`](#define-shared-stater)
+- [`Define Shared State`](#define-shared-state)
 - [`Use Shared State`](#use-shared-state)
 - [`Example App`](#example-app)
 
