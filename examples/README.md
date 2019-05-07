@@ -9,3 +9,4 @@
 - [RandomGifPairPair](RandomGifPairPair): NPM published version of the sample `RandomGifPairPair` component. Built using `RandomGifPair` component.
 - [Counter](Counter): NPM published version of the sample `Counter` component
 - [ToggleButton](ToggleButton): NPM published version of the sample `ToggleButton` component
+- [exampleAppSharedState](exampleAppSharedState): ExampleApp for [SharedState](https://t83714.github.io/fractal-component/api/SharedState.html)
