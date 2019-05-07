@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>AppContainer · fractal-component</title>
+        <title>SharedState · fractal-component</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -57,10 +57,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="ActionForwarder.html" />
+    <link rel="next" href="AppContainer.html" />
     
     
-    <link rel="prev" href="SharedState.html" />
+    <link rel="prev" href="ManageableComponentOptions.html" />
     
 
     </head>
@@ -157,7 +157,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.2.4" data-path="SharedState.html">
+        <li class="chapter active" data-level="1.2.4" data-path="SharedState.html">
             
                 <a href="SharedState.html">
             
@@ -170,7 +170,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.2.5" data-path="AppContainer.html">
+        <li class="chapter " data-level="1.2.5" data-path="AppContainer.html">
             
                 <a href="AppContainer.html">
             
@@ -638,7 +638,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >AppContainer</a>
+        <a href=".." >SharedState</a>
     </h1>
 </div>
 
@@ -653,80 +653,105 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h2 id="appcontainer">AppContainer</h2>
+                                <h2 id="sharedstate">SharedState</h2>
 <ul>
 <li><a href="#overview"><code>Overview</code></a></li>
-<li><a href="#initialisation--constructor"><code>Initialisation / Constructor</code></a></li>
-<li><a href="#other-methods"><code>Other Methods</code></a><ul>
-<li><a href="#deregistercomponentcomponent"><code>deregisterComponent(component)</code></a></li>
-<li><a href="#destroy"><code>destroy()</code></a></li>
-<li><a href="#subscribeactiondispatch"><code>subscribeActionDispatch</code></a></li>
-<li><a href="#waitforactionsuntil"><code>waitForActionsUntil</code></a></li>
-<li><a href="#dispatch"><code>dispatch</code></a></li>
-<li><a href="#serialiseaction"><code>serialiseAction</code></a></li>
-<li><a href="#deserialiseaction"><code>deserialiseAction</code></a></li>
-</ul>
-</li>
+<li><a href="#define-shared-state"><code>Define Shared State</code></a></li>
+<li><a href="#use-shared-state"><code>Use Shared State</code></a></li>
+<li><a href="#example-app"><code>Example App</code></a></li>
 </ul>
 <h3 id="overview">Overview</h3>
-<p><code>AppContainer</code> is the container holds the entire application&apos;s runtime state via a <a href="https://redux.js.org/" target="_blank">Redux store</a>. It also manages the application structure information via various <code>registries</code> including:</p>
-<ul>
-<li><code>NamespaceRegistry</code></li>
-<li><code>ActionRegistry</code></li>
-<li><code>ComponentRegistry</code></li>
-<li><code>ReducerRegistry</code></li>
-<li><code>SagaRegistry</code></li>
-<li><code>SagaMonitorRegistry</code></li>
-</ul>
-<p>You will need at least one <code>AppContainer</code> for your App (For <code>Server-Side Rendering</code>, you may want to create more than one <code>AppContainer</code> to serve different requests). If you don&apos;t create an <code>AppContainer</code> for your App, the system will automatically create one for you when the <a href="ComponentManager.html">ComponentManager</a> tries to locate one during the <code>Component Manager</code> creation.</p>
-<h3 id="initialisation--constructor"><code>Initialisation / Constructor</code></h3>
-<p>To create an <code>AppContainer</code>, you can simply:</p>
-<pre><code>import { AppContainer } from &quot;fractal-component&quot;;
-const appContainer = new AppContainer({
-    ...containerConfigOptions
+<p><code>fractal-component</code> allows you to encapsulate the component state data in a namespace container. However, sometimes, you may want to share state data among encapsulated components. <code>SharedState</code> allows you to define a piece of state data with its own reducer and share it with other components. <code>fractal-component</code> handles the sharing &amp; mapping process in a transparent way. i.e. the shared state data will be mapped into target component local state data automacally as if it was part of the component original state data. In the meantime. there is only one copy of the shared state data stored in the global redux store.</p>
+<p>Like component state data, you can only update shared state data via its own namespaced reducer by dispatching action defined in the <code>SharedState</code>&apos;s namespace (i.e. the target component reducer can&apos;t see the shared state data). To make it easier to deliver action to the <code>SharedState</code>&apos;s namespace, if you dispatch an action that defined by the <code>SharedState</code> state without specifying the <a href="ComponentManager.html#dispatch">dispatch path</a>, the action will be delivered to the <code>SharedState</code>&apos;s reducer directly.</p>
+<p><code>SharedState</code> requires <code>fractal-component</code> <code>4.3.0</code> or higher.</p>
+<h3 id="define-shared-state">Define Shared State</h3>
+<p>You can define <code>SharedState</code> by <code>createSharedState()</code> function. </p>
+<p>Here is an example:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> { createSharedState } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;fractal-component&quot;</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> actions <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./actions&quot;</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> actionTypes <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./actions/types&quot;</span>;
+<span class="hljs-keyword">import</span> reducer <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./reducers&quot;</span>;
+
+<span class="hljs-keyword">const</span> SharedStateA = createSharedState({
+    <span class="hljs-comment">// --- the namespace of the shared state container</span>
+    namespace: <span class="hljs-string">&quot;io.github.t83714/SharedStateA&quot;</span>,
+    <span class="hljs-comment">// --- all action types defined by the shared state container</span>
+    actionTypes,
+    <span class="hljs-comment">// --- the shared state reducer</span>
+    reducer,
+    <span class="hljs-comment">// --- initial state data of the sahred state</span>
+    initState: {
+        b: <span class="hljs-number">2</span>
+    }
 });
-</code></pre><p>The constructor accepts the configOptions objects with the following options:</p>
-<ul>
-<li><code>initState</code>: Optional; You can supply an object as the initial state data for the Redux store. This option is mainly used for <code>Server-Side Rendering</code> (SSR) --- when you want to restore the application state at client side from a Redux store snapshot (see <a href="https://github.com/t83714/fractal-component/tree/master/examples/exampleAppSSR" target="_blank">example SSR app</a>).</li>
-<li><code>reducer</code>: Optional; You can opt to supply a global <a href="https://redux.js.org/basics/reducers" target="_blank">reducer</a> function that will be called after all component reducers. You highly unlikely need this as you can share always pack your global level logic into your component.</li>
-<li><code>middlewares</code>: Optional; You can supply extra <a href="https://redux.js.org/advanced/middleware" target="_blank">Redux middlewares</a> to be used by the <code>Redux store</code> created by <code>AppContainer</code>.</li>
-<li><code>reduxDevToolsDevOnly</code>: Optional; Boolean; Default: <code>true</code>. Indicate whether <a href="https://github.com/zalmoxisus/redux-devtools-extension" target="_blank">Redux DevTools</a> is allowed to connect to your App under <code>development</code> mode only. Set to <code>false</code> will allow your App to be connected under <code>production</code> mode as well.</li>
-<li><code>devToolOptions</code>: Optional; You can further config the <a href="https://github.com/zalmoxisus/redux-devtools-extension" target="_blank">Redux DevTools</a> that connects to your App via this option. More information of all available config options can be found from <a href="https://github.com/zalmoxisus/redux-devtools-extension/blob/master/docs/API/Arguments.md" target="_blank">here</a></li>
-<li><code>sagaMiddlewareOptions</code>: Optional; You can specify the options of the <code>Saga Middleware</code> that is created for connecting the <code>Sagas</code> to the <code>Redux Store</code>. More information of all available config options can be found from <a href="https://redux-saga.js.org/docs/api/#createsagamiddlewareoptions" target="_blank">here</a></li>
-</ul>
-<h3 id="other-methods"><code>Other Methods</code></h3>
-<h4 id="destroy"><code>destroy()</code></h4>
-<p>Destroy <code>AppContainer</code>. Mainly for use cases when you need to create more than one <code>AppContainers</code>. e.g. Server-Side Rendering (SSR). <code>destroy()</code> allows you to clean-up all component resources &amp; cancel all sagas manually.</p>
-<h4 id="subscribeactiondispatch"><code>subscribeActionDispatch</code></h4>
-<p>The method&apos;s type declaration is shown as below:</p>
-<pre><code class="lang-typescript">subscribeActionDispatch(func: (Action) =&gt; <span class="hljs-built_in">void</span>): <span class="hljs-built_in">void</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> SharedStateA;
+<span class="hljs-keyword">export</span> { actionTypes, actions };
 </code></pre>
-<p>This method is mainly used for Server-Side Rendering (SSR). i.e. To decide to when the initial data loading is finised and when it is ready to create a snapshot of the redux store via <code>appContainer.store.getState()</code> You shouldn&apos;t need it for implmenting any logic. </p>
-<h4 id="waitforactionsuntil"><code>waitForActionsUntil</code></h4>
-<p>The method&apos;s type declaration is shown as below:</p>
-<pre><code class="lang-typescript">waitForActionsUntil(
-    testerFunc: (Action) =&gt; <span class="hljs-built_in">boolean</span>,
-    timeout?: <span class="hljs-built_in">number</span>
-): Promise&lt;<span class="hljs-built_in">void</span>&gt;;
+<h3 id="use-shared-state">Use Shared State</h3>
+<p>You can specify SharedState that you want to be mapped into your component when create the component via <a href="ManageableComponentOptions#option-sharedstates">sharedStates</a> option. </p>
+<p>Here is an example:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> { ComponentManager, AppContainerContext } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;fractal-component&quot;</span>;
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ComponentA</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+    <span class="hljs-keyword">constructor</span>(props) {
+        <span class="hljs-keyword">super</span>(props);
+        <span class="hljs-keyword">this</span>.state = initState();
+        <span class="hljs-keyword">this</span>.componentManager = <span class="hljs-keyword">new</span> ComponentManager(<span class="hljs-keyword">this</span>, {
+            namespace: <span class="hljs-string">&quot;io.github.t83714/ComponentA&quot;</span>,
+            initState: {
+                a: <span class="hljs-number">1</span>
+            },
+            sharedStates: {
+                SharedStateA
+            }
+        });
+    }
+
+    render() {
+        <span class="hljs-comment">/**
+         * this.state will be 
+         * {
+         *   a: 1,
+         *   SharedStateA: {
+         *     b: 2
+         *   }
+         * }
+        */</span>
+    }
+}
+ComponentA.contextType = AppContainerContext;
 </code></pre>
-<p>An utility mainly designed for Server-Side Rendering (SSR). see <a href="https://github.com/t83714/fractal-component/tree/master/examples/exampleAppSSR" target="_blank">example app</a></p>
-<h4 id="dispatch"><code>dispatch</code></h4>
-<p>The method&apos;s type declaration is shown as below:</p>
-<pre><code class="lang-typescript">dispatch(action: Action, relativeDispatchPath?: <span class="hljs-built_in">string</span>): Action;
+<p>Or use <code>userComponentManager</code> hook to define a function component:</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> { useComponentManager } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;fractal-component&quot;</span>;
+
+<span class="hljs-keyword">const</span> ComponentA = props =&gt; {
+    <span class="hljs-keyword">const</span> [state, dispatch] = useComponentManager(props, {
+        namespace: <span class="hljs-string">&quot;io.github.t83714/ComponentA&quot;</span>,
+        initState: {
+            a: <span class="hljs-number">1</span>
+        },
+        sharedStates: {
+            SharedStateA
+        }
+    });
+
+    <span class="hljs-comment">/**
+     * state will be 
+     * {
+     *   a: 1,
+     *   SharedStateA: {
+     *     b: 2
+     *   }
+     * }
+    */</span>
+
+    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>;
+};
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> createComponentA;
 </code></pre>
-<p>This method is mainly used for Server-Side Rendering (SSR). i.e. Send out actions (if necessary) to trigger initial data loading. You shouldn&apos;t need it for implmenting any logic. see <a href="https://github.com/t83714/fractal-component/tree/master/examples/exampleAppSSR" target="_blank">example app</a></p>
-<h4 id="serialiseaction"><code>serialiseAction</code></h4>
-<p>This method will call <code>AppContainer</code>&apos;s <code>ActionRegistry</code> to serialise an <code>Action</code>. <code>fractal-component</code> requires all action type is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol" target="_blank">symbol</a> to avoid action type collision between different component. However, a <code>symbol</code> generally cannot be serialise directly via <code>JSON.stringify</code>. This may cause some troubles if you want to store actions and reply later to implment <code>time travel</code> or <code>undo</code> feature.</p>
-<p>To overcome this issue, <code>fractal-component</code> provides an <code>ActionRegistry</code> facility to serialise an <code>Action</code>. </p>
-<p>The method&apos;s type declaration is shown as below:</p>
-<pre><code class="lang-typescript">serialiseAction(action: Action): <span class="hljs-built_in">string</span>;
-</code></pre>
-<p>This method can be used to serialise an action and return a JSON string.</p>
-<h4 id="deserialiseaction"><code>deserialiseAction</code></h4>
-<p>The method&apos;s type declaration is shown as below:</p>
-<pre><code class="lang-typescript">deserialiseAction(actionJson: <span class="hljs-built_in">string</span>): Action;
-</code></pre>
-<p>This method accept <code>JSON string</code> that previously serialised by <code>serialiseAction</code> method and return an Action object.</p>
+<h3 id="example-app">Example App</h3>
+<p>An example app can be found from <a href="https://github.com/t83714/fractal-component/tree/master/examples/exampleAppSharedState" target="_blank">here</a></p>
 
                                 
                                 </section>
@@ -754,12 +779,12 @@ const appContainer = new AppContainer({
 
             
                 
-                <a href="SharedState.html" class="navigation navigation-prev " aria-label="Previous page: SharedState">
+                <a href="ManageableComponentOptions.html" class="navigation navigation-prev " aria-label="Previous page: ManageableComponentOptions">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="ActionForwarder.html" class="navigation navigation-next " aria-label="Next page: ActionForwarder">
+                <a href="AppContainer.html" class="navigation navigation-next " aria-label="Next page: AppContainer">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -770,7 +795,7 @@ const appContainer = new AppContainer({
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"AppContainer","level":"1.2.5","depth":2,"next":{"title":"ActionForwarder","level":"1.2.6","depth":2,"path":"api/ActionForwarder.md","ref":"./api/ActionForwarder.md","articles":[]},"previous":{"title":"SharedState","level":"1.2.4","depth":2,"path":"api/SharedState.md","ref":"./api/SharedState.md","articles":[]},"dir":"ltr"},"config":{"plugins":["ga"],"root":"./","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"ga":{"configuration":"auto","token":"UA-128574696-2"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Jacky Jiang (https://github.com/t83714)","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"intro.md","glossary":"GLOSSARY.md","summary":"README.md"},"variables":{},"title":"fractal-component","gitbook":"*","description":"`fractal-component` is a javascript library that can help you to encapsulate decoupled UI component easily. It aims to provide a one-stop solution that allows state store (redux) management, actions (messages, events) processing & routing, side-effect management and component styling to be encapsulated into one single software module."},"file":{"path":"api/AppContainer.md","mtime":"2019-02-24T11:40:41.368Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-07T12:49:07.615Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"SharedState","level":"1.2.4","depth":2,"next":{"title":"AppContainer","level":"1.2.5","depth":2,"path":"api/AppContainer.md","ref":"./api/AppContainer.md","articles":[]},"previous":{"title":"ManageableComponentOptions","level":"1.2.3","depth":2,"path":"api/ManageableComponentOptions.md","ref":"./api/ManageableComponentOptions.md","articles":[]},"dir":"ltr"},"config":{"plugins":["ga"],"root":"./","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"ga":{"configuration":"auto","token":"UA-128574696-2"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Jacky Jiang (https://github.com/t83714)","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"intro.md","glossary":"GLOSSARY.md","summary":"README.md"},"variables":{},"title":"fractal-component","gitbook":"*","description":"`fractal-component` is a javascript library that can help you to encapsulate decoupled UI component easily. It aims to provide a one-stop solution that allows state store (redux) management, actions (messages, events) processing & routing, side-effect management and component styling to be encapsulated into one single software module."},"file":{"path":"api/SharedState.md","mtime":"2019-05-07T12:47:59.150Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-07T12:49:07.615Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
