@@ -5,13 +5,13 @@
 - [`Use Shared State`](#use-shared-state)
 - [`Example App`](#example-app)
 
-
 ### Overview
 
 `fractal-component` allows you to encapsulate the component state data in a namespace container. However, sometimes, you may want to share state data among encapsulated components. `SharedState` allows you to define a piece of state data with its own reducer and share it with other components. `fractal-component` handles the sharing & mapping process in a transparent way. i.e. the shared state data will be mapped into target component local state data automacally as if it was part of the component original state data. In the meantime. there is only one copy of the shared state data stored in the global redux store.
 
 Like component state data, you can only update shared state data via its own namespaced reducer by dispatching action defined in the `SharedState`'s namespace (i.e. the target component reducer can't see the shared state data). To make it easier to deliver action to the `SharedState`'s namespace, if you dispatch an action that defined by the `SharedState` state without specifying the [dispatch path](./ComponentManager.md#dispatch), the action will be delivered to the `SharedState`'s reducer directly.
 
+`SharedState` requires `fractal-component` `4.3.0` or higher.
 
 ### Define Shared State
 
