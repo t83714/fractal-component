@@ -146,3 +146,5 @@ export const shallowCopy = data => {
     if (is.object(data)) return { ...data };
     return data;
 };
+
+export const objectValues = obj => Object.keys(obj).map(i => obj[i]);

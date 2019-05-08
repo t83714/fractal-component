@@ -1,5 +1,5 @@
 import PathRegistry from "./PathRegistry";
-import { is } from "./utils";
+import { is, objectValues } from "./utils";
 
 class ComponentManagerRegistry {
     constructor(appContainer) {
@@ -74,7 +74,7 @@ class ComponentManagerRegistry {
     }
 
     destroy() {
-        Object.values(this.componentManagerStore).map(cm => cm.destroy());
+        objectValues(this.componentManagerStore).map(cm => cm.destroy());
     }
 }
 

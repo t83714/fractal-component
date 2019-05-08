@@ -1,3 +1,7 @@
+## 4.3.1
+
+- Replaced Object.values calls with Object.keys
+
 ## 4.3.0
 
 - Introduced `SharedState` that allows to share state data among components via [SharedState](https://t83714.github.io/fractal-component/api/SharedState.html)

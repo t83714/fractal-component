@@ -32,3 +32,4 @@ export function identity(v: any): any;
 export function createClassNameGenerator(): string;
 export function symbolToString(s: symbol): string;
 export function shallowCopy<T>(data: T): T;
+export function objectValues<T>(o: { [s: string]: T } | ArrayLike<T>): T[];

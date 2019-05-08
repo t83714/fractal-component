@@ -1,6 +1,6 @@
 import PathRegistry, { normalize } from "./PathRegistry";
 import { NAMESPACED } from "./symbols";
-import { is, symbolToString } from "./utils";
+import { is, symbolToString, objectValues } from "./utils";
 
 const standardliseActionTypesParameter = function(actionTypes) {
     let newActionList = {};
@@ -70,7 +70,7 @@ export default class ActionRegistry {
         if (!actionTypes) {
             this.pathRegistry.remove(namespace);
         } else {
-            const newActionList = Object.values(
+            const newActionList = objectValues(
                 standardliseActionTypesParameter(actionTypes)
             );
             let { actionList } = this.pathRegistry.getPathData(namespace);
@@ -91,7 +91,7 @@ export default class ActionRegistry {
     findNamespaceByActionType(actionType) {
         return this.pathRegistry.searchPathByPathData(
             ({ actionList }) =>
-                Object.values(actionList).indexOf(actionType) !== -1
+                objectValues(actionList).indexOf(actionType) !== -1
         );
     }
 
@@ -111,7 +111,7 @@ export default class ActionRegistry {
         if (
             !is.object(actionList) ||
             !Object.keys(actionList).length ||
-            !Object.values(actionList).indexOf(action) === -1
+            !objectValues(actionList).indexOf(action) === -1
         ) {
             throw new Error(
                 "serialiseAction: the action type is not register yet."
