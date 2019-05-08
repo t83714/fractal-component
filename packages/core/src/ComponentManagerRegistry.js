@@ -1,22 +1,40 @@
-import PathRegistry from "./PathRegistry";
 import { is, objectValues } from "./utils";
 
 class ComponentManagerRegistry {
     constructor(appContainer) {
         this.appContainer = appContainer;
-        this.pathRegistry = new PathRegistry();
         this.componentManagerStore = {};
         this.componentAutoIdCounter = {};
     }
 
-    createComponentId(...pathItems) {
+    getComponentAutoIdCount(...pathItems) {
         const path = pathItems.filter(item => (item ? true : false)).join("/");
-        if (is.number(this.componentAutoIdCounter[path])) {
-            this.componentAutoIdCounter[path] += 1;
-        } else {
-            this.componentAutoIdCounter[path] = 0;
+        if (!is.array(this.componentAutoIdCounter[path])) {
+            this.componentAutoIdCounter[path] = [];
         }
-        return "c" + this.componentAutoIdCounter[path];
+        if (!this.componentAutoIdCounter[path].length) {
+            this.componentAutoIdCounter[path].push(0);
+            return 0;
+        }
+        const lastCount = this.componentAutoIdCounter[path][
+            this.componentAutoIdCounter[path].length - 1
+        ];
+        const count = lastCount + 1;
+        this.componentAutoIdCounter[path].push(count);
+        return count;
+    }
+
+    releaseComponentAutoIdCount(idCount, ...pathItems) {
+        const path = pathItems.filter(item => (item ? true : false)).join("/");
+        if (
+            !is.array(this.componentAutoIdCounter[path]) ||
+            !this.componentAutoIdCounter[path].length
+        ) {
+            return;
+        }
+        this.componentAutoIdCounter[path] = this.componentAutoIdCounter[
+            path
+        ].filter(c => c !== idCount);
     }
 
     register(manager) {
@@ -65,6 +83,14 @@ class ComponentManagerRegistry {
             this.appContainer.sagaRegistry.deregister(manager.fullPath);
         }
         this.appContainer.namespaceRegistry.deregisterComponentManager(manager);
+        // --- release manager auto id count
+        if (manager.isAutoComponentId) {
+            this.releaseComponentAutoIdCount(
+                manager.autoIdCount,
+                this.namespacePrefix,
+                this.namespace
+            );
+        }
     }
 
     retrieveComponentManager(componentInstance) {
@@ -75,6 +101,8 @@ class ComponentManagerRegistry {
 
     destroy() {
         objectValues(this.componentManagerStore).map(cm => cm.destroy());
+        this.componentManagerStore = {};
+        this.componentAutoIdCounter = {};
     }
 }
 

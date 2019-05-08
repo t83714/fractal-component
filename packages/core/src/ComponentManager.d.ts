@@ -21,6 +21,7 @@ declare class ComponentManager {
     namespace: string;
     namespacePrefix: string;
     isAutoComponentId: boolean;
+    autoIdCount: number;
     componentId: boolean;
     fullNamespace: string;
     fullPath: string;

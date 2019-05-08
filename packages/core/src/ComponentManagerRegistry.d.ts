@@ -9,7 +9,11 @@ declare class ComponentManagerRegistry {
     appContainer: AppContainer;
     register(manager: ComponentManager): void;
     deregister(manager: ComponentManager): void;
-    createComponentId(...pathItems: string[]): string;
+    getComponentAutoIdCount(...pathItems: string[]): number;
+    releaseComponentAutoIdCount(
+        idCount: number,
+        ...pathItems: string[]
+    ): number;
     destroy(): void;
 }
 

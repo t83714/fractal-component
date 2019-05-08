@@ -100,6 +100,7 @@ class ComponentManager {
             );
 
         this.isAutoComponentId = false;
+        this.autoIdCount = 0;
         this.componentId = normalize(
             settleStringSettingFunc(this.options.componentId)
         );
@@ -144,10 +145,11 @@ class ComponentManager {
             // --- we should establish component Id as early as possible
             if (!this.componentId) {
                 this.isAutoComponentId = true;
-                this.componentId = appContainer.componentManagerRegistry.createComponentId(
+                this.autoIdCount = appContainer.componentManagerRegistry.getComponentAutoIdCount(
                     this.namespacePrefix,
                     this.namespace
                 );
+                this.componentId = "c" + this.autoIdCount;
             }
 
             this.fullPath = fullPath.apply(this);
