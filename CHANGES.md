@@ -1,6 +1,7 @@
 ## 4.3.1
 
 - Replaced Object.values calls with Object.keys
+- Auto recycle component auto Id on component destroy / unmount
 
 ## 4.3.0
 
