@@ -1,8 +1,7 @@
 import React from "react";
 import { mount } from "enzyme";
 import { act } from "react-dom/test-utils";
-import delay from "../../utils/delay";
-import { AppContainer, AppContainerContext, is } from "fractal-component";
+import { AppContainer, AppContainerContext } from "fractal-component";
 import ListComponet from "./ListComponet";
 import * as actions from "./ListComponet/actions";
 
