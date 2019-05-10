@@ -87,8 +87,7 @@ export function put(sagaItem, action, relativeDispatchPath = "") {
 }
 
 function getStateDataByFullPath(state, fullPath, makeACopy = false) {
-    const pathItems = fullPath.split("/");
-    const data = objectPath.get(state, pathItems);
+    const data = state[fullPath];
     if (!makeACopy) return data;
     return shallowCopy(data);
 }

@@ -101,11 +101,17 @@ Optional; String;
 
 You normally don't need to set this. And system will be auto create a componentId for every component. `namespacePrefix`, `namespace` plus `componentId` are made up of a component's full namespace path in a `namespace tree`.
 
-### Option `persistState`
+### Option `forceOverwriteInitialState`
 
 Optional; Boolean; 
 
-Default: `true`; whether reset the current state if it's not empty during the [ComponentManager](./ComponentManager.md) creation.
+Default: `false`; whether overwrite the existing state if it's not empty during the [ComponentManager](./ComponentManager.md) creation.
+
+### Option `cleanStateDuringDestroy`
+
+Optional; Boolean; 
+
+Default: `true`; whether clean up / delete the component state from global store if it's not empty when the [ComponentManager](./ComponentManager.md) is destroyed.
 
 ### Option `actionTypes`
 

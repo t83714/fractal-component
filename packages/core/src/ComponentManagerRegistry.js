@@ -55,7 +55,10 @@ class ComponentManagerRegistry {
                     initState: manager.initState,
                     path: manager.fullPath,
                     namespace: manager.namespace,
-                    persistState: manager.persistState,
+                    forceOverwriteInitialState:
+                        manager.options.forceOverwriteInitialState,
+                    cleanStateDuringDestroy:
+                        manager.options.cleanStateDuringDestroy,
                     allowedIncomingMulticastActionTypes:
                         manager.allowedIncomingMulticastActionTypes
                 }
@@ -76,6 +79,7 @@ class ComponentManagerRegistry {
     }
 
     deregister(manager) {
+        delete this.componentManagerStore[manager.fullPath];
         if (manager.options.reducer && is.func(manager.options.reducer)) {
             this.appContainer.reducerRegistry.deregister(manager.fullPath);
         }
@@ -87,8 +91,8 @@ class ComponentManagerRegistry {
         if (manager.isAutoComponentId) {
             this.releaseComponentAutoIdCount(
                 manager.autoIdCount,
-                this.namespacePrefix,
-                this.namespace
+                manager.namespacePrefix,
+                manager.namespace
             );
         }
     }

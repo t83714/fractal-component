@@ -22,7 +22,8 @@ export interface ReducerOptions {
     initState?: object;
     path: string;
     namespace: string;
-    persistState?: boolean;
+    forceOverwriteInitialState?: boolean;
+    cleanStateDuringDestroy?: boolean;
     allowedIncomingMulticastActionTypes?: symbol[] | symbol | string;
 }
 

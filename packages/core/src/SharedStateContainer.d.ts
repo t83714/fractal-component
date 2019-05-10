@@ -52,7 +52,8 @@ export interface SharedStateContainerOptions {
      */
     actionTypes?: symbol[] | object;
     reducer: Reducer;
-    persistState?: boolean;
+    forceOverwriteInitialState?: boolean;
+    cleanStateDuringDestroy?: boolean;
 }
 
 export default SharedStateContainer;

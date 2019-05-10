@@ -25,7 +25,6 @@ declare class ComponentManager {
     componentId: boolean;
     fullNamespace: string;
     fullPath: string;
-    persistState: boolean;
     allowedIncomingMulticastActionTypes: symbol[] | symbol | string;
     sharedStates: Array<{
         localKey: string;
@@ -75,7 +74,8 @@ export interface ManageableComponentOptions {
     namespace?: string | ComponentStringSettingFunc;
     namespacePrefix?: string | ComponentStringSettingFunc;
     componentId?: string | ComponentStringSettingFunc;
-    persistState?: boolean;
+    forceOverwriteInitialState?: boolean;
+    cleanStateDuringDestroy?: boolean;
     /**
      * Provide all action types supported by your component
      * to make sure actions of those types are serializable

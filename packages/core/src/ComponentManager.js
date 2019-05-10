@@ -21,7 +21,8 @@ export const defaultOptions = {
     namespace: null,
     namespacePrefix: null,
     componentId: null,
-    persistState: true,
+    forceOverwriteInitialState: false,
+    cleanStateDuringDestroy: true,
     //--- when `allowedIncomingMulticastActionTypes` is string
     //--- only "*" is accepted (means accepting any actionTypes)
     allowedIncomingMulticastActionTypes: null,
@@ -32,8 +33,7 @@ const pkgName = getPackageName();
 
 const initialisationErrorMsg =
     "Component Manager is not initialized yet.\n" +
-    "It will be initialized just before first render() call to support new React context API since 16.3.0." +
-    "You should monitor `ComponentManager.actionTypes.INITD` action to start logic after the initialisation.";
+    "It will be initialized just before first render() call to support new React context API since 16.3.0.";
 
 class ComponentManager {
     constructor(componentInstance, options, appContainer = null) {
@@ -54,7 +54,17 @@ class ComponentManager {
 
         this.createClassNameGenerator = createClassNameGenerator.bind(this);
         this.componentInstance = componentInstance;
+
         this.options = { ...defaultOptions, ...options };
+        this.options.forceOverwriteInitialState = this.options
+            .forceOverwriteInitialState
+            ? true
+            : false;
+        this.options.cleanStateDuringDestroy = this.options
+            .cleanStateDuringDestroy
+            ? true
+            : false;
+
         this.appContainer = null;
         this.store = null;
         this.receivedStateUpdateFromStore = false;
@@ -120,8 +130,6 @@ class ComponentManager {
                 )
             );
         }
-
-        this.persistState = this.options.persistState;
 
         this.fullNamespace = fullNamespace.apply(this);
         this.allowedIncomingMulticastActionTypes = this.options.allowedIncomingMulticastActionTypes;
@@ -317,7 +325,7 @@ function unsubscribeStoreListener() {
 function bindStoreListener() {
     let requireUpdate = false;
 
-    let state = objectPath.get(this.store.getState(), this.fullPath.split("/"));
+    let state = this.store.getState()[this.fullPath];
     /**
      * When a component is created without a reducer, the state will be `undefined`.
      * We need to set it to `{}` in case any Shared States are available

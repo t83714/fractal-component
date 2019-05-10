@@ -1,14 +1,14 @@
 import * as actionTypes from "./actionTypes";
 import namespace from "./namespace";
 
-export const initState = function(path, data, persistState) {
+export const initState = function(path, data, forceOverwriteInitialState) {
     return {
         type: actionTypes.INIT_STATE,
         namespace,
         payload: {
             path,
             data,
-            persistState
+            forceOverwriteInitialState
         }
     };
 };

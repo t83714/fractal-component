@@ -1,4 +1,3 @@
-import objectPath from "object-path";
 import { is } from "./utils";
 import PathRegistry from "./PathRegistry";
 
@@ -7,7 +6,8 @@ export const defaultOptions = {
     reducer: null,
     actionTypes: {},
     namespace: "",
-    persistState: true
+    forceOverwriteInitialState: false,
+    cleanStateDuringDestroy: true
 };
 
 class SharedStateContainer {
@@ -38,10 +38,7 @@ class SharedStateContainer {
 
     getStoreState() {
         if (!this.appContainer) return this.initState;
-        return objectPath.get(
-            this.appContainer.store.getState(),
-            this.fullPath.split("/")
-        );
+        return this.appContainer.store.getState()[this.fullPath];
     }
 
     registerConsumer(componentManager) {
