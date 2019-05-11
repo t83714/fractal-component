@@ -120,27 +120,23 @@ describe("Test SharedState with React Hooks", () => {
                 await init();
 
                 expect(
-                    storeData["@SharedState"]["io.github.t83714"][
-                        "SharedStateA"
-                    ]["c0"]
+                    storeData["@SharedState/io.github.t83714/SharedStateA/c0"]
                 ).toEqual(globalStoreDataSharedStateA);
 
                 expect(
-                    storeData["@SharedState"]["io.github.t83714"][
-                        "SharedStateB"
-                    ]["c0"]
+                    storeData["@SharedState/io.github.t83714/SharedStateB/c0"]
                 ).toEqual(globalStoreDataSharedStateB);
             });
 
             it("All components should have correct initial state (without including shared state data) in global redux store", async () => {
                 await delay();
-                expect(
-                    storeData["io.github.t83714"]["ComponentA"]["c0"]
-                ).toEqual(globalStoreDataComponentA);
+                expect(storeData["io.github.t83714/ComponentA/c0"]).toEqual(
+                    globalStoreDataComponentA
+                );
 
-                expect(
-                    storeData["io.github.t83714"]["ComponentB"]["c0"]
-                ).toEqual(globalStoreDataComponentB);
+                expect(storeData["io.github.t83714/ComponentB/c0"]).toEqual(
+                    globalStoreDataComponentB
+                );
             });
 
             it("All React components local state data should include shared stata data", async () => {

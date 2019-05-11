@@ -6,12 +6,12 @@ const reducer = state => {
 };
 
 const ItemComponent = props => {
-    useComponentManager(props, {
+    const [state] = useComponentManager(props, {
         namespace: "io.github.t83714/ItemComponent",
-        initState: {},
+        initState: "ItemComponent State Data",
         reducer
     });
-    return <div>ItemComponent</div>;
+    return <div>{state}</div>;
 };
 
 export default ItemComponent;
