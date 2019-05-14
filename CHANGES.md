@@ -1,5 +1,8 @@
-## 4.3.1
+## 4.4.0
 
+- Removed `persistState` option from ComponentManager options
+- Added  `forceOverwriteInitialState` & `cleanStateDuringDestroy`
+- Store Component State data to global store with flat string key
 - Replaced Object.values calls with Object.keys
 - Auto recycle component auto Id on component destroy / unmount
 
