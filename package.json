@@ -39,7 +39,6 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-stage-2": "^7.0.0",
     "babel-plugin-annotate-pure-calls": "^0.4.0",
-    "bundlesize": "^0.17.0",
     "cross-env": "^5.2.0",
     "dtslint": "^0.4.2",
     "eslint": "^5.13.0",
