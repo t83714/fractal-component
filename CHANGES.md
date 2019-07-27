@@ -1,4 +1,4 @@
-## 4.4.1
+## 4.4.2
 
 - Set package as `sideEffects` free for webpack
 - Removed unnecessary config option tsconfig.json
