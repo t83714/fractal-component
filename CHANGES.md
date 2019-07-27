@@ -1,5 +1,10 @@
 ## 4.4.1
 
+- Set package as `sideEffects` free for webpack
+- Removed unnecessary config option tsconfig.json
+
+## 4.4.1
+
 - Upgraded lodash to 4.17.15
 - Upgrade to babel 7.5.5
 
