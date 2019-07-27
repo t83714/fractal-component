@@ -52,7 +52,9 @@ export default RandomGif;
 
 Next, to render this newly created component, you can modify `src/main.js` to import it:
 ```javascript
-import "@babel/polyfill";
+// --- As of Babel 7.4.0, @babel/polyfill is deprecated
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 
 import React from "react";
 import ReactDOM from "react-dom";

@@ -2,7 +2,9 @@
 require("es6-promise").polyfill();
 require("isomorphic-fetch");
 
-import "@babel/polyfill";
+import "core-js/stable";
+import "regenerator-runtime/runtime";
+
 import express from "express";
 import path from "path";
 import fs from "fs";

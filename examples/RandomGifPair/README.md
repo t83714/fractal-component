@@ -119,7 +119,9 @@ To try it out, simply create a HTML file with the following content (also availa
 
 You can also use it as ES6 module:
 ```javascript
-import "@babel/polyfill";
+// --- As of Babel 7.4.0, @babel/polyfill is deprecated
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 
 import React from "react";
 import ReactDOM from "react-dom";
