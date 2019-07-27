@@ -40,9 +40,7 @@ class ComponentManagerRegistry {
     register(manager) {
         if (this.componentManagerStore[manager.fullPath]) {
             throw new Error(
-                `Try to register component to an existing path: ${
-                    manager.fullPath
-                }`
+                `Try to register component to an existing path: ${manager.fullPath}`
             );
         }
         this.componentManagerStore[manager.fullPath] = manager;

@@ -82,9 +82,7 @@ class RandomGifPair extends React.Component {
                         <RandomGif
                             showButton={false}
                             apiKey={this.props.apiKey}
-                            namespacePrefix={`${
-                                this.componentManager.fullPath
-                            }/Gifs`}
+                            namespacePrefix={`${this.componentManager.fullPath}/Gifs`}
                             appContainer={appContainer}
                         />
                     </div>
@@ -92,9 +90,7 @@ class RandomGifPair extends React.Component {
                         <RandomGif
                             showButton={false}
                             apiKey={this.props.apiKey}
-                            namespacePrefix={`${
-                                this.componentManager.fullPath
-                            }/Gifs`}
+                            namespacePrefix={`${this.componentManager.fullPath}/Gifs`}
                             appContainer={appContainer}
                         />
                     </div>

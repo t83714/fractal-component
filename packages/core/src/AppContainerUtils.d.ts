@@ -8,9 +8,7 @@ import { ReducerOptions } from "./ReducerRegistry";
 import { Reducer, Action } from "redux";
 import { Task } from "redux-saga";
 
-export function createAppContainer(
-    options: AppContainerOptions
-): AppContainer;
+export function createAppContainer(options: AppContainerOptions): AppContainer;
 export function getAppContainer(
     componentInstance?: ManageableComponent
 ): AppContainer;

@@ -83,9 +83,7 @@ class RandomGifPairPair extends React.Component {
                         <RandomGifPair
                             showButton={false}
                             apiKey={this.props.apiKey}
-                            namespacePrefix={`${
-                                this.componentManager.fullPath
-                            }/GifPairs`}
+                            namespacePrefix={`${this.componentManager.fullPath}/GifPairs`}
                             appContainer={this.componentManager.appContainer}
                         />
                     </div>
@@ -93,9 +91,7 @@ class RandomGifPairPair extends React.Component {
                         <RandomGifPair
                             showButton={false}
                             apiKey={this.props.apiKey}
-                            namespacePrefix={`${
-                                this.componentManager.fullPath
-                            }/GifPairs`}
+                            namespacePrefix={`${this.componentManager.fullPath}/GifPairs`}
                             appContainer={this.componentManager.appContainer}
                         />
                     </div>
@@ -125,9 +121,7 @@ class RandomGifPairPair extends React.Component {
                  * - There is an `ActionForwarder` outside this box already and will do all transformation job
                  */}
                 <ActionForwarder
-                    namespacePrefix={`${
-                        this.componentManager.fullPath
-                    }/GifPairs`}
+                    namespacePrefix={`${this.componentManager.fullPath}/GifPairs`}
                     pattern={RandomGifPairActionTypes.NEW_GIF}
                     relativeDispatchPath="../../../../*"
                     appContainer={this.componentManager.appContainer}
@@ -140,9 +134,7 @@ class RandomGifPairPair extends React.Component {
                  * Thus, `relativeDispatchPath` should be "../*"
                  */}
                 <ActionForwarder
-                    namespacePrefix={`${
-                        this.componentManager.fullPath
-                    }/GifPairs`}
+                    namespacePrefix={`${this.componentManager.fullPath}/GifPairs`}
                     pattern={action =>
                         action.type ===
                             RandomGifPairActionTypes.LOADING_START ||
