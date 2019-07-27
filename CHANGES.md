@@ -1,3 +1,8 @@
+## 4.4.1
+
+- Upgraded lodash to 4.17.15
+- Upgrade to babel 7.5.5
+
 ## 4.4.0
 
 - Removed `persistState` option from ComponentManager options
