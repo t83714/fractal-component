@@ -76,9 +76,7 @@ function RandomGifPairPair(props) {
                     <RandomGifPair
                         showButton={false}
                         apiKey={props.apiKey}
-                        namespacePrefix={`${
-                            componentManager.fullPath
-                        }/GifPairs`}
+                        namespacePrefix={`${componentManager.fullPath}/GifPairs`}
                         appContainer={componentManager.appContainer}
                     />
                 </div>
@@ -86,9 +84,7 @@ function RandomGifPairPair(props) {
                     <RandomGifPair
                         showButton={false}
                         apiKey={props.apiKey}
-                        namespacePrefix={`${
-                            componentManager.fullPath
-                        }/GifPairs`}
+                        namespacePrefix={`${componentManager.fullPath}/GifPairs`}
                         appContainer={componentManager.appContainer}
                     />
                 </div>
