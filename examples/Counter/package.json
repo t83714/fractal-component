@@ -13,7 +13,7 @@
   "scripts": {
     "prettier": "prettier --write 'src/*.js' 'src/*.ts'",
     "eslint": "eslint src/",
-    "dtslint": "dtslint src --onlyTestTsNext",
+    "dtslint": "dtslint --localTs ../../node_modules/typescript/lib src",
     "clean": "rimraf dist",
     "prebuild": "npm run clean",
     "build": "rollup -c -m",

@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "prettier": "prettier --write 'src/*.js' 'src/*.ts'",
-    "dtslint": "dtslint src --onlyTestTsNext",
+    "dtslint": "dtslint --localTs ../../node_modules/typescript/lib src",
     "eslint": "eslint src/",
     "clean": "rimraf dist",
     "prebuild": "npm run clean",
