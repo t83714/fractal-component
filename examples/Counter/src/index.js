@@ -71,9 +71,7 @@ class Counter extends React.Component {
             <div className={classes.table}>
                 <div className={classes.cell}>Counter</div>
                 <div
-                    className={`${classes.cell} ${
-                        classes["counter-container"]
-                    }`}
+                    className={`${classes.cell} ${classes["counter-container"]}`}
                 >
                     <span>{this.state.count}</span>
                 </div>
