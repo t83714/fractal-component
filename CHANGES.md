@@ -3,6 +3,7 @@
 - Completely remove @babel/polyfill, it is deprecated as of Babel 7.4.0
 - Removed unused @babel/node & @babel/cli from dependencies
 - Made tsconfig.json config consistent accross different example apps
+- Bug Fix: namespace not deregister `ComponentManager` properly and `namespaceDestroyCallback` is not called
 
 ## 4.4.2
 
