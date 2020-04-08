@@ -15,7 +15,7 @@ jobs:
           node-version: 10
       - run: yarn install
       - run: yarn build
-      - run: yarn test-ci
+      - run: yarn test
       - run: yarn eslint
       - run: yarn dtslint
       - run: yarn wsrun -p 'fractal-component' --stages bundlesize
