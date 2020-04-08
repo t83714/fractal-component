@@ -43,13 +43,10 @@ export default class NamespaceRegistry {
 
     deregisterComponentManager(cm) {
         const { namespace } = cm;
-        let {
-            cmList,
-            namespaceDestroyCallback,
-            namespaceData
-        } = this.pathRegistry.getPathData(namespace);
-        cmList = cmList.filter(item => item !== cm);
-        if (!cmList.length) {
+        const pathData = this.pathRegistry.getPathData(namespace);
+        const { namespaceDestroyCallback, namespaceData } = pathData;
+        pathData.cmList = pathData.cmList.filter(item => item !== cm);
+        if (!pathData.cmList.length) {
             this.pathRegistry.remove(namespace);
             this.appContainer.actionRegistry.deregister(namespace);
             if (is.func(namespaceDestroyCallback)) {
