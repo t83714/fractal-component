@@ -84,7 +84,9 @@ Alternatively, you may use the UMD builds from [unpkg](https://unpkg.com/fractal
 ## Changelog
 
 ** New: Added React [New Context API support](https://reactjs.org/docs/context.html) (Requires React Version 16.6.0 and above)
+
 ** New: Support Function Component via [New Hooks API](https://reactjs.org/docs/hooks-custom.html) (Requires React Version 16.8.0 and above)
+
 ** New: Allows to share state data among components via [SharedState](https://t83714.github.io/fractal-component/api/SharedState.html)
 
 Please find the complete Changelog from [here](https://github.com/t83714/fractal-component/blob/master/CHANGES.md).
