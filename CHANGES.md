@@ -1,3 +1,5 @@
+## 4.4.4
+
 ## 4.4.3
 
 - Completely remove @babel/polyfill, it is deprecated as of Babel 7.4.0
