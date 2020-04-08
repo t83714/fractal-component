@@ -50,7 +50,8 @@
     "rollup-plugin-node-resolve": "^4.2.3",
     "rollup-plugin-replace": "^2.2.0",
     "wsrun": "^3.6.2",
-    "typescript": "~3.6.4"
+    "typescript": "~3.6.4",
+    "json": "^9.0.6"
   },
   "workspaces": [
     "examples/*",

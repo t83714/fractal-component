@@ -1,0 +1,29 @@
+name: Release CI Workflow
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  release-core-package:
+    name: Release core package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 10
+      - run: yarn install
+      - run: yarn build
+      - run: yarn test-ci
+      - run: yarn eslint
+      - run: yarn dtslint
+      - run: yarn wsrun -p 'fractal-component' --stages bundlesize
+      - name: Publish to NPM
+        env:
+          NPM_TOKEN: "${{ secrets.NPM_TOKEN }}"
+        run: |
+          echo "attempt to publish package to NPM..."
+          yarn wsrun -p 'fractal-component' -p '@fractal-components/*' --stages json -I -f package.json -e 'this.private=false'
+          yarn wsrun -p 'fractal-component' -p '@fractal-components/*' --stages npm-setup
+          yarn wsrun -p 'fractal-component' -p '@fractal-components/*' --stages release

@@ -20,7 +20,9 @@
     "prepare": "npm run build",
     "release:patch": "npm version patch && npm publish && git push --follow-tags",
     "release:minor": "npm version minor && npm publish && git push --follow-tags",
-    "release:major": "npm version major && npm publish && git push --follow-tags"
+    "release:major": "npm version major && npm publish && git push --follow-tags",
+    "npm-setup": "echo \"//registry.npmjs.org/:_authToken=${NPM_TOKEN}\" > .npmrc",
+    "release": "npm publish || echo \"Skip releasing npm package @fractal-components/toggle-button.\""
   },
   "repository": {
     "type": "git",
