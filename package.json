@@ -22,12 +22,14 @@
   "homepage": "https://t83714.github.io/fractal-component/",
   "dependencies": {
     "color": "^3.0.0",
+    "http-proxy": "1.18.1",
     "jss": "^9.8.7",
     "jss-preset-default": "^4.5.0",
     "prop-types": "~15.6.0",
     "react": "~16.8.0",
     "react-dom": "~16.8.0",
-    "redux-saga": "~1.0.0"
+    "redux-saga": "~1.0.0",
+    "selfsigned": "1.10.8"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
@@ -41,6 +43,7 @@
     "dtslint": "^3.1.0",
     "eslint": "^5.13.0",
     "eslint-plugin-prettier": "^3.0.1",
+    "json": "^9.0.6",
     "prettier": "^1.16.0",
     "rimraf": "^2.6.2",
     "rollup": "^1.10.1",
@@ -49,9 +52,8 @@
     "rollup-plugin-json": "^4.0.0",
     "rollup-plugin-node-resolve": "^4.2.3",
     "rollup-plugin-replace": "^2.2.0",
-    "wsrun": "^3.6.2",
     "typescript": "~3.6.4",
-    "json": "^9.0.6"
+    "wsrun": "^3.6.2"
   },
   "workspaces": [
     "examples/*",
